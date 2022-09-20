@@ -1,0 +1,296 @@
+﻿
+@{
+    ViewBag.Title = "ModifierFacture";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+        .drop-shadow {
+    -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+</style>
+@section header {
+
+    <h1>
+      Modifier facture
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active">Paramétrage</li>
+        <li class="active">Modifier facture</li>
+    </ol>
+}
+@if (TempData["notice"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["notice"] !</strong>
+    </div>
+}
+<div class="row">
+    <div class="col-lg-12 ">
+        <form method="post" action="/Parametrage/updateDet">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="box box-default drop-shadow">
+                    <div class="box-header with-border">
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    @Html.Label("Nom Adhérent:", htmlAttributes: new { @class = "control-label" })
+                                    @*@Html.DropDownList("Nom_Adh", (IEnumerable<SelectListItem>)ViewBag.ADH, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "Nom_Adh"})*@
+                                    <select name="Nom_Adh" class="form-control input-sm selectpicker" data-live-search="true" id = "Nom_Adh" >
+                                        <option value="" disabled selected>-- choisir nom --</option>
+                                          @foreach (var item in ViewBag.ADH)
+                                        {
+                                           
+                                            <option data-refind="@item.RefAdh" value="@item.REF_CTR_CIR"><b>@item.NomAdh|@item.REF_CTR_CIR</b></option>
+                                        }
+                                    </select>
+                                    @Html.ValidationMessage("Nom_Adh", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Nom Acheteur:", htmlAttributes: new { @class = "control-label" })
+                                   <select name="Nom_Ach" class = "form-control input-sm"id = "Nom_Ach"></select>
+                                    @Html.ValidationMessage("Nom_Ach", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Référence :", htmlAttributes: new { @class = "control-label" })
+                                    <select name="" class="form-control input-sm" id="Ref"></select>
+                                    @Html.ValidationMessage("Ref", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Référence :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("REF_DOCUMENT_DET_BORD",   new { htmlAttributes = new { @class = "form-control input-sm" ,id="REF_DOCUMENT_DET_BORD" } })
+                                    @Html.ValidationMessage("REF_DOCUMENT_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                                </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    @Html.Label("Type :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("TYP_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm",id= "TYP_DET_BORD" , @readonly = "readonly" } })
+                                    @Html.ValidationMessage("TYP_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                                @Html.Hidden("ID_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm", id = "ID_DET_BORD", @readonly = "readonly" } })
+                                <div class="form-group">
+                                    @Html.Label("Date :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("DAT_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm", type = "date",id= "DAT_DET_BORD" } })
+                                    @Html.ValidationMessage("DAT_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.Label("Montant TTC :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("MONT_TTC_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm",id= "MONT_TTC_DET_BORD" , @readonly = "readonly" } })
+                                    @Html.ValidationMessage("MONT_TTC_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Devise :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("DEVISE_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm",id= "DEVISE_DET_BORD", @readonly = "readonly" } })
+                                    @Html.ValidationMessage("DEVISE_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                                </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    @Html.Label("Echéance :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("ECH_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm" ,id= "ECH_DET_BORD", @readonly = "readonly" } })
+                                    @Html.ValidationMessage("ECH_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Retenu à la source :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("RETENU_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm",id= "RETENU_DET_BORD" , @readonly = "readonly" } })
+                                    @Html.ValidationMessage("RETENU_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Montant ouvert :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("MONT_OUV_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm" ,id= "MONT_OUV_DET_BORD" , @readonly = "readonly" } })
+                                    @Html.ValidationMessage("MONT_OUV_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Nom Acheteur:", htmlAttributes: new { @class = "control-label" })
+                                    <select name="RefAch" class="form-control input-sm" id="RefAch"></select>
+                                    @Html.ValidationMessage("RefAch", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Mode de règlement :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("MODE_REG_DET_BORD", new { htmlAttributes = new { @class = "form-control input-sm",id= "MODE_REG_DET_BORD", @readonly = "readonly" } })
+                                    @Html.ValidationMessage("MODE_REG_DET_BORD", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                               
+
+                                </div>
+                        <div class="col-lg-12">
+                            <button type="submit" id="ajouter_enc" class="btn btn-primary btn btn-block">
+                                Enregistrer
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+
+      
+            <div class="col-lg-2"></div>
+        </form>
+    </div>
+
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div id="loding_partie" class="loader">
+                    <div class="loader-inner">
+                        <div class="loading one"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading two"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading three"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading four"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-success fade" id="modal-success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>enregistrement a été effectué avec succès</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+
+
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+        //   alert("test");
+            $("#modal-success").modal();
+    </script>
+}
+
+<script>
+    $("#Nom_Adh").change(function ()
+    {
+        $('#exampleModal').modal('show');
+    $.ajax({
+        url: "/Parametrage/RecherchCtrAch/" + $("#Nom_Adh").children("option:selected").val(),
+        type: "GET",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            $('#Nom_Ach').empty();
+            $('#Nom_Ach').append("<option value='' disabled selected>***********</option>");
+               
+            $.each(result, function (index, element) {
+                $('#Nom_Ach').append($('<option>', {
+                    value: element.REF_IND,
+                    text: element.PRE_IND
+                }));
+            });
+            $('#exampleModal').modal('hide');
+            //$('.NomAchteurs').selectpicker('refresh');
+        }
+    });
+    });
+
+
+    $("#Nom_Ach").change(function () {
+       
+        $("#ID_DET_BORD").val("");
+        $("#REF_DOCUMENT_DET_BORD").val("");
+        $("#TYP_DET_BORD").val("");
+        $("#DAT_DET_BORD").val("");
+        $("#MONT_TTC_DET_BORD").val("");
+        $("#DEVISE_DET_BORD").val("");
+        $("#ECH_DET_BORD").val("");
+        $("#MONT_OUV_DET_BORD").val("");
+        $("#RETENU_DET_BORD").val("");
+        $("#MODE_REG_DET_BORD").val("");
+        $('#RefAch').empty();
+        $('#exampleModal').modal('show');
+        $.ajax({
+
+            url: "/Parametrage/RecherchFact/" + $("#Nom_Adh").children("option:selected").data("refind") + "/" + $("#Nom_Ach").children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                $('#Ref').empty();
+                $('#Ref').append("<option value='' disabled selected>***********</option>");
+                $.each(result, function (index, element) {
+                    $('#Ref').append($('<option>', {
+                        value: element.REF_DOCUMENT_DET_BORD,
+                        text: element.REF_DOCUMENT_DET_BORD
+                    }));
+                });
+                $('#exampleModal').modal('hide');
+                //$('.NomAchteurs').selectpicker('refresh');
+            }
+        });
+    });
+
+
+
+    $("#Ref").change(function () {
+
+ 
+        $('#exampleModal').modal('show');
+        $.ajax({
+            url: "/Parametrage/GetValDetBord?id="+ $("#Ref").children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                var value = new Date(parseInt(result.DAT_DET_BORD.replace(/(^.*\()|([+-].*$)/g, '')));
+                var dat = "";
+                if (value.getDate() < 10) { dat = "0" + value.getDate(); } else { dat = value.getDate(); }
+                if (Number(value.getMonth() + 1) < 10) { dat = "0" + Number(value.getMonth() + 1) + "-" + dat; } else { dat = Number(value.getMonth() + 1) + "-" + dat; }
+              
+                dat = value.getFullYear() + "-" + dat;
+                $("#ID_DET_BORD").val(result.ID_DET_BORD);
+                $("#REF_DOCUMENT_DET_BORD").val($("#Ref").children("option:selected").val());
+                $("#TYP_DET_BORD").val(result.TYP_DET_BORD);
+                $("#DAT_DET_BORD").val(dat);
+                $("#MONT_TTC_DET_BORD").val(result.MONT_TTC_DET_BORD);
+                $("#DEVISE_DET_BORD").val(result.DEVISE_DET_BORD);
+                $("#ECH_DET_BORD").val(result.ECH_DET_BORD);
+                $("#MONT_OUV_DET_BORD").val(result.MONT_OUV_DET_BORD);
+                $("#RETENU_DET_BORD").val(result.RETENU_DET_BORD);
+                $("#MODE_REG_DET_BORD").val(result.MODE_REG_DET_BORD);
+                $('#RefAch').append($("#Nom_Ach > option").clone());
+                $('#RefAch  option[value="' + $("#Nom_Ach").children("option:selected").val() + '"]').prop("selected", true);
+                $('#exampleModal').modal('hide');
+            }
+            
+        });
+    });
+</script>
+

@@ -1,0 +1,246 @@
+﻿@{
+    decimal Total_MONT_Paiement = 0;
+    decimal Total_Mont_Total_Facture = 0;
+    decimal Total_Montant_Lettré = 0;
+    decimal Total_Deduction= 0;
+    decimal Total_Trop_Perçu = 0;
+}
+
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+
+    @@media print {
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("Extrait_AdhérentRapp",new {id= "PDF",id2=ViewBag.refadh})"   class="btn btn-danger"  target="_blank"  > <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("Extrait_AdhérentRapp",new {id= "Excel",id2=ViewBag.refadh})" class="btn btn-success" target="_blank" ><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("Extrait_AdhérentRapp",new {id= "Word",id2=ViewBag.refadh})"  class="btn btn-primary" target="_blank"> <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("Extrait_AdhérentRapp",new {id= "Image",id2=ViewBag.refadh})" class="btn btn-info" target="_blank"   ><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+<div class="row" id='printableArea'>
+  
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="EtatDesFact" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3" colspan="2"><center>Acheteur</center></th>
+                        <th data-priority="1" colspan="5"><center>Encaissement</center></th>
+                        <th data-priority="1"colspan="4"><center>Facture </center></th>
+                        <th data-priority="1" colspan="2"><center> </center></th>
+                        
+                    </tr>
+                    <tr class="bg-primary">
+                        <th data-priority="1"><center>Nom</center></th>
+                        <th data-priority="1"><center>Réf</center></th>
+                        <th data-priority="1"><center>Réf.</center></th>
+                        <th data-priority="1"><center>Type</center></th>
+                        <th data-priority="1"><center>Echéance</center></th>
+                        <th data-priority="1"><center>Reç. le </center></th>
+                        <th data-priority="1"><center>Montant</center></th>
+                      
+                        <th data-priority="1"><center>Bord.</center></th>
+                        <th data-priority="1"><center>Référence</center></th>
+                        <th data-priority="1"><center>Montant TTC </center></th>
+                        <th data-priority="1"><center>M.Lettré</center></th>
+                        <th data-priority="1"><center>Deduction</center></th>
+                        <th data-priority="1"><center>T.Perçu</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @foreach (var item in ViewBag.EtatRap)
+                    {
+                        <tr>
+                            <td data-title="Nom Acheteur">@item.Acheteur</td>
+                            <td data-title="Nom Acheteur">@item.Ref_Acheteur</td>
+                            <td data-title="Nom Acheteur">@item.Num_Paiement</td>
+                            <td data-title="Nom Acheteur">@item.Mode_Paiement</td>
+
+                            @if (item.Echeance_Paiement != null)
+                            {
+                                <td data-title="Date Bordereau">
+                                    @item.Echeance_Paiement.ToString("dd/MM/yyyy")
+                                </td>
+                            }
+                            else
+                            {
+                                <td data-title="Date Bordereau">
+                                    @item.Echeance_Paiement
+                                </td>
+                            }
+
+                            @if (item.Date_Reconciliation != null)
+                            {
+                                <td data-title="Date Bordereau">
+                                    @item.Date_Reconciliation.ToString("dd/MM/yyyy")
+                                </td>
+                            }
+                            else
+                            {
+                                <td data-title="Date Bordereau">
+                                    @item.Date_Reconciliation
+                                </td>
+                            }
+
+                          
+                          
+                            @if (item.MONT_Paiement != null)
+                            {
+                                <td data-title="Mnt Facture" style="text-align:right">
+                                    @String.Format("{0:N3}", item.MONT_Paiement)
+                                    @{ Total_MONT_Paiement += item.MONT_Paiement; }
+
+                                </td>
+                                        }
+                                        else
+                                        {
+                                <td style="text-align:right" data-title="Mnt Facture">0,000 </td>
+                            }
+
+                            <td data-title="Date Réc.">@item.Bordereau</td>
+                            <td data-title="Date Réc.">@item.Ref_Facture</td>
+                           
+                            @if (item.Mont_TTC_Facture != null)
+                            {
+                                <td data-title="Mnt Encaissement" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Mont_TTC_Facture)
+                                    @{ Total_Mont_Total_Facture += item.Mont_TTC_Facture; }
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Mnt Encaissement">0,000  </td>
+                            }
+
+                            @if (item.Montant_Lettré != null)
+                            {
+                                <td data-title="Mnt Encaissement" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Montant_Lettré)
+                                    @{ Total_Montant_Lettré += item.Montant_Lettré; }
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Mnt Encaissement">0,000  </td>
+                            }
+
+
+                            @if (item.Deduction != null)
+                            {
+                                <td data-title="Mnt Encaissement" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Deduction)
+                                    @{ Total_Deduction += item.Deduction; }
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Mnt Encaissement">0,000  </td>
+                            }
+
+                            @if (item.Trop_Perçu != null)
+                            {
+                                <td data-title="Mnt Encaissement" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Trop_Perçu)
+                                    @{ Total_Trop_Perçu += item.Trop_Perçu; }
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Mnt Encaissement">0,000  </td>
+                            }
+                          
+                        </tr>
+                    }
+
+
+                </tbody>
+
+                <tfoot>
+                    <tr class="bg-gray-active">
+                        <td colspan="6">Total :</td>
+                        <td data-title="" style="text-align:right">
+                            @String.Format("{0:N3}", Total_MONT_Paiement)
+                        </td>
+                        <td colspan="2"></td>
+                        <td data-title="" style="text-align:right">
+                            @String.Format("{0:N3}", Total_Mont_Total_Facture)
+                        </td>
+                        <td data-title="" style="text-align:right">
+                            @String.Format("{0:N3}", Total_Montant_Lettré)
+                        </td>
+                        <td data-title="" style="text-align:right">
+                            @String.Format("{0:N3}", Total_Deduction)
+                        </td>
+                        <td data-title="" style="text-align:right">
+                            @String.Format("{0:N3}", Total_Trop_Perçu)
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+

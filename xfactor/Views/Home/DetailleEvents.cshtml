@@ -1,0 +1,46 @@
+﻿
+
+<div class="table-responsive " data-pattern="priority-columns">
+    <table cellspacing="0" id="dettable" class="table table-small-font table-bordered data_table">
+        <thead>
+
+            <tr class="bg-primary">
+                <th data-priority="3"><center>Nom Acheteur</center></th>
+                <th data-priority="1">Type de document</th>
+                <th data-priority="1"><center>Réf document</center></th>
+                <th data-priority="1"><center>Date Document</center></th>
+                <th data-priority="1"><center>Montant document</center></th>
+                <th data-priority="1">Réf Contrat </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.listDetBord)
+            {
+                <tr>
+
+                    <td>
+                        @item.nomind
+                    </td>
+                    <td>
+                        @item.TYP_DET_BORD
+                    </td>
+                    <td>
+                        @item.REF_DET_BORD
+                    </td>
+                    <td>
+
+                        @item.DAT_DET_BORD.ToString("d")
+                    </td>
+                    <td style="text-align:right">
+                        @String.Format("{0:N3}", item.MONT_TTC_DET_BORD)
+                    </td>
+
+                    <td>
+                        @item.REF_CTR_DET_BORD
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Liste_Des_Bordereaux_CH";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section header {
+
+    <h1>
+        Etat des encaissements chez la Banque
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+
+        <li class="active"> Bordereaux </li>
+        <li class="active">Etat des encaissements chez la Banque </li>
+    </ol>
+}
+
+
+<div class="box box-default">
+    <div class="box-header with-border">
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive " data-pattern="priority-columns">
+                    <table cellspacing="0" id="ListeDesBordch" class="table table-small-font table-bordered ">
+                        <thead>
+                            <tr class="bg-primary">
+                                <th data-priority="3"><center>Numero bordereau</center></th>
+                                <th data-priority="1">Date Creation</th>
+                                <th data-priority="1">Nomber des Encaissements</th>
+                                <th data-priority="1"><center>Montant Total</center></th>
+                                <th data-priority="1"><center>Rib</center></th>
+                                <th data-priority="1"><center>#</center></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.ListeEnc)
+
+                            {
+
+
+                                <tr>
+                                    <td>
+                                        @item.NUM_BORD_FACTOR
+                                    </td>
+                                    @if (item.DAT_CRE_BORD_FACTOR != null)
+                                    {
+                                        <td>
+                                            @item.DAT_CRE_BORD_FACTOR.ToString("d")
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+
+                                    }
+                                    <td>
+                                        @item.Nomber_Enc
+                                    </td>
+                                    @{
+                                        string v = "";
+                                        try
+                                        {
+                                            v = @String.Format("{0:N3}", (item.Mont_Total_Bord));
+
+                                        }
+                                        catch (Exception) { v = "0,000"; }
+                                    }
+                                    <td style="text-align:right">
+                                        @v
+                                    </td>
+                                    <td>
+                                        @item.RIB
+                                    </td>
+                                   
+                                 
+                                   
+                                    <td>
+                                        <a target="_blank" href="/Bordereau/OpenBord/@item.NUM_BORD_FACTOR" class="btn btn-primary btn-sm">ouvrir</a>
+                                    </td>
+                                </tr>
+
+
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+

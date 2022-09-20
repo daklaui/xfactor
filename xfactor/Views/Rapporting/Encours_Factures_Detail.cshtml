@@ -1,0 +1,316 @@
+﻿
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+    #Encours_date {
+    font-size:10px
+    }
+</style>
+
+<div class="tableinfotest"></div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables" class="table-responsive">
+    <table cellspacing="0" id="Encours_date" class="table col-md-12 table-bordered table-sm table-striped table-condensed cf ">
+        <thead>
+            <tr class="bg-primary cf">
+                <th data-priority="3"><center>Facture</center></th>
+                <th data-priority="1">Ref acheteur</th>
+                <th data-priority="1"><center>Acheteur</center></th>
+                <th data-priority="1"><center>Ref adherent</center></th>
+                <th data-priority="1"><center>Adherent</center></th>
+                <th data-priority="1"><center>Montant TTC</center></th>
+                <th data-priority="1"><center>Montant ouvert</center></th>
+                <th data-priority="1"><center>Retenu</center></th>
+                <th data-priority="1"><center>Montant lettré</center></th>
+                <th data-priority="1"><center>Montant reconcilié</center></th>
+                <th data-priority="1"><center>Date</center></th>
+                <th data-priority="1"><center>Echeance</center></th>
+                <th data-priority="1"><center>Mode</center></th>
+                <th data-priority="1"><center>Type</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            @try
+            {
+                foreach (var item in ViewBag.Encours)
+                {
+                    <tr>
+                        <td>@item.Facture</td>
+                        <td>@item.Ref_Acheteur</td>
+                        <td>@item.Acheteur</td>
+                        <td>@item.Ref_Adhérent</td>
+                        <td>@item.Adhérent</td>
+                        @if (item.Montant_TTC != null)
+                        {
+                            <td data-title="Montant" style="text-align:right">
+                                @String.Format("{0:N3}", item.Montant_TTC)
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Montant">0,000 </td>
+                        }
+                        @if (item.Montant_ouvert != null)
+                        {
+                            <td data-title="Montant" style="text-align:right">
+                                @String.Format("{0:N3}", item.Montant_ouvert)
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Montant">0,000 </td>
+                        }
+
+                        @if (item.Retenue != null)
+                        {
+                            <td data-title="Montant" style="text-align:right">
+                                @String.Format("{0:N3}", item.Retenue)
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Montant">0,000 </td>
+                        }
+
+                        @if (item.Montant_lettré != null)
+                        {
+                            <td data-title="Montant" style="text-align:right">
+                                @String.Format("{0:N3}", item.Montant_lettré)
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Montant">0,000 </td>
+                        }
+
+                        @if (item.Montant_réconcilié != null)
+                        {
+                            <td data-title="Montant" style="text-align:right">
+                                @String.Format("{0:N3}", item.Montant_réconcilié)
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Montant">0,000 </td>
+                        }
+
+                        @if (item.Date != null)
+                        {
+                            <td data-title="Date">
+                                @item.Date.ToString("dd/MM/yyyy")
+                            </td>
+                        }
+                        else
+                        {
+                            <td data-title="Date"></td>
+                        }
+
+                        @if (item.Echéance != null)
+                        {
+                            <td data-title="Date">
+                                @item.Echéance.ToString("dd/MM/yyyy")
+                            </td>
+                        }
+                        else
+                        {
+                            <td data-title="Date"></td>
+                        }
+                        <td>@item.Mode_réglement</td>
+                        <td>@item.Type_instrument_utilisé</td>
+
+                            </tr>
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+
+
+
+        </tbody>
+    </table>
+</div>
+
+
+
+    </div>
+</div>
+
+
+
+<script>
+
+    var buttonCommon = {
+
+        exportOptions: {
+            format: {
+                body: function (data, row, column, node) {
+                    // Strip $ from salary column to make it numeric
+                    //  alert(data);
+                    cel = "";
+                    test = true;
+                    while (test) {
+                        if (data === null) {data = ''}
+                        if (column === 5 || column === 6 || column === 7 || column === 8 || column === 9) {
+                            cel = data.replace('&nbsp;', "");
+                            data = cel;
+                        }
+                        else { cel = data; }
+                        if ((column === 5 || column === 6 || column === 7 || column === 8 || column === 9) && cel.indexOf('&nbsp;') >= 0) {
+                            test = true;
+                        }
+                        else { test = false; }
+                    }
+                    return cel.replace(",", ".");
+                }
+            }
+        }
+    };
+
+    var table = $('#Encours_date').DataTable({
+        "autoWidth": true,
+
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+            }
+        },
+        columnDefs: [
+              { type: 'date-eu', targets: [10,11] },
+        {
+            type: 'formatted-num', targets: [5,6,7,8,9]
+        }
+
+        ]
+       
+        
+     //   dom: '<"top"l>rt<"bottom"fpi><"clear">',
+
+      //,
+      //     "initComplete": function () {
+      //        var column = this.api().column(0);
+
+      //        var select = $('<select class="form-control input-sm selectpicker" data-live-search="true"><option value="">**************************</option></select>')
+      //                 .on('change', function () {
+
+      //                     var val = $(this).val();
+
+      //                     column.search(val ? '^' + val + '$' : '', true, false).draw();
+      //                 })
+      //   .appendTo('#Nom_Ach');
+      //        column.data().unique().sort().each(function (d, j) {
+      //            select.append('<option value="' + d + '">' + d + '</option>');
+      //            select.selectpicker('refresh');
+      //        });
+
+
+
+      //    }  
+
+    });
+
+  var tableTools = new $.fn.dataTable.Buttons(table, {
+       "buttons": [
+
+          $.extend(true, {}, buttonCommon, {
+              extend: 'copyHtml5', title: 'Encours facture'
+          }),
+        $.extend(true, {}, buttonCommon, {
+            extend: 'excelHtml5', autoFilter: true, title: 'Encours facture'
+        }),
+        $.extend(true, {}, {
+            extend: 'pdfHtml5', title: 'Encours facture', orientation: 'landscape',
+            pageSize: 'LEGAL'
+        })
+
+
+
+        ]
+    });
+ // $(tableTools.fnContainer()).insertAfter('div.info');
+
+ table.buttons().container().insertAfter('.tableinfotest');
+</script>

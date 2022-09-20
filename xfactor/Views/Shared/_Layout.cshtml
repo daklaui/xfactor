@@ -1,0 +1,2696 @@
+﻿@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+@using xfactor.Models
+@{ 
+    XFactor_PRODEntities1 db = new XFactor_PRODEntities1();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+        {
+            @ViewBag.Title@: -
+        }
+        Xpert-Factor
+    </title>
+
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+   
+        @Styles.Render("~/Bundles/css")
+
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Content/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/Content/js/plugins/morris.js/morris.css">
+    <link href="~/Content/css/bootstrap-toggle.min.css" rel="stylesheet" />
+  <!--  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css"/>-->
+
+    <link href="~/Content/css/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/Content/css/fullcalendar.print.min.css" rel="stylesheet"  media="print"/>
+    <link href="~/Content/css/LoadingStyleCss.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @*<style>
+        tbody > tr:hover, tbody > tr.selected {
+            background-color: dodgerblue;
+            color: white;
+            cursor: pointer;
+            -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+            border-radius: 5px;
+        }
+    </style>*@
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        @Html.Partial("_Header")
+        @Html.Partial("_Sidebar")
+
+        <div class="content-wrapper">
+            <section class="content-header">
+
+                @RenderSection("header", required: false)
+
+            </section>
+
+            <section class="content">
+                @if (TempData["error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade in" id="danger-alert">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong> @TempData["error"] !</strong>
+                    </div>
+                }
+                @RenderBody()
+            </section>
+        </div>
+
+        @Html.Partial("_ControlSidebar")
+    </div>
+
+
+
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                    </h4>
+                </div>
+                <div class="modal-body" id="ralence">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="logout_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div style="width:100%;height:100%;margin: 0px; padding:0px">
+                        <div style="width:25%;margin: 0px; padding:0px;float:left;">
+                            <i class="fa fa-warning" style="font-size: 140px;color:#da4f49"></i>
+                        </div>
+                        <div style="width:70%;margin: 0px; padding:0px;float:right;padding-top: 10px;padding-left: 3%;">
+                            <h4>Votre session est sur le point d'expirer</h4>
+                            <p style="font-size: 15px;">Vous serez déconnecté <span id="timer" style="display: inline;font-size: 30px;font-style: bold">10</span> seconds.</p>
+                            <p style="font-size: 15px;">Voulez-vous rester connecté?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="clearfix"></div>
+                    <div style="margin-left: 30%;margin-bottom: 20px;margin-top: 20px;">
+                        <a href="javascript:;" onclick="resetTimer()" class="btn btn-primary" aria-hidden="true">Oui, gardez-moi connecté</a>
+                        <a href="" class="btn btn-danger" aria-hidden="true">Non, déconnecte-moi</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!---Modal InfomeQueIlyaUnNouveauBordereau-->
+
+    <div class="modal modal-warning fade" id="modal-warning">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="titelModal">Warning Modal</h4>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+    <!--Modal detaille contrat new dev 25022020-->
+
+
+    <div class="modal fade" id="modal_det_ctr" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body" style="font-size:small">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Custom Tabs -->
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li class="active" id="tab1"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Recherche</a></li>
+                                    <li class="" id="tab2"><a href="#tab_2" data-toggle="tab" aria-expanded="true">Detail</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_1">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group col-lg-2">
+                                                    @Html.Label("Ref Contrat Xpert-Factor:", htmlAttributes: new { @class = "control-label" })
+                                                    <input type="text" id="ref_contrat" value="" class="form-control input-sm " />
+                                                </div>
+                                                <div class="form-group col-lg-2">
+                                                    @Html.Label("Ref Contrat papier:", htmlAttributes: new { @class = "control-label" })
+                                                    <input type="text" id="ref_contrat_papier" value="" class="form-control input-sm " />
+                                                </div>
+                                                <div class="form-group col-lg-2">
+                                                    @Html.Label("Nom Adhérent :", htmlAttributes: new { @class = "control-label" })
+                                                    <input type="text" id="nom_adh_a_chercher" value="" class="form-control input-sm " />
+                                                </div>
+                                                <div class="form-group col-lg-2">
+                                                    @Html.Label("Ref MFG Adhérent :", htmlAttributes: new { @class = "control-label" })
+                                                    <input type="text" id="Ref_MFG" value="" class="form-control input-sm " />
+                                                </div>
+                                                <div class="form-group col-lg-2">
+                                                    <br />
+                                                    <button type="button" class="btn btn-success btn-sm" id="Recherche_V">Recherche<i class="fa fa-fw fa-search"></i></button>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-lg-12" id="ListeRST">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="tab_2">
+                                        <div id="test001"></div>
+                                    </div>
+
+                                    <!-- /.tab-pane -->
+                                </div>
+                                <!-- /.tab-content -->
+                            </div>
+                            <!-- nav-tabs-custom -->
+                        </div>
+                        <!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"></button>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+    <!-- JS -->
+
+    @Scripts.Render("~/Bundles/js")
+    <script src="~/Content/js/jquery-ui.min.js"></script>
+    <script src="~/Content/js/bootstrap-session-timeout.js"></script>
+    <script src="~/Content/js/moment.js"></script>
+    <script src="~/Content/js/date-eu.js"></script>
+    <script src="~/Content/js/formatted-numbers.js"></script>
+    <script src="~/Content/js/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/Content/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Content/js/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js"></script>
+    <script src="~/Content/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="~/Content/js/plugins/raphael/raphael.min.js"></script>
+    <script src="~/Content/js/plugins/morris.js/morris.min.js"></script>
+    <script src="~/Content/js/dashboard.js"></script>
+    <script src="~/Content/js/fullcalendar.min.js"></script>
+    <script src="~/Content/js/locale-all.js"></script>
+    <script src="~/Content/js/plugins/Flot/jquery.flot.js"></script>
+    <script src="~/Content/js/plugins/Flot/jquery.flot.resize.js"></script>
+    <script src="~/Content/js/plugins/Flot/jquery.flot.pie.js"></script>
+    <script src="~/Content/js/plugins/Flot/jquery.flot.categories.js"></script>
+    <script src="~/Content/js/xlsx.core.min.js"></script>
+    <script src="~/Content/js/xls.core.min.js"></script>
+
+    @*<script src="~/Content/js/plugins/Chart.js"></script>*@
+
+    <script src="~/scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="/signalr/Hubs"></script>
+    @RenderSection("ViewSpecificJavascript", required: false)
+
+    <script>
+
+        $(function () {
+
+            var previousPoint = null,
+                previousLabel = null;
+
+            function showTooltip(x, y, color, contents) {
+                $('<div id="tooltip">' + contents + '</div>').css({
+                    position: 'absolute',
+                    display: 'none',
+                    top: y - 40,
+                    left: x - 120,
+                    border: '2px solid ' + color,
+                    padding: '3px',
+                    'font-size': '9px',
+                    'border-radius': '5px',
+                    'background-color': '#fff',
+                    'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                    opacity: 0.9
+                }).appendTo("body").fadeIn(200);
+            }
+
+            $("#bar-chart").on("plothover", function (event, pos, item) {
+                if (item) {
+                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+                        previousPoint = item.dataIndex;
+                        previousLabel = item.series.label;
+                        $("#tooltip").remove();
+
+                        var x = item.datapoint[0];
+                        var y = item.datapoint[1];
+
+                        var color = item.series.color;
+
+                        //console.log(item.series.xaxis.ticks[x].label);
+
+                        showTooltip(item.pageX,
+                            item.pageY,
+                            color,
+                            "<strong>" + "Total achats" + "</strong><br>" + item.series.xaxis.ticks[x].label + " : <strong>" + y.toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") + "</strong>");
+                    }
+                } else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
+                }
+            });
+            $.get("/Home/GetLesAchats",
+                function (data) {
+                    //alert(x);
+
+                    //var bar_data = {
+                    //    data: [['2017', data.achats2017], ['2018', data.achats2018], ['2019', data.achats2019]],
+                    //    color: '#3c8dbc',
+
+                    //}
+
+                    //$.plot('#bar-chart', [bar_data], {
+                    //    grid: {
+                    //        borderWidth: 1,
+                    //        borderColor: '#f3f3f3',
+                    //        tickColor: '#f3f3f3',
+                    //        hoverable: true,
+                    //        clickable: true
+                    //    },
+                    //    valueLabels: {
+                    //        show: true
+                    //    },
+                    //    series: {
+                    //        bars: {
+                    //            show: true,
+                    //            barWidth: 0.5,
+                    //            align: 'center'
+                    //        }
+                    //    },
+                    //    xaxis: {
+                    //        mode: 'categories',
+                    //        tickLength: 0,
+                    //        stacked: true
+                    //    },
+                    //    data: bar_data
+                    //});
+
+                });
+
+
+        });
+
+        $(function () {
+
+
+            var conhubbor = $.connection.notification_Bordereau;
+            conhubbor.client.displayNotification = function () {
+                getData();
+            }
+            $.connection.hub.start();
+            getData();
+
+        });
+
+        function getData() {
+
+            var $liste = $("#menu_notfi");
+            $.ajax({
+                url: "/Bordereau/GetNotif",
+                type: 'GET',
+                datatype: 'json',
+                success: function (data) {
+                    data = $.parseJSON(data);
+                    console.log(data);
+                    $("#menu_notfi").empty();
+                    $("#counternotif").empty();
+                    $("#counternotif").html(data.length);
+                    $("#titelModal").html("Nouveau Bordereau N° " + data[data.length - 1].NUM_BORD);
+
+                    for (var i = 0; i < data.length; i++) {
+                        $liste.append(
+                            "<li> <a href='#'><i class='fa fa-users text-aqua'></i>" + data[i].NUM_BORD + "</a></li>"
+
+                        );
+                    }
+
+                    if (localStorage.getItem("Count") == null) {
+                        localStorage.setItem("Count", data.length);
+                    }
+                    else if (localStorage.getItem("Count") != data.length) {
+                        localStorage.setItem("Count", data.length);
+                        $("#modal-warning").modal();
+
+                    }
+
+
+
+                }
+
+            });
+        }
+
+
+        //var c = 0; max_count = 10; logout = true;
+        //startTimer();
+        //function startTimer() {
+        //    setTimeout(function () {
+        //        logout = true;
+        //        c = 0;
+        //        max_count = 10;
+        //        $('#timer').html(max_count);
+        //        $('#logout_popup').modal('show');
+        //        startCount();
+
+        //    }, 10000);
+        //}
+
+        //function resetTimer() {
+        //    logout = false;
+        //    $('#logout_popup').modal('hide');
+        //    startTimer();
+        //}
+
+        //function timedCount() {
+        //    c = c + 1;
+        //    remaining_time = max_count - c;
+        //    if (remaining_time == 0 && logout) {
+        //        $('#logout_popup').modal('hide');
+        //        location.href = $('#logout_url').val();
+
+        //    } else {
+        //        $('#timer').html(remaining_time);
+        //        t = setTimeout(function () { timedCount() }, 1000);
+        //    }
+        //}
+
+        //function startCount() {
+        //    timedCount();
+        //}
+
+
+        $(".ConvertPointToComma").on('keyup', function (e) {
+            if (e.which == 110 || e.which == 190) {
+                var valeur = $(this).val();
+                $(this).val(valeur.replace(".", ","));
+            }
+        });
+
+
+
+        $('.modal-dialog').draggable({
+            handle: ".modal-header"
+        });
+
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "numeric-comma-pre": function (a) {
+                var x = (a == "-") ? 0 : a.replace(/,/, ".");
+                return parseFloat(x);
+            },
+
+            "numeric-comma-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+
+            "numeric-comma-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
+        $(function () {
+
+
+            /* initialize the external events
+            -----------------------------------------------------------------*/
+            function init_events(ele) {
+                ele.each(function () {
+
+                    // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                    // it doesn't need to have a start or end
+                    var eventObject = {
+                        title: $.trim($(this).text()) // use the element's text as the event title
+                    }
+
+                    // store the Event Object in the DOM element so we can get to it later
+                    $(this).data('eventObject', eventObject)
+
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 1070,
+                        revert: true, // will cause the event to go back to its
+                        revertDuration: 0  //  original position after the drag
+                    })
+
+                })
+            }
+
+            init_events($('#external-events div.external-event'))
+
+            /* initialize the calendar
+            -----------------------------------------------------------------*/
+            //Date for the calendar events (dummy data)
+            //var date = new Date()
+            //var d = date.getDate(),
+            //m = date.getMonth(),
+            //y = date.getFullYear()
+            $('#calendar').fullCalendar({
+                dayClick: function (date, jsEvent, view, resourceObj) {
+                    var url = "/Financement/Ralance/" + date.format();
+                    $("#ralence").load(url, function () {
+                        $("#myModal").modal();
+                    });
+
+
+                },
+                displayEventTime: false,
+                locale: 'fr',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                buttonText: {
+                    today: 'aujourd\'hui',
+                    month: 'mois',
+                    week: 'semaine',
+                    day: 'journée'
+                },
+                //Random default events
+                //  events: 'http://192.168.160.210:8098/Home/allevents',
+                events: 'http://localhost:13710/Home/allevents',
+                eventLimit: true,
+                views: {
+                    month: {
+                        eventLimit: 4 // adjust to 6 only for timeGridWeek/timeGridDay
+                    }
+                },
+                //[
+                //{
+                //    title: 'All Day Event',
+                //    start: new Date(y, m, 1),
+                //    backgroundColor: '#f56954', //red
+                //    borderColor: '#f56954' //red
+                //},
+                //{
+                //    title: 'Long Event',
+                //    start: new Date(y, m, d - 5),
+                //    end: new Date(y, m, d - 2),
+                //    backgroundColor: '#f39c12', //yellow
+                //    borderColor: '#f39c12' //yellow
+                //},
+                //{
+                //    title: 'Meeting',
+                //    start: new Date(y, m, d, 10, 30),
+                //    allDay: false,
+                //    backgroundColor: '#0073b7', //Blue
+                //    borderColor: '#0073b7' //Blue
+                //},
+                //{
+                //    title: 'Lunch',
+                //    start: new Date(y, m, d, 12, 0),
+                //    end: new Date(y, m, d, 14, 0),
+                //    allDay: false,
+                //    backgroundColor: '#00c0ef', //Info (aqua)
+                //    borderColor: '#00c0ef' //Info (aqua)
+                //},
+                //{
+                //    title: 'Birthday Party',
+                //    start: new Date(y, m, d + 1, 19, 0),
+                //    end: new Date(y, m, d + 1, 22, 30),
+                //    allDay: false,
+                //    backgroundColor: '#00a65a', //Success (green)
+                //    borderColor: '#00a65a' //Success (green)
+                //},
+                //{
+                //    title: 'Click for Google',
+                //    start: new Date(y, m, 28),
+                //    end: new Date(y, m, 29),
+                //    url: 'http://google.com/',
+                //    backgroundColor: '#3c8dbc', //Primary (light-blue)
+                //    borderColor: '#3c8dbc' //Primary (light-blue)
+                //}
+                //],
+
+                eventClick: function (calEvent, jsEvent, view) {
+                    var url = "/Home/DetailleEvents/" + calEvent.ref_det_bord;
+                    $("#ralence").load(url, function () {
+                        $("#myModal").modal();
+                    });
+
+
+                }
+
+            })
+
+            /* ADDING EVENTS */
+            var currColor = '#3c8dbc' //Red by default
+            //Color chooser button
+            var colorChooser = $('#color-chooser-btn')
+            $('#color-chooser > li > a').click(function (e) {
+                e.preventDefault()
+                //Save color
+                currColor = $(this).css('color')
+                //Add color effect to button
+                $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
+            })
+            $('#add-new-event').click(function (e) {
+                e.preventDefault()
+                //Get value and make sure it is not null
+                var val = $('#new-event').val()
+                if (val.length == 0) {
+                    return
+                }
+
+                //Create events
+                var event = $('<div />')
+                event.css({
+                    'background-color': currColor,
+                    'border-color': currColor,
+                    'color': '#fff'
+                }).addClass('external-event')
+                event.html(val)
+                $('#external-events').prepend(event)
+
+                //Add draggable funtionality
+                init_events(event)
+
+                //Remove event from text input
+                $('#new-event').val('')
+            })
+        });
+        $(function () {
+            $('.select2').select2()
+        });
+        $(document).ready(function () {
+
+
+            var buttonCommon = {
+
+                exportOptions: {
+                    format: {
+                        body: function (data, row, column, node) {
+                            // Strip $ from salary column to make it numeric
+                            //  alert(data);
+                            cel = "";
+                            test = true;
+                            while (test) {
+                                if (column === 3) {
+                                    cel = data.replace('&nbsp;', "");
+                                    data = cel;
+                                    // alert(data);
+                                    //  alert(cel);
+                                }
+                                else { cel = data; }
+                                //   alert();
+                                console.log(data);
+                                console.log(cel.indexOf('&nbsp;'));
+
+                                if (cel.indexOf('&nbsp;') >= 0) {
+
+                                    test = true;
+                                }
+                                else { test = false; }
+                            }
+                            return cel.replace(",", ".");
+                        }
+                    }
+                }
+            };
+
+
+            $('#ListeFinacmentValide').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                }
+                ,
+                columnDefs: [
+                    { type: 'date-eu', targets: [1, 4] },
+                    { type: 'formatted-num', targets: [3] }
+                ],
+                "order": [0],
+                dom: 'Bfrtip',
+                buttons: [
+
+                    $.extend(true, {}, buttonCommon, {
+                        extend: 'copyHtml5', title: 'Financement'
+                    }),
+                    $.extend(true, {}, buttonCommon, {
+                        extend: 'excelHtml5', autoFilter: true, title: 'Financement'
+                    }),
+                    $.extend(true, {}, {
+                        extend: 'pdfHtml5', title: 'Financement', orientation: 'landscape',
+                        pageSize: 'LEGAL'
+                    })
+
+
+
+                ]
+
+            });
+
+
+            $('#SCAN_GED').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select class="form-control input-sm "><option value=""></option></select>')
+                            .appendTo($(column.header()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                },
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': false,
+                'info': true,
+                'autoWidth': true,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: 5 },
+                    { type: 'date-eu', targets: 6 }
+                ]
+            });
+
+
+            $('#tab2ListVal').DataTable({
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                }
+            });
+
+
+
+
+            $('#AnnulerLettrage').DataTable({
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: [4, 5] }, {
+                        type: 'formatted-num', targets: [3]
+                    }
+
+                ]
+
+            });
+
+        });
+
+        $('#RapportMen').DataTable({
+            "language": {
+                "sProcessing": "Traitement en cours...",
+                "sSearch": "Rechercher&nbsp;:",
+                "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix": "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst": "Premier",
+                    "sPrevious": "Pr&eacute;c&eacute;dent",
+                    "sNext": "Suivant",
+                    "sLast": "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                },
+                "select": {
+                    "rows": {
+                        _: "%d lignes séléctionnées",
+                        0: "Aucune ligne séléctionnée",
+                        1: "1 ligne séléctionnée"
+                    }
+                }
+            }
+
+
+        });
+
+
+        $('#ListeDesFin').DataTable({
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'ordering': false,
+            'info': true,
+            'autoWidth': false,
+            "language": {
+                "sProcessing": "Traitement en cours...",
+                "sSearch": "Rechercher&nbsp;:",
+                "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix": "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst": "Premier",
+                    "sPrevious": "Pr&eacute;c&eacute;dent",
+                    "sNext": "Suivant",
+                    "sLast": "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                },
+                "select": {
+                    "rows": {
+                        _: "%d lignes séléctionnées",
+                        0: "Aucune ligne séléctionnée",
+                        1: "1 ligne séléctionnée"
+                    }
+                }
+            }
+        });
+        $(function () {
+
+            $('.LestRec2').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select class="form-control input-sm "><option value=""></option></select>')
+                            .appendTo($(column.header()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                },
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': false,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: 5 }, {
+                        type: 'formatted-num', targets: [6, 7, 8]
+                    }
+
+                ]
+            });
+
+
+
+            $('#ListeDesCtr').DataTable({
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    {
+                        type: 'formatted-num', targets: [2, 3, 4, 5, 6, 7, 8]
+                    }
+
+                ]
+
+            });
+            $('#resultsind').DataTable({
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                }
+            });
+
+
+            $('#ListeI').DataTable({
+                'paging': false,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': false,
+                'autoWidth': false,
+
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    },
+                    columnDefs: [
+                        { type: 'date-eu', targets: [5] }
+                    ]
+                }
+            });
+
+
+
+
+            $('#validBord').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    },
+                    columnDefs: [
+                        { type: 'date-eu', targets: [5] }
+                    ]
+                }
+            });
+
+
+            $('#trop_percu').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'formatted-num', targets: [4, 5, 6] }
+                ]
+            });
+
+
+            $('#ListeDesEncaissements').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: [5, 6] },
+                    { type: 'formatted-num', targets: [4] }
+                ],
+                "order": [6]
+            });
+
+
+            $('#ListeImpaye').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: [3, 4] },
+                    { type: 'formatted-num', targets: [5] }
+                ]
+            });
+
+
+
+
+            $('#ListeDesEncAValde').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: [1] },
+                    { type: 'formatted-num', targets: [4] }
+                ]
+
+            });
+
+            $("#ListeDesRibs").change(function () {
+                if (tableDesEnc.length != 0) {
+                    alert("merci de vider le tableau avant de changer la banque");
+                }
+
+            });
+
+
+            $("#ListeDesChoix").change(function () {
+
+
+
+                if (tableDesEnc.length == 0) {
+                    if ($("#ListeDesChoix").val() == 1) {
+                        ListeDesEncaissements.column(5).search("TR").draw();
+                    }
+                    else if ($("#ListeDesChoix").val() == 2) {
+                        ListeDesEncaissements.column(5).search("TR").draw();
+                    }
+                    else if ($("#ListeDesChoix").val() == 3) {
+                        ListeDesEncaissements.column(5).search('^C', true, false).draw();
+                    }
+                    else {
+                        ListeDesEncaissements.column(5).search('TC').draw();
+                    }
+                }
+                else { alert("merci de vider le tableau avant de changer le type d encaissement"); }
+            });
+
+            var tableDesEnc = new Array();
+
+            $('#ListeDesEnc tbody').on('click', 'tr', function () {
+
+
+
+                if ($(this).hasClass("selected")) {
+                    alert("ce encaissement  est déja selectionner");
+                }
+                else if ($("#ListeDesRibs").val() == 3 && ($("#ListeDesChoix").val() == 1 || $("#ListeDesChoix").val() == 2)) {
+                    if (tableDesEnc.length > 7) {
+
+                        alert("merci de selectionner 8 encaissement au max");
+                    }
+
+
+                    else {
+                        alert($("#ListeDesRibs").val());
+                        var source = ListeDesEncaissements.row(this).data();
+                        var t = new Object();
+                        t.ref_enc = source[0];
+                        t.adh = source[2];
+                        t.ach = source[3];
+                        t.mnt = source[4];
+                        t.dt = source[5];
+                        t.id_banque = $("#ListeDesRibs").val();
+                        t.id_enc = $(this).data("ec");
+                        t.ref_ctr_enc = $(this).data("ref_ctr");
+                        t.btn = $(this).index();
+                        tableDesEnc.push(t);
+                        $(this).addClass("selected");
+                        //alert(parseFloat($("#calculemnt").val().replace(",", ".").replace(" ", "")));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())) + parseFloat(EliminerEspace(source[4])));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                        AdRow();
+                        $("#savebordcheque").removeAttr('disabled');
+                    }
+
+
+
+                }
+
+
+
+                else if ($("#ListeDesRibs").val() == 4 && ($("#ListeDesChoix").val() == 1 || $("#ListeDesChoix").val() == 2)) {
+                    if (tableDesEnc.length > 19) {
+
+                        alert("merci de selectionner 20 encaissement au max");
+
+                    }
+                    else {
+                        var source = ListeDesEncaissements.row(this).data();
+                        var t = new Object();
+                        t.ref_enc = source[0];
+                        t.adh = source[2];
+                        t.ach = source[3];
+                        t.mnt = source[4];
+                        t.dt = source[5];
+                        t.id_enc = $(this).data("ec");
+                        t.id_banque = $("#ListeDesRibs").val();
+                        t.ref_ctr_enc = $(this).data("ref_ctr");
+                        t.btn = $(this).index();
+                        tableDesEnc.push(t);
+                        $(this).addClass("selected");
+                        //alert(parseFloat($("#calculemnt").val().replace(",", ".").replace(" ", "")));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())) + parseFloat(EliminerEspace(source[4])));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                        AdRow();
+                        $("#savebordcheque").removeAttr('disabled');
+                    }
+                }
+                else if ($("#ListeDesRibs").val() == 4 && ($("#ListeDesChoix").val() == 3 || $("#ListeDesChoix").val() == 4)) {
+                    if (tableDesEnc.length > 4) {
+
+                        alert("merci de selectionner 5 encaissement au max");
+
+                    }
+                    else {
+                        var source = ListeDesEncaissements.row(this).data();
+                        var t = new Object();
+                        t.ref_enc = source[0];
+                        t.adh = source[2];
+                        t.ach = source[3];
+                        t.mnt = source[4];
+                        t.dt = source[5];
+                        t.id_enc = $(this).data("ec");
+                        t.id_banque = $("#ListeDesRibs").val();
+                        t.ref_ctr_enc = $(this).data("ref_ctr");
+                        t.btn = $(this).index();
+                        tableDesEnc.push(t);
+                        $(this).addClass("selected");
+                        //alert(parseFloat($("#calculemnt").val().replace(",", ".").replace(" ", "")));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())) + parseFloat(EliminerEspace(source[4])));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                        AdRow();
+                        $("#savebordcheque").removeAttr('disabled');
+                    }
+                }
+
+
+                else if ($("#ListeDesRibs").val() == 5 && ($("#ListeDesChoix").val() == 1 || $("#ListeDesChoix").val() == 2)) {
+                    if (tableDesEnc.length > 7) {
+
+                        alert("merci de selectionner 8 encaissement au max");
+
+                    }
+                    else {
+                        var source = ListeDesEncaissements.row(this).data();
+                        var t = new Object();
+                        t.ref_enc = source[0];
+                        t.adh = source[2];
+                        t.ach = source[3];
+                        t.mnt = source[4];
+                        t.dt = source[5];
+                        t.id_enc = $(this).data("ec");
+                        t.id_banque = $("#ListeDesRibs").val();
+                        t.ref_ctr_enc = $(this).data("ref_ctr");
+                        t.btn = $(this).index();
+                        tableDesEnc.push(t);
+                        $(this).addClass("selected");
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())) + parseFloat(EliminerEspace(source[4])));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                        AdRow();
+                        $("#savebordcheque").removeAttr('disabled');
+                    }
+
+
+
+                }
+                else {
+                    if (tableDesEnc.length > 9) {
+
+                        alert("merci de selectionner 10 encaissement au max");
+
+                    }
+
+                    else {
+                        var source = ListeDesEncaissements.row(this).data();
+                        var t = new Object();
+                        t.ref_enc = source[0];
+                        t.adh = source[2];
+                        t.ach = source[3];
+                        t.mnt = source[4];
+                        t.dt = source[5];
+                        t.id_enc = $(this).data("ec");
+                        t.ref_ctr_enc = $(this).data("ref_ctr");
+                        t.id_banque = $("#ListeDesRibs").val();
+                        t.btn = $(this).index();
+                        tableDesEnc.push(t);
+                        $(this).addClass("selected");
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())) + parseFloat(EliminerEspace(source[4])));
+                        $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                        AdRow();
+                        $("#savebordcheque").removeAttr('disabled');
+                    }
+                }
+
+                if (tableDesEnc.length == 1) {
+                    $("#ListeDesRibs").attr("disabled", true);
+                    $("#ListeDesChoix").attr("disabled", true);
+                }
+            });
+
+            function EliminerEspace1(data) {
+                // Strip $ from salary column to make it numeric
+                //  alert(data);
+                cel = "";
+                test = true;
+                while (test) {
+
+                    cel = data.replace(' ', "");
+                    data = cel;
+                    // alert(data);
+                    //  alert(cel);
+
+                    //   alert();
+                    console.log(data);
+                    console.log(cel.indexOf(' '));
+
+                    if (cel.indexOf(' ') >= 0) {
+
+                        test = true;
+                    }
+                    else { test = false; }
+                }
+                return cel.replace(",", ".");
+            }
+
+
+            function EliminerEspace(data) {
+                // Strip $ from salary column to make it numeric
+                //  alert(data);
+                cel = "";
+                test = true;
+                while (test) {
+
+                    cel = data.replace('&nbsp;', "");
+                    data = cel;
+                    // alert(data);
+                    //  alert(cel);
+
+                    //   alert();
+                    console.log(data);
+                    console.log(cel.indexOf('&nbsp;'));
+
+                    if (cel.indexOf('&nbsp;') >= 0) {
+
+                        test = true;
+                    }
+                    else { test = false; }
+                }
+                return cel.replace(",", ".");
+            }
+
+            $("#savebordcheque").click(function () {
+                console.log(tableDesEnc);
+                $.ajax({
+                    type: "POST",
+                    url: "/Bordereau/Ajouter_Bord_Ch_Jsoon",
+                    data: { 'Bordereau_ch': tableDesEnc },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == "save") { window.location.href = '/Bordereau/Bordereau_cheque'; }
+                        else { alert(data); }
+
+                    },
+                    failure: function () { alert("not working..."); }
+                });
+
+            });
+
+
+            function AdRow() {
+                var ligne = "<tr ";
+
+                for (let i = 0; i < tableDesEnc.length; i++) {
+                    var v = tableDesEnc[i];
+                    var td = "";
+                    td += "<td>" + v.ref_enc + "</td>";
+                    td += "<td>" + v.adh + "</td>";
+                    td += "<td>" + v.ach + "</td>";
+                    td += "<td>" + v.mnt + "</td>";
+                    td += "<td>" + v.dt + "</td>";
+                    td += "<td> <button type='button' class='btn btn-danger btn-sm SupprimerLigneEnc' data-ind='" + i + "' data-index='" + v.btn + "'> - </button> </td> </tr>";
+                    ligne += "data-id_enc='" + v.id_enc + "'>";
+                    ligne += td;
+                }
+                $('#ListeDesEncChoisi tbody').empty();
+                $('#ListeDesEncChoisi tbody').append(ligne);
+                console.log(tableDesEnc);
+            }
+
+            $(document).on('click', 'button.SupprimerLigneEnc', function () {
+                //alert($(this).data("index"));
+                var value = $('.dataTables_filter input').val();
+                var v = tableDesEnc[$(this).data("ind")];
+                $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())) - parseFloat(EliminerEspace(v.mnt)));
+                $("#calculemnt").val(parseFloat(EliminerEspace1($("#calculemnt").val())).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                // $("#calculemnt").val($("#calculemnt").val().toFixed(3));
+                tableDesEnc.splice($(this).data("ind"), 1);
+                console.log($(this).data("ind") + '-' + $(this).data("index"));
+                //
+                //  alert(value);
+                ListeDesEncaissements.search("").draw();
+                // alert($("#ListeDesEnc tbody").find("[data-ec='" + v.id_enc + "']").index());
+                $("#ListeDesEnc tbody").find("[data-ec='" + v.id_enc + "']").removeClass("selected");
+                AdRow();
+                ListeDesEncaissements.search(value).draw();
+                if (tableDesEnc.length == 0) {
+                    $("#savebordcheque").attr('disabled', 'disabled'); $("#calculemnt").val(0.000); $("#ListeDesRibs").removeAttr("disabled");
+                    $("#ListeDesChoix").removeAttr("disabled");
+                }
+                // return false;
+            });
+
+
+
+
+            $('#TableDesCtr').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                }
+
+            });
+
+
+
+
+            $('#VALID_GED').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select class="form-control input-sm "><option value=""></option></select>')
+                            .appendTo($(column.header()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                },
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': false,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: [4, 5] }
+                ]
+            });
+
+
+
+
+            $('#ListeDepLimite').DataTable({
+
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+
+                columnDefs: [
+                    { type: 'formatted-num', targets: [2, 3, 4] }]
+
+
+            });
+
+
+            $('#ListeDesBordch').DataTable({
+
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+
+                columnDefs: [
+                    { type: 'date-eu', targets: [1] },
+                    { type: 'formatted-num', targets: [3] }]
+
+
+            });
+
+
+            //var tab = $('#ListRec').DataTable({
+            //    "lengthMenu": false,
+            //    'paging': false,
+            //    'lengthChange': false,
+            //    'searching': true,
+            //    'ordering': false,
+            //    'info': false,
+            //    'autoWidth': true
+            //});
+
+
+            var ListeDesEncaissements = $('#ListeDesEnc').DataTable({
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                'paging': false,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                'autoWidth': false,
+                "scrollY": "500px",
+                "scrollCollapse": true,
+                "language": {
+                    "sProcessing": "Traitement en cours...",
+                    "sSearch": "Rechercher&nbsp;:",
+                    "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                    "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix": "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst": "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext": "Suivant",
+                        "sLast": "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d lignes séléctionnées",
+                            0: "Aucune ligne séléctionnée",
+                            1: "1 ligne séléctionnée"
+                        }
+                    }
+                },
+                columnDefs: [
+                    { type: 'date-eu', targets: [1] },
+                    { type: 'formatted-num', targets: [4] }
+
+                ]
+            });
+
+            ListeDesEncaissements.column(5).search("TR").draw();
+
+
+            //var listeencc = new $.fn.dataTable.Buttons(ListeDesEncaissements, {
+            //    buttons: [
+            //          {
+            //              text: 'Chéque',
+
+            //              action: function (e, dt, node, conf) {
+            //                  if (tableDesEnc.length == 0) {
+            //                      ListeDesEncaissements.column(5).search("C", "TC").draw();
+            //                  }
+            //                  else { alert("merci de vider le tableau anvant de changer le type d encaissement"); }
+            //              }
+            //          },
+            //         {
+            //             text: 'Traite',
+
+            //             action: function (e, dt, node, conf) {
+            //                 if (tableDesEnc.length == 0) {
+            //                     ListeDesEncaissements.column(5).search("TR").draw();
+            //                 }
+            //                 else { alert("merci de vider le tableau anvant de changer le type d encaissement"); }
+            //             }
+
+            //         }
+
+
+
+            //    ],
+            //});
+            // $(tableTools.fnContainer()).insertAfter('div.info');
+
+            // ListeDesEncaissements.buttons().container().appendTo('#btn-table');
+
+
+        });
+        //$("#valider_bord").click(function () {
+        //    var infomra = new Array();
+        //    infomra[0] = $(this).data("numbord");
+        //    infomra[1] = $(this).data("refctr");
+        //    $.ajax({
+        //        url: "/Bordereau/ValiderBordereauJson",
+        //        type: "POST",
+        //        data: JSON.stringify({ "info": infomra }),
+        //        contentType: "application/json;charset=UTF-8",
+        //        dataType: "json",
+        //        success: function (result) {
+        //            $('#validBord> tbody').empty();
+        //            $.each(result, function (index, element) {
+        //                $("#validBord > tbody").append("<tr>" +
+        //                    "<td>" + element.NUM_BORD + "</td>" +
+        //                    "<td>" + element.REF_CTR_BORD + "</td>" +
+        //                    "<td> test </td>" +
+        //                    "<td>" + element.NB_DOC_BORD + "</td>" +
+        //                     "<td>" + element.MONT_TOT_BORD + "</td>" +
+        //                      "<td> <button class='btn btn-success' data-numbord='" + element.NUM_BORD + "'data-refctr='" + element.REF_CTR_BORD + "' id='valider_bord'>Valider</button></td>" +
+        //                       "<td> <button class='btn btn-danger' data-numbord='" + element.NUM_BORD + "'data-refctr='" + element.REF_CTR_BORD + "' id='Annuller'>Anuuler</button></td>" +
+        //         "</tr>"
+        //                    );
+        //            });
+
+        //        }
+        //    });
+        //});
+
+
+        $(function () {
+            /*
+             * Flot Interactive Chart
+             * -----------------------
+             */
+            // We use an inline data source in the example, usually data would
+            // be fetched from a server
+            var data = [], totalPoints = 100
+
+            function getRandomData() {
+
+                if (data.length > 0)
+                    data = data.slice(1)
+
+                // Do a random walk
+                while (data.length < totalPoints) {
+
+                    var prev = data.length > 0 ? data[data.length - 1] : 50,
+                        y = prev + Math.random() * 10 - 5
+
+                    if (y < 0) {
+                        y = 0
+                    } else if (y > 100) {
+                        y = 100
+                    }
+
+                    data.push(y)
+                }
+
+                // Zip the generated y values with the x values
+                var res = []
+                for (var i = 0; i < data.length; ++i) {
+                    res.push([i, data[i]])
+                }
+
+                return res
+            }
+
+            var interactive_plot = $.plot('#interactive', [getRandomData()], {
+                grid: {
+                    borderColor: '#f3f3f3',
+                    borderWidth: 1,
+                    tickColor: '#f3f3f3'
+                },
+                series: {
+                    shadowSize: 0, // Drawing is faster without shadows
+                    color: '#3c8dbc'
+                },
+                lines: {
+                    fill: true, //Converts the line chart to area chart
+                    color: '#3c8dbc'
+                },
+                yaxis: {
+                    min: 0,
+                    max: 100,
+                    show: true
+                },
+                xaxis: {
+                    show: true
+                }
+            })
+
+            var updateInterval = 500 //Fetch data ever x milliseconds
+            var realtime = 'on' //If == to on then fetch data every x seconds. else stop fetching
+            function update() {
+
+                interactive_plot.setData([getRandomData()])
+
+                // Since the axes don't change, we don't need to call plot.setupGrid()
+                interactive_plot.draw()
+                if (realtime === 'on')
+                    setTimeout(update, updateInterval)
+            }
+
+            //INITIALIZE REALTIME DATA FETCHING
+            if (realtime === 'on') {
+                update()
+            }
+            //REALTIME TOGGLE
+            $('#realtime .btn').click(function () {
+                if ($(this).data('toggle') === 'on') {
+                    realtime = 'on'
+                }
+                else {
+                    realtime = 'off'
+                }
+                update()
+            })
+            /*
+             * END INTERACTIVE CHART
+             */
+
+            /*
+             * LINE CHART
+             * ----------
+             */
+            //LINE randomly generated data
+
+            var sin = [], cos = []
+            for (var i = 0; i < 14; i += 0.5) {
+                sin.push([i, Math.sin(i)])
+                cos.push([i, Math.cos(i)])
+            }
+            var line_data1 = {
+                data: sin,
+                color: '#3c8dbc'
+            }
+            var line_data2 = {
+                data: cos,
+                color: '#00c0ef'
+            }
+            $.plot('#line-chart', [line_data1, line_data2], {
+                grid: {
+                    hoverable: true,
+                    borderColor: '#f3f3f3',
+                    borderWidth: 1,
+                    tickColor: '#f3f3f3'
+                },
+                series: {
+                    shadowSize: 0,
+                    lines: {
+                        show: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                lines: {
+                    fill: false,
+                    color: ['#3c8dbc', '#f56954']
+                },
+                yaxis: {
+                    show: true
+                },
+                xaxis: {
+                    show: true
+                }
+            })
+            //Initialize tooltip on hover
+            $('<div class="tooltip-inner" id="line-chart-tooltip"></div>').css({
+                position: 'absolute',
+                display: 'none',
+                opacity: 0.8
+            }).appendTo('body')
+            $('#line-chart').bind('plothover', function (event, pos, item) {
+
+                if (item) {
+                    var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2)
+
+                    $('#line-chart-tooltip').html(item.series.label + ' of ' + x + ' = ' + y)
+                        .css({ top: item.pageY + 5, left: item.pageX + 5 })
+                        .fadeIn(200)
+                } else {
+                    $('#line-chart-tooltip').hide()
+                }
+
+            })
+            /* END LINE CHART */
+
+            /*
+             * FULL WIDTH STATIC AREA CHART
+             * -----------------
+             */
+            var areaData = [[2, 88.0], [3, 93.3], [4, 102.0], [5, 108.5], [6, 115.7], [7, 115.6],
+            [8, 124.6], [9, 130.3], [10, 134.3], [11, 141.4], [12, 146.5], [13, 151.7], [14, 159.9],
+            [15, 165.4], [16, 167.8], [17, 168.7], [18, 169.5], [19, 168.0]]
+            $.plot('#area-chart', [areaData], {
+                grid: {
+                    borderWidth: 0
+                },
+                series: {
+                    shadowSize: 0, // Drawing is faster without shadows
+                    color: '#00c0ef'
+                },
+                lines: {
+                    fill: true //Converts the line chart to area chart
+                },
+                yaxis: {
+                    show: false
+                },
+                xaxis: {
+                    show: false
+                }
+            })
+
+            /* END AREA CHART */
+
+
+
+            /*
+             * DONUT CHART
+             * -----------
+             */
+
+            var donutData = [
+                { label: 'Series2', data: 30, color: '#3c8dbc' },
+                { label: 'Series3', data: 20, color: '#0073b7' },
+                { label: 'Series4', data: 50, color: '#00c0ef' }
+            ]
+            $.plot('#donut-chart', donutData, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 1,
+                        innerRadius: 0.5,
+                        label: {
+                            show: true,
+                            radius: 2 / 3,
+                            formatter: labelFormatter,
+                            threshold: 0.1
+                        }
+
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            })
+            /*
+             * END DONUT CHART
+             */
+
+        })
+
+        /*
+         * Custom Label formatter
+         * ----------------------
+         */
+        function labelFormatter(label, series) {
+            return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
+                + label
+                + '<br>'
+                + Math.round(series.percent) + '%</div>'
+        }
+
+
+        $("#Recherche").click(function () {
+            $("#modal_det_ctr").modal();
+
+        });
+
+        $("#Recherche_V").click(function () {
+            var ref_contrat = " ";
+            var ref_contrat_papier = " ";
+            var nom_adh_a_chercher = " ";
+            var Ref_MFG = " ";
+            if ($("#ref_contrat").val() != null) {
+                ref_contrat = $("#ref_contrat").val();
+            }
+            if ($("#ref_contrat_papier").val() != null) {
+                ref_contrat_papier = $("#ref_contrat_papier").val();
+            }
+            if ($("#nom_adh_a_chercher").val() != null) {
+                nom_adh_a_chercher = $("#nom_adh_a_chercher").val();
+            }
+            if ($("#Ref_MFG").val() != null) {
+                Ref_MFG = $("#Ref_MFG").val();
+            }
+
+
+
+            var url = "/Home/ListeDesContartAChercher?id=" + ref_contrat + "&id2=" + ref_contrat_papier + "&id3=" + nom_adh_a_chercher + "&id4=" + Ref_MFG;
+            $("#ListeRST").load(url, function () {
+
+                alert("c bon");
+            });
+
+
+        });
+
+        function getDetaile(id) {
+            var url = "/Home/DetaileCtr/" + id;
+            $("#test001").load(url, function () {
+
+                $("#tab1").removeClass("active");
+                $("#tab_1").removeClass("active");
+                $("#tab2").addClass("active");
+
+                $("#tab_2").addClass("active");
+            });
+        }
+
+
+
+
+        $("#RechercheParAdherent").change(function () {
+            $('#ModalExtrait').modal('show');
+            var url = "/Rapporting/GetMonthYearFn/" + $(this).children("option:selected").val();
+            $("#CommParBord").load(url, function () {
+                $('#ModalExtrait').modal('hide');
+            })
+
+        });
+        var TableOfRnlpt130010 = [];
+        $("#excelfile").change(function () {
+
+            ExportToTable();
+
+            $("#exceltable").empty();
+
+        });
+        $("#Convert").click(function () {
+
+            if ($("#TypeFile").val() == "RNLPT130040") {
+
+
+                $.ajax({
+                    url: "/BCT/CreationRNLPT140",
+                    type: "POST",
+                    data: JSON.stringify({ "ListeRNLPT": TableOfRnlpt130010, "dt": $("#dtTime").val(), "TypeFile": $("#TypeFile").val() }),
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+
+                    }
+                });
+            }
+            else if ($("#TypeFile").val() == "RNLPT130063") {
+
+
+                $.ajax({
+                    url: "/BCT/CreationRNLPT140",
+                    type: "POST",
+                    data: JSON.stringify({ "ListeRNLPT": TableOfRnlpt130010, "dt": $("#dtTime").val(), "TypeFile": $("#TypeFile").val() }),
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+
+                    }
+                });
+            }
+            else if ($("#TypeFile").val() == "RNLPT130065") {
+
+
+                $.ajax({
+                    url: "/BCT/CreationRNLPT140",
+                    type: "POST",
+                    data: JSON.stringify({ "ListeRNLPT": TableOfRnlpt130010, "dt": $("#dtTime").val(), "TypeFile": $("#TypeFile").val() }),
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+
+                    }
+                });
+            }
+            else {
+
+                $.ajax({
+                    url: "/BCT/creationXML",
+                    type: "POST",
+                    data: JSON.stringify({ "ListeRNLPT": TableOfRnlpt130010, "dt": $("#dtTime").val(), "TypeFile": $("#TypeFile").val() }),
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (result) {
+                        // alert(result);
+                        // window.open("/", 'Download');
+                    }
+                });
+            }
+
+        });
+
+        function ExportToTable() {
+
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+            /*Checks whether the file is a valid excel file*/
+            if (regex.test($("#excelfile").val().toLowerCase())) {
+                var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+                if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+                    xlsxflag = true;
+                }
+                /*Checks whether the browser supports HTML5*/
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        /*Converts the excel data in to object*/
+                        if (xlsxflag) {
+                            var workbook = XLSX.read(data, { type: 'binary' });
+                        }
+                        else {
+                            var workbook = XLS.read(data, { type: 'binary' });
+                        }
+                        /*Gets all the sheetnames of excel in to a variable*/
+                        var sheet_name_list = workbook.SheetNames;
+
+                        var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+                        sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+                            /*Convert the cell value to Json*/
+                            if (xlsxflag) {
+                                var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y], { blankCell: true });
+                            }
+                            else {
+                                var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y], { defval: "" });
+                            }
+                            if (exceljson.length > 0 && cnt == 0) {
+                                BindTable(exceljson, '#exceltable');
+                                cnt++;
+                            }
+                        });
+                        $('#exceltable').show();
+                    }
+                    if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                        reader.readAsArrayBuffer($("#excelfile")[0].files[0]);
+                    }
+                    else {
+                        reader.readAsBinaryString($("#excelfile")[0].files[0]);
+                    }
+                }
+                else {
+                    alert("Sorry! Your browser does not support HTML5!");
+                }
+            }
+            else {
+                alert("Please upload a valid Excel file!");
+            }
+        }
+
+
+        function BindTable(jsondata, tableid) {/*Function used to convert the JSON array to Html Table*/
+            TableOfRnlpt130010 = [];
+            var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/
+            for (var i = 0; i < jsondata.length; i++) {
+                var row$ = $('<tr/>');
+                var ob;
+                console.log(jsondata[0][columns[0]]);
+                if (jsondata[i][columns[0]] == "Instrument") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "CodeInstrument": jsondata[i][columns[1]],
+                        "CodeTypeContrat": jsondata[i][columns[2]],
+                        "CodeDevise": jsondata[i][columns[3]],
+                        "Identifiant": jsondata[i][columns[4]],
+                        "TypeIdentifiant": jsondata[i][columns[5]],
+                        "RaisonSociale": jsondata[i][columns[6]],
+                        "Colonne1": jsondata[i][columns[7]] != null ? parseFloat(jsondata[i][columns[7]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[7]],
+                        "Colonne2": jsondata[i][columns[8]] != null ? parseFloat(jsondata[i][columns[8]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[8]],
+                        "Colonne3": jsondata[i][columns[9]] != null ? parseFloat(jsondata[i][columns[9]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[9]],
+                        "Colonne4": jsondata[i][columns[10]] != null ? parseFloat(jsondata[i][columns[10]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[10]],
+                        "Colonne5": jsondata[i][columns[11]] != null ? parseFloat(jsondata[i][columns[11]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[11]],
+                        "Colonne6": jsondata[i][columns[12]] != null ? parseFloat(jsondata[i][columns[12]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[12]],
+                        "Colonne7": jsondata[i][columns[13]] != null ? parseFloat(jsondata[i][columns[13]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[13]]
+                    };
+
+                }
+                else if (jsondata[i][columns[0]] == "Instr130065") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "CodeInstrument": jsondata[i][columns[1]],
+                        "CodeTypeContrat": jsondata[i][columns[2]],
+                        "CodeDevise": jsondata[i][columns[3]],
+                        "Identifiant": jsondata[i][columns[4]],
+                        "TypeIdentifiant": jsondata[i][columns[5]],
+                        "RaisonSociale": jsondata[i][columns[6]],
+                        "Colonne1": jsondata[i][columns[7]] != null ? parseFloat(jsondata[i][columns[7]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[7]],
+                        "Colonne2": jsondata[i][columns[8]] != null ? parseFloat(jsondata[i][columns[8]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[8]],
+                        "Colonne3": jsondata[i][columns[9]] != null ? parseFloat(jsondata[i][columns[9]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[9]],
+                        "Colonne4": jsondata[i][columns[10]] != null ? parseFloat(jsondata[i][columns[10]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[10]],
+                        "Colonne5": jsondata[i][columns[11]] != null ? parseFloat(jsondata[i][columns[11]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[11]],
+                        "Colonne6": jsondata[i][columns[12]] != null ? parseFloat(jsondata[i][columns[12]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[12]],
+                        "Colonne7": jsondata[i][columns[13]] != null ? parseFloat(jsondata[i][columns[13]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[13]]
+                    };
+
+                }
+                else if (jsondata[i][columns[0]] == "13006590000000") {
+
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "CodeInstrument": jsondata[i][columns[1]],
+                        "CodeTypeContrat": "",
+                        "CodeDevise": "",
+                        "Identifiant": "",
+                        "TypeIdentifiant": "",
+                        "RaisonSociale": "",
+                        "Colonne1": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                        "Colonne2": jsondata[i][columns[3]] != null ? parseFloat(jsondata[i][columns[3]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[3]],
+                        "Colonne3": jsondata[i][columns[4]] != null ? parseFloat(jsondata[i][columns[4]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[4]],
+                        "Colonne4": jsondata[i][columns[5]] != null ? parseFloat(jsondata[i][columns[5]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[5]],
+                        "Colonne5": jsondata[i][columns[6]] != null ? parseFloat(jsondata[i][columns[6]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[6]],
+                        "Colonne6": jsondata[i][columns[7]] != null ? parseFloat(jsondata[i][columns[7]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[7]]
+                    };
+                }
+                else if (jsondata[i][columns[0]] == "13004010000000") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "CodeInstrument": jsondata[i][columns[1]],
+                        "CodeTypeContrat": jsondata[i][columns[2]],
+                        "CodeDevise": jsondata[i][columns[3]],
+                        "Identifiant": jsondata[i][columns[4]],
+                        "TypeIdentifiant": jsondata[i][columns[5]],
+                        "RaisonSociale": jsondata[i][columns[6]],
+                        "Colonne1": jsondata[i][columns[7]] != null ? parseFloat(jsondata[i][columns[7]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[7]],
+                        "Colonne2": jsondata[i][columns[8]] != null ? parseFloat(jsondata[i][columns[8]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[8]],
+                        "Colonne3": jsondata[i][columns[9]] != null ? parseFloat(jsondata[i][columns[9]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[9]],
+                        "Colonne4": jsondata[i][columns[10]] != null ? parseFloat(jsondata[i][columns[10]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[10]],
+                        "Colonne5": jsondata[i][columns[11]] != null ? parseFloat(jsondata[i][columns[11]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[11]],
+                        "Colonne6": jsondata[i][columns[12]] != null ? parseFloat(jsondata[i][columns[12]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[12]],
+                        "Colonne7": jsondata[i][columns[13]] != null ? parseFloat(jsondata[i][columns[13]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[13]]
+                    };
+
+                }
+
+                else if (jsondata[0][columns[1]] == "13006210000000") {
+                    ob = {
+
+                        "CodeRub": jsondata[i][columns[1]],
+                        "Devise": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                        "Colonne2": jsondata[i][columns[3]] != null ? parseFloat(jsondata[i][columns[3]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[3]],
+                        "Colonne3": jsondata[i][columns[4]] != null ? parseFloat(jsondata[i][columns[4]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[4]],
+                        "Colonne4": jsondata[i][columns[5]] != null ? parseFloat(jsondata[i][columns[5]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[5]],
+                        "Colonne5": jsondata[i][columns[6]] != null ? parseFloat(jsondata[i][columns[6]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[6]],
+                        "Colonne6": jsondata[i][columns[7]] != null ? parseFloat(jsondata[i][columns[7]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[7]],
+                        "Colonne7": jsondata[i][columns[8]] != null ? parseFloat(jsondata[i][columns[8]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[8]]
+
+                    };
+
+                }
+                else if (jsondata[0][columns[0]] == "13007010000000") {
+                    ob = {
+
+                        "CodeRub": jsondata[i][columns[0]],
+
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]],
+                        "Colonne2": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                        "Colonne3": jsondata[i][columns[3]] != null ? parseFloat(jsondata[i][columns[3]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[3]],
+                        "Colonne4": jsondata[i][columns[4]] != null ? parseFloat(jsondata[i][columns[4]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[4]]
+                    };
+
+                }
+                else if (jsondata[0][columns[0]] == "13006610000000") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]],
+                        "Colonne2": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                        "Colonne3": jsondata[i][columns[3]] != null ? parseFloat(jsondata[i][columns[3]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[3]],
+                        "Colonne4": jsondata[i][columns[4]] != null ? parseFloat(jsondata[i][columns[4]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[4]],
+                    };
+
+                }
+
+
+                else if (jsondata[0][columns[0]] == "13006410000000") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]],
+                        "Colonne2": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                        "Colonne3": jsondata[i][columns[3]] != null ? parseFloat(jsondata[i][columns[3]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[3]],
+                        "Colonne4": jsondata[i][columns[4]] != null ? parseFloat(jsondata[i][columns[4]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[4]],
+                        "Colonne5": jsondata[i][columns[5]] != null ? parseFloat(jsondata[i][columns[5]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[5]],
+                        "Colonne6": jsondata[i][columns[6]] != null ? parseFloat(jsondata[i][columns[6]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[6]],
+                        "Colonne7": jsondata[i][columns[7]] != null ? parseFloat(jsondata[i][columns[7]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[7]]
+                    };
+                }
+                else if (jsondata[0][columns[0]] == "13006310000000") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Identifiant": jsondata[i][columns[4]],
+                        "TypeIdentifiant": jsondata[i][columns[5]],
+                        "RaisonSociale": jsondata[i][columns[6]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]],
+                        "Colonne2": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                        "Colonne3": jsondata[i][columns[3]] != null ? parseFloat(jsondata[i][columns[3]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[3]],
+
+                    };
+
+                }
+                else if (jsondata[0][columns[0]] == "13001010000000") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]]
+                    };
+                }
+                else if (jsondata[0][columns[0]] == "13002010000000") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]]
+                    };
+                }
+
+                else if (jsondata[0][columns[0]].indexOf("13005010000000") != -1) {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]],
+                        "Colonne2": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                    };
+
+                }
+                else if (jsondata[0][columns[0]].indexOf("13006010000000") != -1) {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]],
+                        "Colonne2": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                    };
+
+                }
+
+
+                else if (jsondata[0][columns[0]] == "13003010000000") {
+                    ob = {
+                        "CodeRub": jsondata[i][columns[0]],
+                        "Colonne1": jsondata[i][columns[1]] != null ? parseFloat(jsondata[i][columns[1]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[1]],
+                        "Colonne2": jsondata[i][columns[2]] != null ? parseFloat(jsondata[i][columns[2]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[2]],
+                        "Colonne3": jsondata[i][columns[3]] != null ? parseFloat(jsondata[i][columns[3]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[3]],
+                        "Colonne4": jsondata[i][columns[4]] != null ? parseFloat(jsondata[i][columns[4]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[4]],
+                        "Colonne5": jsondata[i][columns[5]] != null ? parseFloat(jsondata[i][columns[5]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[5]],
+                        "Colonne6": jsondata[i][columns[6]] != null ? parseFloat(jsondata[i][columns[6]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[6]],
+                        "Colonne7": jsondata[i][columns[7]] != null ? parseFloat(jsondata[i][columns[7]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[7]],
+                        "Colonne8": jsondata[i][columns[8]] != null ? parseFloat(jsondata[i][columns[8]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[8]],
+                        "Colonne9": jsondata[i][columns[9]] != null ? parseFloat(jsondata[i][columns[9]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[9]],
+                        "Colonne10": jsondata[i][columns[10]] != null ? parseFloat(jsondata[i][columns[10]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[10]],
+                        "Colonne11": jsondata[i][columns[11]] != null ? parseFloat(jsondata[i][columns[11]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[11]],
+                        "Colonne12": jsondata[i][columns[12]] != null ? parseFloat(jsondata[i][columns[12]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[12]],
+                        "Colonne13": jsondata[i][columns[13]] != null ? parseFloat(jsondata[i][columns[13]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[13]],
+                        "Colonne14": jsondata[i][columns[14]] != null ? parseFloat(jsondata[i][columns[14]]).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") : jsondata[i][columns[14]]
+                    };
+                }
+                else {
+
+
+                }
+
+
+
+                console.log(ob);
+
+                TableOfRnlpt130010.push(ob);
+
+
+                for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                    var cellValue = jsondata[i][columns[colIndex]];
+                    if (cellValue == null)
+                        cellValue = "";
+                    row$.append($('<td/>').html(cellValue));
+                }
+                $(tableid).append(row$);
+            }
+        }
+        function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/
+            var columnSet = [];
+            var headerTr$ = $('<tr/>');
+            for (var i = 0; i < jsondata.length; i++) {
+                var rowHash = jsondata[i];
+                for (var key in rowHash) {
+                    if (rowHash.hasOwnProperty(key)) {
+                        if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/
+                            columnSet.push(key);
+                            headerTr$.append($('<th/>').html(key));
+                        }
+                    }
+                }
+            }
+            $(tableid).append(headerTr$);
+            return columnSet;
+        }
+
+
+
+        $("#SearchRéconsiliation").click(function () {
+
+
+
+            var url = "/Rapporting/Liste_Réconsiliation_Detaile?ref_ctr=" + $("#Ref_Ctr").val() + "&ref_enc=" + $("#Ref_enc").val();
+            $("#RésultatSearchListRéconsi").load(url, function () {
+
+            })
+
+
+        });
+
+        function AnnulerRéconsiliation(x) {
+            $.ajax({
+                url: "/Rapporting/AnnulationRéconsiliationAction",
+                type: "POST",
+                data: JSON.stringify({ "id_enc": x }),
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+
+
+                    $("#success-AnnulationRec").show();
+                    var url = "/Rapporting/Liste_Réconsiliation_Detaile?ref_ctr=" + $("#Ref_Ctr").val() + "&ref_enc=" + $("#Ref_enc").val();
+                    $("#RésultatSearchListRéconsi").load(url, function () {
+
+                    })
+                }
+            });
+        }
+
+
+    </script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "aebec260-647e-4f46-9dab-c81f7259659e",
+            });
+            OneSignal.push(["addListenerForNotificationOpened", function (data) {
+                console.log("Received NotificationOpened:");
+                console.log(data);
+            }]);
+            OneSignal.on('notificationDisplay', function (event) {
+                console.warn('OneSignal notification displayed:', event);
+                alert("test");
+            });
+        });
+    </script>
+</body>
+</html>

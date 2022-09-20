@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Annuler_Encaissement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section header {
+
+    <h1>
+        Annuler Encaissement
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+
+        <li class="active"> Bordereaux </li>
+        <li class="active">Annuler Encaissement</li>
+    </ol>
+}
+@if (TempData["notice"] != null)
+{
+
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> enregistrement a été effectué avec succès !</strong>
+    </div>
+}
+
+<div class="box box-default">
+    <div class="box-header with-border">
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive " data-pattern="priority-columns">
+                    <table cellspacing="0" id="ListeDesEncaissements" class="table table-small-font table-bordered ">
+                        <thead>
+                            <tr class="bg-primary">
+                                <th data-priority="3"><center>Reference encaissement</center></th>
+                                <th data-priority="1">Reference Contrat</th>
+                                <th data-priority="1"><center>Nom Adherent</center></th>
+                                <th data-priority="1"><center>Nom Acheteur</center></th>
+                                <th data-priority="1"><center>Mnt Encaissement</center></th>
+                                <th data-priority="1"><center>Date valeur </center></th>
+                                <th data-priority="1"><center>Date Reception</center></th>
+                                <th data-priority="1"><center>#</center></th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.ListeEnc)
+
+                            {
+
+
+                                <tr>
+                                    <td>
+                                        @item.REF_ENC
+                                    </td>
+                                    <td>
+                                        @item.REF_CTR_ENC
+                                    </td>
+                                    <td>
+                                        @item.NOM_IND
+                                    </td>
+                                    <td>
+                                        @item.NOM_IND1
+                                    </td>
+                                    @{
+                                        string v = "";
+                                        try
+                                        {
+                                            v = @String.Format("{0:N3}", (item.MONT_ENC));
+
+                                        }
+                                        catch (Exception) { v = "0,000"; }
+                                    }
+                                    <td style="text-align:right">
+                                        @v
+                                    </td>
+                                    @if (item.DAT_VAL_ENC != null)
+                                    {
+                                        <td>
+                                            @item.DAT_VAL_ENC.ToString("d")
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                           
+                                        </td>
+
+                                    }
+                                    @if (item.DAT_RECEP_ENC != null)
+                                    {
+                                        <td>
+                                            @item.DAT_RECEP_ENC.ToString("d")
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+
+                                    }
+                                    <td>
+                                        <a href="/Bordereau/Annuler_Encaissement_Job/@item.ID_ENC" class="btn btn-danger btn-sm">Annuler</a>
+                                    </td>
+                                </tr>
+
+
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+

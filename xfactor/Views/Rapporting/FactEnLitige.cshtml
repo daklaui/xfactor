@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "FactEnLitige";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info boxx">
+            <div class="box-header with-border bg-info">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8">
+                    <div class="col-lg-6">
+                        @Html.Label("Nom Adhérent:", htmlAttributes: new { @class = "control-label" })
+                        <select id="Nom_Adh" name="REF_CTR_LIT" class="form-control input-sm selectpicker" data-live-search="true">
+                            <option value="" disabled selected>-- choisir un nom --</option>
+                            @foreach (var item in ViewBag.ADH)
+                            {
+                                <option data-refind="@item.c" value="@item.a">@item.b|@item.a</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-lg-2"></div>
+
+
+            </div>
+            <div class="box-body">
+                <div id="CommParBord"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div id="loding_partie" class="loader">
+                    <div class="loader-inner">
+                        <div class="loading one"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading two"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading three"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading four"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+
+    $("#Nom_Adh").change(function () {
+        $('#exampleModal').modal('show');
+       
+
+
+        var url = "/Rapporting/FactEnLitigeRapp/" + $("#Nom_Adh").val();
+        $("#CommParBord").load(url, function () {
+            $('#exampleModal').modal('hide');
+        })
+
+    });
+
+
+
+  
+
+
+
+</script>

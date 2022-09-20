@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "Liste_Bordereau_Par_Jour";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    tbody > tr:hover, tbody > tr.selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+</style>
+@section header {
+
+    <h1>
+        Liste Bordereaux Par Jour
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Rapport </li>
+        <li class="active">Liste_Bordereau_Par_Jour</li>
+    </ol>
+}
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title">Liste Bordereaux Par Jour</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="validBord" class="table table-small-font table-bordered ">
+                                <thead>
+
+                                    <tr class="bg-primary">
+                                        <th data-priority="3"><center>Num bordereau</center></th>
+                                        <th data-priority="1">Réf Contart</th>
+                                        <th data-priority="3"><center>Nom adherent</center></th>
+                                        <th data-priority="1"><center>Code Adhérent</center></th>
+                                        <th data-priority="3"><center>Date Saisie</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.liste_Bord)
+                                    {
+                                        <tr data-codeadh="@item.REF_ADH_IND" data-numbord="@item.NUM_BORD" data-anne="@item.ANNEE_BORD">
+                                            <td>
+                                                @item.NUM_BORD
+                                            </td>
+                                            <td>
+                                                @item.REF_CTR_BORD
+                                            </td>
+                                            <td>
+                                                @item.NOM_IND
+                                            </td>
+                                          
+                                            <td>
+                                                @item.REF_ADH_IND
+                                            </td>
+                                            <td>
+                                                @item.DAT_SAISIE_BORD.ToString("d")
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@***********************************************************************************************************@
+
+<div id="DetailleMoadel" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="det"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal modal-success fade" id="modal-success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body">
+                <p>bordereau bien valider</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" id="close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $("#validBord tbody").delegate("tr", "click", function () {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            var url = "/Rapporting/Liste_Bordereau_Par_Jour_Det?codeadh=" + $(this).data("codeadh") + "&num_bord=" + $(this).data("numbord") + "&annee=" + $(this).data("anne");
+            $("#det").load(url, function () {
+                $("#DetailleMoadel").modal();
+            });
+        });
+    });
+
+
+</script>

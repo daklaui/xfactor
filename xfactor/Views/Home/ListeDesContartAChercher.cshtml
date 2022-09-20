@@ -1,0 +1,79 @@
+﻿
+
+<style>
+
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="table-responsive " data-pattern="priority-columns">
+            <table cellspacing="0" id="" class="table table-small-font table-bordered">
+                <thead>
+
+                    <tr class="bg-primary">
+                        <th data-priority="3"><center>Référence papier</center></th>
+                        <th data-priority="1"><center>Référence</center></th>
+                        <th data-priority="1"><center>Adhérent</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 0;}
+                    @foreach (var item in ViewBag.Liste_Des_Ctr)
+                    {
+                        <tr data-toggle="collapse" data-target="#demo_@i" class="accordion-toggle">
+                            <td>
+                                @item.contrat.REF_CTR_PAPIER_CTR
+                            </td>
+                            <td>
+                                @item.contrat.REF_CTR
+                            </td>
+                            <td>
+                                @item.contrat.NOM_IND
+                            </td>
+                           <td><button type="button"  onclick="event.stopPropagation();getDetaile(@item.contrat.REF_CTR)">Detaile</button> </td>
+                        </tr>
+                        <tr>
+                           <td colspan="3">
+                               <div class="accordian-body collapse" id="demo_@i">
+                                   <table class="table table-small-font table-bordered" >
+                                       <thead>
+                                           <tr class="bg-primary">
+                                               <th><center>Référence</center></th>
+                                               <th><center>Nom</center></th>
+                                               <th><center>Référence</center></th>
+
+                                           </tr>
+                                       </thead>
+                                       <tbody>
+                                           @foreach (var x in item.listeDesInter)
+                                           {
+                                               <tr>
+                                                   <td>
+                                                       @x.RefAch
+                                                   </td>
+                                                   <td>
+                                                       @x.NomAch
+                                                   </td>
+                                                   <td>
+                                                       @x.RefAch
+                                                   </td>
+                                       
+                                               </tr>
+                                           }
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </td>
+                         
+
+                        </tr>
+                        { i++; 
+                            }
+                            }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

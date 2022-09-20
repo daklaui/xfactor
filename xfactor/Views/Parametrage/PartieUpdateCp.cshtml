@@ -1,0 +1,110 @@
+﻿@model xfactor.Models.TR_CP
+
+<form method="post" action="/Parametrage/PartieUpdateCp" id="cpformupdate">
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID_CP)
+    <div class="form-group">
+        @Html.Label("Code Postal", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.CP, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.CP, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Ville", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Ville, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Ville, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Code Gouvernorat", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Gouvernorat, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_Gouvernorat, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Gouvernorat", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Gouvernorat, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Gouvernorat, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Code Region", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Region, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_Region, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Region", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Region, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
+        </div>
+    </div>
+
+</form>
+
+
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script>
+    $("#cpformupdate").validate({
+        rules: {
+            // compound rule
+            CP: {
+                required: true,
+                number: true,
+                maxlength: 4,
+                minlength: 4
+            },
+            Ville: {
+                required: true,
+            },
+            Code_Gouvernorat: {
+                required: true,
+            },
+            Gouvernorat: {
+                required: true,
+            },
+            Code_Region: {
+                required: true,
+            },
+            Region: {
+                required: true,
+            }
+
+        },
+        messages: {
+            CP:{required: "ce champs est obligatoire ",
+                number:"Saisir un valeur numérique",
+                maxlength: function () {
+                    return ["ce champ contient 4 caractères"];
+                },
+                minlength: function () {
+                    return ["ce champ contient 4 caractères"];
+                },
+
+            },
+
+            Ville: "ce champs est obligatoire",
+            Code_Gouvernorat: "ce champs est obligatoire",
+            Gouvernorat: "ce champs est obligatoire",
+            Code_Region: "ce champs est obligatoire",
+            Region: "ce champs est obligatoire",
+
+
+        },
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+
+    });
+</script>

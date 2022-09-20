@@ -1,0 +1,126 @@
+﻿@model xfactor.Models.TR_ACTPROF_BCT
+
+
+<form action="/Parametrage/PartieListProf" method="post" id="listprofform">
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.Label("Code Secteur", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Section, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_Section, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Secteur", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Section, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Section, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Code Sous Secteur", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_SousSection, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_SousSection, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Sous Secteur", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.SousSection, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.SousSection, "", new { @class = "text-danger" })>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Code Activité", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Activité, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_Activité, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Code Classe", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Classe, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_Classe, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Classe", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Classe, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Classe, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Code Sous Classe", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_SousClasse, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_SousClasse, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Sous Classe", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.SousClasse, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.SousClasse, "", new { @class = "text-danger" })
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="AJouter" class="btn btn-primary pull-right" />
+        </div>
+    </div>
+
+</form>
+
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script>
+    $("#listprofform").validate({
+        rules: {
+            // compound rule
+            Code_Section: {
+                required: true,
+            },
+            Section: {
+                required: true,
+            },
+            Code_SousSection: {
+                required: true,
+            },
+            SousSection: {
+                required: true,
+            },
+            Code_Activité: {
+                required: true,
+            },
+            Code_Classe: {
+                required: true,
+            },
+            Classe: {
+                required: true,
+            },
+            Code_SousClasse: {
+                required: true,
+            },
+            SousClasse: {
+                required: true,
+            }
+
+        },
+        messages: {
+            Code_Section: "ce champs est obligatoire ",
+            Section: "ce champs est obligatoire",
+            Code_SousSection: "ce champs est obligatoire",
+            SousSection: "ce champs est obligatoire",
+            Code_Activité: "ce champs est obligatoire",
+            Code_Classe: "ce champs est obligatoire",
+            Classe: "ce champs est obligatoire",
+            Code_SousClasse: "ce champs est obligatoire",
+            SousClasse: "ce champs est obligatoire"
+        },
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+
+    });
+</script>

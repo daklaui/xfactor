@@ -1,0 +1,46 @@
+﻿@model xfactor.Models.TR_TMM
+@*@item.echeance.ToString("dd/MM/yyyy");*@
+@{ DateTime t2= new DateTime(); DateTime t= new DateTime();}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID_TMM)
+    <div class="form-group">
+
+
+
+
+        @Html.Label("Date Début TMM", htmlAttributes: new { @class = "control-label " })
+        @{ try { t = (DateTime)Model.DATE_DEBUT_TMM; } catch (Exception) { }; try { t2 = (DateTime)Model.DATE_FIN_TMM; } catch (Exception) { }
+        }
+        <input type="date" name="DATE_DEBUT_TMM" value="@t.ToString("yyyy-MM-dd")" class="form-control" required />
+  
+        @Html.ValidationMessageFor(model => model.DATE_DEBUT_TMM, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Date Fin TMM", htmlAttributes: new { @class = "control-label " })
+         @if (t2.ToString("yyyy-MM-dd").Contains("0001"))
+         { <input type="date" name="DATE_FIN_TMM" value="" class="form-control"  /> }
+         else
+         {
+        <input type="date" name="DATE_FIN_TMM" value="@t2.ToString("yyyy-MM-dd").Replace("0001-1-1", "yyyy-MM-dd")" class="form-control"  />}
+        @Html.ValidationMessageFor(model => model.DATE_FIN_TMM, "", new { @class = "text-danger" })
+    </div>
+
+        <div class="form-group">
+            @Html.Label("Taux TMM", htmlAttributes: new { @class = "control-label " })
+            <input type="text" name="TAUX_TMM" class = "form-control ConvertPointToComma" value="@String.Format("{0:N3}", (Model.TAUX_TMM))" required>
+
+            @Html.ValidationMessageFor(model => model.TAUX_TMM, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+
+}

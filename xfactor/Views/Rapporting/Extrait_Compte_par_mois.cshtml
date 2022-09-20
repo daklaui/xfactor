@@ -1,0 +1,365 @@
+﻿
+
+<style>
+    th, td {
+        border-width: 1px;
+        border-style: dashed;
+        padding: 5px;
+    }
+</style>
+
+<img src="~/Content/img/logo med.png" style="padding-top:11px; padding-bottom:10px;padding-left:10px" width="15%" />
+<br />
+<center>
+    <h2> @ViewData["nameadh"] </h2>
+</center>
+<div class="col-lg-12">
+
+    <div id="no-more-tables">
+
+
+        <h3>Décompte client</h3>
+        <h4> Ancien Encours:  @String.Format("{0:N3}", ViewData["AncienEnc"])   Ancien Disponible: @String.Format("{0:N3}", ViewData["AncienDispo"])</h4><h4> Encours:  @String.Format("{0:N3}", ViewData["NouveauEnc"])    Disponible: @String.Format("{0:N3}", ViewData["NouveauDispo"])</h4>
+        <center>
+
+            <font size="1">
+                <table width="98%" cellspacing="0" id="" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                    <thead>
+                        <tr class="bg-primary cf">
+                            <th data-priority="3"><center>Date op</center></th>
+                            <th data-priority="1">Libelle op</th>
+                            <th data-priority="1"><center>Debit </center></th>
+                            <th data-priority="1"><center>Credit</center></th>
+                            <th data-priority="1"><center>autre</center></th>
+                            <th data-priority="1"><center>Encours factures</center></th>
+                            <th data-priority="1"><center>Disponible</center></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in ViewBag.ListeExtrait)
+                        {
+                            <tr>
+                                @if (item.Date_OP != null)
+                                {
+                                    <td data-title="Nom Acheteur">@item.Date_OP.ToString("dd/MM/yyyy")</td>
+
+                                }
+                                else
+                                {
+                                    <td data-title="Nom Acheteur"></td>
+                                }
+
+
+                                @if (item.Libelle_OP != null)
+                                {
+                                    <td data-title="Nom Acheteur">@item.Libelle_OP</td>
+
+                                }
+                                else
+                                {
+                                    <td data-title="Nom Acheteur"></td>
+                                }
+
+
+                                @if (item.debit != null)
+                                {
+                                    <td style="text-align:right" data-title="Nom Acheteur"> @String.Format("{0:N3}", item.debit)</td>
+
+                                }
+                                else
+                                {
+                                    <td data-title="Nom Acheteur"></td>
+                                }
+
+
+                                @if (item.Credit != null)
+                                {
+                                    <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.Credit)</td>
+
+                                }
+                                else
+                                {
+                                    <td data-title="Nom Acheteur"></td>
+                                }
+
+
+                                @if (item.autre != null)
+                                {
+                                    <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.autre)</td>
+
+                                }
+                                else
+                                {
+                                    <td data-title="Nom Acheteur"></td>
+                                }
+
+
+                                @if (item.Encours_Facture != null)
+                                {
+                                    <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.Encours_Facture)</td>
+
+                                }
+                                else
+                                {
+                                    <td data-title="Nom Acheteur"></td>
+                                }
+
+
+                                @if (item.Disponible != null)
+                                {
+                                    <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.Disponible)</td>
+
+                                }
+                                else
+                                {
+                                    <td data-title="Nom Acheteur"></td>
+                                }
+
+
+
+
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </font>
+        </center>
+
+    </div>
+
+</div>
+
+
+<h3>FACTURES ACHETEES</h3>
+
+
+<center>
+    <font size="1">
+        <table width="75%" cellspacing="0" id="" border="1" class="col-md-12 table-bordered table-striped table-condensed cf ">
+            <thead>
+                <tr class="bg-primary cf">
+                    <th data-priority="3"><center>Nom Acheteur</center></th>
+                    <th data-priority="1">N° Piéce</th>
+                    <th data-priority="1"><center>Date Piéce</center></th>
+                    <th data-priority="1"><center>Date echéance</center></th>
+                    <th data-priority="1"><center>Montant TTC</center></th>
+                    <th data-priority="1"><center>COMMISSION TND</center></th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in ViewBag.ListeExtraitDetAchat)
+            {
+                    <tr>
+                        <td data-title="Nom Acheteur">@item.nom_ind</td>
+                        <td data-title="Nom Acheteur">@item.ref_document_det_bord</td>
+                        <td data-title="Nom Acheteur">@item.DAT_BORD.ToString("dd/MM/yyyy")</td>
+                        <td data-title="Nom Acheteur">@item.Column1.ToString("dd/MM/yyyy")</td>
+
+                        <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.MONT_TTC_DET_BORD)</td>
+                        <td style="text-align:right">@String.Format("{0:N3}", item.MONT_TTC_COMM_FACT_DET_BORD) </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </font>
+</center>
+
+<h3>FRAIS MENSUELS</h3>
+
+
+<center>
+    <font size="1">
+        <table width="75%" cellspacing="0" id="" border="1" class="col-md-12 table-bordered table-striped table-condensed cf ">
+            <thead>
+                <tr class="bg-primary cf">
+                    <th data-priority="3"><center>Nom Acheteur</center></th>
+                    <th data-priority="1">Frais HT </th>
+                    <th data-priority="1"><center>Type</center></th>
+                    <th data-priority="1"><center>Date </center></th>
+                    <th data-priority="1"><center>Taxe </center></th>
+                    <th data-priority="1"><center>Frais TTC </center></th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in ViewBag.ListeExtraitFrais)
+                {
+                    <tr>
+                        <td data-title="Nom Acheteur">@item.nom_ind</td>
+                        @if (item.MONT_DEBIT != null)
+                        {
+                            <td style="text-align:right" data-title="Nom Acheteur"> @String.Format("{0:N3}", item.MONT_DEBIT)</td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Nom Acheteur">0,000</td>
+                        }
+                        <td data-title="Nom Acheteur">@item.ABEV_DEBIT</td>
+                        <td data-title="Nom Acheteur">@item.DATE_DEBIT.ToString("dd/MM/yyyy")</td>
+                        @if (item.MONT_DEBIT != null)
+                        {
+                            <td style="text-align:right" data-title="Nom Acheteur">@{decimal c = (decimal)item.MONT_DEBIT * 0.19M;} @String.Format("{0:N3}", c)</td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Nom Acheteur">0,000</td>
+                                }
+
+                        @if (item.MONT_DEBIT != null)
+                        {
+                            <td style="text-align:right" data-title="Nom Acheteur">@{decimal v = item.MONT_DEBIT + ((item.MONT_DEBIT) * 0.19M);} @String.Format("{0:N3}", v)</td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Nom Acheteur">0,000</td>
+                                }
+
+
+
+                    </tr>
+                                }
+
+            </tbody>
+        </table>
+    </font>
+</center>
+
+<h3>Commission Affacturage</h3>
+
+
+<center>
+    <font size="1">
+        <table width="75%" cellspacing="0" id="" border="1" class="col-md-12 table-bordered table-striped table-condensed cf ">
+            <thead>
+                <tr class="bg-primary cf">
+                    <th data-priority="3"><center>Date</center></th>
+                    <th data-priority="1">Numéro Bordereau </th>
+                    <th data-priority="1"><center>Commission de factoring HT</center></th>
+                    <th data-priority="1"><center>Taux de taxe appliqué </center></th>
+                    <th data-priority="1"><center>Montant taxe</center></th>
+                    <th data-priority="1"><center>Montant TTC</center></th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in ViewBag.ListeExtraitCom)
+                {
+                    <tr>
+                        <td data-title="Nom Acheteur">@item.DAT_BORD.ToString("dd/MM/yyyy")</td>
+                        <td data-title="Nom Acheteur">@item.num_bord</td>
+                        <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.HTCOMM)</td>
+                        <td data-title="Nom Acheteur">@item.TVA</td>
+                        <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.TVACOMM)</td>
+                        <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.TTCCOMM)</td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </font>
+</center>
+
+<h3>Coûts paiements matérialisés</h3>
+
+
+<center>
+    <font size="1">
+        <table cellspacing="0" id="" border="1" class="col-md-12 table-bordered table-striped table-condensed cf ">
+            <thead>
+                <tr class="bg-primary cf">
+                    <th data-priority="3"><center>Date</center></th>
+                    <th data-priority="1">Moyen de paiement </th>
+                    <th data-priority="1"><center>NB pièces</center></th>
+                    <th data-priority="1"><center>Montant HT par piéce </center></th>
+                    <th data-priority="1"><center>Taux de taxe appliqué</center></th>
+                    <th data-priority="1"><center>Montant taxe par piéce</center></th>
+                    <th data-priority="1"><center>Montant TTC par piéce</center></th>
+                    <th data-priority="1"><center>Montant total</center></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in ViewBag.ListeExtraitFraisP)
+                {
+                    <tr>
+                        <td data-title="Nom Acheteur">@item.dat_recep_enc.ToString("dd/MM/yyyy")</td>
+                        @if (item.typ_enc == "C")
+                        {
+                            <td data-title="Nom Acheteur">Chéque</td>
+                        }
+                        else if (item.typ_enc == "T")
+                        {
+                            <td data-title="Nom Acheteur">Traite</td>
+                        }
+                        else
+                        {
+                            <td data-title="Nom Acheteur">Virement</td>
+                        }
+
+
+                        <td data-title="Nom Acheteur">@item.Nb_piéce</td>
+                        <td style="text-align:right" data-title="Nom Acheteur"> @String.Format("{0:N3}", item.MONT_PAR_INSTR_FRAIS_PAIE)</td>
+                        <td data-title="Nom Acheteur">@item.TVA</td>
+                        <td style="text-align:right" data-title="Nom Acheteur"> @String.Format("{0:N3}", item.TAXTVA)</td>
+                        <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.TTCPP)</td>
+                        <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.MNTTTCT)</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </font>
+</center>
+
+
+@*<h3>Frais divers</h3>*@
+
+
+@*<center>
+        <font size="1">
+            <table cellspacing="0" id="" border="1" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Date</center></th>
+                        <th data-priority="1">Description </th>
+                        <th data-priority="1"><center>Montant HT</center></th>
+                        <th data-priority="1"><center>Taux de taxe appliqué </center></th>
+                        <th data-priority="1"><center>Montant taxe</center></th>
+                        <th data-priority="1"><center>Montant TTC</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in ViewBag.ListeExtraitFraisTimbre)
+                    {
+                        <tr>
+                            <td data-title="Nom Acheteur">@item.Date.ToString("dd/MM/yyyy")</td>
+                            <td data-title="Nom Acheteur">@item.Description</td>
+
+                            <td style="text-align:right" data-title="Nom Acheteur"> @String.Format("{0:N3}", item.frais)</td>
+                            <td style="text-align:right" data-title="Nom Acheteur">0,000</td>
+                            <td style="text-align:right" data-title="Nom Acheteur">0,000</td>
+                            <td style="text-align:right" data-title="Nom Acheteur"> @String.Format("{0:N3}", item.frais)</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </font>
+    </center>*@
+
+

@@ -1,0 +1,293 @@
+﻿
+@{
+    ViewBag.Title = "SaisiLimite";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section header {
+
+    <h1>
+        Limite
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Limite</li>
+        <li class="active">Saisi Limite</li>
+    </ol>
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <form method="post" action="" id="formLimite">
+            <div class="col-lg-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                    </div>
+
+                    <div class="box-body">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    @Html.Label("Nom Adhérent:", htmlAttributes: new { @class = "control-label" })
+                                    <select name="Nom_Adh" class = "form-control input-sm selectpicker" data-live-search = "true" id = "Nom_Adh">
+                                        <option value="0" selected disabled>Merci de choisir un adhérent</option>
+                                        @foreach (var item in ViewBag.ADH)
+                                        {
+                                            <option value="@item.REF_CTR_CIR">@item.NomAdh|@item.REF_CTR_CIR</option>
+                                        }
+                                    </select>
+                                  @*/  @Html.DropDownList("Nom_Adh", (IEnumerable<SelectListItem>)ViewBag.ADH, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "Nom_Adh" })
+                                    @Html.ValidationMessage("Nom_Adh", "", new { @class = "text-danger" })*@
+                                </div>
+                                <div class="table-responsive " data-pattern="priority-columns">
+                                    <table cellspacing="0" class="table table-small-font table-bordered table-striped ">
+                                        <tr>
+                                            <th>Nom Acheteur:</th>
+                                            <th>Date Demande :</th>
+                                            <th>Limite Assurance :</th>
+                                            <th>Limite de Financement  :</th>
+                                            <th>Devise  :</th>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <select id="Nom_Ach" name="Nom_Ach" required class="form-control"></select>
+                                                </div>
+                                            </td>
+
+                                            <td>@Html.Editor("date_demande", new { htmlAttributes = new { @class = "form-control input-sm", type = "date", required = "required" } })</td>
+
+                                            <td>@Html.Editor("Limite_Credit", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma", type = "text" , required = "required" ,id="Limite_cr" } })</td>
+
+                                            <td>@Html.Editor("Limite_fin", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma", type = "text" , required = "required" } })</td>
+                                            <td><input type="text" value="TND" name="Devis" class="form-control input-sm" readonly/></td>
+                                        </tr>
+                                        <tr>
+
+                                            <th>Montant Limite Acheteur-Adhérent  :</th>
+                                            <th>Date Limite  :</th>
+                                            <th>Mode Paiement  :</th>
+                                            <th>Date Dernière demande :</th>
+                                            <th>Délai demandé :</th>
+                                        </tr>
+                                        <tr>
+
+
+
+                                            <td>@Html.Editor("MNT_Ach_Adh", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma", type = "text" , required = "required" } })</td>
+
+                                            <td>@Html.Editor("Date_limite", new { htmlAttributes = new { @class = "form-control input-sm", type = "date" , required = "required" } })</td>
+                                            <td>
+                                                <select class="form-control input-sm" name="Mode_Paye" id="Mode_Paye">
+                                                    <option value="Che">Chèque</option>
+                                                    <option value="Esp">Espèce</option>
+                                                    <option value="vir">Virrement</option>
+                                                    <option value="Cheque/Traite">Cheque/Traite</option>
+                                                    <option value="Traite">Traite</option>
+                                                </select>
+                                            </td>
+                                            <td>@Html.Editor("MNTDB", new { htmlAttributes = new { @class = "form-control input-sm", type = "date", required = "required" } })</td>
+                                            <td>@Html.Editor("Delai", new { htmlAttributes = new { @class = "form-control input-sm", type = "number" , required = "required" } })</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+
+                                <button type="submit" id="ajouter_enc" class="btn btn-primary btn btn-block">
+                                    Enregistrer
+                                </button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+        </div>
+ 
+    </div>
+
+<div class="modal modal-success fade" id="modal-success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>enregistrement a été effectué avec succès</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@*<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="ListDemLimite" class="table table-small-font table-bordered table-striped ">
+                                <thead>
+                                    <tr class="bg-primary">
+                                        <th data-priority="3"><center>Nom Adhérent</center></th>
+                                        <th data-priority="1">Nom Acheteur</th>
+                                        <th data-priority="1"><center>Actif</center></th>
+                                        <th data-priority="1"><center>Date</center></th>
+                                        <th data-priority="1"><center>Délai</center></th>
+                                        <th data-priority="1"><center>Montant</center></th>
+                                        <th data-priority="1"><center>Sort</center></th>
+                                        <th data-priority="1"><center>Type</center></th>
+                                        <th data-priority="1"><center>Délai Accordé</center></th>
+                                        <th data-priority="1"><center>Montant Accordé</center></th>
+                                        <th data-priority="1"><center>Mode Paiement Accordé</center></th>
+                                        <th data-priority="1"><center>Acheteur</center></th>
+                                        <th data-priority="1"><center>Adhérent</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>*@
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+
+<script>
+    $.validator.methods.range = function (value, element, param) {
+        var globalizedValue = value.replace(",", ".");
+        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+    }
+
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\,]\d{3})+)(?:[\,]\d+)?$/.test(value.replace(/\s/g, ""));
+    }
+
+    jQuery.extend(jQuery.validator.methods, {
+        min: function (value, element, value2) {
+            var val = value.replace(/\s/g, "").replace(',', '.');
+            return this.optional(element) || val >= value2;
+        }
+    });
+    $(document).ready(function () {
+        var test = '@TempData["notice"]';
+        if (test != "") {
+            $("#modal-success").modal();
+        }
+    });
+    $("#Nom_Adh").change(function () {
+        $.ajax({
+            url: "/Bordereau/RecherchCtrAch22/" + $(this).children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (data)
+            {
+
+                var x = '@TempData["Assurence"]';
+                if (x == "True") {
+                    $("#Limite_cr").prop('disabled', true);
+                }
+                else { $("#Limite_cr").prop('disabled', false); }
+                $("#Nom_Ach").empty();
+                $("#Nom_Ach").append('<option selected disabled> *********** </option>');
+                $.each(data, function (index, element) {
+                    $("#Nom_Ach").append('<option value="' + element.RefAch + '">' + element.NomAch + '</option>');
+                });
+            }
+        });
+
+    });
+
+
+
+    $("#formLimite").validate({
+        rules: {
+            // compound rule
+            Limite_Credit: {
+                required: true,
+                number: true,
+               min:0
+            },
+            Limite_fin: {
+                required: true,
+                number: true,
+                min: 0
+            },
+            MNT_Ach_Adh: {
+                required: true,
+                number: true,
+                min: 0
+            }
+
+        },
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+
+    });
+
+    $("input[name='Limite_Credit']").blur(function () {
+
+        if ($("input[name='Limite_Credit']").val() != "")
+        {
+            var v = $("input[name='Limite_Credit']").val().replace(/\s/g, "").replace(",", ".");
+            $("input[name='Limite_Credit']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+        }
+
+
+    });
+
+    $("input[name='Limite_fin']").blur(function () {
+
+        if ($("input[name='Limite_fin']").val() != "") {
+            var v = $("input[name='Limite_fin']").val().replace(/\s/g, "").replace(",", ".");
+
+            $("input[name='Limite_fin']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+        }
+
+    });
+
+    $("input[name='MNT_Ach_Adh']").blur(function () {
+
+        if ($("input[name='MNT_Ach_Adh']").val() != "") {
+            var v = $("input[name='MNT_Ach_Adh']").val().replace(/\s/g, "").replace(",", ".");
+
+            $("input[name='MNT_Ach_Adh']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+        }
+
+    });
+  </script>

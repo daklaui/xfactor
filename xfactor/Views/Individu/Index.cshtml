@@ -1,0 +1,160 @@
+﻿
+@model xfactor.Models.T_INDIVIDU
+
+@{
+    ViewBag.Title = "Lister_Individu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+    String backgroundTR = "";
+}
+<style>
+    .moverigth {
+        margin-left: 17px;
+    }
+    .moveleft {
+        float: right;
+    }
+    tbody>tr:hover, tbody>tr.selected {
+    background-color: dodgerblue;
+    color:white;
+    cursor:pointer;
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+
+}
+</style>
+@section header {
+
+<h1>
+    Individu
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active">Individu</li>
+    <li class="active">Lister les individus</li>
+</ol>
+}
+
+
+
+
+
+
+<div class="row">
+    @Html.ActionLink("Ajouter Individu","Create",null, new { @class = "btn btn-success pull-left moverigth" })
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title">Infos Generales</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="resultsind">
+                        <thead class="bg-black">
+                            <tr>
+                               <th>
+                                    Nom
+                                </th>
+                                <th>
+                                    Prénom
+                                </th>
+                                <th>
+                                    Genre
+                                </th>
+                                <th>
+                                    Type Document
+                                </th>
+                                <th>
+                                    Numéro Document
+                                </th>
+                                <th>
+                                    Code TVA
+                                </th>
+                                <th>
+                                    Tel
+                                </th>
+                                <th>
+                                    Fax
+                                </th>
+                                <th>
+                                    Mail
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (ViewBag.listind != null)
+                            {
+
+
+
+                                foreach (var item in ViewBag.listind)
+                                {
+                                    if (i % 2 == 0) { backgroundTR = "bg-info"; }
+                                    else { backgroundTR = ""; }
+                                    i++;
+
+                                    <tr class="@backgroundTR" data-customerid="@item.REF_IND" data-gendre="@item.GENRE_IND">
+
+                                        <td>
+                                            @item.NOM_IND
+                                        </td>
+                                        <td>
+                                            @item.PRE_IND
+                                        </td>
+                                        <td>
+                                            @item.GENRE_IND
+                                        </td>
+                                        <td>
+                                            @item.TYP_DOC_ID_IND
+                                        </td>
+                                        <td>
+                                            @item.NUM_DOC_ID_IND
+                                        </td>
+                                        <td>
+                                            @item.COD_TVA_IND
+                                        </td>
+                                        <td>
+                                            @item.TEL_IND
+                                        </td>
+                                        <td>
+                                            @item.FAX_IND
+                                        </td>
+                                        <td>
+                                            @item.EMAIL_IND
+                                        </td>
+
+                                    </tr>
+                                }
+
+
+
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+    $("table").delegate("tr", "click", function () {
+        var custID = $(this).data("customerid");
+        if ($(this).data("gendre").indexOf("PP")!=-1) { window.location.href = '/Individu/DetailsIndividuPhy/' + custID; }
+        else {
+            window.location.href = '/Individu/Details/' + custID;
+        }
+    });
+ </script>

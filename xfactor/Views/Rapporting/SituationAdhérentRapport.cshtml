@@ -1,0 +1,444 @@
+﻿
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("ReportSituationAdh",new {id= "PDF",id2=ViewBag.refadh})" class="btn btn-success"> <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("ReportSituationAdh",new {id= "Excel",id2=ViewBag.refadh})" class="btn btn-danger"><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("ReportSituationAdh",new {id= "Word",id2=ViewBag.refadh})" class="btn btn-info"> <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("ReportSituationAdh",new {id= "Image",id2=ViewBag.refadh})" class="btn btn-primary"><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="ListeFacturesLitiges" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Encours Factures Ouvertes</center></th>
+                        <th data-priority="1">Somme Des Avoirs</th>
+                        <th data-priority="1"><center>Limite Totale De Financement</center></th>
+                        <th data-priority="1"><center>Limite Totale De Crédit</center></th>
+                        <th data-priority="1"><center> Encours Factures Ouvertes Echues</center></th>
+                        <th data-priority="1"><center> Encours Factures Ouvertes Non Echue</center></th>
+                        <th data-priority="1"><center> Encours Factures</center></th>
+                        <th data-priority="1"><center> Total Litiges Encours</center></th>
+                        <th data-priority="1"><center> Total Paiement Direct</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.c)
+                    {
+                        <tr>
+                            @if (item.Encours_Factures_Ouvertes != null)
+                            {
+                                <td data-title="Encours Factures Ouvertes" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Encours_Factures_Ouvertes)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours Factures Ouvertes">0,000 </td>
+                            }
+
+
+                            @if (item.Somme_Des_Avoirs != null)
+                            {
+                                <td data-title="Somme Des Avoirs" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Somme_Des_Avoirs)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Somme Des Avoirs">0,000  </td>
+                            }
+
+
+                            @if (item.Limite_Totale_De_Financement != null)
+                            {
+                                <td data-title="Limite_Totale_De_Financements" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Limite_Totale_De_Financement)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Limite_Totale_De_Financement">0,000 </td>
+                            }
+
+
+                            @if (item.Limite_Totale_De_Crédit != null)
+                            {
+                                <td data-title="Limite_Totale_De_Crédit" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Limite_Totale_De_Crédit)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Limite_Totale_De_Crédit">0,000  </td>
+                            }
+
+                            @if (item.Encours_Factures_Ouvertes_Echues != null)
+                            {
+                                <td data-title="Encours_Factures_Ouvertes_Echues" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Encours_Factures_Ouvertes_Echues)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours_Factures_Ouvertes_Echues">0,000 </td>
+                            }
+
+
+                            @if (item.Encours_Factures_Ouvertes_Non_Echues != null)
+                            {
+                                <td data-title="Encours_Factures_Ouvertes_Non_Echue" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Encours_Factures_Ouvertes_Non_Echues)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours_Factures_Ouvertes_Non_Echue">0,000  </td>
+                            }
+
+                            @if (item.Encours_Factures != null)
+                            {
+                                <td data-title="Encours_Factures" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Encours_Factures)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours_Factures">0,000 </td>
+                            }
+
+                            @if (item.Total_Litiges_Encours != null)
+                            {
+                                <td data-title="Total_Litiges_Encours" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Total_Litiges_Encours)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Total_Litiges_Encours">0,000  </td>
+                            }
+
+                            @if (item.Total_Paiement_Direct != null)
+                            {
+                                <td data-title="Total_Paiement_Direct" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Total_Paiement_Direct)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Total_Paiement_Direct">0,000 </td>
+                            }
+
+
+                        </tr>
+
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<hr style="background-color:black" />
+<h2>détaille</h2>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="Det_Adh" class="table-bordered table-striped  ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Nom  acheteur</center></th>
+                        <th data-priority="3"><center>Encours Factures Ouvertes</center></th>
+                        <th data-priority="1">Somme Des Avoirs</th>
+                        <th data-priority="1"><center>Limite Totale De Financement</center></th>
+                        <th data-priority="1"><center>Limite Totale De Crédit</center></th>
+                        <th data-priority="1"><center> Encours Factures Ouvertes Echues</center></th>
+                        <th data-priority="1"><center> Encours Factures Ouvertes Non Echue</center></th>
+                        <th data-priority="1"><center> Encours Factures</center></th>
+                        <th data-priority="1"><center> Total Litiges Encours</center></th>
+                        <th data-priority="1"><center> Total Paiement Direct</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.c1)
+                    {
+                        <tr>
+                            <td data-title="Nom acheteur">
+                               @item.nom_ind
+                            </td>
+                            @if (item.Encours_Factures_Ouvertes != null)
+                            {
+                                <td data-title="Encours Factures Ouvertes" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Encours_Factures_Ouvertes)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours Factures Ouvertes">0,000 </td>
+                            }
+
+
+                            @if (item.Total_av != null)
+                            {
+                                <td data-title="Somme Des Avoirs" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Total_av)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Somme Des Avoirs">0,000  </td>
+                            }
+
+
+                            @if (item.Limite_fin != null)
+                            {
+                                <td data-title="Limite_Totale_De_Financements" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Limite_fin)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Limite_Totale_De_Financement">0,000 </td>
+                            }
+
+
+                            @if (item.Limite_CRe != null)
+                            {
+                                <td data-title="Limite_Totale_De_Crédit" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Limite_CRe)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Limite_Totale_De_Crédit">0,000  </td>
+                            }
+
+                            @if (item.Encours_Factures_Ouvertes_Echues != null)
+                            {
+                                <td data-title="Encours_Factures_Ouvertes_Echues" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Encours_Factures_Ouvertes_Echues)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours_Factures_Ouvertes_Echues">0,000 </td>
+                            }
+
+
+                            @if (item.Encours_Factures_Ouvertes_Non_Echues != null)
+                            {
+                                <td data-title="Encours_Factures_Ouvertes_Non_Echue" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Encours_Factures_Ouvertes_Non_Echues)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours_Factures_Ouvertes_Non_Echue">0,000  </td>
+                            }
+
+                            @if (item.Total_encours != null)
+                            {
+                                <td data-title="Encours_Factures" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Total_encours)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours_Factures">0,000 </td>
+                            }
+
+                            @if (item.Total_Litiges_Encours != null)
+                            {
+                                <td data-title="Total_Litiges_Encours" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Total_Litiges_Encours)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Total_Litiges_Encours">0,000  </td>
+                            }
+
+                            @if (item.Total_Paiement_Direct != null)
+                            {
+                                <td data-title="Total_Paiement_Direct" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Total_Paiement_Direct)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Total_Paiement_Direct">0,000 </td>
+                            }
+
+
+                        </tr>
+
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<script>
+
+    var buttonCommon = {
+        exportOptions: {
+            format: {
+                body: function (data, row, column, node) {
+                    // Strip $ from salary column to make it numeric
+                    //  alert(data);
+                    cel = "";
+                    test = true;
+                    while (test)
+                    {
+                        if (column != 0) {
+                            cel = data.replace('&nbsp;', "");
+                            data = cel;
+                            // alert(data);
+                            //  alert(cel);
+                        }
+                        else { cel = data; }
+                     //   alert();
+                        console.log(data);
+                        console.log(cel.indexOf('&nbsp;'));
+                     
+                        if (cel.indexOf('&nbsp;') >= 0) {
+
+                            test = true;
+                        }
+                        else { test = false;}
+                    }
+                    return cel.replace(",",".");
+                }
+            }
+        }
+    };
+    
+
+                   //     data;
+                    //alert(data);
+ 
+
+    $('#Det_Adh').DataTable({
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+            }
+        },
+        dom: 'Bfrtip',
+        buttons: [
+             $.extend(true, {}, buttonCommon, {
+                 extend: 'copyHtml5', title: 'Situation Adhérent'
+             }),
+            $.extend(true, {}, buttonCommon, {
+                extend: 'excelHtml5', title: 'Situation Adhérent'
+            }),
+            $.extend(true, {}, {
+                extend: 'pdfHtml5', title: 'Situation Adhérent', orientation: 'landscape',
+                pageSize: 'LEGAL'
+            })
+
+        ],
+        
+            columnDefs: [
+         {
+             type: 'formatted-num', targets: [1,2,3,4,5,6,7,8,9]
+         }
+
+            ]
+
+    });
+</script>

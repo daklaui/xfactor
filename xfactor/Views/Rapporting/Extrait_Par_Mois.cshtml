@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Extrait_Par_Mois";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="modal fade" id="ModalExtrait" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div id="loding_partie" class="loader">
+                    <div class="loader-inner">
+                        <div class="loading one"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading two"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading three"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading four"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="box box-info boxx">
+            <div class="box-header with-border bg-info">
+
+                <div class="col-lg-4">
+                    <div class="col-lg-12">
+
+                        @Html.Label("Nom Adhérent:", htmlAttributes: new { @class = "control-label" })
+
+                        <select id="RechercheParAdherent" name="REF_CTR_LIT" class="form-control input-sm selectpicker" data-live-search="true">
+                            <option value="" disabled selected>-- choisir un nom --</option>
+                            @foreach (var item in ViewBag.ADH)
+                            {
+                                <option data-refind="@item.c" value="@item.a">@item.b|@item.a</option>
+                            }
+
+                        </select>
+
+                    </div>
+
+                </div>
+               
+
+
+            </div>
+            <div class="box-body">
+                <div id="CommParBord"></div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,81 @@
+﻿@model xfactor.Models.TR_NLDP
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID_NLDP)
+
+    <div class="form-group">
+        @Html.Label("Libellé Nationamité", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LIB_NT, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LIB_NT, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+        <div class="form-group">
+            @Html.Label("Abréviation Nationalite", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ABRV_NAT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ABRV_NAT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Libellé Langue", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LIB_LANG, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LIB_LANG, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Abréviation Langue", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ABRV_LANG, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ABRV_LANG, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Libellé Devise", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LIB_DEVISE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LIB_DEVISE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Abréviation Devise", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ABRV_DEVISE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ABRV_DEVISE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Libellé Pays", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LIB_PAYS, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LIB_PAYS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Abréviation Pays", htmlAttributes: new { @class = "control-label " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ABRV_PAYS, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ABRV_PAYS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Modifier" class="btn btn-primary" />
+            </div>
+        </div>
+}
+

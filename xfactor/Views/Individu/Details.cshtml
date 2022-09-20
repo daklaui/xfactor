@@ -1,0 +1,298 @@
+﻿@model xfactor.Models.T_INDIVIDU
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+    string backgroundTR = "";
+}
+@section header {
+
+    <h1>
+        Individu
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active">Individu</li>
+        <li class="active">Details Individu</li>
+    </ol>
+}
+
+
+<a href="~/Individu/Index" class="btn btn-success">Liste des individu</a>
+@Html.ActionLink("modifer individu", "EditIndividuMoral", new { id = @Html.DisplayFor(model => model.REF_IND) }, new { @class = "btn btn-success pull-right" })
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title">Details de  @Html.DisplayFor(model => model.NOM_IND) </h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-lg-12 col-md-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#Summery" class="bg-dark text-white"><i class="fa fa-indent"></i> <b>Info d individu </b> </a></li>
+                            <li><a data-toggle="tab" href="#Address" class="bg-dark text-white"><b> autres informations</b> </a></li>
+                            <li><a data-toggle="tab" href="#Contact" class="bg-dark text-white"> <b> Autres Contacts  </b> </a></li>
+                            <li><a data-toggle="tab" href="#weblogin" class="bg-dark text-white"> <b> Login web </b> </a></li>
+                            <li><a data-toggle="tab" href="#ribliste" class="bg-dark text-white"> <b> Liste  rib </b> </a></li>
+                         </ul>
+                        <div class="tab-content">
+                            <div id="Summery" class="tab-pane fade in active">
+
+                                <div class="table-responsive panel">
+                                    <table class="table">
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="">  <b>Forme juridique : </b> </td>
+                                                <td>@TempData["FormJuridique"]</td>
+                                             
+                                            </tr>
+                                            <tr>
+                                                <td class=""> <b>Dénomination : </b> </td>
+                                                <td>@Html.DisplayFor(model => model.NOM_IND)</td>
+                                                <td class=""> <b> Nom commercial : </b></td>
+                                                <td>@Html.DisplayFor(model => model.PRE_IND)</td>
+                                            </tr>
+                                         
+                                            <tr>
+                                                <td class=""><b>Registre de commerce : </b></td>
+                                                <td>@Html.DisplayFor(model => model.NUM_DOC_ID_IND)</td>
+                                                <td class=""><b>Lieu : </b></td>
+                                                <td>@Html.DisplayFor(model => model.LIEU_DOC_ID_IND)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><b>Date de création : </b></td>
+                                                <td>@Html.DisplayFor(model => model.DATE_DOC_ID_IND)</td>
+                                                <td class=""><b>Langue :  </b></td>
+                                                <td>@TempData["langue"]</td>
+                                                <td class=""> <b> Code Acheteur  : </b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.REF_ACH_IND)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><b>Activité : </b></td>
+                                                <td>
+                                                   @Html.DisplayFor(model => model.COD_SCLAS)
+                                                </td>
+                                                <td class=""> <b> Code TVA  : </b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.COD_TVA_IND)
+                                                </td>
+                                                <td class=""> <b> Code Adhérent  : </b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.REF_ADH_IND)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><b>Exonération TVA : </b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.EXO_TVA)
+                                                </td>
+                                                <td class=""> <b> Date Debut Exonération TVA : </b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.DAT_DEB_EXO)
+                                                </td>
+                                                <td class=""> <b> Date Fin Exonération TVA : </b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.DAT_FIN_EXO)
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="Address" class="tab-pane fade">
+                                <div class="table-responsive panel">
+                                    <table class="table">
+                                        <tbody>
+
+                                            <tr>
+                                                <td class=""><b>Address</b></td>
+                                                <td>
+                                                    <address>
+                                                        @Html.DisplayFor(model => model.ADR_IND)
+                                                    </address>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><b> Ville et code postale : </b></td>
+                                                <td>
+                                                    <b>  @TempData["codepostale"] </b> &nbsp;&nbsp; 
+                                                    @Html.DisplayFor(model => model.CP_IND)
+                                                 
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><b>Telephone  :</b></td>
+                                                <td>
+
+                                                    @Html.DisplayFor(model => model.TEL_IND)
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><b>Fax  :</b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.FAX_IND)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class=""><b>Email :</b></td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.EMAIL_IND)
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+
+                            <div id="Contact" class="tab-pane fade">
+                                <div class="table-responsive panel">
+                                    <table class="table">
+                                        @if (i % 2 == 0) { backgroundTR = "bg-info"; }
+                                        else { backgroundTR = ""; }
+                                        <thead>
+                                            <tr class="bg-info">
+                                                <th>Numero Contact</th>
+                                                <th>Nom et Prenom</th>
+                                                <th colspan="2">Téléphones</th>
+                                                <th colspan="2">Email</th>
+                                                <th>Fax</th>
+                                                <th>Etat</th>
+                                               
+                                            </tr>
+                                            @foreach (var item in ViewBag.ListContact)
+                                            {
+                                                <tr class="@backgroundTR">
+                                                    <td>@i</td>
+                                                    <td>@item.NOM_PRE_CONTACT</td>
+                                                    <td>@item.TEL1_CONTACT</td>
+                                                    <td>@item.TEL2_CONTACT</td>
+                                                    <td>@item.MAIL1_COONTACT</td>
+                                                    <td>@item.MAIL2_COONTACT</td>
+                                                    <td>@item.FAX_CONTACT</td>
+                                                    @if (item.ACTIF_CONTACT == true)
+                                                    {
+                                                        <td>Actif</td>}
+                                                    else
+                                                    {
+                                                        <td>Non Actif</td> }
+                                                   
+                                                   
+                                                </tr>
+                                                i++;
+                                            }
+                                        </thead>
+                                        <tbody>
+
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div id="weblogin" class="tab-pane fade">
+                                <div class="table-responsive panel">
+                                    <table class="table">
+                                        @if (i % 2 == 0) { backgroundTR = "bg-info"; }
+                                        else { backgroundTR = ""; }
+                                        <thead>
+                                            <tr class="bg-info">
+                                                <th>Login</th>
+                                                <th>mot de passe</th>
+                                                <th>Etat</th>
+                                            </tr>
+                                            @foreach (var item in ViewBag.logweb)
+                                            {
+                                                <tr class="@backgroundTR">
+                                                    <td>@item.LOGIN_WEB</td>
+                                                    <td>@item.PASSWORD_WEB</td>
+                                                    @if (item.ACTIF_USER_WEB == true)
+                                                    {
+                                                        <td>Actif</td>}
+                                                    else
+                                                    {
+                                                        <td>Non Actif</td> }
+                                                 
+
+                                                </tr>
+                                                i++;
+                                            }
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="ribliste" class="tab-pane fade">
+                                <div class="table-responsive panel">
+                                    <table class="table">
+                                        @if (i % 2 == 0) { backgroundTR = "bg-info"; }
+                                        else { backgroundTR = ""; }
+                                        <thead>
+                                            <tr class="bg-info">
+                                                <th>#</th>
+                                                <th>Rib</th>
+                                                <th>Banque</th>
+                                                <th>Agence</th>
+                                                <th>Etat</th>
+                                            </tr>
+                                            @foreach (var item in ViewBag.listerib)
+                                            {
+                                                <tr class="@backgroundTR">
+                                                    <td>@i</td>
+                                                    <td>@item.rib</td>
+                                                    <td>@item.banque</td>
+                                                    <td>@item.agence</td>
+                                                    @if (item.etat == true)
+                                                    {
+                                                        <td>Actif</td>}
+                                                    else
+                                                    {
+                                                        <td>Non Actif</td> }
+
+
+                                                </tr>
+                                                i++;
+                                            }
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </div>
+ </div>
+
+</div>
+             
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Liste_Réconsiliation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section header {
+
+    <h1>
+        Annuler Réconsiliation
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Parametrage </li>
+        <li class="active">Annuler Réconsiliation</li>
+    </ol>
+}
+
+
+<div class="alert alert-success alert-dismissible fade in" style="display:none" id="success-AnnulationRec">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong> enregistrement a été effectué avec succès !</strong>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="col-lg-4">
+            <input type="text" class="form-control" id="Ref_enc" placeholder="Ref encaissemet" />
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control input-sm selectpicker" data-live-search="true" id="Ref_Ctr">
+                <option value="">-- Ref contrat --</option>
+
+                @foreach (var item in ViewBag.ADH)
+                {
+                    <option value="@item.a">@item.b|@item.a</option>
+                }
+
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <button type="button" id="SearchRéconsiliation" class="btn btn-primary">valider</button>
+        </div>
+
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="RésultatSearchListRéconsi">
+
+        </div>
+    </div>
+</div>

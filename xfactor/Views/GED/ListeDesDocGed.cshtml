@@ -1,0 +1,21 @@
+﻿
+<div class="list-group">
+    @foreach (var item in ViewBag.Liste)
+    {
+        <a href="#" data-ref_ctr="@ViewBag.Ref_ctr" data-item="@item" class="list-group-item list-group-item-action">@item</a>
+    }
+</div>
+
+<script>
+
+    $(".list-group a").click(function () {
+        $('#loaderin').hide();
+      //  alert($(this).data("ref_ctr"));
+        var x = $(this).data("item").replace(/\s/g, "");
+        var url = "/GED/ListeOfLibs/" + $(this).data("ref_ctr") + "/" + x;
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        });
+    });
+</script>

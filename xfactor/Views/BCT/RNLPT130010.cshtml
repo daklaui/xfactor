@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "RNLPT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RNLPT</h2>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-3">
+            <input type="file" class="form-control" id="excelfile" />
+        </div>
+        <div class="col-lg-3">
+            <input type="date" class="form-control"id="dtTime" />
+        </div>
+        <div class="col-lg-3">
+           <select id="TypeFile" class="form-control">
+               <option value="RNLPT130010">RNLPT130010</option>
+               <option value="RNLPT130020">RNLPT130020</option>
+               <option value="RNLPT130030">RNLPT130030</option>
+               <option value="RNLPT130040">RNLPT130040</option>
+               <option value="RNLPT130050">RNLPT130050</option>
+               <option value="RNLPT130060">RNLPT130060</option>
+               <option value="RNLPT130061">RNLPT130061</option>
+               <option value="RNLPT130062">RNLPT130062</option>
+               <option value="RNLPT130063">RNLPT130063</option>
+               <option value="RNLPT130064">RNLPT130064</option>
+               <option value="RNLPT130065">RNLPT130065</option>
+               <option value="RNLPT130066">RNLPT130066</option>
+               <option value="RNLPT130070">RNLPT130070</option>
+           </select>
+        </div>
+        <div class="col-lg-3">
+
+            <button type="button" class="btn btn-primary" id="Convert" >Convert</button>
+        </div>
+    </div>
+</div>
+
+
+<table id="TableRNLPT130" class="table table-condensed">
+<tbody id="exceltable">
+        
+    </tbody>
+</table>
+

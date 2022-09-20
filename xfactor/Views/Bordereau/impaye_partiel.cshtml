@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "impaye_partiel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    tbody > tr:hover, tbody > tr.selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+    .modal-lg {
+    width: 95%;
+}
+</style>
+
+
+@section header {
+    <h1>
+        Résolution impaye
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Impay </li>
+        <li class="active">Résolution impaye</li>
+    </ol>
+}
+
+@if (TempData["notice"] != null)
+{
+
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> enregistrement a été effectué avec succès !</strong>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+
+
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="ListeI" class="table table-small-font table-bordered">
+                                <thead>
+
+                                    <tr class="bg-primary">
+
+                                        <th data-priority="3"><center>Encaissement</center></th>
+                                        <th data-priority="1">Adhérent</th>
+                                        <th data-priority="1"><center>Etablissement payeur</center></th>
+                                        <th data-priority="1"><center>Date impayé</center></th>
+                                        <th data-priority="1"><center>Date saisie</center></th>
+                                        <th data-priority="1"><center>Montant</center></th>
+                                        <th data-priority="1"><center>Type</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.ListImpaye)
+                                    {
+                                        <tr data-ec="@item.ID_ENC_IMP">
+                                            <td>
+                                                @item.Encaissement
+                                            </td>
+                                            <td>
+                                                @item.Adherent
+                                            </td>
+
+                                            <td>
+                                                @item.Payeur
+                                            </td>
+                                            @if (item.DATE_IMP != null)
+                                            {
+                                                <td>
+                                                    @item.DATE_IMP.ToString("d")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.DATE_IMP
+                                                </td>
+                                            }
+
+                                            @if (item.DATE_SAISI_IMP != null)
+                                            {
+                                                <td>
+                                                    @item.DATE_SAISI_IMP.ToString("d")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.DATE_SAISI_IMP
+                                                </td>
+                                            }
+                                            @{
+                                                string v = "";
+                                                try
+                                                {
+                                                    v = @String.Format("{0:N3}", (item.MONT_IMP));
+
+                                                }
+                                                catch (Exception) { v = item.MONT_IMP; }
+
+                                            }
+                                            <td style="text-align:right" data-mnt="@item.MONT_IMP">
+                                                @v
+                                            </td>
+
+                                            <td>
+                                                @item.Type
+                                            </td>
+                                        </tr>
+                                                }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="ancienenc" />
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Les Encaissements </h4>
+            </div>
+            <div class="modal-body">
+                <div id="detenc"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+    $("#ListeI").delegate("tr", "click", function () {
+        $(this).addClass("selected").siblings().removeClass("selected");
+        var text = $(this).data("ec");
+
+    var url = "/Bordereau/Liste_Des_Encaissements/" +text;
+
+        $("#detenc").load(url, function () {
+            $("#exampleModal1").modal();
+        });
+
+
+    });
+    $("#resoluimp").click(function () {
+      //  alert($("#REF_ENC").children("option:selected").data("id_enc") + "  |   " + $("#ancienenc").val());
+        if (parseFloat($("#MNTTABELE").val()).toFixed(3) == parseFloat($("#MONT_ENC").val()).toFixed(3)) {
+            $.ajax({
+                url: "/Bordereau/ResoluionImpaye/" + $("#REF_ENC").children("option:selected").data("id_enc") + "/" + $("#ancienenc").val(),
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                }
+            });
+
+        }
+        else {
+            alert("Information : Il faut que le nouveau montant de l'encaissement  soit égale à l'ancien encaissement");
+        }
+
+    });
+
+</script>

@@ -1,0 +1,1011 @@
+﻿
+@{
+    ViewBag.Title = "ListVal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section header {
+    
+<h1>
+    Liste des valeurs
+  
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active">Paramétrage</li>
+    <li class="active">List Valeurs</li>
+</ol>
+    }
+
+<style>
+
+    @@media only screen and (max-width: 800px) {
+	
+	/* Force table to not be like tables anymore */
+	#no-more-tables table, 
+	#no-more-tables thead, 
+	#no-more-tables tbody, 
+	#no-more-tables th, 
+	#no-more-tables td, 
+	#no-more-tables tr { 
+		display: block; 
+	}
+ 
+	/* Hide table headers (but not display: none;, for accessibility) */
+	#no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	#no-more-tables tr { border: 1px solid #ccc; }
+ 
+	#no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+	}
+ 
+	#no-more-tables td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+ 
+	/*
+	Label the data
+	*/
+	#no-more-tables td:before { content: attr(data-title); }
+}
+
+
+a.btn-danger:hover
+{
+    background: #de6c69;
+}
+
+a.btn-danger
+{
+    background:#d9534f;  
+}
+
+a.btn-top
+{
+    background:#448aff;
+    color:#fff;
+    border:1px solid #448aff; 
+    padding: 7px 10px; 
+    border-radius:4px; 
+}
+
+a.btn-top:hover
+{
+    text-decoration: none;
+    box-shadow:3px 3px 5px #222; 
+    transition:box-shadow 0.5s; 
+}
+
+@@media (max-width: 576px){.modal-dialog.modal-dialog-slideout {width: 80%}}
+.modal-dialog-slideout {min-height: 100%; margin: 0 auto 0 0 ;background: #fff;}
+.modal.fade .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(-100%,0);transform: translate(-100%,0);}
+.modal.fade.show .modal-dialog.modal-dialog-slideout {-webkit-transform: translate(0,0);transform: translate(0,0);flex-flow: column;}
+.modal-dialog-slideout .modal-content{border: 0;}
+tbody>tr:hover, tbody>tr.selected {
+    /*background-color: dodgerblue;
+    color:white;
+   
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;*/
+     cursor:pointer;
+}
+td {padding: 5px;}
+ tbody>tr:hover, tbody>tr.selected {
+    background-color: dodgerblue;
+    color:white;
+   
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+     cursor:pointer;
+}
+</style>
+
+
+
+            <div class="modal-body" style="display:none" id="loaderin">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="loding_partie" class="loader">
+                            <div class="loader-inner">
+                                <div class="loading one"></div>
+                            </div>
+                            <div class="loader-inner">
+                                <div class="loading two"></div>
+                            </div>
+                            <div class="loader-inner">
+                                <div class="loading three"></div>
+                            </div>
+                            <div class="loader-inner">
+                                <div class="loading four"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ajouter Valeur </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" id="AddVal">
+              
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav  nav-pills">
+                    <li class="@TempData["listevaleur"]"><a href="#tab1primary" data-toggle="tab">Liste Valeurs</a></li>
+                    <li class="@TempData["CodeCp"]"><a href="#tab2primary" data-toggle="tab">Ville/Gouvernorat/Langue</a></li>
+                    <li class="@TempData["Prof"]"><a href="#tab3primary" data-toggle="tab">Profession</a></li>
+                    @*<li><a href="#tab4primary" data-toggle="tab">TVA</a></li>*@
+                    <li class="@TempData["BQ"] "><a href="#tab5primary" data-toggle="tab">Banque et Agence</a></li>
+                    @*<li><a href="#tab6primary" data-toggle="tab">Commsion Factoring</a></li>
+    <li><a href="#tab7primary" data-toggle="tab">Nationalite/Langue/Pays/Devise</a></li>
+    <li><a href="#tab8primary" data-toggle="tab">Frais Divers</a></li>
+    <li><a href="#tab9primary" data-toggle="tab">Intéret de Financement</a></li>*@
+                    <li class="@TempData["TMM"]"><a href="#tab10primary" data-toggle="tab">TMM</a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade in @TempData["listevaleur"] " id="tab1primary">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" onclick="AddValeur()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#" > <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                            </div>
+                        </div>
+                        <div id="no-more-tables">
+                            <table class="col-md-12 table-bordered  table-condensed cf display">
+                                <thead class="cf">
+                                    <tr>
+                                        <th>Abréviation</th>
+                                        <th>Type</th>
+                                        <th>Ordre</th>
+                                        <th>Libellé</th>
+                                        <th>Commantaire</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                                                        @foreach (var item in ViewBag.ListValeur)
+                                                                        {
+                                                                            <tr>
+                                                                                <td data-title="Abréviation">
+                                                                                    @item.ABR_LIST_VAL
+                                                                                </td>
+                                                                                <td data-title="Type">
+                                                                                    @item.TYP_LIST_VAL
+                                                                                </td>
+                                                                                <td data-title="Ordre">
+                                                                                    @item.ORD_LIST_VAL
+                                                                                </td>
+                                                                                <td data-title="Libellé">
+                                                                                    @item.LIB_LIST_VAL
+                                                                                </td>
+                                                                                <td data-title="Commantaire">
+                                                                                    @item.COM_LIST_VAL
+                                                                                </td>
+                                                                                <td>
+                                                                                    <button type="button" onclick="EditUser( @item.ID_LIST_VAL)" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                                                                </td>
+                                                               
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        </div>
+                    <div class="tab-pane fade in @TempData["CodeCp"] " id="tab2primary">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddCp()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                <table class="col-md-12 table-bordered  table-condensed cf display">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Code Postal</th>
+                                            <th>Ville</th>
+                                            <th>Code Gouvernorat</th>
+                                            <th>Gouvernorat</th>
+                                            <th>Code Région</th>
+                                            <th>Région</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.VilleGouvLang)
+                                        {
+                                            <tr>
+                                                <td data-title="Code Postal">
+                                                    @item.CP
+                                                </td>
+                                                <td data-title="Ville">
+                                                    @item.Ville
+                                                </td>
+                                                <td data-title="Code Gouvernorat">
+                                                    @item.Code_Gouvernorat
+                                                </td>
+                                                <td data-title="Gouvernorat">
+                                                    @item.Gouvernorat
+                                                </td>
+                                                <td data-title="Code Région">
+                                                    @item.Code_Region
+                                                </td>
+                                                <td data-title="Région">
+                                                    @item.Region
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="EditCp( @item.ID_CP)" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+
+
+
+                        </div>
+                    <div class="tab-pane fade in @TempData["Prof"]" id="tab3primary">
+
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddProf()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                <table class="col-md-12 table-bordered  table-condensed cf display">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Code Secteur</th>
+                                            <th>Secteur</th>
+                                            <th>Code Sous Secteur</th>
+                                            <th>Sous Secteur</th>
+                                            <th>Code Activité</th>
+                                            <th>Classe</th>
+                                            <th>Code Sous Classe</th>
+                                            <th>Sous Classe</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.Profe)
+                                        {
+                                            <tr>
+                                                <td data-title="Code Secteur">
+                                                    @item.Code_Section
+                                                </td>
+                                                <td data-title="Secteur">
+                                                    @item.Section
+                                                </td>
+                                                <td data-title="Code Sous Secteur">
+                                                    @item.Code_SousSection
+                                                </td>
+                                                <td data-title="Sous Secteur">
+                                                    @item.SousSection
+                                                </td>
+                                                <td data-title="Code Activité">
+                                                    @item.Code_Activité
+                                                </td>
+                                                <td data-title="Classe">
+                                                    @item.Classe
+                                                </td>
+                                                <td data-title="Code Sous Classe">
+                                                    @item.Code_SousClasse
+                                                </td>
+                                                <td data-title="Sous Classe">
+                                                    @item.SousClasse
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="EditProf('@item.Code_SousClasse')" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab4primary">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddTva()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                <table  class="col-md-12 table-bordered  table-condensed cf display">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Libellé</th>
+                                            <th>Valeur</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @*@foreach (var item in ViewBag.Profe)
+                                        {
+                                            <tr>
+                                                <td data-title="Libellé">
+                                                    @item.LIB_TVA
+                                                </td>
+                                                <td data-title="Valeur">
+                                                    @item.VAL_TVA
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="EditTva( @item.ID_TVA)" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                                </td>
+
+                                            </tr>
+                                        }*@
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade in @TempData["BQ"] " id="tab5primary">
+
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddBq()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                <table class="col-md-12 table-bordered  table-condensed cf display">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Code Banque / Agence</th>
+                                            <th>Code Banque</th>
+                                            <th>Banque</th>
+                                            <th>Code Agence</th>
+                                            <th>Agence</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.agb)
+                                        {
+                                            <tr>
+                                                <td data-title="Code Banque / Agence">
+                                                    @item.Code_Bq_Ag
+                                                </td>
+                                                <td data-title="Code Banque">
+                                                    @item.Code_Bq
+                                                </td>
+                                                <td data-title="Banque">
+                                                    @item.Banque
+                                                </td>
+                                                <td data-title="Code Agence">
+                                                    @item.Code_Ag
+                                                </td>
+                                                <td data-title="Agence">
+                                                    @item.Agence
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="EditBq('@item.Code_Bq_Ag')" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab6primary">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddComm()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                <table class="col-md-12 table-bordered  table-condensed cf display">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Type Commission de Factoring</th>
+                                            <th>Taux Commission de Factoring</th>
+                                            <th>Montant Minimum Document  Commission de Factoring</th>
+                                            <th>Montant Minimum Contrat  Commission de Factoring </th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.commf)
+                                        {
+                                        <tr>
+                                            <td data-title="Type Commission de Factoring">
+                                                @item.TYP_COMM_FACTORING
+                                            </td>
+                                            <td data-title="Taux Commission de Factoring">
+                                                @item.TX_COMM_FACTORING
+                                            </td>
+                                            <td data-title="Montant Minimum Document  Commission de Factoring">
+                                                @item.MONT_MIN_DOC_COMM_FACTORING
+                                            </td>
+                                            <td data-title="Montant Minimum Contrat  Commission de Factoring ">
+                                                @item.MONT_MIN_CTR_COMM_FACTORING
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="EditComm( @item.ID_COMM_FACT)" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                            </td>
+
+                                        </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+                        </div>
+                    <div class="tab-pane fade" id="tab7primary">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" onclick="AddLang()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                            </div>
+                        </div>
+                        <div id="no-more-tables">
+                            <table class="col-md-12 table-bordered  table-condensed cf display">
+                                <thead class="cf">
+                                    <tr>
+                                        <th>Libellé Nationamité</th>
+                                        <th>Abréviation Nationalite</th>
+                                        <th>Libellé Langue</th>
+                                        <th>Abréviation Langue </th>
+                                        <th>Libellé Devise</th>
+                                        <th>Abréviation Devise </th>
+                                        <th>Libellé Pays </th>
+                                        <th>Abréviation Pays </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in ViewBag.nat)
+                                    {
+                                    <tr>
+                                        <td data-title="Libellé Nationamité">
+                                            @item.LIB_NT
+                                        </td>
+                                        <td data-title="Abréviation Nationalite">
+                                            @item.ABRV_NAT
+                                        </td>
+                                        <td data-title="Libellé Langue">
+                                            @item.LIB_LANG
+                                        </td>
+                                        <td data-title="Abréviation Langue">
+                                            @item.ABRV_LANG
+                                        </td>
+                                        <td data-title="Libellé Devis">
+                                            @item.LIB_DEVISE
+                                        </td>
+                                        <td data-title="Abréviation Devis">
+                                            @item.ABRV_DEVISE
+                                        </td>
+                                        <td data-title="Libellé Pays">
+                                            @item.LIB_PAYS
+                                        </td>
+                                        <td data-title="Abréviation Pays ">
+                                            @item.ABRV_PAYS
+                                        </td>
+                                        <td>
+                                            <button type="button" onclick="EditLang(@item.ID_NLDP)" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                        </td>
+
+                                    </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+
+
+                    </div>
+                        <div class="tab-pane fade" id="tab8primary">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddFrais()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                <table class="col-md-12 table-bordered  table-condensed cf display">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Abréviation Frais</th>
+                                            <th>Libellé Frais</th>
+                                            <th>Montant Frais</th>
+                                            <th>Type Frais </th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.frais_d)
+                                        {
+                                        <tr>
+                                            <td data-title="Abréviation Frais">
+                                                @item.ABREV_FRAIS_DIVERS
+                                            </td>
+                                            <td data-title="Libellé Frais">
+                                                @item.LIB_FRAIS_DIVERS
+                                            </td>
+                                            <td data-title="Montant Frais">
+                                                @item.MONT_FRAIS_DIVERS
+                                            </td>
+                                            <td data-title="Type Frais ">
+                                                @item.TYPE_FRAIS_DIVERS
+                                            </td>
+                                            <td>
+                                                <button type="button" onclick="EditFrais(@item.ID_ListeFraisDivers)" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                            </td>
+
+                                        </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab9primary">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddIntert()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade in @TempData["TMM"]" id="tab10primary">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="button" onclick="AddTMM()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+                                </div>
+                            </div>
+                            <div id="no-more-tables">
+                                <table class="col-md-12 table-bordered  table-condensed cf displaytmm">
+                                    <thead class="cf">
+                                        <tr>
+                                            <th>Date Début TMM</th>
+                                            <th>Date Fin TMM </th>
+                                            <th>Taux TMM</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.tmm)
+                                        {
+                                        <tr>
+                                            @{
+                                                string date = "";
+                                                try
+                                                {
+                                                    date = item.DATE_DEBUT_TMM.ToString("d");
+                                                }
+                                                catch (Exception) { date = item.DATE_DEBUT_TMM; }
+                                            }
+                                            @{
+                                                string date2 = "";
+                                                try
+                                                {
+                                                    date2 = item.DATE_FIN_TMM.ToString("d"); ;
+                                                }
+                                                catch (Exception) { date2 = item.DATE_FIN_TMM; }
+                                            }
+                                          
+                                                <td data-title="Date Début TMM">
+                                                    @date
+                                                </td>
+                                                <td data-title="Date Fin TMM">
+                                                    @date2
+                                                </td>
+
+                                              @{ 
+                                                  string v = "";
+                                                  try
+                                                  {
+                                                      v = @String.Format("{0:N3}", (item.TAUX_TMM));
+                                                  }
+                                                  catch (Exception) { v = item.TAUX_TMM; }
+                                              }
+
+                                                <td data-title="Taux TMM" style="text-align:right">
+                                                   @v
+                                                </td>
+                                          
+                                            <td>
+                                                <button type="button" onclick="EditTMM(@item.ID_TMM)" class="btn btn-top  btn-primary btn-success pull-right" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                            </td>
+
+                                        </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<div class="modal modal-success fade" id="modal-success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> enregistrement a été effectué avec succès</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/scripts/jquery.validate.js"></script>
+<script src="~/Content/js/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="~/Content/js/plugins/jquery.dataTables.min.js"></script>
+<script src="~/Content/js/date-eu.js"></script>
+
+@if (TempData["listval"] != null)
+{
+    <script type="text/javascript">
+        //   alert("test");
+            $("#modal-success").modal();
+    </script>
+}
+
+
+<script>
+
+    $(document).ready(function () {
+        $('table.display').DataTable({
+            "searching": true,
+            "ordering": true,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            'lengthChange': true,
+            'lengthChange': false,
+            "language": {
+                "sProcessing": "Traitement en cours...",
+                "sSearch": "Rechercher&nbsp;:",
+                "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix": "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst": "Premier",
+                    "sPrevious": "Pr&eacute;c&eacute;dent",
+                    "sNext": "Suivant",
+                    "sLast": "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                },
+                "select": {
+                    "rows": {
+                        _: "%d lignes séléctionnées",
+                        0: "Aucune ligne séléctionnée",
+                        1: "1 ligne séléctionnée"
+                    }
+                }
+            }
+        });
+
+
+
+
+        $('table.displaytmm').DataTable({
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            'lengthChange': true,
+            "language": {
+                "sProcessing": "Traitement en cours...",
+                "sSearch": "Rechercher&nbsp;:",
+                "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix": "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst": "Premier",
+                    "sPrevious": "Pr&eacute;c&eacute;dent",
+                    "sNext": "Suivant",
+                    "sLast": "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                },
+                "select": {
+                    "rows": {
+                        _: "%d lignes séléctionnées",
+                        0: "Aucune ligne séléctionnée",
+                        1: "1 ligne séléctionnée"
+                    }
+                }
+            },
+            columnDefs: [
+     { type: 'date-eu', targets:[0,1] }
+
+            ],
+            "order":[0]
+        });
+    });
+
+
+
+
+    $("tr").click(function () {
+        $(this).addClass("selected").siblings().removeClass("selected");
+    });
+    var AddValeur = function () {
+        $('#loaderin').show();
+        var url = "/Parametrage/PartieListValeur";
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditUser = function (userid) {
+        $('#loaderin').show();
+        var url = "/Parametrage/PartieUpdateListVal/" + userid;
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        })
+    }
+
+    var AddCp = function () {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieListCp";
+     
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditCp = function (userid) {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieUpdateCp/" + userid;
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        })
+    }
+
+    var AddProf = function () {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieListProf";
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditProf = function (userid) {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieUpdateProf/" + userid;
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        })
+    }
+
+
+    var AddTva = function () {
+        var url = "/Parametrage/PartieListTva";
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditTva = function (userid) {
+        var url = "/Parametrage/PartieUpdateTva/" + userid;
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        })
+    }
+
+
+    var AddBq = function () {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieListBq";
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditBq = function (userid) {
+
+$('#loaderin').show();
+        var url = "/Parametrage/PartieUpdateBq/" + userid;
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        })
+    }
+
+
+
+    var AddFrais = function () {
+        var url = "/Parametrage/PartieListFraisD";
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditFrais = function (userid) {
+        var url = "/Parametrage/PartieUpdateFraisD/" + userid;
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        })
+    }
+
+
+
+
+
+    var AddComm = function () {
+        var url = "/Parametrage/PartieListComm";
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditComm = function (userid) {
+        var url = "/Parametrage/PartieUpdateComm/" + userid;
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        })
+    }
+
+
+
+    var AddLang = function () {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieListLang";
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditLang = function (userid) {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieUpdateLang/" + userid;
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        })
+    }
+
+
+
+    var AddIntert = function () {
+        var url = "/Parametrage/PartieListInteret";
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditIntert = function (userid) {
+        var url = "/Parametrage/PartieUpdateInteret/" + userid;
+        $("#AddVal").load(url, function () {
+            $("#exampleModal1").modal();
+        })
+    }
+
+
+    var AddTMM = function () {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieListTMM";
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        });
+    }
+    var EditTMM = function (userid) {
+$('#loaderin').show();
+        var url = "/Parametrage/PartieUpdateTMM/" + userid;
+        $("#AddVal").load(url, function () {
+            $('#loaderin').hide();
+            $("#exampleModal1").modal();
+        })
+    }
+   
+</script>
+

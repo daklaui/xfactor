@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "DepassementLimiteAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Depassement Limite</h2>
+
+
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("ReportDepLimiteh",new {id= "PDF"})"  target="_blank"     class="btn btn-danger"  > <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("ReportDepLimiteh",new {id= "Excel"})" target="_blank"    class="btn btn-success" > <i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("ReportDepLimiteh",new {id= "Word"})"  target="_blank"    class="btn btn-primary"> <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("ReportDepLimiteh",new {id= "Image"})" target="_blank"   class="btn btn-info"     ><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="ListeDepLimite" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Nom Adherent</center></th>
+                        <th data-priority="1">Nom Acheteur</th>
+                        <th data-priority="1"><center>Limite Accordée</center></th>
+                        <th data-priority="1"><center>Encours de Factures</center></th>
+                        <th data-priority="1"><center> Dépassements Limites</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.dep)
+                    {
+                        <tr>
+                            <td  data-title="Nom Adherent">@item.ADH</td>
+                            <td  data-title="Nom Acheteur">@item.ACH </td>
+                            @if (item.MTLimACC != null)
+                            {
+                                <td data-title="Limite Accordée" style="text-align:right">
+                                    @String.Format("{0:N3}", item.MTLimACC)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Limite Accordées">0,000 </td>
+                            }
+
+
+                            @if (item.MTouvert != null)
+                            {
+                                <td data-title="Encours de Factures" style="text-align:right">
+                                    @String.Format("{0:N3}", item.MTouvert)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Encours de Facturess">0,000  </td>
+                            }
+
+
+                            @if (item.DepassLim != null)
+                            {
+                                <td data-title="Dépassements Limites" style="text-align:right">
+                                    @String.Format("{0:N3}", item.DepassLim)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Dépassements Limites">0,000 </td>
+                            }
+
+
+                          
+
+                        </tr>
+
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+

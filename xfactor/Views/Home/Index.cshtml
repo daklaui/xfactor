@@ -1,0 +1,323 @@
+﻿@{
+    ViewBag.Title = "Index";
+    ViewBag.Description = "Home Page";
+}
+
+
+
+@section header {
+<h1>
+   Acceuil
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+</ol>
+    }
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>
+            @TempData["message"]
+    </strong>
+</div>
+}
+
+
+
+
+
+
+
+@*<div class="col-lg-3">
+    <div class="box box-solid bg-green-gradient">
+        <div class="box-header">
+            <i class="fa fa-calendar"></i>
+            <h3 class="box-title">Calendar</h3>
+            <!-- tools box -->
+            <div class="pull-right box-tools">
+                <!-- button with a dropdown -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <li><a href="#">Add new event</a></li>
+                        <li><a href="#">Clear events</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">View calendar</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-success btn-sm" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-success btn-sm" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <!-- /. tools -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+            <!--The calendar -->
+            <div id="calendarb" style="width: 100%"></div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer text-black">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- Progress bars -->
+                    <div class="clearfix">
+                        <span class="pull-left">Task #1</span>
+                        <small class="pull-right">90%</small>
+                    </div>
+                    <div class="progress xs">
+                        <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
+                    </div>
+                    <div class="clearfix">
+                        <span class="pull-left">Task #2</span>
+                        <small class="pull-right">70%</small>
+                    </div>
+                    <div class="progress xs">
+                        <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6">
+                    <div class="clearfix">
+                        <span class="pull-left">Task #3</span>
+                        <small class="pull-right">60%</small>
+                    </div>
+                    <div class="progress xs">
+                        <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
+                    </div>
+                    <div class="clearfix">
+                        <span class="pull-left">Task #4</span>
+                        <small class="pull-right">40%</small>
+                    </div>
+                    <div class="progress xs">
+                        <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+</div>*@
+
+
+<div class="row">
+    <div class="col-lg-12">
+       
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <p>Les achats de ce mois</p>
+                    <h5>@String.Format("{0:N3}", (TempData["Nb_Bord_Mois"]))</h5>
+                 
+                </div>
+               
+            
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <p>Les financements de ce mois </p>
+                    <h5>@String.Format("{0:N3}", (TempData["FinMonth"]))</h5>
+                  
+                </div>
+               
+              
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <p>Les Impayes de ce mois </p>
+                    <h5>@String.Format("{0:N3}", (TempData["Impaye"]))</h5>
+                 
+                </div>
+               
+           
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <p>Les encaissement de ce jour </p>
+                    <h5>@TempData["ChequesTraites"]</h5>
+                 
+                </div>
+               
+               
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <p>Total Fdg </p>
+                    <h5>@String.Format("{0:N3}", (TempData["Fdg"]))</h5>
+                 
+                </div>
+             
+             
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <p>Les encaissements non lettrés</p>
+                    <h5>@String.Format("{0:N3}", (TempData["EncNonLet"]))</h5>
+
+                
+                </div>
+               
+              
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <!-- Bar chart -->
+
+            <!-- BAR CHART -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Total Financements achats / mois</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body chart-responsive">
+                    <div class="chart" id="bar-chart" style="height: 300px;"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">Total achats</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div id="bar-chart" style="height: 300px;"></div>
+                </div>
+                <!-- /.box-body
+            </div>box -->
+            <!-- /.box -->
+            <!-- /.box -->
+        </div>
+        <div class="col-md-6">
+            <!-- LINE CHART -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Total Impaye /mois</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body chart-responsive">
+                    <div class="chart" id="line-charte" style="height: 300px;"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+       
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="@Session["img"]" alt="User profile picture">
+                    <h3 class="profile-username text-center">@if (Session["UserLogin"] != null)
+                    { @Session["UserLogin"];
+                    }</h3>
+                    <p>date de la dernière connexion :  @Session["derniercnx"]</p>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            </div>
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Calendrier</h3>
+                        
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <div class="row">
+                         
+                            <!-- /.col -->
+                            <div class="col-md-12">
+                                <div class="box box-primary">
+                                    <div class="box-body no-padding">
+                                        <!-- THE CALENDAR -->
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div id="calendar"></div>
+                                                </div>
+                                            <div class="col-md-1">
+                                            </div>
+                                            </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /. box -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    <!-- /.box-body -->
+    
+                </div>
+                <!-- /. box -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+    
+
+    <script>
+
+    </script>

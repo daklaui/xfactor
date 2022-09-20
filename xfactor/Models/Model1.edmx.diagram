@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0129a175365344b7b9458ebe4800927b" Name="Diagram1" ZoomLevel="82">
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_ADRESSE" Width="1.5" PointX="6" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_BORD_FACTOR" Width="1.5" PointX="8.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_BORDEREAU" Width="1.5" PointX="5.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_CALC_INT" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_COMM_FACTORING" Width="1.5" PointX="10.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_COMPTE" Width="1.5" PointX="7.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_CONTACT" Width="1.5" PointX="10.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_CONTRAT" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_DEM_FIN_CREDIT" Width="1.5" PointX="12.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_DEM_LIMITE" Width="1.5" PointX="12.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_DET_ASS" Width="1.5" PointX="12.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_DET_BORD" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_DOC_GED" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_DOC_H_GED" Width="1.5" PointX="9.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_DOC_PHYSIQUE" Width="1.5" PointX="11.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_EC_CPT" Width="1.5" PointX="13.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_ENCAISSEMENT" Width="1.5" PointX="14.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_EXTRAIT" Width="1.5" PointX="14.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_FACTOR" Width="1.5" PointX="15.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_FINANCEMENT" Width="1.5" PointX="16.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_FOND_GARANTIE" Width="1.5" PointX="16.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_FRAIS_DIVERS" Width="1.5" PointX="15.75" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_FRAIS_PAIEMENT" Width="1.5" PointX="17.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_GROUPE" Width="1.5" PointX="8.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_HISTORIQUE" Width="1.5" PointX="10.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_IMPAYE" Width="1.5" PointX="17.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_INDIVIDU" Width="1.5" PointX="3.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_INFO_CTR" Width="1.5" PointX="17.75" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_INT_FINANCEMENT" Width="1.5" PointX="17.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_LITIGE" Width="1.5" PointX="18.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_MOTIF_LIT" Width="1.5" PointX="18.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_MOTIF_PROG" Width="1.5" PointX="19.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_MVT_CREDIT" Width="1.5" PointX="19.75" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_MVT_DEBIT" Width="1.5" PointX="19.75" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_PROROGATION" Width="1.5" PointX="19.75" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_RELANCE" Width="1.5" PointX="20.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_RIB_FACTOR" Width="1.5" PointX="0.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_ROLE" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TJ_CIR" Width="1.5" PointX="6" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TJ_DOCUMENT_DET_BORD" Width="1.5" PointX="5.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TJ_LETTRAGE" Width="1.5" PointX="20.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_ACTPROF_BCT" Width="1.5" PointX="5.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_Ag_Bq" Width="1.5" PointX="7.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_COMM_FACTORING" Width="1.5" PointX="12.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_CP" Width="1.5" PointX="14.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_INT_FINANCEMENT" Width="1.5" PointX="21.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_LIST_VAL" Width="1.5" PointX="21.75" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_LISTE_FRAIS_DIVERS" Width="1.5" PointX="21.75" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_NLDP" Width="1.5" PointX="16.75" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_PARAM_PIECE" Width="1.5" PointX="21.75" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_RIB" Width="1.5" PointX="21.75" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_TMM" Width="1.5" PointX="22.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_TVA" Width="1.5" PointX="2.75" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TS_GRP_USER" Width="1.5" PointX="7.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TS_USER" Width="1.5" PointX="10" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TS_USERS_WEB" Width="1.5" PointX="22.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_BCT_RCM00" Width="1.5" PointX="9.75" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_BORD_MFG" Width="1.5" PointX="23.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_CALC_DISPO" Width="1.5" PointX="23.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_CALC_INT_IR" Width="1.5" PointX="11.75" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_EC_COMPTABLE" Width="1.5" PointX="23.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_ETAT_DISPO" Width="4.5" PointX="18.75" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_Fichiers_Scan" Width="1.5" PointX="23.75" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TABLE_UN" Width="1.5" PointX="24.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TJ_ACH_EX" Width="1.5" PointX="4.75" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TJ_ADH_WEB" Width="1.5" PointX="6.75" PointY="24.875" IsExpanded="true" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK__T_ADRESSE__REF_I__0662F0A3" ManuallyRouted="false" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK_T_CALC_INT_T_CONTRAT" ManuallyRouted="false" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK__T_DET_BOR__REF_C__6501FCD8" ManuallyRouted="false" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK_CIR_CONTRAT" ManuallyRouted="false" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK_CIR_INDIVIDU" ManuallyRouted="false" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK_CIR_ROLE" ManuallyRouted="false" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK_TJ_DOCUMENT_DET_BORD_TJ_DOCUMENT_DET_BORD" ManuallyRouted="false" />
+        <AssociationConnector Association="Xfactor_prod_webModel.FK__TS_USER__ID_GRP___5C6CB6D7" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_EMAIL" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_CONFIGURATION_EMAIL" Width="1.5" PointX="0.75" PointY="25.75" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_Bordereau_MFG" Width="1.5" PointX="14.375" PointY="25.75" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_Comm_MFG" Width="1.5" PointX="26.375" PointY="5.75" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_OTP" Width="1.5" PointX="26.375" PointY="9.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

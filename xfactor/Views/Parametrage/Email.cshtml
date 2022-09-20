@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    tbody > tr:hover, tbody > tr.selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+</style>
+
+@section header {
+
+    <h1>
+        Notification par Email
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+
+        <li class="active"> Parametrage </li>
+        <li class="active">   Notification par Email</li>
+    </ol>
+}
+
+@if (TempData["notice"] != null)
+{
+
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> enregistrement a été effectué avec succès !</strong>
+    </div>
+}
+
+
+
+<div class="box box-default">
+    <div class="box-header with-border">
+    </div>
+    <div class="box-body">
+       
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive " data-pattern="priority-columns">
+                    <table cellspacing="0" id="LiseDesUtlisateursparGroupeMail" class="table table-small-font table-bordered ">
+                        <thead>
+                            <tr class="bg-primary" >
+                                <th data-priority="3"><center>Nom de groupe</center></th>
+                                <th data-priority="1">Nomber des utilisateurs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.listeGroupesMail)
+
+    {
+
+
+        <tr data-nomgroupe="@item.Titre">
+            <td>
+                @item.Titre.Replace("_"," ")
+            </td>
+            <td>
+                @item.Nomber_Users
+            </td>
+          
+        </tr>
+
+
+                }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+<div id="ListeDesUsersParGroupMail" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-lg-8">
+                            <div id="SlectListe"></div>
+                        </div>
+                        <div class="col-lg-4">
+                            <button type="button" id="AjouterUser" class="btn btn-success">Ajouter utlisateur</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+          
+                <div id="det"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+
+<script>
+
+
+    $("#LiseDesUtlisateursparGroupeMail tbody tr").click(function () {
+        var url = "/Parametrage/ListeDesUtilisateursParMailGroupe/" + $(this).data("nomgroupe");
+        var url1 = "/Parametrage/ADDListeDesUtilisateursParMailGroupe/" + $(this).data("nomgroupe");
+        $("#AjouterUser").attr('data-titregroupe', $(this).data("nomgroupe"));
+
+        $("#SlectListe").load(url1, function () {
+            $("#det").load(url, function () {
+
+                $("#ListeDesUsersParGroupMail").modal();
+
+            });
+        });
+    });
+
+    $("#AjouterUser").click(function () {
+        $.ajax({
+            url: "/Parametrage/AddUserToGroupeMail?id=" + $("#listeUsers").val() + "&groupeusers=" + $(this).data("titregroupe"),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                $("#SlectListe").empty();
+                $("#det").empty();
+                var url = "/Parametrage/ListeDesUtilisateursParMailGroupe/" + $("#AjouterUser").data("titregroupe");
+                var url1 = "/Parametrage/ADDListeDesUtilisateursParMailGroupe/" + $("#AjouterUser").data("titregroupe");
+                $("#AjouterUser").attr('data-titregroupe', $("#AjouterUser").data("titregroupe"));
+
+                $("#SlectListe").load(url1, function () {
+                    $("#det").load(url, function () {
+
+                        //$("#ListeDesUsersParGroupMail").modal();
+
+                    });
+                });
+            }
+        });
+    });
+    function RemoveBord(id) {
+        $.ajax({
+            url: "/Parametrage/RemoveUserFromGroupeMail?id=" + id ,
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                $("#SlectListe").empty();
+                $("#det").empty();
+                var url = "/Parametrage/ListeDesUtilisateursParMailGroupe/" + $("#AjouterUser").data("titregroupe");
+                var url1 = "/Parametrage/ADDListeDesUtilisateursParMailGroupe/" + $("#AjouterUser").data("titregroupe");
+                $("#AjouterUser").attr('data-titregroupe', $("#AjouterUser").data("titregroupe"));
+
+                $("#SlectListe").load(url1, function () {
+                    $("#det").load(url, function () {
+
+                        //$("#ListeDesUsersParGroupMail").modal();
+
+                    });
+                });
+            }
+        });
+    }
+
+
+
+</script>

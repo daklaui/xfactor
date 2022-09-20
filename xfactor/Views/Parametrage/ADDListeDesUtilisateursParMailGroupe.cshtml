@@ -1,0 +1,7 @@
+﻿
+<select class="form-control input-sm " data-live-search="true" id="listeUsers">
+    @foreach (var item in ViewBag.usersListe)
+    {
+        <option value="@item.ID_USER">@item.NOM_USER @item.PRE_USER|@item.MAIL_USER  </option>
+    }
+</select>

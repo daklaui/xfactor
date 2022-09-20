@@ -1,0 +1,170 @@
+﻿
+
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+
+    @@media print {
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("Prorogation_Rapport",new {id= "PDF",id2=ViewBag.refadh,id3=ViewBag.refach})"   class="btn btn-danger" target="_blank"   > <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("Prorogation_Rapport",new {id= "Excel",id2=ViewBag.refadh,id3=ViewBag.refach})" class="btn btn-success" target="_blank" ><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("Prorogation_Rapport",new {id= "Word",id2=ViewBag.refadh,id3=ViewBag.refach})"  class="btn btn-primary" target="_blank"> <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("Prorogation_Rapport",new {id= "Image",id2=ViewBag.refadh,id3=ViewBag.refach})" class="btn btn-info" target="_blank"><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+<div class="row" id='printableArea'>
+    @*<div class="col-lg-12" style="margin-bottom:1%">
+                 <div class="col-sm-4"><img style="width:35%" src="~/Content/img/logo med.png" /></div>
+                 <div class="col-sm-4"></div>
+                 <div class="col-sm-4"></div>
+             </div>
+            <br />
+            <div class="col-lg-12">
+                <div class="col-sm-4">
+                    <p><b>Adresse : </b> GP1 KM 12 EZZAHRA 
+                       2034 BEN AROUS <br />
+        <b>Téléphone : </b> +216 70 02 05 20 <br /> <b> Télécopie : </b> +216 71 45 09 33</p>
+
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4"></div>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4"><center><p style="font-size:20px;font-family:'Times New Roman', Times, serif;"><b>Etat des factures par adhérent</b></p></center></div>
+                <div class="col-sm-4"></div>
+            </div>
+            <div class="col-lg-12">
+                <div class="col-sm-4">
+        <p><b>Date : </b> @DateTime.Now.ToString("dd/MM/yyyy") <br /> <b>Adhérent : </b>@TempData["adh"]</p>
+                </div>
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4"></div>
+            </div>*@
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="EtatDesFact" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Date </center></th>
+                        <th data-priority="1">Motif</th>
+                        <th data-priority="1"><center>N° de la Facture </center></th>
+                        <th data-priority="1"><center>Montant de la facture</center></th>
+                        <th data-priority="1"><center>Date Echeance</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @try
+                    {
+                        foreach (var item in ViewBag.EtatRap)
+                        {
+                            <tr>
+
+                                @if (item.DAT_PROG != null)
+                                {
+                                    <td data-title="Date">
+                                        @item.DAT_PROG.ToString("dd/MM/yyyy")
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@item.DAT_PROG</td>
+                                }
+
+
+                                <td data-title="Motif">@item.MOTIF_PROG</td>
+                                <td data-title="N° de la Facture">@item.REF_DOCUMENT_DET_BORD</td>
+
+                                @if (item.MONT_TTC_DET_BORD != null)
+                                {
+                                    <td data-title="Montant de la facture" style="text-align:right">
+                                        @String.Format("{0:N3}", item.MONT_TTC_DET_BORD)
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Montant de la facture">0,000 </td>
+                                }
+
+
+                                @if (item.echeance != null)
+                                {
+                                    <td data-title="Date Echeance">
+                                        @item.echeance.ToString("dd/MM/yyyy")
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@item.echeance</td>
+                                }
+                               
+                            </tr>
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        <script>alert("aucune donnée disponible ");</script>}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

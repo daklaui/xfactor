@@ -1,0 +1,1359 @@
+﻿
+@{
+    ViewBag.Title = "LettrageEtEncaissement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string bgcolor = "";
+    string disa="";
+    string tab4,tab3,tab2,tab1 = "";
+}
+<style>
+
+    .myfont tr td {
+        width:5%;
+    font-size:12px;
+    }
+        .dangerbg {
+        background-color: red;
+    color: white;
+  /*//  cursor:not-allowed;*/
+    }
+
+    .card {
+        margin-top: 20px;
+        padding: 30px;
+        background-color: rgba(214, 224, 226, 0.2);
+        -webkit-border-top-left-radius: 5px;
+        border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+        border-top-right-radius: 5px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+        .card.hovercard {
+            position: relative;
+            padding-top: 0;
+            overflow: hidden;
+            text-align: center;
+            background-color: #fff;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+            .card.hovercard .card-background {
+                height: 130px;
+            }
+
+    .card-background img {
+        -webkit-filter: blur(25px);
+        -moz-filter: blur(25px);
+        -ms-filter: blur(25px);
+        filter: blur(25px);
+        margin-left: -100px;
+        margin-top: -200px;
+        min-width: 130%;
+    }
+
+    .card.hovercard .useravatar {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        right: 0;
+    }
+
+        .card.hovercard .useravatar img {
+            width: 100px;
+            height: 100px;
+            max-width: 100px;
+            max-height: 100px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.5);
+        }
+
+    .card.hovercard .card-info {
+        position: absolute;
+        bottom: 14px;
+        left: 0;
+        right: 0;
+    }
+
+        .card.hovercard .card-info .card-title {
+            padding: 0 5px;
+            font-size: 20px;
+            line-height: 1;
+            color: #262626;
+            background-color: rgba(255, 255, 255, 0.1);
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+    .card.hovercard .card-info {
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 20px;
+        color: #737373;
+        text-overflow: ellipsis;
+    }
+
+    .card.hovercard .bottom {
+        padding: 0 20px;
+        margin-bottom: 17px;
+    }
+
+    .btn-pref .btn {
+        -webkit-border-radius: 0 !important;
+    }
+
+    .input-validation-error {
+        color: #D8000C;
+        border-color: red;
+    }
+
+    .input-validation-succes {
+        color: #00ff21;
+        border-color: green;
+    }
+
+    .sauter {
+        padding-bottom: 5px;
+    }
+
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+    .bg-color-xper {
+     background-color: #550055;
+  color:#eeeeee;
+    }
+
+    tbody>tr:hover, tbody>tr.selected {
+    background-color: dodgerblue;
+    color:white;
+   
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+     cursor:pointer;
+}
+    .selectedFacture {
+    background-color: white;
+    color:black;
+    cursor:pointer;
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+</style>
+
+@section header {
+
+    <h1>
+        Lettrage et Encaissement
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Lettrage et Encaissement</li>
+    </ol>
+}
+
+<div class="modal-body" style="display:none" id="loaderin">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div id="loding_partie" class="loader">
+                <div class="loader-inner">
+                    <div class="loading one"></div>
+                </div>
+                <div class="loader-inner">
+                    <div class="loading two"></div>
+                </div>
+                <div class="loader-inner">
+                    <div class="loading three"></div>
+                </div>
+                <div class="loader-inner">
+                    <div class="loading four"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <div class="alert alert-success alert-dismissible fade in" style="display:none;" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong id="messageLet"></strong>
+    </div>
+
+
+@if (TempData["alert"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade in" id="warning-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["alert"]</strong>
+    </div>
+}
+
+    <div class="alert alert-warning alert-dismissible fade in" style="display:none;" id="warning-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> ! Information : Le montant du lettrage est superieur au montant ouvert de la Facture <br /> ! Information : Le montant du lettrage a ete modifier par me montant ouvert de la Facture </strong>
+    </div>
+
+
+  
+<div style="display:none" id="ErrorHide">
+    <div class="alert alert-danger alert-dismissible fade in" id="danger-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong id="errormessage"> </strong>
+    </div>
+</div>
+
+    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab">
+                <div class="hidden-xs"><b>Saisi lettrage et encaissements</b></div>
+            </button>
+        </div>
+        <div style="display:none" class="btn-group" role="group">
+            <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab">
+
+                <div class="hidden-xs"><b>Edition des bordereaux de remise</b></div>
+            </button>
+        </div>
+    </div>
+@if (TempData["tab4"] !=null){tab4 = "btn btn-primary";}else{tab4 = "btn btn-default";}
+@if (TempData["tab3"] != null) { tab3 = "btn btn-primary"; } else { tab3 = "btn btn-default"; } 
+@if (TempData["tab2"] != null) { tab2 = "btn btn-primary"; } else { tab2 = "btn btn-default"; }
+    <div class="well">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                            <div class="btn-group" role="group">
+                                @if (tab4 == "btn btn-primary" || tab3 == "btn btn-primary" || tab2 == "btn btn-primary")
+                                {   <button type="button" id="stars" class="btn btn-default" href="#tab11" data-toggle="tab">
+                                    <div class="hidden-xs"><b>Saisi des instruments</b></div>
+                                </button> }
+                                else
+                                {<button type="button" id="stars" class="btn btn-primary" href="#tab11"  data-toggle="tab">
+                                    <div class="hidden-xs"><b>Saisi des instruments</b></div>
+                                </button> }
+
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" id="favorites" class="@tab2" href="#tab12"  onclick="refresh_liste()"  data-toggle="tab">
+
+                                    <div class="hidden-xs"><b>Lettrage des instruments</b></div>
+                                </button>
+                            </div>
+
+                            <div class="btn-group" role="group">
+                                <button type="button" id="" class="@tab3" href="#tab13" onclick="récon()" data-toggle="tab">
+
+                                    <div class="hidden-xs"><b>Reconciliation des instruments</b></div>
+                                </button>
+                            </div>
+
+                        
+                            <div class="btn-group" role="group">
+                                <button type="button" id="" class="@tab4" href="#tab14" data-toggle="tab">
+                                    <div class="hidden-xs"><b>Trop Perçu</b></div>
+                                </button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+                <div class="well">
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade in " id="tab11">
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                </div>
+                                @using (Html.BeginForm("AJouterEnc", "Bordereau", FormMethod.Post, new { id = "formajouterinstrument" }))
+                                {
+                                    <div class="box-body">
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+
+                                                @Html.AntiForgeryToken()
+                                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Type Instrument :</label>
+                                                            <select class="form-control input-sm" name="TYP_ENC" id="TYP_ENC">
+                                                                <option value="" selected disabled>*************</option>
+                                                                <option value="A">Avoir</option>
+                                                                <option value="Ret">Rétrocession</option>
+                                                                <option value="B">Billet à Ordre</option>
+                                                                <option value="C">Chèque</option>
+                                                                <option value="E">Espèce</option>
+                                                                <option value="V">Virement</option>
+                                                                <option value="P">Prélèvement</option>
+                                                                <option value="T">TR</option>
+                                                                <option value="T">TC</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">RIB :</label>
+                                                            <select name="RIB_ENC" id="RIB_ENC" class="form-control input-sm"></select>
+                                                          
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Réf Séquentielle :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("REF_SEQ_ENC", new { htmlAttributes = new { @class = "form-control input-sm", id = "REF_SEQ_ENC" } })
+                                                            @Html.ValidationMessage("REF_SEQ_ENC", "", new { @class = "text-danger" })
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.Label("Réf instrument: ", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("REF_ENC", new { htmlAttributes = new { @class = "form-control input-sm", id = "REF_ENC" } })
+                                                            @Html.ValidationMessage("REF_ENC", "", new { @class = "text-danger" })
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Montant Instrument: ", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("MONT_ENC", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma", id = "MONT_ENC" } })
+                                                            @Html.ValidationMessage("MONT_ENC", "", new { @class = "text-danger" })
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            @Html.Label("Devise :", htmlAttributes: new { @class = "control-label" })
+                                                            <input type="text" class="form-control input-sm" id="DEVISE_ENC" value="TND" name="DEVISE_ENC"  readonly/>
+
+                                                            @Html.ValidationMessage("DEVISE_ENC", "", new { @class = "text-danger" })
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Date reception instrument:", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("DAT_RECEP_ENC", new { htmlAttributes = new { @class = "form-control input-sm", type = "date", id = "DAT_RECEP_ENC" } })
+                                                            @Html.ValidationMessage("DAT_RECEP_ENC", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Date Valeur instrument:", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("DAT_VAL_ENC", new { htmlAttributes = new { @class = "form-control input-sm", type = "date", id = "DAT_VAL_ENC" } })
+                                                            @Html.ValidationMessage("DAT_VAL_ENC", "", new { @class = "text-danger" })
+                                                        </div>
+                                                        <input type="hidden" name="REF_ACH_ENC" id="REF_ACH_ENC" />
+                                                        <input type="hidden" name="REF_ADH_ENC" id="REF_ADH_ENC" />
+                                                        <input type="hidden" name="REF_CTR_ENC" id="REF_CTR_ENC" />
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button type="button" id="btnsubEnc" class="btn btn-primary btn btn-block">
+                                                                    Valider
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <label class="control-label">Nom Adhérent :</label>
+                                                    <select class="form-control input-sm selectpicker" name="REF_ADH_BORD" data-live-search="true" id="REF_CTR_BORD">
+                                                        <option value="" selected disabled>Merci de choisir un adhérent</option>
+                                                        @foreach (var item in ViewBag.ADH)
+                                                        {
+
+                                                            <option value="@item.RefAdh">@item.NomAdh</option>
+                                                        }
+                                                    </select>
+                                                    @*@Html.DropDownList("REF_ADH_BORD", (IEnumerable<SelectListItem>)ViewBag.ADH, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "REF_CTR_BORD" })
+                                                    @Html.ValidationMessage("REF_ADH_BORD", "", new { @class = "text-danger" })*@
+                                                </div>
+                                                <input type="text" id="input" class="form-control" placeholder="recherche par nom" />
+                                                <div class="table-responsive " data-pattern="priority-columns">
+
+                                                    <table cellspacing="0" id="LesAch" class="table table-small-font table-bordered">
+                                                        <thead>
+
+
+
+                                                            <tr class="bg-primary">
+                                                                <th data-priority="3"><center><i class="fa fa-refresh fa-spin refrechtb" style="display:none"></i>Nom Acheteur</center></th>
+                                                                <th data-priority="1"><i class="fa fa-refresh fa-spin refrechtb" style="display:none"></i>Role</th>
+                                                                <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb" style="display:none"></i>Réf Contrat</center></th>
+                                                                <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb" style="display:none"></i>Réf Adhérent</center></th>
+                                                                <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb" style="display:none"></i>Réf Acheteur</center></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        @*********************************************************************************************@
+                        <div class="tab-pane fade in @TempData["tab2"]" id="tab12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Nom Adhérent: :</label>
+
+                                        <select class="form-control input-sm selectpicker" name="REF_ADH_BORD" data-live-search="true" id="REF_CTR_BORD2">
+                                            <option value="" selected disabled>Merci de choisir un adhérent</option>
+                                            @foreach (var item in ViewBag.ADH2)
+                                            {
+
+                                                <option value="@item.REF_CTR_CIR">@item.NomAdh|@item.REF_CTR_CIR</option>
+                                            }
+                                        </select>
+
+                                        @*@Html.DropDownList("REF_ADH_BORD", (IEnumerable<SelectListItem>)ViewBag.ADH2, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "REF_CTR_BORD2" })
+                                        @Html.ValidationMessage("REF_ADH_BORD", "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                  
+                                        <div class="table-responsive " data-pattern="priority-columns">
+                                            <table cellspacing="0" id="tablechoix" class="table  table-bordered myfont">
+                                             
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                             
+                                 
+                                        <div class="box box-default">
+                                            <div class="box-header with-border">
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="col-sm-2">
+                                                    <form method="post" id="FormAjouterLettrage">
+                                                        <div class="form-group">
+                                                            <label for="">Montant Ouvert Facture</label>
+                                                            <input type="text"class="form-control input-sm" name="MNT_OUV" id="MNT_OUV" readonly />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Montant Encaissement</label>
+                                                            <input type="text"  class="form-control input-sm" name="MNT_ENC" id="MNT_ENC" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Retenu a la Source</label>
+                                                            <input type="text"  class="form-control input-sm" name="RET" id="RET" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Lettré</label>
+                                                            <input type="text" class="form-control input-sm" name="LET" id="LET" readonly />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="">Rest</label>
+                                                            <input type="text" class="form-control input-sm" name="REST" id="REST" readonly />
+                                                            <input type="hidden" class="form-control input-sm" name="ID_DET_BORD" id="ID_DET_BORD" readonly />
+                                                            <input type="hidden" class="form-control input-sm" name="ID_ENC" id="ID_ENC" readonly />
+                                                        </div>
+                                                        <input type="button" id="LettrageValider" class="form-control input-sm btn-success" value="Valider" />
+                                                    </form>
+
+                                                                        </div>
+                                                <div class="col-sm-10">
+
+                                                    <div class="table-responsive " data-pattern="priority-columns">
+                                                        <table cellspacing="0" id="enc_lettrage" class="table  table-bordered myfont">
+                                                            <thead>
+
+                                                                <tr class="bg-primary">
+                                                                    <th style="width:5%"><center><i class="fa fa-refresh fa-spin refrechtb2" style="display:none"></i>Nom Acheteur</center></th>
+                                                                    <th style="width:10%"><i class="fa fa-refresh fa-spin refrechtb2" style="display:none"></i>Référence Encaissement</th>
+                                                                    <th style="width:10%"><center><i class="fa fa-refresh fa-spin refrechtb2" style="display:none"></i>Montant Encaissement</center></th>
+                                                                    <th style="width:10%"><center><i class="fa fa-refresh fa-spin refrechtb2" style="display:none"></i>Date Réception</center></th>
+                                                                    <th style="width:10%"><center><i class="fa fa-refresh fa-spin refrechtb2" style="display:none"></i>Date Valeur</center></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                       
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Factures</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="table-responsive " data-pattern="priority-columns">
+                                                <table cellspacing="0" id="Fact" class="table table-bordered  myfont">
+                                                    <thead>
+
+                                                        <tr class="bg-primary">
+                                                            <th data-priority="3"><center><i class="fa fa-refresh fa-spin refrechtb3" style="display:none"></i>Réf </center></th>
+                                                            <th data-priority="1"><i class="fa fa-refresh fa-spin refrechtb3" style="display:none"></i>Acheteur</th>
+                                                            <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb3" style="display:none"></i>Mnt TTC</center></th>
+                                                            <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb3" style="display:none"></i>Mnt Ouvert</center></th>
+                                                            <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb3" style="display:none"></i>Dont Mnt non Let</center></th>
+                                                            <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb3" style="display:none"></i>Retenu</center></th>
+                                                            <th data-priority="1"><center><i class="fa fa-refresh fa-spin refrechtb3" style="display:none"></i>Date</center></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+
+                                </div>
+
+
+                        <div class="tab-pane fade in @TempData["tab3"]" id="tab13">
+
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-sm-3">
+                                            </div>
+                                            <form action="/Bordereau/UpdateDateValeurEnc" method="post" id="validedate">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <input type="date" name="Date_Val" placeholder="Date Valeur" class="form-control" />
+                                                    </div>
+                                                    <input type="hidden" name="id_enc" id="enc" value="-1" />
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Report Date">Report Date</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <div class="row">
+                                        <div class="col-sm-12" id="tablerec">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                                </div>
+
+                                        <div class="tab-pane fade in @TempData["tab4"]" id="tab14">
+                                            <div class="box box-default">
+                                                <div class="box-header with-border">
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="table-responsive " data-pattern="priority-columns">
+                                                                <table cellspacing="0" id="trop_percu" class="table table-small-font table-bordered ">
+                                                                    <thead>
+                                                                        <tr class="bg-primary">
+                                                                            <th data-priority="3"><center>Contrat</center></th>
+                                                                            <th data-priority="1">Nom Adhérent</th>
+                                                                            <th data-priority="1"><center>Nom Acheteur</center></th>
+                                                                            <th data-priority="1"><center>Ref. Encaissement</center></th>
+                                                                            <th data-priority="1"><center>Mnt Encaissement</center></th>
+                                                                            <th data-priority="1"><center>Mnt du Letterage</center></th>
+                                                                            <th data-priority="1"><center>Trop perçu</center></th>
+                                                                            <th>#</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach (var item in ViewBag.trop_percu)
+
+                                                                        {
+
+
+                                                                            <tr>
+                                                                                <td>
+                                                                                    @item.REF_CTR_ENC
+                                                                                </td>
+                                                                                <td>
+                                                                                    @item.ADH
+                                                                                </td>
+                                                                                <td>
+                                                                                    @item.ACH
+                                                                                </td>
+                                                                                <td>
+                                                                                    @item.REF_ENC
+                                                                                </td>
+                                                                                @{
+                                                                                    string v = "";
+                                                                                    try
+                                                                                    {
+                                                                                        v = @String.Format("{0:N3}", (item.mnt_encaissement));
+
+                                                                                    }
+                                                                                    catch (Exception) { v = item.mnt_encaissement; }
+                                                                                }
+                                                                                <td style="text-align:right">
+                                                                                    @v
+                                                                                </td>
+                                                                                @{
+                                                                                    string v2 = "";
+                                                                                    try
+                                                                                    {
+                                                                                        v2 = @String.Format("{0:N3}", (item.mnt_Letterage));
+
+                                                                                    }
+                                                                                    catch (Exception) { v2 = item.mnt_Letterage; }
+                                                                                }
+                                                                                <td style="text-align:right">
+                                                                                    @v2
+                                                                                </td>
+                                                                                @{
+                                                                                    string v3 = "";
+                                                                                    try
+                                                                                    {
+                                                                                        v3 = @String.Format("{0:N3}", (item.trop_perçu));
+
+                                                                                    }
+                                                                                    catch (Exception) { v3 = item.trop_perçu; }
+                                                                                }
+                                                                                <td style="text-align:right">
+                                                                                    @v3
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    <a href="/Bordereau/valider_trop_percu/@item.REF_CTR_ENC/@item.REF_ENC.Substring(0,item.REF_ENC.IndexOf("|")-1)/@item.trop_perçu" class="btn btn-primary">Valider</a>
+                                                                                </td>
+                                                                            </tr>
+
+
+                                                                                    }
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="detail_lettrage" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Factures</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="detlet"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            @*********************************************************************************@
+                            <div class="tab-pane fade in" id="tab2">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                                            <div class="btn-group" role="group">
+                                                <button type="button" id="stars" class="btn btn-primary" href="#tab21" data-toggle="tab">
+
+                                                    <div class="hidden-xs"><b>Saisi des instruments</b></div>
+                                                </button>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" id="favorites" class="btn btn-default" href="#tab22" data-toggle="tab">
+
+                                                    <div class="hidden-xs"><b>Lettrage des instruments</b></div>
+                                                </button>
+                                            </div>
+
+                                            <div class="btn-group" role="group">
+                                                <button type="button" id="favorites" class="btn btn-default" href="#tab23" data-toggle="tab">
+
+                                                    <div class="hidden-xs"><b>Reconciliation des </b></div>
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            @********************************************tab11************************************************@
+
+
+                        </div>
+    </div>
+    <div class="modal modal-success fade" id="modal-success">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>enregistrement a été effectué avec succès</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    @*<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+           
+          
+        </div>
+    </div>
+</div>*@
+        <script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+<script src="~/Content/js/table_search.js"></script>
+
+        <script>
+            $.validator.methods.range = function (value, element, param) {
+                var globalizedValue = value.replace(",", ".");
+                return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+            }
+
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\,]\d{3})+)(?:[\,]\d+)?$/.test(value.replace(/\s/g, ""));
+            }
+
+            jQuery.extend(jQuery.validator.methods, {
+                min: function (value, element, value2) {
+                    var val = value.replace(/\s/g, "").replace(',', '.');
+                    return this.optional(element) || val >= value2;
+                }
+            });
+            var form = $("#formajouterinstrument");
+            $("#btnsubEnc").click(function () {
+                //* alert($("#TYP_ENC option:selected").text());
+                var Daet = new Date();
+                $('#loaderin').show();
+                if ($("#TYP_ENC").val() === "C" && $("#REF_ENC").val().length != 7) { alert("Merci de verifier votre réference d'encaissement chéque "); $("#REF_ENC").closest('.form-group').addClass('has-error has-feedback'); $('#loaderin').hide(); }
+                else if ($("#TYP_ENC option:selected").text() === "TC" && $("#REF_ENC").val().length != 7) { alert("Merci de verifier votre réference d'encaissement chéque"); $("#REF_ENC").closest('.form-group').addClass('has-error has-feedback'); $('#loaderin').hide(); }
+                else if ($("#TYP_ENC option:selected").text() === "TR" && $("#REF_ENC").val().length != 12) { alert("Merci de verifier votre réference d'encaissement traite"); $("#REF_ENC").closest('.form-group').addClass('has-error has-feedback'); $('#loaderin').hide(); }
+                else if ($("#TYP_ENC option:selected").text() == "Rétrocession" && $("#REF_ENC").val().toLowerCase().startsWith("r", 0))
+
+                {
+                   
+                    alert("rétrocessionne ne commence pas par R");
+                    $("#REF_ENC").closest('.form-group').addClass('has-error has-feedback');
+                    //  $("#TYP_ENC option:selected").css("border-color", "red"); 
+                    $('#loaderin').hide();
+                    
+                }
+              
+                else {
+
+                    if (form.valid()) {
+                        //  alert("test");
+                        var url = form.attr('action');
+                        //  alert(url);
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: form.serialize(), // serializes the form's elements.
+                            success: function (data) {
+                                if (data.type == "save") {
+                                    // alert(Data);
+                                    //window.location.href = "/Bordereau/AjouterBordereau";
+                                    $("#success-alert").show();
+                                    $("#ErrorHide").hide();
+                                    $("#messageLet").empty();
+                                    $("#messageLet").append(data.message);
+                                    $('#TYP_ENC').prop('selectedIndex', 0);
+                            
+                                    $("#REF_SEQ_ENC").val("");
+                                    $("#REF_ENC").val("");
+                                    $("#MONT_ENC").val("");
+                                    $("#DAT_VAL_ENC").val("");
+
+                                  //  $("#REF_CTR_BORD2").selectpicker('refresh');
+                                    $('#loaderin').hide();
+                                    //  window.location();
+                                }
+                                else if (data.type == "error_date_valeur")
+                                {
+                                    $("#success-alert").hide();
+                                    $("#ErrorHide").show();
+                                    $("#errormessage").empty();
+                                    $("#errormessage").append(data.message);
+                                    $("#DAT_VAL_ENC").closest('.form-group').addClass('has-error has-feedback');
+                                    $('#loaderin').hide();
+                                }
+                                else {
+                                    $("#success-alert").hide();
+                                    $("#ErrorHide").show();
+                                    $("#errormessage").empty();
+                                    $("#errormessage").append(data.message);
+                                    $('#loaderin').hide();
+                                }
+                                //alert(data); // show response from the php script.
+                            }
+                        });
+
+
+                    }
+                    else { $('#loaderin').hide(); }
+                }
+
+            });
+
+            $(document).ready(function () {
+               /* $("#MONT_ENC").keyup(function () {
+                    $(this).val($(this).val().replace(",", "."));
+                })*/
+                /* Date de jour */
+                var now = new Date();
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                $("#DAT_RECEP_ENC").val(today);
+
+                /****************************/
+                var now = new Date();
+                var day = ("0" + (now.getDate()+2)).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                $("#DAT_VAL_ENC").val(today);
+                /*****************************/
+                $("#DAT_RECEP_ENC").blur(function () {
+
+                    var now = new Date($("#DAT_RECEP_ENC").val());
+                    now.setDate(now.getDate() + 2);
+                    var field = document.querySelector('#DAT_VAL_ENC');
+                    var date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+                    // Set the date
+                    field.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) +
+                        '-' + date.getDate().toString().padStart(2, 0);
+
+
+                  //  $(".datectr").val($("#DAT_DEB_CTR_id").val());
+                });
+               
+                /* Fin */
+                $(".btn-pref .btn").click(function () {
+                    $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+                    // $(".tab").addClass("active"); // instead of this do the below
+                    $(this).removeClass("btn-default").addClass("btn-primary");
+                });
+                $("#REF_CTR_BORD").change(function () {
+                    $('#loaderin').show();
+
+                $.ajax({
+                    url: "/Bordereau/RecherchCtrAch2/" + $("#REF_CTR_BORD").val(),
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $('#LesAch > tbody').empty();
+                        $.each(data, function (index, element) {
+
+                            $("#LesAch > tbody").append("<tr data-refind=" + element.RefAch + ">" +
+                                "<td>" + element.NomAch + "</td>" +
+                                "<td>" + element.ID_ROLE_CIR + "</td>" +
+                                "<td>" + element.REF_CTR_CIR + "</td>" +
+                                "<td>" + element.RefAdh + "</td>" +
+                                "<td>" + element.RefAch + "</td>" +"</tr>"
+                                );
+                        });
+                        $('#loaderin').hide();
+                    }
+                });
+                $('.refrechtb').hide();
+                });
+
+            
+
+
+                $("#REF_CTR_BORD2").change(function () {                  
+                    TableauDesEncaissement($("#REF_CTR_BORD2").val());
+                });
+
+                $("#enc_lettrage tbody").delegate("tr", "click", function () {
+                    $(this).addClass("selected").siblings().removeClass("selected");
+                    $("#MNT_ENC").val($(this).find("td").eq(2).text());
+                    $("#ID_ENC").val($(this).data("id_enc"));
+                    $.ajax({
+                        url: "/Bordereau/LETTRE_RESTE_ENC/" + $(this).data("id_enc"),
+                        type: "GET",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        data: JSON.stringify({}),
+                        success: function (data) {
+                            $.each(data, function (index, element)
+                            {
+                                $("#LET").val(parseFloat(element.LETTRE).toFixed(3).toString().replace(".",","));
+                                $("#REST").val(parseFloat(element.RESTE).toFixed(3).toString().replace(".", ","));
+                            })
+                            }
+                    });
+                    $('#loaderin').show();
+                    $.ajax({
+                        url: "/Bordereau/RecherchFacture/" + $(this).find("td:eq(5)").text()+ "/" + $(this).data("refind"),
+                        type: "GET",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        data: JSON.stringify({ }),
+                        success: function (data) {
+                            $('#Fact > tbody').empty();
+                            $.each(data, function (index, element)
+                            {
+                                var value = new Date(parseInt(element.DAT_DET_BORD.replace(/(^.*\()|([+-].*$)/g, '')));
+                                //var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                                var newdate;
+                                var newdate2;
+
+                                if (value.getDate() < 10) {
+                                    newdate = "0" + value.getDate();
+                                }
+                                else { newdate = value.getDate(); }
+                                if (Number(value.getMonth() + 1) < 10) {
+                                    newdate2 = "0" + Number(value.getMonth() + 1);
+                                }
+                                else { newdate2 = Number(value.getMonth() + 1); }
+
+                                var dat = newdate + "/" + newdate2 + "/" + value.getFullYear();
+
+                                //var dat2 = value2.getDate() + "/"+ Number(value2.getMonth()+1) + "/" +  value2.getFullYear();
+                                $("#Fact > tbody").append("<tr data-refind=" + element.REF_DOCUMENT_DET_BORD + " data-idbord=" + element.ID_DET_BORD + ">" +
+                                    "<td>" + element.REF_DOCUMENT_DET_BORD + "</td>" +
+                                    "<td>" + element.NOM_IND + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(element.MONT_TTC_DET_BORD).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(element.MONT_OUV_DET_BORD).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") + "</td>" +
+                                    "<td style='text-align:right'>" + parseFloat(element.Dont_Mnt_Ouvert).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") + " </td>" +
+                                    "<td>" + parseFloat(element.RETENU_DET_BORD).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") + "</td>" +
+                                    "<td>" + dat + "</td>"
+                                    + "</tr>"
+                                    );
+
+
+                            });
+                            $("#MNT_OUV").val("0");
+                            $("#RET").val("0");
+                            $("#ID_DET_BORD").val();
+                            $('#loaderin').hide();
+                            $('#myModal').modal('show');
+
+                        }
+                    });
+
+                });
+                $("#Fact tbody").delegate("tr", "click", function () {
+                    $('#tablechoix tbody').empty();
+                    $(this).addClass("selectedFacture").siblings().removeClass("selectedFacture");
+                    $("#MNT_OUV").val($(this).find("td").eq(3).text());
+                    $("#RET").val($(this).find("td").eq(5).text());
+                    $("#ID_DET_BORD").val($(this).data("idbord"));
+                    $('#tablechoix tbody').append($("#Fact thead").find("tr").clone());
+                    $('#tablechoix tbody').append($(this).clone());
+                    $('#tablechoix tbody').find("tr").eq(1).append("<td> <button type='button' class='delete'>X</button></td>");
+                    $('#myModal').modal('hide');
+                });
+                $(document).on("click", '.delete', function () {
+
+                    $(this).closest('tr').remove();
+                    $("#MNT_OUV").val("0");
+                    $("#RET").val("0");
+                    $("#ID_DET_BORD").val("");
+                });
+
+                $("#LesAch").delegate("tr", "click", function () {
+                    $(this).addClass("selected").siblings().removeClass("selected");
+                    $.ajax({
+                        url: "/Bordereau/GetRibParRef_IND/" + $(this).data("refind"),
+                        type: "GET",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        success: function (data) {
+                            $("#RIB_ENC").empty();
+                            str = "";
+                            $.each(data, function (index, element)
+                            {
+
+                                str += "<option value='" + element + "'>" + element + "</option>";
+                            });
+
+                            $("#RIB_ENC").append(str);
+                        }
+                    });
+                    $("#REF_ACH_ENC").val($(this).find("td").eq(4).html());
+                    $("#REF_ADH_ENC").val($(this).find("td").eq(3).html());
+                    $("#REF_CTR_ENC").val($(this).find("td").eq(2).html());
+                });
+
+
+            });
+
+         
+       
+            $("#formajouterinstrument").validate({
+                rules: {
+                    // compound rule
+                    REF_ADH_BORD: {
+                        required: true
+                    },
+                    TYP_ENC: {
+                        required: true
+                    },
+                   
+                    REF_SEQ_ENC: {
+                        required: true
+                    },
+                    REF_ENC: {
+                        required: true
+                    },
+                    MONT_ENC: {
+                        required: true,
+                        number:true,
+                         min:0
+                    },
+                    DAT_RECEP_ENC: {
+                        required: true
+                    },
+                    DAT_VAL_ENC: {
+                        required: true
+                    }
+
+
+                },
+                //submitHandler: function(form) {
+                //           // your ajax would go here
+                //           alert('simulated ajax submit');
+                //           return false;  // blocks regular submit since you have ajax
+                //       },
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                }
+
+
+            });
+
+
+            $("#validedate").validate({
+                rules: {
+                    // compound rule
+
+                    Date_Val: {
+                        required: true
+                    }
+                },
+                //submitHandler: function(form) {
+                //           // your ajax would go here
+                //           alert('simulated ajax submit');
+                //           return false;  // blocks regular submit since you have ajax
+                //       },
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                }
+
+
+            });
+
+            $("#TYP_ENC").change(function () {
+                $.ajax({
+                    url: "/Bordereau/SelectRefSeq/" + $("#TYP_ENC").val(),
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    data: JSON.stringify({}),
+                    success: function (data) {
+                        $("#REF_SEQ_ENC").val(data);
+                    }
+                });
+
+            });
+
+
+            $("#validerlettrage").click(function () {
+                $.ajax({
+                    url: "/Bordereau/SelectRefSeq/" + $("#TYP_ENC").val(),
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    data: JSON.stringify({}),
+                    success: function (data) {
+                        $("#REF_SEQ_ENC").val(data);
+                    }
+                });
+
+            });
+            $('#input').keyup(function () {
+
+                table_search($('#input').val(), $('#LesAch tbody tr'), '012');
+
+            });
+            $("#LettrageValider").click(function () {
+                if ($("#MNT_OUV").val() != "" && $("#RET").val() != "" && $("#ID_DET_BORD").val() != "" && $("#MNT_ENC").val() != "" && $("#ID_ENC").val() != "" && $("#LET").val() != "" && $("#REST").val() != "") {
+                    if (Number($("#MNT_ENC").val().replace(" ", "").replace(",", ".")) > Number($("#REST").val().replace(" ", "").replace(",", "."))) {
+                        alert("montant d encaissement superieur a montant de reste ");
+                    }
+                    //else if (Number($("#RET").val().replace(" ", "").replace(",", ".")) > Number($("#REST").val().replace(" ", "").replace(",", "."))) {
+                    //    alert("montant de retenu superieur a montant de reste ");
+                    //}
+                //    else if (Number($("#RET").val().replace(",", ".")) + Number($("#MNT_ENC").val().replace(",", ".")) > Number($("#MNT_OUV").val().replace(",", "."))) {
+                  //     alert("montant de lettrage  superieur a montant d encaissement ");
+                  //  }
+                    else {
+
+                        var form = $("#FormAjouterLettrage");
+                        $.ajax({
+                            type: "POST",
+                            url: "/Bordereau/LettrageEncFactJson",
+                            data: form.serialize(),
+                            dataType: "json",
+                            // contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data.type == "save") {
+                                    alert(data.messagee);
+                                    document.getElementById("FormAjouterLettrage").reset();
+                                    $("#tablechoix tbody").empty();
+                                    TableauDesEncaissement($("#REF_CTR_BORD2").val());
+                                    if (data.war != null) {
+                                       alert(" ! Information : Le montant du lettrage est superieur au montant ouvert de la Facture  \n ! Information : Le montant du lettrage a ete modifier par me montant ouvert de la Facture");
+                                    }
+                                }
+                                else {
+                                    alert(data);
+                                }
+
+                            },
+                            error: function () {
+                                alert("Error while inserting data");
+                            }
+                        });
+
+                    }
+                }
+                else {
+
+                    alert("merci de verifier vos informations");
+                }
+                //alert("test");
+            });
+          
+
+
+            function TableauDesEncaissement(x)
+            {
+                $('#loaderin').show();
+                document.getElementById("FormAjouterLettrage").reset();
+                $("#MNT_OUV").val();
+                $("#RET").val();
+                $("#ID_DET_BORD").val();
+                $("#MNT_ENC").val();
+                $("#ID_ENC").val()
+                $("#LET").val();
+                $("#REST").val();
+                $.ajax({
+                    url: "/Bordereau/RecherchCtrAch3/" + x,
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#enc_lettrage > tbody').empty();
+                        $.each(data, function (index, element) {
+                            if (element.DAT_RECEP_ENC != null) {
+                                var value = new Date(parseInt(element.DAT_RECEP_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                                var newdate;
+                                var newdate2;
+                                if (value.getDate() < 10) {
+                                    newdate = "0" + value.getDate();
+                                }
+                                else { newdate = value.getDate(); }
+                                if (Number(value.getMonth() + 1) < 10) {
+                                    newdate2 = "0" + Number(value.getMonth() + 1);
+                                }
+                                else { newdate2 = Number(value.getMonth() + 1); }
+
+                                var dat = newdate + "/" + newdate2 + "/" + value.getFullYear();
+                            }
+                            else {
+                                var dat = element.DAT_RECEP_ENC;
+                            }
+                            var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+
+
+                            /************************************************************************************************************************/
+
+                            var newdate3;
+                            var newdate4;
+                            if (value2.getDate() < 10) {
+                                newdate3 = "0" + value2.getDate();
+                            }
+                            else { newdate3 = value2.getDate(); }
+                            if (Number(value2.getMonth() + 1) < 10) {
+                                newdate4 = "0" + Number(value2.getMonth() + 1);
+                            }
+                            else { newdate4 = Number(value2.getMonth() + 1); }
+                            var dat2 = newdate3 + "/" + newdate4 + "/" + value2.getFullYear();
+                            $("#enc_lettrage > tbody").append("<tr data-refind=" + element.RefAch + " data-id_enc=" + element.ID_ENC + ">" +
+                                "<td>" + element.NOM_IND + "</td>" +
+                                "<td>" + element.REF_ENC + "</td>" +
+                                "<td style='text-align:right'>" + parseFloat(element.MONT_ENC).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") + "</td>" +
+                                "<td>" + dat + "</td>" +
+                                "<td>" + dat2 + "</td>" +
+                                "<td style=display:none>" + element.REFAdh + "</td>" +
+                                  "<td style=display:none>" + element.REFAdh + "</td>"
+                                + "</tr>"
+                                );
+                          
+                        });
+                        $('#loaderin').hide();
+                    }
+                });
+                
+            }
+
+            function RemoveBord(id, id2, id3) {
+                if (confirm("voulez vous rejeter ce bordereau?"))
+                { location.href = "/Bordereau/RejeterBordereauJson/" + id + "/" + id2 + "/" + id3; }
+                else
+                { alert("merci"); }
+            }
+            function Reconsilier(x)
+            {
+                if (confirm("Etes vous sur?")) {
+                    $('#loaderin').show();
+
+                    $.ajax({
+                        url: "/Bordereau/RéconsiliationJson/" + x,
+                        type: "GET",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.type == "save") {
+                                alert(data.messagee);
+
+                                $('#rec tr[data-id_enc="' + x + '"]').hide();
+
+                            }
+                            $('#loaderin').hide();
+                        }
+                    });
+                }
+                else { alert("merci"); }
+                   
+            }
+
+            function Impaye(x) {
+                if (confirm("Etes vous sur?")) {
+                    $('#loaderin').show();
+
+                    $.ajax({
+                        url: "/Bordereau/ImpayeJson/" + x,
+                        type: "GET",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.type == "save") {
+                                alert(data.messagee);
+                                $('#rec tr[data-id_enc="' + x + '"]').addClass("dangerbg");
+                                $('#rec tr button[data-id_enc="' + x + '"]').attr("disabled", true);
+                            }
+                            else if (data.type == "error") {
+
+                                alert(data.messagee);
+                            }
+
+                            $('#loaderin').hide();
+                        }
+                    });
+
+                }
+                else { alert("merci"); }
+            }
+
+            var récon = function () {
+                var url = "/Bordereau/Reconsiliation"
+                $("#tablerec").load(url, function () {
+                });
+            }
+
+            var refresh_liste=function () {
+                $('#REF_CTR_BORD2').prop('selectedIndex', 0);
+                $("#REF_CTR_BORD2").selectpicker('refresh');
+                $("#enc_lettrage tbody").empty();
+            }
+
+            $("input[name='MONT_ENC']").blur(function () {
+                if ($("input[name='MONT_ENC']").val() != "") {
+                    var v = $("input[name='MONT_ENC']").val().replace(/\s/g, "").replace(",", ".");
+                    $("input[name='MONT_ENC']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                }
+
+            });
+
+            $("input[name='MNT_ENC']").blur(function () {
+                if ($("input[name='MNT_ENC']").val() != "") {
+                    var v = $("input[name='MNT_ENC']").val().replace(/\s/g, "").replace(",", ".");
+                    $("input[name='MNT_ENC']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                }
+
+            });
+            $("input[name='RET']").blur(function () {
+                if ($("input[name='RET']").val() != "") {
+                    var v = $("input[name='RET']").val().replace(/\s/g, "").replace(",", ".");
+                    $("input[name='RET']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                }
+
+            });
+
+            
+          //  $("#stars").click);
+        </script>

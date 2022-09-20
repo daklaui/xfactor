@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .drop-shadow {
+    -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+        .example-modal .modal {
+      position: relative;
+      top: auto;
+      bottom: auto;
+      right: auto;
+      left: auto;
+      display: block;
+      z-index: 1;
+    }
+
+    .example-modal .modal {
+      background: transparent !important;
+    }
+    .wid {
+    width:70%;
+    }
+  
+</style>
+@section header {
+
+    <h1>
+        Gestionnaires et Habilitations
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active">Paramétrage</li>
+        <li class="active">Gestionnaires et Habilitations</li>
+    </ol>
+}
+
+
+<div class="row">
+     <div class="col-lg-12">
+         <div class="panel panel-primary drop-shadow">
+             <button type="button" class="btn btn-success pull-right" onclick="AddUser()"><i class="fa fa-fw fa-plus"></i> Ajouter</button>
+             <div class="panel-heading">
+                 <h3 class="panel-title">
+                     <span class="glyphicon glyphicon-user"></span> liste des utilisateurs 
+                 
+                 </h3>
+                
+             </div>
+             <div class="panel-body">
+   @foreach (var item in ViewBag.ListUsers)
+   {
+                 <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
+                     <div class="well well-sm drop-shadow">
+                         <div class="row">
+                             <div class="col-sm-6 col-md-4">
+                                 <img src="@item.PHOTO_USER" alt="" class="img-rounded img-responsive" />
+                             </div>
+                             <div class="col-sm-6 col-md-8">
+                                 <h4>
+                                  <b><i>@item.NOM_USER  @item.PRE_USER</i></b>   @if (item.ACTIF_USER == true)
+                                    { <i class="fa fa-circle text-success"></i> "Actif".ToString();
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-circle text-success"></i> "Bloque".ToString();
+                                    }
+                                 </h4>
+                               
+                                 <p>
+                                     <i class="glyphicon glyphicon-envelope"></i> <b> @item.MAIL_USER </b>  
+                                     <br />
+                                     <i class="glyphicon glyphicon-globe"></i>  @item.AGENCE_USER
+                                     <br />
+                                     <i class="fa fa-gavel"></i>   @item.FONCTION_USER
+                                     <br />
+                                    
+                                    
+                                     <i class="fa fa-info-circle"></i>   @item.DIRECTION_USER
+                                     <br />
+                                     <i class="fa fa-fax"></i>   @item.TEL_FIXE_USER
+                                     <br />
+                                     <i class="fa fa-phone-square"></i>   @item.MOBILE_USER
+                                     <br />
+                                     <i class="fa fa-user-secret"></i>   @item.LOGIN_USER
+                                     <br />
+                                     <i class="fa fa-key"></i>   @item.MDP_USER
+                                 </p>
+                                 <!-- Split button -->
+                                 <div class="action pull-right">
+                                     <a onclick="EditUser(@item.ID_USER)" class="btn btn-primary btn-xs" id="Edit">
+                                         <span class="glyphicon glyphicon-pencil"></span>
+                                     </a>
+                                    
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+   }
+
+             </div>
+         </div>
+     </div>
+</div>
+
+
+    <!-- /.modal-dialog -->
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog wid">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-primary drop-shadow">
+                    <div class="panel-heading">  <h4>Compte utilisateur</h4></div>
+                    <div class="panel-body">
+
+                        <div class="box box-info">
+
+                            <div class="box-body" id="modalDiv">
+                          
+                            </div>
+
+                            <!-- /.box -->
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal-footer">
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+<div class="modal modal-success fade" id="modal-success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p > enregistrement a été effectué avec succès</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/plugins/bootstrap/bootstrap.min.js"></script>
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+        //   alert("test");
+            $("#modal-success").modal();
+    </script>
+}
+
+<script src="~/Content/js/bootstrap-toggle.min.js"></script>
+<script>
+    $(function () {
+      
+                
+    $('#toggle-event').change(function () {
+        $('#console-event').html('Toggle: ' + $(this).prop('checked'))
+    })
+      
+              
+              });
+              var EditUser=function (userid)
+              {
+                  var url="/User/Partial1/"+userid;
+                  $("#modalDiv").load(url,function(){
+                      $("#modal-default").modal();
+                  })
+              }
+
+              var AddUser=function ()
+              {
+                  var url="/User/AddUserPartial";
+                  $("#modalDiv").load(url,function(){
+                      $("#modal-default").modal();
+                  })
+              }
+</script>

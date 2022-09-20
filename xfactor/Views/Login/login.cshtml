@@ -1,0 +1,147 @@
+﻿@{
+    Layout = null;
+}
+@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+        {
+            @ViewBag.Title@: -
+        }
+        Xpert-Factor
+    </title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @Styles.Render("~/Bundles/css")
+    <link rel="stylesheet" href="~/Content/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Content/css/ionicons.min.css">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css" />
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href=""><b>Xpert</b>Factor</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>Danger!</strong> @TempData["message"].
+                </div>
+            }
+            <div class="login-logo">
+                <img src="~/Content/img/logo med.png" />
+
+
+            </div>
+
+            @*<p class="login-box-msg">Sign in to start your session</p>*@
+            <form action="/Login/login" method="post" id="formlogin">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Login" name="LOGIN_USER">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" placeholder="Password" name="MDP_USER">
+                    <input type="hidden" id="playerId" class="form-control" placeholder="Password" name="ONE_SIGNAL_PLAYER_ID">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8" style="display:none">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox"> Remember Me
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Connecter</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <!-- /.social-auth-links -->
+
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "aebec260-647e-4f46-9dab-c81f7259659e",
+                allowLocalhostAsSecureOrigin: true,
+                autoRegister: true,
+
+            });
+            OneSignal.on('permissionPromptDisplay', function () {
+                console.log("The prompt displayed");
+            });
+            OneSignal.push(["getNotificationPermission", function (permission) {
+                console.log("Site Notification Permission:", permission);
+                if (permission !== 'granted') {
+                    OneSignal.showNativePrompt();
+                } else {
+                    OneSignal.getUserId().then(function (userId) {
+                        console.log("OneSignal User ID:", userId);
+                        document.getElementById("playerId").setAttribute("value", userId)
+                        localStorage.setItem('playerId', userId)
+                        // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
+                    });
+                }
+                // (Output) Site Notification Permission: default
+            }]);
+        });
+        OneSignal.push(function () {
+          
+        });
+
+    </script>
+    <script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+    <script>
+
+        $("#formlogin").validate({
+            rules: {
+                // compound rule
+                LOGIN_USER: {
+                    required: true,
+                },
+                MDP_USER: {
+                    required: true,
+                }
+            },
+            messages: {
+                LOGIN_USER: "ce champs est obligatoire",
+                MDP_USER: "ce champs est obligatoire"
+
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            }
+
+
+        });
+    </script>
+
+</body>
+</html>

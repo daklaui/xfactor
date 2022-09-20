@@ -1,0 +1,360 @@
+﻿@using WebHelpers.Mvc5
+@using xfactor.Models
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="@Session["img"]" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>@Session["UserLogin"]</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Actif</a>
+            </div>
+        </div>
+        @* BEGIN Search *@
+        @*<form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>*@
+        @* END Search *@
+        @* BEGIN Menu *@
+        <a href="~/Views/Shared/_Sidebar.cshtml"></a>
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">Menu</li>
+            @*       <li class="@Url.IsLinkActive("Index", "Home")">
+                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Home</span></a>
+                </li>*@
+            <li class="treeview @TempData["Parametrage"]">
+                <a href="#">
+                    <i class="fa fa-file-text"></i><span>Paramétrage</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["Factor"]"><a href="@Url.Action("Factor", "Parametrage")"><i class="glyphicon glyphicon-plus"></i>Factor</a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+                    <li class="@TempData["Users"]"><a href="@Url.Action("Users", "User")"><i class="glyphicon glyphicon-plus"></i>Gestionnaires et Habilitations</a></li>
+                    <li class="@TempData["ListVal2"]"><a href="@Url.Action("ListVal", "Parametrage")"><i class="glyphicon glyphicon-plus"></i>Liste Valeurs</a></li>
+                    <li class="@TempData["ModifierFacture"]"><a href="@Url.Action("ModifierFacture", "Parametrage")"><i class="glyphicon glyphicon-plus"></i>Modifier Factures</a></li>
+                    <li class="@TempData["AnnulerLettrage"]"><a href="@Url.Action("AnnulerLettrage", "Parametrage")"><i class="glyphicon glyphicon-plus"></i>Annuler Lettrage</a></li>
+                    <li class="@TempData["Annuler_Encaissement"]"><a href="@Url.Action("Annuler_Encaissement", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Annuler Encaissement</a></li>
+                    <li class="@TempData["Email"]"><a href="@Url.Action("Email", "Parametrage")"><i class="glyphicon glyphicon-plus"></i>Notification par mail</a></li>
+                    <li class="@TempData["Liste_Réconsiliation"]"><a href="@Url.Action("Liste_Réconsiliation", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Annuler Réconsiliation</a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+                </ul>
+            </li>
+            <li class="treeview @TempData["Individu"]">
+                <a href="#">
+                    <i class="glyphicon glyphicon-user"></i> <span>Individu</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["Create"]"><a href="@Url.Action("Create", "Individu")"><i class="glyphicon glyphicon-plus"></i>Ajouter Individu</a></li>
+                    <li class="@TempData["Index"]"><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>
+                    <li class="@TempData["SaisiRIB"]"><a href="@Url.Action("SaisiRIB", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Ajouter Rib</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview @TempData["Bordereau"]">
+                <a href="#">
+                    <i class="fa fa-file-text"></i><span>Bordereaux</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["AjouterBordereau"]"><a href="@Url.Action("AjouterBordereau", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Ajouter Bordereau</a></li>
+                    <li class="@TempData["BordereauAuto"]"><a href="@Url.Action("BordereauAuto", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Ajouter Bordereau Par Excel</a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+                    <li class="@TempData["ValiderBordereau"]"><a href="@Url.Action("ValiderBordereau", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Valider Bordereau</a></li>
+                 <li class="@TempData["Bordereau_cheque"]"><a href="@Url.Action("Bordereau_cheque", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Trésorie</a></li>
+                <li class="@TempData["Liste_Des_Bordereaux_CH"]"><a href="@Url.Action("Liste_Des_Bordereaux_CH", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Etat des encaissements <br />chez la Banque</a></li>
+
+
+         @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+                </ul>
+            </li>
+
+
+
+            <li class="treeview @TempData["Impaye"]">
+                <a href="#">
+                    <i class="fa fa-file-text"></i><span>Impayé</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["SaisiImpaye"]"><a href="@Url.Action("SaisiImpaye", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Saisi Impayé </a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+                    <li class="@TempData["impaye_partiel"]"><a href="@Url.Action("impaye_partiel", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Résolution impaye </a></li>
+                    <li class="@TempData["ListeDesImpaye"]"><a href="@Url.Action("ListeDesImpaye", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Liste des Impayés </a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                </ul>
+            </li>
+
+
+
+            <li class="@TempData["LettrageEtEncaissement"]">
+                <a href="@Url.Action("LettrageEtEncaissement", "Bordereau")">
+                    <i class="glyphicon glyphicon-plus"></i> <span>Lettrage et Encaissement </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+
+            <li class="@TempData["AjoutTiers"]">
+                <a href="@Url.Action("AjoutTiers", "CreationContrat")">
+                    <i class="glyphicon glyphicon-plus"></i> <span>Ajout Tiers </span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="treeview @TempData["LitigesEtProrogations"]">
+                <a href="#">
+                    <i class="fa fa-file-text"></i><span>Litiges et Prorogations</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["Litiges"]"><a href="@Url.Action("Litiges", "LitigesEtProrogations")"><i class="glyphicon glyphicon-plus"></i>Saisi Litiges </a></li>
+                    <li class="@TempData["Prorogations"]"><a href="@Url.Action("Prorogations", "LitigesEtProrogations")"><i class="glyphicon glyphicon-plus"></i>Saisi Prorogations </a></li>
+                    <li class="@TempData["ResolutionLitiges"]"><a href="@Url.Action("ResolutionLitiges", "LitigesEtProrogations")"><i class="glyphicon glyphicon-plus"></i>Resolution Litigie </a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                    @*<li><a href="@Url.Action("ListeDesImpaye", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Liste des Impaye </a></li>*@
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                </ul>
+            </li>
+
+
+            <li class="treeview @TempData["Rapporting"]">
+                <a href="#">
+                    <i class="fa fa-file-text"></i><span>Les Rapports</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["SituationAdhérentAcheteur"]"><a href="@Url.Action("SituationAdhérentAcheteur", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Situation Adhérent Acheteur</a></li>
+                    <li class="@TempData["SituationAdhérent"]"><a href="@Url.Action("SituationAdhérent", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Situation Adhérent </a></li>
+                    <li class="@TempData["SituationAchteur"]"><a href="@Url.Action("SituationAchteur", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Situation Acheteur </a></li>
+                    <li class="@TempData["DepassementLimiteAll"]"><a href="@Url.Action("DepassementLimiteAll", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Depassement Limite</a></li>
+                    <li class="@TempData["Commission_par_bord"]"><a href="@Url.Action("Commission_par_bord", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Commission par bord </a></li>
+                    <li class="@TempData["Encaissements_Non_Echus"]"><a href="@Url.Action("Encaissements_Non_Echus", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Encaissements Non Echus </a></li>
+                    <li class="@TempData["Etatcontrat"]"><a href="@Url.Action("Etatcontrat", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Etat contrat </a></li>
+                    <li class="@TempData["EtatDesFactures"]"><a href="@Url.Action("EtatDesFactures", "Rapporting")"><i class="glyphicon glyphicon-plus"></i> Etat Des Factures </a></li>
+                    <li class="@TempData["EtatDesEncaissements"]"><a href="@Url.Action("EtatDesEncaissements", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Etat Des Encaissements </a></li>
+                    <li class="@TempData["RetenuAlaSource"]"><a href="@Url.Action("RetenuAlaSource", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Retenu A la Source </a></li>
+                    @*<li class="@TempData["Rapport_Mensuel_des_AdhérentsRapp"]"><a href="@Url.Action("Rapport_Mensuel_des_AdhérentsRapp", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Rapport Mensuel des Adhérents </a></li>
+                        <li class="@TempData["ReleveMensuel"]"><a href="@Url.Action("ReleveMensuel", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Releve Mensuel </a></li>*@
+                    <li class="@TempData["FicheAdh"]"><a href="@Url.Action("FicheAdh", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Fiche Adhérent </a></li>
+                    <li class="@TempData[""]"><a href="@Url.Action("", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Resolution Litigie </a></li>
+                    <li class="@TempData["FactEnLitige"]"><a href="@Url.Action("FactEnLitige", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Factures en litige </a></li>
+                    <li class="@TempData["DisponibleContrats"]"><a href="@Url.Action("DisponibleContrats", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Disponible Contrats </a></li>
+                    <li class="@TempData["ImpayeContrat"]"><a href="@Url.Action("ImpayeContrat", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Impaye Contrat </a></li>
+                    <li class="@TempData["Encours_Factures"]"><a href="@Url.Action("Encours_Factures", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Encours Factures </a></li>
+                    <li class="@TempData["Liste_Financement"]"><a href="@Url.Action("Liste_Financement", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Liste Financement </a></li>
+                    <li class="@TempData["Extrait_Adhérent"]"><a href="@Url.Action("Extrait_Adhérent", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Extrait Adhérent </a></li>
+
+                    <li class="@TempData["Factures_en_retard"]"><a href="@Url.Action("Factures_En_Retard", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Factures en retard </a></li>
+                    <li class="@TempData["Encours_Factures_D"]"><a href="@Url.Action("Encours_Factures_D", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Encours Facture <span class="pull-right badge bg-blue">nouveau</span> </a></li>
+                    <li class="@TempData["Rapport_Extrait_"]"><a href="@Url.Action("Rapport_Extrait_", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Extrait par periode <span class="pull-right badge bg-blue">nouveau</span> </a></li>
+                    <li class="@TempData["Extrait_Par_Mois"]"><a href="@Url.Action("Extrait_Par_Mois", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Extrait 2020 <span class="pull-right badge bg-blue">nouveau</span> </a></li>
+
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                    @*<li><a href="@Url.Action("ListeDesImpaye", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Liste des Impaye </a></li>*@
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                </ul>
+            </li>
+
+
+
+            @*<li>
+                    <a href="" onClick="MyWindow = window.open('http://92.222.95.184:8070/web#view_type=kanban&model=account.journal&menu_id=150&action=198', 'MyWindow', width = 600, height = 300);">
+                        <i class="glyphicon glyphicon-plus"></i> <span>Comptabilite </span>
+                        <span class="pull-right-container">
+                            <small class="label pull-right bg-green">nouveau</small>
+                        </span>
+                    </a>
+                </li>*@
+
+            @*<li>
+                    <a href="">
+                        <i class="glyphicon glyphicon-plus"></i> <span>Ajout Tiers</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="glyphicon glyphicon-plus"></i> <span>Facturation</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="glyphicon glyphicon-plus"></i> <span>Echéancier</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="glyphicon glyphicon-plus"></i> <span>Gestion des documents -GED</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="glyphicon glyphicon-plus"></i> <span>Rapport</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>*@
+
+            <li class="treeview @TempData["GED"]">
+                <a href="#">
+                    <i class="fa fa-file-text"></i><span>Gestion des documents -GED</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["Numérisation_des_documents"]"><a href="@Url.Action("Numérisation_des_documents", "GED")"><i class="glyphicon glyphicon-plus"></i>scannérisation  <span class="pull-right badge bg-green">@Session["GED_ATT"]</span> </a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                    <li class="@TempData["Validation_Des_Docuemnts"]"><a href="@Url.Action("Validation_Des_Docuemnts", "GED")"><i class="glyphicon glyphicon-plus"></i>Validation <span class="pull-right badge bg-green">@Session["GED_ATTV"]</span> </a></li>
+                    <li class="@TempData["visualitationDesDocumetsGed"]"><a href="@Url.Action("visualitationDesDocumetsGed", "GED")"><i class="glyphicon glyphicon-eye-open"></i>visualisation </a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                </ul>
+            </li>
+
+            <li class="@TempData["CreditDebit"]">
+                <a href="@Url.Action("CreditDebit", "Bordereau")">
+                    <i class="glyphicon glyphicon-plus"></i> <span>Credit et debit</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+
+
+            @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+            @*<li class="@TempData["financement"]">
+                    <a href="@Url.Action("financement", "Financement")">
+                        <i class="glyphicon glyphicon-plus"></i> <span>Financement</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                </li>*@
+            <li class="treeview @TempData["financement"]">
+                <a href="#">
+                    <i class="fa fa-file-text"></i><span>Financement</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["financement1"]">
+                        <a href="@Url.Action("financement", "Financement")">
+                            <i class="glyphicon glyphicon-plus"></i> <span>Financement</span>
+
+                        </a>
+                    </li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                    <li class="@TempData["ValiderFinancement"]"><a href="@Url.Action("ValiderFinancement", "Financement")"><i class="glyphicon glyphicon-plus"></i>Validation financement </a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+
+                </ul>
+            </li>
+
+
+            <li class="treeview @TempData["CreationContrat"]">
+                <a href="#">
+                    <i class="fa fa-file-pdf-o"></i><span>Contrat</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["Creation"]"><a href="@Url.Action("Creation", "CreationContrat")"><i class="glyphicon glyphicon-plus"></i>Ajouter Contrat</a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+                    <li class="@TempData["ListeDesContrat"]"><a href="@Url.Action("ListeDesContrat", "CreationContrat")"><i class="glyphicon glyphicon-plus"></i>Liste des contrats</a></li>
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+
+                </ul>
+            </li>
+
+            <li class="@TempData["AjouterAchteur"]">
+                <a href="@Url.Action("AjouterAchteur", "CreationContrat")">
+                    <i class="glyphicon glyphicon-plus"></i> <span>Ajouter Acheteur</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="@TempData["Recouvrement"]">
+                <a href="@Url.Action("Recouvrement", "CreationContrat")">
+                    <i class="glyphicon glyphicon-plus"></i> <span>Recouvrement</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+
+            <li class="treeview @TempData["Achteur"]">
+                <a href="#">
+                    <i class="glyphicon glyphicon-user"></i> <span>Limite</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@TempData["SaisiLimite"]"><a href="@Url.Action("SaisiLimite", "Achteur")"><i class="glyphicon glyphicon-plus"></i>Saisi Limite</a></li>
+                    <li class="@TempData["ValideLimite"]"><a href="@Url.Action("ValideLimite", "Achteur")"><i class="glyphicon glyphicon-eye-open"></i>Valider Limite</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </section>
+</aside>

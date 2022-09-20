@@ -1,0 +1,91 @@
+﻿
+
+@{
+    //  ViewBag.Title = "financement";
+    Layout = "~/Views/Shared/_Layout - Copy.cshtml";
+    decimal sumTTC = 0m;
+    decimal sumFDG = 0m;
+    decimal summFinc = 0m;
+    decimal sumComm = 0m;
+
+}
+<div class="table-responsive " data-pattern="priority-columns">
+    <table cellspacing="0" id="dettable" class="table table-small-font table-bordered data_table">
+        <thead>
+
+            <tr class="bg-primary">
+                <th data-priority="3"><center>Nom Acheteur</center></th>
+                <th data-priority="1">Montant TTC</th>
+                <th data-priority="1"><center>FDG</center></th>
+                <th data-priority="1"><center>Mnt a financer</center></th>
+                <th data-priority="1"><center>Facture</center></th>
+                <th data-priority="1">Date Facture </th>
+                <th data-priority="1">Commission d'aff</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.liste_Bord2)
+            {
+                <tr>
+
+                    <td>
+                        @item.acheteur
+                    </td>
+                    <td style="text-align:right">
+                        @{
+                            sumTTC += item.MONT_TTC_DET_BORD;
+                            sumFDG += item.MONT_FDG_DET_BORD;
+                            summFinc += (item.MONT_TTC_DET_BORD - item.MONT_FDG_DET_BORD);
+                            sumComm += item.MONT_COMM_FACT_DET_BORD;
+
+                        }
+                        @String.Format("{0:N3}", item.MONT_TTC_DET_BORD)
+                    </td>
+                    <td style="text-align:right">
+                        @String.Format("{0:N3}", item.MONT_FDG_DET_BORD)
+                    </td>
+
+                    <td style="text-align:right">
+                        @String.Format("{0:N3}", item.MONT_TTC_DET_BORD - item.MONT_FDG_DET_BORD)
+                    </td>
+
+                    <td>
+                        @item.REF_DOCUMENT_DET_BORD
+                    </td>
+
+                    <td>
+                        @item.DAT_DET_BORD.ToString("d")
+                    </td>
+                    <td style="text-align:right">
+                        @String.Format("{0:N3}", item.MONT_COMM_FACT_DET_BORD)
+                    </td>
+
+                
+                </tr>
+            }
+
+            <tr>
+                <th>
+Total
+                </th>
+                <th style="text-align:right">
+                    @String.Format("{0:N3}", sumTTC)
+                </th>
+                <th style="text-align:right">
+                    @String.Format("{0:N3}", sumFDG)
+                </th>
+                <th style="text-align:right">
+                    @String.Format("{0:N3}", summFinc)
+                </th>
+                <th></th>
+                <th></th>
+                <th style="text-align:right">
+                    @String.Format("{0:N3}", sumComm)
+                </th>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+

@@ -1,0 +1,29 @@
+﻿@model xfactor.Models.TR_TVA
+
+
+    
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model=>model.ID_TVA)
+    <div class="form-group">
+        @Html.Label("Libellé", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.LIB_TVA, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.LIB_TVA, "", new { @class = "text-danger" })
+    </div>
+
+        <div class="form-group">
+            @Html.Label("Valeur", htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.VAL_TVA, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.VAL_TVA, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Modifier" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+
+}

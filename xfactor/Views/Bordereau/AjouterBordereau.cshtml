@@ -1,0 +1,843 @@
+﻿
+@{
+    ViewBag.Title = "AjouterBordereau";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section header {
+
+    <h1>
+        Bordereaux
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Bordereaux </li>
+        <li class="active">Ajouter Bordereau</li>
+    </ol>
+}
+
+<style>
+     @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+ /* Hide table headers (but not display: none;, for accessibility) */
+ #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+@if (TempData["notice"] != null)
+{
+
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> enregistrement a été effectué avec succès !</strong>
+    </div>
+}
+<div style="display:none" id="ErrorHide">
+    <div class="alert alert-danger alert-dismissible fade in" id="danger-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong id="errormessage"> </strong>
+    </div>
+</div>
+
+<div class="modal-body" style="display:none" id="loaderin">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div id="loding_partie" class="loader">
+                <div class="loader-inner">
+                    <div class="loading one"></div>
+                </div>
+                <div class="loader-inner">
+                    <div class="loading two"></div>
+                </div>
+                <div class="loader-inner">
+                    <div class="loading three"></div>
+                </div>
+                <div class="loader-inner">
+                    <div class="loading four"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@using (Html.BeginForm("AjouterBorderea", "Bordereau", FormMethod.Post,new { id= "bordform" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Entete Bordereau    <button type="button" id="restordet" class="btn btn-success btn-sm">restaurer bordereau</button> </h3>
+                <div class="box-tools pull-right">
+                    <button type="button" id="sauvgardertemp" class="btn btn-warning btn-sm">sauvegarder temporairement</button> 
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                    <div class="col-lg-12">
+                      
+                            <div class="form-group">
+                                <label class="control-label">Nom Adhérent: :</label>
+                                <select class="form-control input-sm selectpicker" name="REF_B" data-live-search="true" id="REF_CTR_BORD">
+                                    <option value="0" selected disabled>Merci de choisir un adhérent</option>
+                                    @foreach (var item in ViewBag.ADH)
+                                    {
+
+                                        <option value="@item.RefAdh">@item.NomAdh</option>
+                                    }
+                                </select>
+
+                                @*@Html.DropDownList("REF_B", (IEnumerable<SelectListItem>)ViewBag.ADH, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "REF_CTR_BORD" })
+                                @Html.ValidationMessage("REF_B", "", new { @class = "text-danger" })*@
+                            </div>
+                    
+                            <div class="table-responsive " data-pattern="priority-columns">
+                                <table cellspacing="0" id="" class="table table-small-font table-bordered table-striped ">
+                                    <thead>
+
+                                        <tr class="bg-primary">
+                                            <th data-priority="3"><center>Réf Ctr</center></th>
+                                            <th data-priority="1">Numéro Bordereau :</th>
+                                            <th data-priority="1"><center>Année Bordereau :</center></th>
+                                            <th data-priority="1"><center>Nombre de documents :</center></th>
+                                            <th data-priority="1"><center>Montant Total :</center></th>
+                                            <th data-priority="1">Date Borderau : </th>
+                                            <th data-priority="1"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="form-group">
+                                                <select name="REF_CTR_B" id="ctr" class="form-control input-sm defaultpicker"></select>
+                                            </td>
+                                            <td class="form-group">
+                                                @Html.Editor("NUM_B", new { htmlAttributes = new { @class = "form-control input-sm disabled",id = "NUM_B"  } })
+                                                @Html.ValidationMessage("NUM_B", "", new { @class = "text-danger" })
+                                            </td>
+                                            <td class="form-group">
+                                                @Html.Editor("ANNEE_B", new { htmlAttributes = new { @class = "form-control input-sm", id = "ANNEE_B" } })
+                                                @Html.ValidationMessage("ANNEE_B", "", new { @class = "text-danger" })
+                                            </td>
+                                            <td class="form-group">
+                                                @Html.Editor("NB_DOC_B", new { htmlAttributes = new { @class = "form-control input-sm", id = "NB_DOC_B" } })
+                                   
+                                                @Html.ValidationMessage("NB_DOC_B", "", new { @class = "text-danger" })
+                                            </td>
+
+                                            <td class="form-group">
+                                                @Html.Editor("MONT_TOT_B", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma", id = "MONT_TOT_B" } })
+                                                @Html.ValidationMessage("MONT_TOT_B", "", new { @class = "text-danger" })
+                                            </td>
+                                            <td class="form-group">
+                                                @Html.Editor("DAT_SAISIE_BO", new { htmlAttributes = new { @class = "form-control input-sm", type = "date",id= "DAT_SAISIE_BO" } })
+                                                @Html.ValidationMessage("DAT_SAISIE_B", "", new { @class = "text-danger" })
+                                            </td>
+                                            <td>
+                                                <button type="button" id="openAch" class="btn btn-danger">
+                                                    Enregistrer
+                                                </button>
+                                                <button type="button" id="emptytable" class="btn btn-danger">
+                                                    Anuuler
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+               
+                            <div class="row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-md-8">
+                                    <button type="button" id="saveEntetBord" style="display:none"></button>
+
+
+                                </div>
+                                <div class="col-sm-2"></div>
+                            </div>
+                      
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="col-lg-12">
+    @*<button type="button" class="btn btn-sm btn-success pull-right" id="AjouerLigne">Ajouter ligne </button>*@
+    <div class="table-responsive " data-pattern="priority-columns">
+        <table cellspacing="0" id="DetBord" class="table table-small-font table-bordered table-striped ">
+            <thead>
+
+                <tr class="bg-primary">
+                    <th data-priority="3"><center>Nom Acheteur</center></th>
+                    <th data-priority="1">Type de document</th>
+                    <th data-priority="1"><center>Réf document</center></th>
+                    <th data-priority="1"><center>Date Document</center></th>
+                    <th data-priority="1"><center>Montant document</center></th>
+                    <th data-priority="1">Echéance </th>
+                    <th data-priority="3">Mode de Réglement</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+       
+        
+</div>
+}
+<div class="row" style="display:none">
+    <div class="col-lg-12">
+        <div class="table-responsive " data-pattern="priority-columns">
+            <table cellspacing="0" id="group-test" class="table table-small-font table-bordered table-striped ">
+                <thead>
+
+                    <tr class="bg-primary">
+                        <th>#</th>
+                        <th data-priority="3"><center>Nom Acheteur</center></th>
+                        <th data-priority="1">Réf Document</th>
+                        <th data-priority="1"><center>Réf Acheteur</center></th>
+                        <th data-priority="1"><center>Type</center></th>
+                        <th data-priority="1"><center>Date</center></th>
+                        <th data-priority="1">Montant TTC </th>
+                        <th data-priority="3">Echéance</th>
+                        <th data-priority="3">Montant ouvert</th>
+                        <th data-priority="3">Taux FDG</th>
+                        <th data-priority="3">Taux Commission de Factoring</th>
+                        <th data-priority="3"><center>ID</center></th>
+                        <th data-priority="3">Réf Contrat</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+              
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+
+<script>
+
+    $.validator.methods.range = function (value, element, param) {
+        var globalizedValue = value.replace(",", ".");
+        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+    }
+
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\,]\d{3})+)(?:[\,]\d+)?$/.test(value.replace(/\s/g, ""));
+    }
+
+    jQuery.extend(jQuery.validator.methods, {
+        min: function (value, element, value2) {
+            var val = value.replace(/\s/g, "").replace(',', '.');
+            return this.optional(element) || val >= value2;
+        }
+    });
+
+
+    $("#success-alert").fadeTo(2000, 500).fadeOut("slow", function () {
+        $("#success-alert").fadeOut("slow");
+    });
+    $("#REF_CTR_BORD").change(function () {
+        $.ajax({
+            url: "/Bordereau/RecherchCtrAdh/" + $("#REF_CTR_BORD").children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+
+                $('#ctr').empty();
+                $('#ctr').append("<option value='' disabled selected>***********</option>");
+                $.each(result, function (index, element) {
+                    $('#ctr').append($('<option>',{
+                        value : element,
+                        text:  element }));
+                });
+               // $('#ctr').selectpicker('refresh');
+            }
+        });
+
+
+
+    });
+
+
+    $('#ctr').change(function () {
+        $.ajax({
+            url: "/Bordereau/RechercheMaxBordParCtr/" + $("#ctr").children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                var dt = new Date();
+                $('#NUM_B').empty();
+                if (result < 10) {
+                    $('#NUM_B').val('0'+result);
+                }
+                else { $('#NUM_B').val(result); }
+             
+
+
+                $('#ANNEE_B').empty();
+
+                $('#ANNEE_B').val(dt.getFullYear());
+                // $('#ctr').selectpicker('refresh');
+            }
+        });
+
+    });
+
+    function calculateSum(event) {
+
+        var sum = 0;
+        var monttc = parseFloat($("#MONT_TOT_B").val().replace(/\s/g, "").replace(",", "."));
+        //iterate through each textboxes and add the values
+        $(".txt").each(function () {
+            //add only if the value is number
+            if (!isNaN(this.value.replace(/\s/g, "").replace(",", ".")) && this.value.length != 0) {
+                sum += parseFloat(this.value.replace(/\s/g, "").replace(",", "."));
+                $(this).css("background-color", "#FEFFB0");
+            }
+            else if (this.value.length != 0) {
+                $(this).css("background-color", "red");
+            }
+        });
+
+        $("input#sum1").val(sum.toFixed(3));
+        if (monttc.toFixed(3) == sum.toFixed(3))
+        {
+            var te = true;
+            $(".txt").each(function(){
+                if ($(this).val() == "")
+                {
+                    te = false; return false;
+                }
+            });
+            if (te) {
+                $("#validerbord").prop("disabled", false);
+            }
+            else {
+                $("#validerbord").attr("disabled", true);
+            }
+        }
+        else {
+            $("#validerbord").attr("disabled", true);
+        }
+    }
+
+    $("#openAch").click(function () {
+        if (form.valid()) {
+            $("#DetBord>tbody").empty();
+            for (i = 0; i < $("#NB_DOC_B").val() ; i++) {
+
+                var markup = "<tr>" +
+                 "<td><select name='Det_Bord[" + i + "].REF_IND_DET_BORD' class='form-control input-sm defaultpicker NomAchteurs verifnomrequ' id='' required></select> </td>" +
+                 "<td><select name='Det_Bord[" + i + "].TYP_DET_BORD' class='form-control input-sm defaultpicker type_doc'>" +
+                 " <option value='fact'>MINI_CREDIT</option> <option value='fact'>FACTURE</option>   <option value='Caut'>CAUTION</option> <option value='bdc'>BON DE COMMANDE</option><option value='march'>MARCHE</option>" +
+                 "</select> </td>" +
+                 "<td><input type='text' name='Det_Bord[" + i + "].REF_DET_BORD'  class='form-control input-sm verifdetbord REF_DET_BORD' /></td>" +
+                 "<td><input type='date' name='Det_Bord[" + i + "].DAT_DET_BORD'  class='form-control input-sm verifdatebord DAT_DET_BORD'/></td>" +
+                 "<td><input type='text' name='Det_Bord[" + i + "].COMM_DET_BORD'  onkeyup='calculateSum(event)' class='txt form-control input-sm verifmnt ConvertPointToComma COMM_DET_BORD '/></td>" +
+                 "<td><input type='number' name='Det_Bord[" + i + "].ECH_DET_BORD'  class='form-control input-sm verifehchu ECH_DET_BORD'/></td>" +
+                "<td><select name='Det_Bord[" + i + "].MODE_REG_DET_BORD' class='form-control input-sm defaultpicker MODE_REG_DET_BORD' >" +
+                " <option value='T'>Traite</option><option value='V'>Virement</option> <option value='C'>Cheque</option> <option value='E'>Espece</option></select> </td>" + "</select> </td>" +
+                 "</tr>";
+                $("#DetBord").append(markup);
+
+            }
+
+            $("#DetBord").append("<tr><td colspan='6'><button id='validerbord' onclick='variffonction()' disabled type='button' class='btn btn-success pull-right ' >   valider" +
+                       " </button></td><td>   <input type='text' id='sum1' readOnly  class='form-control input-sm'/></td></tr>");
+            $.ajax({
+                url: "/Bordereau/RecherchCtrAch/" + $("#ctr").children("option:selected").val(),
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    $('.NomAchteurs').empty();
+                    $('.NomAchteurs').append("<option value=''> -------------------- </option>");
+                    $.each(result, function (index, element) {
+                        $('.NomAchteurs').append($('<option>', {
+                            value: element.REF_IND,
+                            text: element.PRE_IND
+                        }));
+                    });
+                    //$('.NomAchteurs').selectpicker('refresh');
+                }
+            });
+
+            $(".COMM_DET_BORD").blur(function () {
+                if ($(this).val() != "") {
+                    var v = $(this).val().replace(/\s/g, "").replace(",", ".");
+                    $(this).val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                }
+
+            });
+
+            calculateSum();
+
+
+        }
+
+    });
+
+   
+
+    $("#emptytable").click(function () {
+        $("#DetBord>tbody").empty();
+        $("#openAch").removeAttr("disabled");
+        $("#REF_CTR_BORD").removeAttr("disabled");
+        $("#ctr").removeAttr("disabled");
+        $("#NUM_BORD").removeAttr("disabled");
+        $("#ANNEE_BORD").removeAttr("disabled");
+        $("#NB_DOC_BORD").removeAttr("disabled");
+        $("#MONT_TOT_BORD").removeAttr("disabled");
+        $("#DAT_SAISIE_BORD").removeAttr("disabled");
+    });
+
+    var form = $("#bordform");
+    form.validate({
+        rules: {
+            // compound rule
+
+            NUM_B: {
+                required: true,
+                number: true
+            },
+            ANNEE_B: {
+                required: true,
+                number: true
+
+            },
+            NB_DOC_B: {
+                required: true, number: true
+            },
+            MONT_TOT_B: {
+                required: true,
+                number: true,
+                min:0
+            },
+            DAT_SAISIE_BO: {
+                required: true
+            }
+
+
+        },
+        //submitHandler: function(form) {
+        //           // your ajax would go here
+        //           alert('simulated ajax submit');
+        //           return false;  // blocks regular submit since you have ajax
+        //       },
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+
+    });
+
+    $.validator.addClassRules("verifmnt", {
+        required: true,
+       // number:true,
+        min: 1
+    });
+
+    $.validator.addClassRules("verifdetbord", {
+        required: true
+    });
+
+    $.validator.addClassRules("verifdatebord", {
+        required: true
+    });
+    $.validator.addClassRules("verifehchu", {
+        required: true, number: true,
+        min: 1
+    });
+
+
+    //function inputsHaveDuplicateValues() {
+    //    var hasDuplicates = false;
+    //    $('.verifdetbord').each(function () {
+    //        var $inputsWithSameValue = $('input[value=' + $(this).val() + ']');
+    //        hasDuplicates = $inputsWithSameValue.length > 1;
+    //        //This will break out of the each loop if duplicates have been found.
+    //        return hasDuplicates;
+    //    });
+    //    return hasDuplicates;
+    //}
+
+    function variffonction() {
+
+
+      
+
+        var TableUnique = new Array();
+        var test = false;
+        var test2 = false;
+        for (i = 0; i < $(".verifdetbord").length; i++) {
+            if (TableUnique.indexOf($(".verifdetbord").eq(i).val()) == -1) {
+                TableUnique.push($(".verifdetbord").eq(i).val());
+            }
+            else {
+                test = true;
+                $(".verifdetbord").eq(i).css("background-color", "red");
+                $(".verifdetbord").eq(i).css("color", "white");
+                alert($(".verifdetbord").eq(i).val() + "  est deja saisi  dans l position " + Number(i+1) + "   merci de verifier");
+                break;
+            }
+        }
+        // alert(test);
+        //var test = false;
+        //
+        $(".verifdetbord").each(function (index) {
+            var textf = $(this).val();
+            $.ajax({
+                url: "/Bordereau/Verife_Facture/" + $("#ctr").children("option:selected").val() + "/" + $(this).val(),
+                type: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result === true) {
+                        $(".verifdetbord").eq(index).css("color", "red");
+                        //this
+                        test2 = true;
+                        alert("la réference facture : " + textf + "  est deja enregistrer");
+                    }
+
+                    // $('#ctr').selectpicker('refresh');
+                },
+                async: false
+            });
+            if (test2 === true) { return false; }
+        });
+
+        ////var duplicate = false;
+        ////$('input[class^=verifdetbord]').each(function () {
+        ////    var $this = $(this);
+        ////    if ($this.val() === '') { return; }
+        ////    $('input[class^=verifdetbord]').not($this).each(function () {
+        ////        if ($(this).val() == $this.val()) { duplicate = true; }
+        ////    });
+        ////});
+        ////if (duplicate) alert('email must be valid');
+
+        //$('#loaderin').show();
+
+
+
+        if (test === false && test2 === false) {
+
+            if (form.valid()) {
+                // this is the id of the form
+                // $("#bordform").submit(function (e) {
+                $('#loaderin').show();
+                //  e.preventDefault(); // avoid to execute the actual submit of the form.
+
+                // var form = $(this);
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        if (data == "save") {
+                            // alert(Data);
+                            window.location.href = "/Bordereau/AjouterBordereau";
+                            window.localStorage.clear();
+                            //  window.location();
+                        }
+
+                        else {
+
+                            $("#ErrorHide").show();
+                            $("#errormessage").empty();
+                            $("#errormessage").append(data);
+
+
+                            $('#loaderin').hide();
+                        }
+                        //alert(data); // show response from the php script.
+                    }
+                });
+
+
+                //  });
+                // $("#").submit();
+            };
+        }
+
+    }
+
+
+
+</script>
+
+<script>
+    //LocalStorage
+    $("#sauvgardertemp").click(function () {
+
+        var Entet = {
+            ref_ctr: $("#ctr").val(),
+            ref_adh: $("#REF_CTR_BORD").val(),
+            num_bord: $("#NUM_B").val(),
+            ANNEE_B: $("#ANNEE_B").val(),
+            nb_doc: $("#NB_DOC_B").val(),
+            mnttot: $("#MONT_TOT_B").val(),
+            dat: $("#DAT_SAISIE_BO").val()
+        };
+        
+        window.localStorage.setItem("Entet", JSON.stringify(Entet));
+        var det_bord = new Array();
+        $('#DetBord tbody > tr').each(function () {
+            var t = {
+
+                nom: $(this).find(".NomAchteurs").val(),
+                type_doc: $(this).find(".type_doc").val(),
+                ref_doc: $(this).find(".REF_DET_BORD").val(),
+                dat_doc: $(this).find(".DAT_DET_BORD").val(),
+                mnt_doc: $(this).find(".COMM_DET_BORD").val(),
+                ech: $(this).find(".ECH_DET_BORD").val(),
+                mod_rg: $(this).find(".MODE_REG_DET_BORD").val()
+
+            }
+            det_bord.push(t);
+
+        });
+
+        window.localStorage.setItem("Det", JSON.stringify(det_bord));
+   
+
+
+        alert("votre bordereau a été sauvgarder temporairement");
+
+
+
+    });
+
+    $("#restordet").click(function () {
+        $("#DetBord tbody").empty();
+        $("#ctr").empty();
+        var entet = JSON.parse(window.localStorage.getItem("Entet"));
+        $("#REF_CTR_BORD option").each(function () {
+           // alert($(this).val());
+            if (Number($(this).val()) == Number(entet.ref_adh))
+            {
+                $(this).attr("selected", "selected");
+                $("#REF_CTR_BORD").selectpicker('refresh');
+            }
+           // $("#REF_CTR_BORD").selectpicker('refre');
+          
+        });
+       
+        $("#ctr").append("<option value='" + entet.ref_ctr + "' selected>" + entet.ref_ctr + "</option>");
+        $("#NUM_B").val(entet.num_bord);
+        $("#ANNEE_B").val(entet.ANNEE_B);
+        $("#NB_DOC_B").val(entet.nb_doc);
+        $("#MONT_TOT_B").val(entet.mnttot);
+        $("#DAT_SAISIE_BO").val(entet.dat);
+
+        var det = JSON.parse(window.localStorage.getItem("Det"));
+        //  alert(det[0].nom);
+        var str = "";
+        for (j = 0; j < det.length - 1; j++) {
+            var ligne = "<tr>";
+
+            var colonne = "<td><select name='Det_Bord[" + j + "].REF_IND_DET_BORD' class='form-control input-sm defaultpicker NomAchteurs verifnomrequ' required>";
+            colonne = colonne + "</select></td>";
+
+
+            var colonne2 = "<td><select name='Det_Bord[" + j + "].TYP_DET_BORD' class='form-control input-sm defaultpicker type_doc'>";
+            switch (det[j].type_doc) {
+                case "fact": colonne2 = colonne2 + " <option value='fact' selected >FACTURE</option>   <option value='Caut'>CAUTION</option> <option value='bdc'>BON DE COMMANDE</option><option value='march'>MARCHE</option></select></td>";
+                    break;
+                case "Caut": colonne2 = colonne2 + " <option value='fact'  >FACTURE</option>   <option value='Caut' selected>CAUTION</option> <option value='bdc'>BON DE COMMANDE</option><option value='march'>MARCHE</option></select></td>";
+                    break;
+                case "bdc": colonne2 = colonne2 + " <option value='fact'  >FACTURE</option>   <option value='Caut'>CAUTION</option> <option value='bdc' selected>BON DE COMMANDE</option><option value='march'>MARCHE</option></select></td>";
+                    break;
+                case "march": colonne2 = colonne2 + " <option value='fact'  >FACTURE</option>   <option value='Caut'>CAUTION</option> <option value='bdc'>BON DE COMMANDE</option><option value='march' selected>MARCHE</option></select></td>";
+                    break;
+
+            }
+
+
+            var colonne3 = "<td><input type='text' name='Det_Bord[" + j + "].REF_DET_BORD'  class='form-control input-sm verifdetbord REF_DET_BORD' value='" + det[j].ref_doc + " '/></td>" +
+                 "<td><input type='date' name='Det_Bord[" + j + "].DAT_DET_BORD'  class='form-control input-sm verifdatebord DAT_DET_BORD'value='" + det[j].dat_doc + "'/></td>" +
+                 "<td><input type='text' name='Det_Bord[" + j + "].COMM_DET_BORD'  onkeyup='calculateSum(event)' class='txt form-control input-sm verifmnt ConvertPointToComma COMM_DET_BORD 'value='" + det[j].mnt_doc + "'/></td>" +
+                 "<td><input type='number' name='Det_Bord[" + j + "].ECH_DET_BORD'  class='form-control input-sm verifehchu ECH_DET_BORD' value='" + det[j].ech + "'/></td>";
+
+            //$('.NomAchteurs').selectpicker('refresh');
+
+
+            var colonne4 = "<td><select name='Det_Bord[" + j + "].MODE_REG_DET_BORD' class='form-control input-sm defaultpicker MODE_REG_DET_BORD' >";
+            switch (det[j].mod_rg) {
+                case "T": colonne4 = colonne4 + " <option value='T' selected>Traite</option><option value='V'>Virement</option> <option value='C'>Cheque</option> <option value='E'>Espece</option></select> </td>" + "</select> </td>";
+                    break;
+                case "V": colonne4 = colonne4 + " <option value='T'>Traite</option><option value='V' selected>Virement</option> <option value='C'>Cheque</option> <option value='E'>Espece</option></select> </td>" + "</select> </td>";
+                    break;
+                case "C": colonne4 = colonne4 + " <option value='T'>Traite</option><option value='V'>Virement</option> <option value='C' selected>Cheque</option> <option value='E'>Espece</option></select> </td>" + "</select> </td>";
+                    break;
+                case "E": colonne4 = colonne4 + " <option value='T'>Traite</option><option value='V'>Virement</option> <option value='C'>Cheque</option> <option value='E' selected>Espece</option></select> </td>" + "</select> </td>";
+                    break;
+
+            }
+            ligne = ligne + colonne + colonne2 + colonne3 + colonne4 + "</tr>";
+            str = str + ligne;
+
+        };
+        $("#DetBord").append(str);
+
+        $.ajax({
+            url: "/Bordereau/RecherchCtrAch/" + $("#ctr").children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                for (j = 0; j < det.length - 1; j++) {
+                    $('.NomAchteurs').eq(j).empty();
+                    $('.NomAchteurs').eq(j).append("<option value=''> -------------------- </option>");
+                    $.each(result, function (index, element) {
+                        if (element.REF_IND == det[j].nom) {
+                            $('.NomAchteurs').eq(j).append('<option value="' + element.REF_IND + '" selected>' + element.PRE_IND + '</option>');
+                        }
+                        else
+
+                            $('.NomAchteurs').eq(j).append('<option value="' + element.REF_IND + '">' + element.PRE_IND + '</option>');
+
+                    });
+
+
+                }
+            }
+
+        });
+
+        $("#DetBord").append("<tr><td colspan='6'><button id='validerbord' onclick='variffonction()' disabled type='button' class='btn btn-success pull-right ' >   valider" +
+                    " </button></td><td>   <input type='text' id='sum1' readOnly  class='form-control input-sm'/></td></tr>");
+
+        $(".COMM_DET_BORD").blur(function () {
+            if ($(this).val() != "") {
+                var v = $(this).val().replace(/\s/g, "").replace(",", ".");
+                $(this).val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+            }
+
+        });
+    });
+
+    //$("#AjouerLigne").click(function () {
+    //    var j = $("#NB_DOC_B").val();
+    //    var i = ($("#DetBord>tbody>tr").length-1);
+    //    $("#NB_DOC_B").val(i+1);
+    //    var markup = "<tr>" +
+    //        "<td><button type='button' class='btn btn-danger btn-sm' id=''></select> </td>"+
+    //                "<td><select name='Det_Bord[" + i + "].REF_IND_DET_BORD' class='form-control input-sm defaultpicker NomAchteurs verifnomrequ' id='' required></select> </td>" +
+    //                "<td><select name='Det_Bord[" + i + "].TYP_DET_BORD' class='form-control input-sm defaultpicker type_doc'>" +
+    //                " <option value='fact'>FACTURE</option>   <option value='Caut'>CAUTION</option> <option value='bdc'>BON DE COMMANDE</option><option value='march'>MARCHE</option>" +
+    //                "</select> </td>" +
+    //                "<td><input type='text' name='Det_Bord[" + i + "].REF_DET_BORD'  class='form-control input-sm verifdetbord REF_DET_BORD' /></td>" +
+    //                "<td><input type='date' name='Det_Bord[" + i + "].DAT_DET_BORD'  class='form-control input-sm verifdatebord DAT_DET_BORD'/></td>" +
+    //                "<td><input type='text' name='Det_Bord[" + i + "].COMM_DET_BORD'  onkeyup='calculateSum(event)' class='txt form-control input-sm verifmnt ConvertPointToComma COMM_DET_BORD '/></td>" +
+    //                "<td><input type='number' name='Det_Bord[" + i + "].ECH_DET_BORD'  class='form-control input-sm verifehchu ECH_DET_BORD'/></td>" +
+    //               "<td><select name='Det_Bord[" + i + "].MODE_REG_DET_BORD' class='form-control input-sm defaultpicker MODE_REG_DET_BORD' >" +
+    //               " <option value='T'>Traite</option><option value='V'>Virement</option> <option value='C'>Cheque</option> <option value='E'>Espece</option></select> </td>" + "</select> </td>" +
+    //                "</tr>";
+    //    $(markup).insertBefore($("#DetBord>tbody>tr:last"));
+
+
+    //    $.ajax({
+    //        url: "/Bordereau/RecherchCtrAch/" + $("#ctr").children("option:selected").val(),
+    //        type: "GET",
+    //        contentType: "application/json;charset=UTF-8",
+    //        dataType: "json",
+    //        success: function (result) {
+    //            for (k = j ; k < i+1; k++) {
+    //                alert(k);
+    //                $('.NomAchteurs').eq(k).empty();
+    //                $('.NomAchteurs').eq(k).append("<option value=''> -------------------- </option>");
+    //                $.each(result, function (index, element) {
+                      
+
+    //                        $('.NomAchteurs').eq(k).append('<option value="' + element.REF_IND + '">' + element.PRE_IND + '</option>');
+
+    //                });
+
+
+    //            }
+    //        }
+
+    //    });
+
+
+    //});
+
+    $("input[name='MONT_TOT_B']").blur(function () {
+        if ($("input[name='MONT_TOT_B']").val() != "") {
+            var v = $("input[name='MONT_TOT_B']").val().replace(/\s/g, "").replace(",", ".");
+            $("input[name='MONT_TOT_B']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+        }
+
+    });
+
+
+</script>

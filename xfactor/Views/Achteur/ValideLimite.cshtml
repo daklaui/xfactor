@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "ValideLimite";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    tbody > tr:hover, tbody > tr.selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+</style>
+
+@section header {
+
+    <h1>
+        Limite
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Limite</li>
+        <li class="active">Valider Limite</li>
+    </ol>
+}
+
+
+@if (TempData["notice"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> enregistrement a été effectué avec succès !</strong>
+    </div>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            @Html.Label("Nom Adhérent:", htmlAttributes: new { @class = "control-label" })
+                            <select class="form-control input-sm selectpicker" data-live-search="true" id="Nom_Adh">
+                                <option value="0" selected disabled>Merci de choisir un adhérent</option>
+                                @foreach (var item in ViewBag.ADH)
+                                {
+                                    <option value="@item.REF_CTR_CIR">@item.NomAdh|@item.REF_CTR_CIR</option>
+                                }
+                                </select>
+                                @*@Html.DropDownList("Nom_Adh", (IEnumerable<SelectListItem>)ViewBag.ADH, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "Nom_Adh" })
+            @Html.ValidationMessage("Nom_Adh", "", new { @class = "text-danger" })*@
+</div>
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="ListDemLimite" class="table table-small-font table-bordered">
+                                <thead>
+                                    <tr class="bg-primary">
+                                        <th data-priority="1">Nom Acheteur</th>
+                                        <th data-priority="1"><center>Type Demande</center></th>
+                                        <th data-priority="1"><center>Delai Demande</center></th>
+                                        <th data-priority="1"><center>Mode Paiement</center></th>
+                                        <th data-priority="1"><center>Montant Demande</center></th>
+                                        <th data-priority="1"><center>Date Demande</center></th>
+                                        <th data-priority="1"><center>Devise</center></th>
+                                        <th data-priority="1"><center>Delai Accepté</center></th>
+                                        <th data-priority="1"><center>Montant Accepté</center></th>
+                                        <th data-priority="1"><center>Mode Paiement Accepté</center></th>
+                                        <th data-priority="1"><center>Reference Contrat</center></th>
+                                        <th data-priority="1"><center>Reference Acheteur</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/Achteur/ValideLimite">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>Montant Demande</label>
+                                <input type="text" name="montant_acc" id="montant_acc" class="form-control input-sm" />
+                                <input type="hidden" name="refdemlimite" id="refdemlimite" class="form-control input-sm" />
+                                <input type="hidden" name="ref_ctr_dem_limite" id="ref_ctr_dem_limite" class="form-control input-sm" />
+                                <input type="hidden" name="ref_ach_dem_limite" id="ref_ach_dem_limite" class="form-control input-sm" />
+                            </div>
+                            <div class="form-group">
+                                <label>Delai Demande</label>
+                                <input type="number" name="delai" id="delai" class="form-control input-sm" />
+                            </div>
+                            <div class="form-group">
+                                <label>Mode de paiement</label>
+                                <select class="form-control" name="mode_paye" id="mode_paye">
+                                    <option value="Che">Cheque</option>
+                                    <option value="Esp">Espece</option>
+                                    <option value="vir">Virrement</option>
+                                    <option value="Cheque/Traite">Cheque/Traite</option>
+                                    <option value="Traite">Traite</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Valider </button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+         
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+
+   
+
+    $("#Nom_Adh").change(function () {
+        $.get("/Achteur/ListOfLimiteParCtr",{ref_ctr: $(this).children("option:selected").val()},
+            function (data) {
+                $("#ListDemLimite > tbody").empty();
+                $.each(data, function (index, element) {
+
+                    var value = new Date(parseInt(element.DAT_DEM_LIM.replace(/(^.*\()|([+-].*$)/g, '')));
+                    //var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                    var month = "";
+                    var day = "";
+                    if (Number(value.getMonth() + 1) < 10) {
+                        month = "0" + Number(value.getMonth() + 1);
+                    }
+                    else {
+                        month = Number(value.getMonth() + 1);
+                    }
+
+                    if (Number(value.getDate()) < 10) {
+                        day = "0" + value.getDate();
+                    }
+                    else {
+                        day = value.getDate();
+                    }
+
+                    var dat = value.getFullYear() + "-" + month + "-" + day;
+
+                    $("#ListDemLimite > tbody").append("<tr data-ref_lim='" + element.REF_DEM_LIM + "' > <td>" + element.NOM_IND + "</td>"
+                                                            + "<td>" + element.TYP_DEM_LIM + "</td>"
+                                                             + "<td>" + element.DELAIS_DEM_LIM + "</td>"
+                                                             + "<td>" + element.MODE_PAY_DEM_LIM + "</td>"
+                                                              + "<td style='text-align:right'>" + parseFloat(element.MONT_DEM_LIM).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".",",") + "</td>"
+                                                              + "<td>" + dat + "</td>"
+                                                              + "<td>" + element.DEVISE + "</td>"
+                                                                 + "<td>" + element.DELAIS_ACC + "</td>"
+                                                                   + "<td>" + element.MONT_ACC + "</td>"
+                                                                    + "<td>" + element.MODE_PAY_ACC + "</td>"
+                                                                       + "<td>" + element.REF_CTR_DEM_LIM + "</td>"
+                                                                         + "<td>" + element.REF_ACH_LIM + "</td>" + "</tr>"
+                        );
+                });
+            });
+
+
+    });
+    $("#ListDemLimite > tbody").delegate("tr", "click", function () {
+        $("#montant_acc").val($(this).find("td").eq(4).text());
+        $("#delai").val($(this).find("td").eq(2).text());
+        $("#refdemlimite").val($(this).data("ref_lim"));
+        $("#ref_ctr_dem_limite").val($(this).find("td").eq(10).text());
+        $("#ref_ach_dem_limite").val($(this).find("td").eq(11).text());
+        var t = $(this).find("td").eq(3).text();
+        //alert(t);
+        for (i = 0; i < $('#mode_paye').children().length; i++)
+        {
+          //  alert($('#mode_paye').find("option").eq(i).text());
+
+            if ($('#mode_paye').find("option").eq(i).text() == t) {
+
+                $('#mode_paye').find("option").eq(i).prop('selected', true);;
+            }
+        }
+
+        $("#myModal").modal();
+    });
+</script>
+

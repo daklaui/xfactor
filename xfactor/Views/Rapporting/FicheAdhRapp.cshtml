@@ -1,0 +1,668 @@
+﻿
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+
+    @@media print {
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("FicheAdh_Rapport",new {id= "PDF",id2=ViewBag.refadh,id3=ViewBag.refach})"   class="btn btn-danger"  target="_blank"  > <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("FicheAdh_Rapport",new {id= "Excel",id2=ViewBag.refadh,id3=ViewBag.refach})" class="btn btn-success"  target="_blank"><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("FicheAdh_Rapport",new {id= "Word",id2=ViewBag.refadh,id3=ViewBag.refach})"  class="btn btn-primary" target="_blank"> <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("FicheAdh_Rapport",new {id= "Image",id2=ViewBag.refadh,id3=ViewBag.refach})" class="btn btn-info"   target="_blank"   ><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+<hr />
+
+<div class="row" id='printableArea'>
+    <div class="col-lg-12"><center><h3>Fiche Adhérent</h3></center></div>
+    <hr />
+   <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="col-lg-12"><div class="box box-solid box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Identification Adhérant :</h3>
+        <div class="box-tools pull-right">
+           
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive " data-pattern="priority-columns">
+                    <table cellspacing="0" id="" class="table table-small-font table-bordered ">
+                        <tbody>
+
+@foreach (var item in ViewBag.AdhInfo2)
+{
+                            <tr>
+                                <td><b>Raison Social :</b></td>
+                                <td>@item.NOM_IND</td>
+                            </tr>
+
+                            <tr>
+                                <td><b>RC :</b></td>
+                                <td>@item.RC_IND</td>
+                            </tr>
+                            <tr>
+                                <td><b>MF :</b></td>
+                                <td>@item.COD_TVA_IND</td>
+                            </tr>
+                            <tr>
+                                <td><b>Capital social :</b></td>
+
+                                @if (item.CA_CTR != null)
+                                {
+                                    <td data-title="" style="text-align:right">
+                                        @String.Format("{0:N3}", item.CA_CTR)
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="">0,000 </td>
+                                }
+
+                                
+                            </tr>
+                            <tr>
+                                <td><b>Groupe :</b></td>
+                                <td>@item.GRP_IND</td>
+                            </tr>
+                            <tr>
+                                <td><b>Secteur d'activité :</b></td>
+                                <td>@item.Section</td>
+                            </tr>
+                            <tr>
+                                <td><b>Sous secteur :</b></td>
+                                <td></td>
+                            </tr>
+}
+                            @foreach (var item in ViewBag.Responsable)
+                            {
+                            <tr>
+                                <td><b>Gerant :</b></td>
+                                <td>@item.NOM_PRE_CONTACT</td>
+                            </tr>
+
+                            <tr>
+                                <td><b>Téléphone 1 :</b></td>
+                                <td>@item.TEL1_CONTACT</td>
+                            </tr>
+                            <tr>
+                                <td><b>Téléphone 2 :</b></td>
+                                <td>@item.TEL2_CONTACT</td>
+                            </tr>
+                            <tr>
+                                <td><b>Fax :</b></td>
+                                <td>@item.FAX_CONTACT</td>
+                            </tr>
+                            <tr>
+                                <td><b>Email :</b></td>
+                                <td>@item.MAIL1_COONTACT</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div>
+            <div class="col-lg-12">
+                <div class="box box-solid box-primary">
+                    <div class="box-header with-border titleprghp">
+                        <h3 class="box-title">Données de contrat :</h3>
+                        <div class="box-tools pull-right">
+                           
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive " data-pattern="priority-columns">
+                                    <table cellspacing="0" id="" class="table table-small-font table-bordered ">
+
+                                        <tbody>
+@foreach (var item in ViewBag.DetailCtr)
+{
+                                            <tr>
+                                                <td><b>Numéro de contrat  :</b></td>
+                                                <td>@item.REF_CTR_PAPIER_CTR</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><b>Avec recours :</b></td>
+                                                @if (item.CA_CTR != null)
+                                                {
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", item.CA_CTR)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:right" data-title="">0,000 </td>
+                                                }
+
+                                              
+                                            </tr>
+                                            <tr>
+                                                <td><b>Sans recours :</b></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Date du contrat/Renouvellement :</b></td>
+
+                                                @if (item.DAT_PROCH_VERS_CTR != null)
+                                                {
+                                                    <td data-title="">
+                                                        @item.DAT_PROCH_VERS_CTR.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td data-title="">
+                                                        @item.DAT_PROCH_VERS_CTR
+                                                    </td>
+                                                }
+                                              
+                                            </tr>
+                                            <tr>
+                                                <td><b>Volume d'achat contractuel :</b></td>
+                                                @if (item.CA_CTR != null)
+                                                {
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", item.CA_CTR)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:right" data-title="">0,000 </td>
+                                                }
+                                           
+                                            </tr>
+                                        
+}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+           
+        </div>
+        <div class="col-lg-6">
+            <div class="col-lg-12">
+                <div class="box box-solid box-primary">
+                    <div class="box-header with-border titleprghp">
+                        <h3 class="box-title">Information commerciale :</h3>
+                        <div class="box-tools pull-right">
+                           
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive " data-pattern="priority-columns">
+                                    <table cellspacing="0" id="" class="table table-small-font table-bordered ">
+
+                                        <tbody>
+@foreach (var item in ViewBag.DetailCtr)
+{
+                                            <tr>
+                                                <td><b>Date d'entrée en activité :</b></td>
+
+                                                @if (item.DAT_SIGN_CTR != null)
+                                                {
+                                                    <td data-title="">
+                                                        @item.DAT_SIGN_CTR.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td data-title="">
+                                                        @item.DAT_SIGN_CTR
+                                                    </td>
+                                                }
+                                                
+                                            </tr>
+
+                                            <tr>
+                                                <td><b>L'activités/marché :</b></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Chiffre d'affaires global :</b></td>
+                                                @if (item.CA_CTR != null)
+                                                {
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", item.CA_CTR)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:right" data-title="">0,000 </td>
+                                                }
+                                               
+                                            </tr>
+                                            <tr>
+                                                <td><b>Local :</b></td>
+                                                @if (item.CA_IMP_CTR != null)
+                                                {
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", item.CA_IMP_CTR)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:right" data-title="">0,000 </td>
+                                                }
+                                               
+                                            </tr>
+                                            <tr>
+                                                <td><b>Export :</b></td>
+                                                @if (item.CA_EXP_CTR != null)
+                                                {
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", item.CA_EXP_CTR)
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:right" data-title="">0,000 </td>
+                                                }
+                                               
+                                            </tr>
+}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                    <div class="box box-solid box-primary">
+                        <div class="box-header with-border titleprghp">
+                            <h3 class="box-title">Engagements :</h3>
+                            <div class="box-tools pull-right">
+                               
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="table-responsive " data-pattern="priority-columns">
+                                        <table cellspacing="0" id="" class="table table-small-font table-bordered ">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th> Année N - 2</th>
+                                                    <th> Année N - 1</th>
+                                                    <th> Année N</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><b> Encours Financement:</b></td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["f2"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["f1"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["f"])
+
+                                                    </td>
+                                                 
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Volume d'achat :</b></td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng2_total_fact"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng1_total_fact"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng_total_fact"])
+
+                                                    </td>
+                                                   
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Encours d'achat :</b></td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng2_Total_Encours"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng1_Total_Encours"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng_Total_Encours"])
+
+                                                    </td>
+                                                  
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Intérêt :</b></td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng2_Total_Interet"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng1_Total_Interet"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng_Total_Interet"])
+
+                                                    </td>
+                                                
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Commission :</b></td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng2_Total_Commission"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng1_Total_Commission"])
+
+                                                    </td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng_Total_Commission"])
+
+                                                    </td>
+                                                    
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Délais de paiement :</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Les impayées :</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>ratios Impayés :</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Rétrocessions :</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Nbre :</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Volume :</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><b>Fonds de Garantie :</b></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td data-title="" style="text-align:right">
+                                                        @String.Format("{0:N3}", @TempData["eng_Total_FDG"])
+
+                                                    </td>
+                                                    
+                                                </tr>
+
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-12">
+        <div class="box box-solid box-primary">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title">Détails des Acheteurs ayant une limite* :</h3>
+                <div class="box-tools pull-right">
+                   
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="" class="table table-small-font table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>Nom Acheteur</th>
+                                        <th>Limite des crédit</th>
+                                        <th>Assurance </th>
+                                        <th>Encours des achats</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   @foreach (var item in ViewBag.DetailAchAdh)
+                                   {
+                                    <tr>
+                                        <td>@item.NomAch</td>
+                                        @if (item.MONT_ACC != null)
+                                        {
+                                            <td data-title="" style="text-align:right">
+                                                @String.Format("{0:N3}", item.MONT_ACC)
+
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="text-align:right" data-title="">0,000 </td>
+                                        }
+                                       
+                                        <td></td>
+                                        @if (item.Column1 != null)
+                                        {
+                                            <td data-title="" style="text-align:right">
+                                                @String.Format("{0:N3}", item.Column1)
+
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="text-align:right" data-title="">0,000 </td>
+                                        }
+                                      
+                                    </tr>
+                                   }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="box box-solid box-primary">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title">Narratif sur l'affaire: (Pts forts/pts faibles) :</h3>
+                <div class="box-tools pull-right">
+                   
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="" class="table table-small-font table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Information</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.infoctr)
+                                    {
+                                        <tr>
+                                            @if (item.DATE_INFO_CTR != null)
+                                            {
+                                                <td data-title="">
+                                                    @item.DATE_INFO_CTR.ToString("dd/MM/yyyy")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td data-title="">
+                                                    @item.DATE_INFO_CTR
+                                                </td>
+                                            }
+                                            
+                                            <td>@item.LIBELLE_INFO_CTR</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="box box-solid box-primary">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title">Acheteurs du contrat :</h3>
+                <div class="box-tools pull-right">
+                   
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="" class="table table-small-font table-bordered ">
+                                <thead>
+                                    <tr>
+                                        <th>Nom Acheteur</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.ListeAch)
+                                    {
+
+                                        <tr>
+                                            <td>@item.NomAch</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

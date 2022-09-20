@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "DetailleLettrage";
+    Layout = "~/Views/Shared/_Layout - Copy.cshtml";
+}
+
+
+<div class="table-responsive " data-pattern="priority-columns">
+    <table cellspacing="0" id="FactureParAn" class="table table-small-font table-bordered data_table">
+        <thead>
+
+            <tr class="bg-primary">
+                <th data-priority="3"><center>Contrat</center></th>
+                <th data-priority="1">Nom Adherent</th>
+                <th data-priority="1"><center>Année</center></th>
+                <th data-priority="1"><center>Total des Factures</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.DetaileFactureParAn)
+            {
+
+                <tr>
+                    <td>
+                        @item.REF_CTR_DET_BORD 
+                    </td>
+                    <td>
+                        @item.NOM_IND 
+                    </td>
+                    <td>
+                        @item.Date 
+                    </td>
+                   
+                  
+
+                    <td style="text-align:right">
+                        @String.Format("{0:N3}", item.Somme_Facture) 
+                    </td>
+                   
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+</script>

@@ -1,0 +1,40 @@
+﻿
+    <table cellspacing="0" class="table table-small-font table-bordered data_table" id="ralence">
+        <thead>
+
+            <tr class="bg-primary">
+                <th data-priority="3"><center>Réference Contrat</center></th>
+                <th data-priority="1"> Libelle Relance </th>
+                <th data-priority="1"><center>Réference Document</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.ralance)
+            {
+
+                <tr data-annne="@item.ID_RELANCE">
+
+                    <td>
+                        @item.REF_CTR_RELANCE
+                    </td>
+                    <td>
+                        @item.LIBELLE_RELANCE
+                    </td>
+                    <td>
+                        @item.REF_DOC_RELANCE
+                    </td>
+
+                  
+                    <td>
+                        <a href="/Financement/resolu/@item.ID_RELANCE" class="btn btn-success">
+                           Traiter
+                        </a>
+                    </td>
+
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+

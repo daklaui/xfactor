@@ -1,0 +1,424 @@
+﻿
+@{
+    ViewBag.Title = "Numérisation_des_documents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+tbody>tr:hover, tbody>tr.selected {
+    background-color: dodgerblue;
+    color:white;
+    cursor:pointer;
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+</style>
+@section header {
+
+<h1>
+    Gestion des documents 
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active"> Gestion des documents </li>
+    <li class="active">Numérisation_des_documents</li>
+</ol>
+    }
+@if (TempData["notice"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["notice"] !</strong>
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["error"] !</strong>
+    </div>
+}
+<div class="row">
+    @*<div class="col-lg-12">*@
+
+        @*<div class="col-lg-3">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    Demande de Report
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <form action="" method="post">
+                        <div class="col-lg-6">
+
+                            <div class="form-group">
+                                @Html.Label("Contrat :", htmlAttributes: new { @class = "control-label" })
+                                <input type="text" name="ID_IND_GED" class="form-control input-sm" />
+                                @Html.ValidationMessage("ID_IND_GED", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Libelle :", htmlAttributes: new { @class = "control-label" })
+                                <input type="text" name="LIBELLE2_GED" class="form-control input-sm" />
+                                @Html.ValidationMessage("LIBELLE2_GED", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Nom Individu :", htmlAttributes: new { @class = "control-label" })
+                                <input type="text" name="NOM_IND" class="form-control input-sm" />
+                                @Html.ValidationMessage("NOM_IND", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Salle :", htmlAttributes: new { @class = "control-label" })
+                                <select name="" class="form-control input-sm">
+                                    <option value="Salle 1">Salle 1</option>
+                                    <option value="Salle 2">Salle 2</option>
+                                    <option value="Salle 3">Salle 3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                @Html.Label("Armoire :", htmlAttributes: new { @class = "control-label" })
+                                <select name="" class="form-control input-sm">
+                                    <option value="Armoire 1">Armoire 1</option>
+                                    <option value="Armoire 2">Armoire 2</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Etagère :", htmlAttributes: new { @class = "control-label" })
+                                <select name="" class="form-control input-sm">
+                                    <option value="Etagere 1">Etagere 1</option>
+                                    <option value="Etagere 2">Etagere 2</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Boite :", htmlAttributes: new { @class = "control-label" })
+                                <select name="" class="form-control input-sm">
+                                    <option value="Boite D'archive 1">Boite D'archive 1</option>
+                                    <option value="Boite D'archive 2">Boite D'archive 2</option>
+                                    <option value="Boite D'archive 3">Boite D'archive 3</option>
+                                    <option value="Boite D'archive 4">Boite D'archive 4</option>
+                                    <option value="Boite D'archive 5">Boite D'archive 5</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Piéce :", htmlAttributes: new { @class = "control-label" })
+                                <input type="file" name="" class="form-control input-sm" />
+                                @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Valider</button>
+                    </form>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="col-lg-12">
+            <div class="table-responsive " data-pattern="priority-columns">
+                <table cellspacing="0" id="SCAN_GED" class="table table-small-font table-bordered">
+                    <thead>
+
+                        <tr class="bg-primary">
+                            <th data-priority="3"><center>Nom Individu</center></th>
+                            <th data-priority="1">Type Document :</th>
+                            <th data-priority="1"><center>Emetteur:</center></th>
+                            <th data-priority="1"><center>Etape GED :</center></th>
+                            <th data-priority="1"><center>Reference Document :</center></th>
+                            <th data-priority="1">Date Réception : </th>
+                            <th data-priority="1">Date Echeance</th>
+                            @*<th data-priority="1">R</th>
+                <th data-priority="1">P</th>
+                <th data-priority="1">E</th>
+                <th data-priority="1">Age</th>*@
+                        </tr>
+
+
+                        <tr>
+                            <th><center>Nom Individu</center></th>
+                            <th>Type Document :</th>
+                            <th><center>Emetteur:</center></th>
+                            <th><center>Etape GED :</center></th>
+                            <th><center>Reference Document :</center></th>
+                            <th>Date Réception : </th>
+                            <th>Date Echeance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       @foreach (var item in ViewBag.scan)
+                       {
+                           <tr data-id_ind_ged="@item.ID_CTR_GED" data-id_ged="@item.id">
+                               <td>
+                                   @item.NOM_IND
+                               </td>
+                               <td>
+                                   @item.LIBELLE_GED
+                               </td>
+                               <td>
+                                   @item.Expr2
+                               </td>
+                               <td>
+                                   @item.Etape_GED
+                               </td>
+                               <td>
+                                   @item.LIBELLE2_GED
+                               </td>
+                               <td>
+                                   @item.DATE_TACHE_GED.ToString("d")
+                               </td>
+                               <td>
+                                   @item.Date_Ech.ToString("d")
+                               </td>
+                               @*<td>
+                                   @item.R
+                               </td>
+                               <td>
+                                   @item.P
+                               </td>
+                               <td>
+                                   @item.E
+                               </td>
+                               <td>
+                                   @item.P
+                               </td>*@
+                           </tr>
+
+                       }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+<div id="exampleModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="/GED/Numérisation_des_documents" method="post" enctype="multipart/form-data">
+                    <div class="col-lg-6">
+                        <input type="hidden" name="id" id="id_doc" />
+                        <div class="form-group">
+                            @Html.Label("Contrat :", htmlAttributes: new { @class = "control-label" })
+                            <input type="text" name="ID_CTR_GED" id="ID_IND_GED" class="form-control input-sm" readonly />
+                            @Html.ValidationMessage("ID_CTR_GED", "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Libelle :", htmlAttributes: new { @class = "control-label" })
+                            <input type="text" name="LIBELLE2_GED" id="LIBELLE2_GED" class="form-control input-sm" />
+                            @Html.ValidationMessage("LIBELLE2_GED", "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Nom Individu :", htmlAttributes: new { @class = "control-label" })
+                            <input type="text" name="NOM_IND" id="NOM_IND" class="form-control input-sm" readonly />
+                            @Html.ValidationMessage("NOM_IND", "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Salle :", htmlAttributes: new { @class = "control-label" })
+                            <select name="salle_GED" class="form-control input-sm">
+                                <option value="Salle 1">Salle 1</option>
+                                <option value="Salle 2">Salle 2</option>
+                                <option value="Salle 3">Salle 3</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.Label("Armoire :", htmlAttributes: new { @class = "control-label" })
+                            <select name="Armoire_GED" class="form-control input-sm">
+                                <option value="Armoire 1">Armoire 1</option>
+                                <option value="Armoire 2">Armoire 2</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Etagère :", htmlAttributes: new { @class = "control-label" })
+                            <select name="Etgage_GED" class="form-control input-sm">
+                                <option value="Etagere 1">Etagere 1</option>
+                                <option value="Etagere 2">Etagere 2</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Boite :", htmlAttributes: new { @class = "control-label" })
+                            <select name="Archive_GED" class="form-control input-sm">
+                                <option value="Boite D'archive 1">Boite D'archive 1</option>
+                                <option value="Boite D'archive 2">Boite D'archive 2</option>
+                                <option value="Boite D'archive 3">Boite D'archive 3</option>
+                                <option value="Boite D'archive 4">Boite D'archive 4</option>
+                                <option value="Boite D'archive 5">Boite D'archive 5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Piéce :", htmlAttributes: new { @class = "control-label" })
+                            <input type="file" name="file" class="form-control input-sm" />
+                            @Html.ValidationMessage("", "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">Valider</button>
+                </form>
+
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        Demande de Report
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+                        <form action="/GED/ReportDate" method="post">
+                            <div class="form-group">
+                                @Html.Label("Nouvelle Date :", htmlAttributes: new { @class = "control-label" })
+                                <input type="date" name="nouveuadate" class="form-control input-sm"  required/>
+                                <input type="hidden" name="id_doc_ged" id="id_doc_ged" class="form-control input-sm" />
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Motif demande Report :", htmlAttributes: new { @class = "control-label" })
+                                <input type="text" name="motif_par_date" class="form-control input-sm" required />
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block">Report</button>
+                        </form>
+                    </div>
+                </div>
+
+                <form action="/GED/AnuulerTache" method="post">
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                            Demande de Report
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+
+                            <div class="form-group">
+                                @Html.Label("Motif d'annulation :", htmlAttributes: new { @class = "control-label" })
+                                <input type="hidden" name="id_doc_ged" id="id_doc_ged_motif" class="form-control input-sm" />
+                                <input type="text" name="motif_annulation" class="form-control input-sm" required />
+                            </div>
+
+
+                            <button type="submit" class="btn btn-success btn-block">Valider</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+    <script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/jquery-ui.min.js"></script>
+<script>
+    $("tbody tr").click(function () {
+        $(this).addClass("selected").siblings().removeClass("selected");
+        $("#NOM_IND").val($(this).find("td").eq(0).text().trim());
+        $("#ID_IND_GED").val($(this).data("id_ind_ged"));
+        $("#LIBELLE2_GED").val($(this).find("td").eq(4).text().trim());
+        $("#id_doc").val($(this).data("id_ged"));
+
+        $("#id_doc_ged").val($(this).data("id_ged"));
+        $("#id_doc_ged_motif").val($(this).data("id_ged"));
+        
+        $("#exampleModal1").modal();
+    });
+</script>
+
+    @*<div class="col-lg-12">
+        <div class="col-lg-2">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    Demande de Report
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            @Html.Label("Nouvelle Date :", htmlAttributes: new { @class = "control-label" })
+                            <input type="date" name="" class="form-control input-sm" />
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Label("Etagère :", htmlAttributes: new { @class = "control-label" })
+                            <select name="" class="form-control input-sm">
+                                <option value="Etagere 1">Etagere 1</option>
+                                <option value="Etagere 2">Etagere 2</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Report</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2">
+            <form action="" method="post">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        Demande de Report
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            @Html.Label("Motif d'annulation :", htmlAttributes: new { @class = "control-label" })
+                            <input type="text" name="" class="form-control input-sm" />
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success btn-block">Valider</button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+</div>*@

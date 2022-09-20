@@ -1,0 +1,216 @@
+﻿
+@model xfactor.Models.T_INDIVIDU
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+    string backgroundTR = "";
+}
+@section header {
+
+    <h1>
+        Individu
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active">Individu</li>
+        <li class="active">Details Individu</li>
+    </ol>
+}
+
+
+<a href="~/Individu/Index" class="btn btn-success">Liste des individu</a>
+@Html.ActionLink("modifier les informations de " + @Html.DisplayFor(model => model.NOM_IND), "EditIndividuPhy", new { id = @Html.DisplayFor(model => model.REF_IND) }, new { @class = "btn btn-success pull-right" })
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title">Details de  @Html.DisplayFor(model => model.NOM_IND) </h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-lg-12 col-md-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#Summery" class="bg-dark text-white"><i class="fa fa-indent"></i> <b>Info d individu </b> </a></li>
+
+                        <li><a data-toggle="tab" href="#Address" class="bg-dark text-white"><b> autres informations</b> </a></li>
+                        <li><a data-toggle="tab" href="#Contact" class="bg-dark text-white"> <b> Autres Contacts  </b> </a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="Summery" class="tab-pane fade in active">
+
+                            <div class="table-responsive panel">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td class=""> <b>Nom</b> </td>
+                                            <td>@Html.DisplayFor(model => model.NOM_IND)</td>
+                                            <td class=""> <b> Prenom</b></td>
+                                            <td>@Html.DisplayFor(model => model.PRE_IND)</td>
+                                        </tr>
+
+                                    
+                                        <tr>
+                                            <td class=""><b>Date de naissance : </b></td>
+                                            <td>@Html.DisplayFor(model => model.DAT_NAISS_CREAT)</td>
+                                            <td class=""><b>Langue :  </b></td>
+                                            <td>@TempData["langue"]</td>
+                                        </tr>
+                                        <tr>
+                                            <td class=""><b>Profession : </b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.COD_SCLAS)
+                                            </td>
+                                            <td class=""> <b> Réference Adhérent  : </b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.REF_ADH_IND)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=""> <b> Réference Acheteur  : </b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.REF_ACH_IND)
+                                            </td>
+                                            <td class=""> <b> Péce d'identite : </b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.TYP_DOC_ID_IND)
+                                            </td>
+                                            <td class=""> <b> Numero pièce d'identité: </b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.NUM_DOC_ID_IND)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=""> <b> Délivrer le  : </b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.DATE_DOC_ID_IND)
+                                            </td>
+                                            <td class=""> <b> Lieu : </b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.LIEU_DOC_ID_IND)
+                                            </td>
+                                       
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="Address" class="tab-pane fade">
+                            <div class="table-responsive panel">
+                                <table class="table">
+                                    <tbody>
+
+                                        <tr>
+                                            <td class=""><b>Address</b></td>
+                                            <td>
+                                                <address>
+                                                    @Html.DisplayFor(model => model.ADR_IND)
+                                                </address>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=""><b> Ville et code postale : </b></td>
+                                            <td>
+                                                <b>  @TempData["codepostale"] </b> &nbsp;&nbsp;
+                                                @Html.DisplayFor(model => model.CP_IND)
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=""><b>Telephone  :</b></td>
+                                            <td>
+
+                                                @Html.DisplayFor(model => model.TEL_IND)
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=""><b>Fax  :</b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.FAX_IND)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class=""><b>Email :</b></td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.EMAIL_IND)
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="Contact" class="tab-pane fade">
+                            <div class="table-responsive panel">
+                                <table class="table">
+                                    @if (i % 2 == 0) { backgroundTR = "bg-info"; }
+                                    else { backgroundTR = ""; }
+                                    <thead>
+                                        <tr class="bg-info">
+                                            <th>Numero Contact</th>
+                                            <th>Nom et Prenom</th>
+                                            <th colspan="2">Téléphones</th>
+                                            <th colspan="2">Email</th>
+                                            <th>Fax</th>
+                                            <th>Etat</th>
+                                            <th>Role</th>
+                                        </tr>
+                                        @foreach (var item in ViewBag.ListContact)
+                                        {
+                                            <tr class="@backgroundTR">
+                                                <td>@i</td>
+                                                <td>@item.NOM_PRE_CONTACT</td>
+                                                <td>@item.TEL1_CONTACT</td>
+                                                <td>@item.TEL2_CONTACT</td>
+                                                <td>@item.MAIL1_COONTACT</td>
+                                                <td>@item.MAIL2_COONTACT</td>
+                                                <td>@item.FAX_CONTACT</td>
+                                                @if (item.ACTIF_CONTACT == true)
+                                                {
+                                                    <td>Actif</td>}
+                                                else
+                                                {
+                                                    <td>Non Actif</td> }
+                                                <td>@item.ROLE_CONTACT</td>
+
+                                            </tr>
+                                            i++;
+                                        }
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

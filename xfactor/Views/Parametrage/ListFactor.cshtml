@@ -1,0 +1,377 @@
+﻿@model IEnumerable<xfactor.Models.T_FACTOR>
+
+@{
+    ViewBag.Title = "ListFactor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+       .drop-shadow {
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+
+    
+    /* Force table to not be like tables anymore */
+	#no-more-tables table, 
+	#no-more-tables thead, 
+	#no-more-tables tbody, 
+	#no-more-tables th, 
+	#no-more-tables td, 
+	#no-more-tables tr { 
+		display: block; 
+	}
+ 
+	/* Hide table headers (but not display: none;, for accessibility) */
+	#no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	#no-more-tables tr { border: 1px solid #ccc; }
+ 
+	#no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+	}
+ 
+	#no-more-tables td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+ 
+	/*
+	Label the data
+	*/
+	#no-more-tables td:before { content: attr(data-title); }
+
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-success pull-right" href="/Parametrage/Factor">Ajouter un Factor</a>
+    </div>
+
+</div>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RAISON_SOCIAL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ABRV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MF)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODE_TVA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODE_DOUANE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ADRESSE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CAPITAL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CAPITAL_LETTRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LOGO_16)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LOGO_32)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LOGO_48)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TEL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FAX)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SITE_WEB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EXERCICE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DEVISE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LANGUE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PAYS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SRV_DB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNX_DB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MDP_CNX)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Det_Doc_GED)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem =>)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem =>)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LOGO_16)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LOGO_32)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LOGO_48)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => )
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SRV_DB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CNX_DB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MDP_CNX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Det_Doc_GED)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID_FACTOR }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID_FACTOR }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID_FACTOR })
+        </td>
+    </tr>
+}
+
+</table>*@
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4">
+            <div class="panel panel-primary  drop-shadow">
+                <div class="panel-heading"> <i class="fa fa-fw fa-building-o"></i> <b><i>  @item.RAISON_SOCIAL</i></b></div>
+                <div class="panel-body">
+
+                    <div class="row">
+              <div id="no-more-tables">
+                            <table class="col-md-12 table-bordered table-striped table-condensed cf">
+                                <thead class="cf">
+                                    
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @if (@item.RAISON_SOCIAL== null)
+                                        {
+                                        <td data-title="Raison Sociale :">Vide</td> }
+                                        else
+                                        {<td data-title="Raison Sociale :">@item.RAISON_SOCIAL  </td>}
+
+                                        @if (@item.ABRV== null)
+                                        {
+                                            <td data-title="Abréviation:">Vide</td> }
+                                        else
+                                        {
+                                        <td data-title="Abréviation :">@item.ABRV  </td>}
+
+                                        @if (@item.RC== null)
+                                        {
+                                            <td data-title="Registre de Commerce:">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="Registre de Commerce :">@item.RC  </td>}
+
+                                        @if (@item.MF== null)
+                                        {
+                                            <td data-title="Matricule Fiscale :">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="Matricule Fiscale :">@item.MF  </td>}
+
+                                        @if (@item.CODE_TVA== null)
+                                        {
+                                            <td data-title="Code TVA:">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="Code TVA :">@item.CODE_TVA  </td>}
+                                  
+                                        @if (@item.CODE_DOUANE== null)
+                                        {
+                                            <td data-title="Code Douane:">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="Code Douane :">@item.CODE_DOUANE  </td>}
+                                     
+
+
+                                        @if (@item.ADRESSE== null)
+                                        {
+                                            <td data-title="Adresse:">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="Adresse:">@item.ADRESSE  </td>}
+
+                                        @if (@item.CAPITAL == null)
+                                        {
+                                            <td data-title="Capital:">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="Capital:">@item.CAPITAL  </td>}
+
+                                        @if (@item.CAPITAL_LETTRE==null)
+                                        {
+                                            <td data-title="Capital En Lettres:">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="Capital En Lettres:">@item.CAPITAL_LETTRE  </td>}
+
+                                        @if (@item.EMAIL==null)
+                                        {
+                                            <td data-title="EMAIL:">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="EMAIL:">@item.EMAIL  </td>}
+
+
+                                        @if (@item.SITE_WEB== null)
+                                        {
+                                            <td data-title="SITE WEB :">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="SITE WEB :">@item.SITE_WEB  </td>}
+
+       
+
+                                        @*<td data-title="EXERCICE :">@item.EXERCICE</td>*@
+
+                                        @if (@item.DEVISE== null)
+                                        {
+                                            <td data-title="DEVISE :">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="DEVISE:">@item.DEVISE  </td>}
+
+                                        @if (@item.LANGUE==null)
+                                        {
+                                            <td data-title="LANGUE :">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="LANGUE:">@item.LANGUE  </td>}
+
+                              
+                                        @if (@item.PAYS== null)
+                                        {
+                                            <td data-title="PAYS :">Vide</td> }
+                                        else
+                                        {
+                                            <td data-title="PAYS:">@item.PAYS  </td>}
+
+                                  
+                                        @*<td data-title="TEL :">@item.TEL</td>
+                                        <td data-title="FAX :">@item.FAX</td>*@
+                                    </tr>
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    }
+</div>

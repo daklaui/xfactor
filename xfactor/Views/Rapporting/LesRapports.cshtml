@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "LesRapports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+   #TableDesCtr > tbody > tr:hover,#TableDesCtr > tbody > tr.selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+
+
+        <div class="box box-info boxx">
+            <div class="box-header with-border bg-info">
+                <b>Les Adhérents </b>
+            </div>
+            <div class="box-body">
+                <table id="TableDesCtr" class="col-md-12 table-bordered table-condensed">
+                    <thead>
+                        <tr class="bg-primary">
+                            <th>N°Contrat</th>
+                            <th>Réf Contrat</th>
+                            <th>Nom Adhérent</th>
+                            <th>Id Adhérent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.ADH)
+                        {
+                            <tr data-ind="@item.c" data-ctr="@item.a">
+                                <td>
+                                    @item.a
+                                </td>
+                                <td>@item.d</td>
+                                <td>@item.b</td>
+                                <td>@item.c</td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+        <div id="exampleModal1" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="hidden" id="id_adh" />
+                                <input type="hidden" id="ctr_ref" />
+                                <table class="table-bordered table-condensed">
+                                    <tbody>
+                                        <tr>
+                                            <td><button class="btn btn-xs btn-success" type="button" id="Depassement_de_Limite"><i class="fa fa-fw fa-list"></i> Depassement de Limite </button>  </td> 
+                                            <td><button class="btn  btn-xs  btn-success" id="Factures_en_litige" type="button"><i class="fa fa-fw fa-list"></i> Factures en litige</button></td>
+                                            <td> <button class="btn  btn-xs  btn-success" id="Factures_en_retard" type="button"><i class="fa fa-fw fa-list"></i>Factures en retard </button> </td>
+                                            <td><button class="btn   btn-xs  btn-success" id="Disponible_contrat " type="button"><i class="fa fa-fw fa-list"></i>  Disponible contrat </button></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td> <button class="btn btn-success btn-xs" id="Impayé_Contrat" type="button"><i class="fa fa-fw fa-list"></i> Impayé Contrat </button></td>
+                                            <td><button class="btn btn-success btn-xs" id="Encours_Factures"type="button"><i class="fa fa-fw fa-list"></i>  Encours Factures</button>  </td>
+                                            <td><button class="btn btn-success btn-xs" id="Liste_Des_Financements" type="button"><i class="fa fa-fw fa-list"></i>Liste Des Financements</button></td>
+                                            <td> <button class="btn btn-success btn-xs" id="Extrait_Adhérent" type="button"><i class="fa fa-fw fa-list"></i>Extrait Adhérent</button> </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><button class="btn btn-success btn-xs" id="Rapport_hebdomadaire_des_adhérents" type="button"><i class="fa fa-fw fa-list"></i>   Rapport hebdomadaire des adhérents</button></td>
+                                            <td> <button class="btn btn-success btn-xs" id="Encaissements_non_échus" type="button"><i class="fa fa-fw fa-list"></i> Encaissements non échus </button></td>
+                                            <td><button class="btn btn-success btn-xs" id="Relevé_mensuel" type="button"><i class="fa fa-fw fa-list"></i>  Relevé mensuel</button>  </td>
+                                            <td><button class="btn btn-success btn-xs" id="Commission_par_bordereau" type="button"><i class="fa fa-fw fa-list"></i>Commission par bordereau</button></td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td> <button class="btn btn-success btn-xs" id="Retenu_la_source" type="button"><i class="fa fa-fw fa-list"></i>Retenu la source</button> </td>
+                                            <td><button class="btn btn-success btn-xs" id="Etat_des_factures" type="button"><i class="fa fa-fw fa-list"></i>  Etat des factures </button></td>
+                                            <td> <button class="btn btn-success btn-xs" id="Etat_des_encaissements" type="button"><i class="fa fa-fw fa-list"></i>  Etat des encaissements</button></td>
+                                            <td><button class="btn btn-success btn-xs" id="Etat_des_contrats" type="button"><i class="fa fa-fw fa-list"></i>  Etat des contrats</button>  </td>
+                                            
+
+                                        </tr>
+                                        <tr>
+                                            <td><button class="btn btn-success btn-xs" id="Fiche_Adhérent" type="button"><i class="fa fa-fw fa-list"></i>Fiche Adhérent</button></td>
+                                            <td> <button class="btn btn-success btn-xs" id="Etat_des_Prorogations" type="button"><i class="fa fa-fw fa-list"></i>Etat des Prorogations</button> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+
+
+
+        </div>
+
+   
+
+
+
+
+
+
+
+
+
+        <script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+        <script>
+            $("#TableDesCtr tbody tr").click(function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                $("#ctr_ref").val($(this).data("ctr"));
+                $("#id_adh").val($(this).data("ind"));
+                $("#exampleModal1").modal();
+            });
+            var url = "/Rapporting/DepassementLimiteAll";
+            $("#Depassement_de_Limite").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+            });
+            $("#Factures_en_litige").click(function () {
+                window.open("/Rapporting/DepassementLimiteAll", "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+            });
+            $("#Factures_en_retard").click(function () {
+                window.open("/Rapporting/DepassementLimiteAll", "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+            });
+            $("#Disponible_contrat").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+            });
+            $("#Impayé_Contrat").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+            });
+            $("#Encours_Factures").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+            });
+            $("#Liste_Des_Financements").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+
+            $("#Extrait_Adhérent").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Rapport_hebdomadaire_des_adhérents").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Relevé_mensuel").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Commission_par_bordereau").click(function () {
+                window.open("/Rapporting/Commission_rap/" + $("#id_adh").val(), "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Retenu_la_source").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Etat_des_factures").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Etat_des_encaissements").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Etat_des_contrats").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+
+            $("#Fiche_Adhérent").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+            $("#Etat_des_Prorogations").click(function () {
+                window.open(url, "nom_popup", "menubar=no, status=no, scrollbars=no, menubar=no, width=500, height=500");
+
+            });
+        </script>

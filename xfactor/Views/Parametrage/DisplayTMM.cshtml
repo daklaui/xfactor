@@ -1,0 +1,40 @@
+﻿@model IEnumerable<xfactor.Models.TR_TMM>
+
+
+<table class="table display">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DATE_DEBUT_TMM)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DATE_FIN_TMM)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TAUX_TMM)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DATE_DEBUT_TMM)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DATE_FIN_TMM)
+                </td>
+                <td>
+                    @(item.TAUX_TMM.ToString().Replace(",", ".").ToString())
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID_TMM }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ID_TMM }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID_TMM })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

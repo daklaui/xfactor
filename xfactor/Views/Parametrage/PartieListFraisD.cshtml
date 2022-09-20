@@ -1,0 +1,40 @@
+﻿@model xfactor.Models.TR_LISTE_FRAIS_DIVERS
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Abréviation Frais", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.ABREV_FRAIS_DIVERS, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ABREV_FRAIS_DIVERS, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Libellé Frais", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.LIB_FRAIS_DIVERS, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LIB_FRAIS_DIVERS, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Montant Frais", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.MONT_FRAIS_DIVERS, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MONT_FRAIS_DIVERS, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Type Frais", htmlAttributes: new { @class = "control-label " })
+                @Html.EditorFor(model => model.TYPE_FRAIS_DIVERS, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TYPE_FRAIS_DIVERS, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
+            </div>
+        </div>
+
+}
+

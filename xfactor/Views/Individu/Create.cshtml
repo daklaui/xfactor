@@ -1,0 +1,1076 @@
+﻿@model xfactor.Models.IndividuContactModel
+
+@{
+    ViewBag.Title = "Ajouter_Individu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .content {
+        min-height: 620px;
+    }
+/* USER PROFILE PAGE */
+ .card {
+    margin-top: 20px;
+    padding: 30px;
+    background-color: rgba(214, 224, 226, 0.2);
+    -webkit-border-top-left-radius:5px;
+    border-top-left-radius:5px;
+    -webkit-border-top-right-radius:5px;
+    border-top-right-radius:5px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.card.hovercard {
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 1);
+}
+.card.hovercard .card-background {
+    height: 130px;
+}
+.card-background img {
+    -webkit-filter: blur(25px);
+    -moz-filter: blur(25px);
+    -ms-filter: blur(25px);
+    filter: blur(25px);
+    margin-left: -100px;
+    margin-top: -200px;
+    min-width: 130%;
+}
+.card.hovercard .useravatar {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+}
+.card.hovercard .useravatar img {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+}
+.card.hovercard .card-info {
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+}
+.card.hovercard .card-info .card-title {
+    padding:0 5px;
+    font-size: 20px;
+    line-height: 1;
+    color: #262626;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.card.hovercard .card-info {
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 20px;
+    color: #737373;
+    text-overflow: ellipsis;
+}
+.card.hovercard .bottom {
+    padding: 0 20px;
+    margin-bottom: 17px;
+}
+.btn-pref .btn {
+    -webkit-border-radius:0 !important;
+}
+
+       .input-validation-error {
+         color: #D8000C;
+         border-color:red;
+    }
+        .input-validation-succes {
+         color: #00ff21;
+         border-color:green;
+    }
+    .sauter {
+        padding-bottom: 5px;
+    }
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+    .large {
+     width: 90%;
+     margin:auto;
+
+    }
+</style>
+
+@section header {
+<h1>
+    Individu
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active">Individu</li>
+    <li class="active">Ajouter Individu</li>
+</ol>
+    }
+
+
+    <div class="alert alert-success alert-dismissible fade in" style="display:none" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> enregistrement a été effectué avec succès !</strong>
+    </div>
+
+
+
+    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab">
+                <div class="hidden-xs"><b>Individu Moral</b></div>
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab">
+                <div class="hidden-xs"><b>Individu Physqiue</b></div>
+            </button>
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="tab-content">
+            <div class="row">
+                 <div class="col-lg-12">
+                      <div class="col-sm-2  pull-right">
+                          <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-success btn-block ">
+                              <i class="fa fa-address-card"></i>
+                              Ajouter Contact
+                          </button>
+                      </div>
+               </div>
+            </div>
+            <hr />
+    
+                <div class="tab-pane fade in active" id="tab1">
+                    <!--DEBUT-->
+                    @using (Html.BeginForm("Create", "Individu",FormMethod.Post,new { id = "myForm" }))
+                    {
+                        @Html.Hidden("gnd", "PM");
+                        <div class="row">
+                            <div class="col-md-9">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="box box-default">
+                                            <div class="box-header with-border titleprghp">
+                                                <h3 class="box-title">Fiche individu</h3>
+                                                <div class="box-tools pull-right">
+                                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Forme juridique :</label>
+                                                            @Html.DropDownList("FROM_JUR_IND", (IEnumerable<SelectListItem>)ViewBag.LISTJURIDIQ, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                            @Html.ValidationMessage("FROM_JUR_IND", "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.Label("Dénomination : ", htmlAttributes: new { @class = "control-label" })
+
+                                                            @Html.Editor("NOM_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessage("NOM_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Nom commercial :", htmlAttributes: new { @class = "control-label" })
+
+                                                            @Html.Editor("PRE_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessage("PRE_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Registre de commerce :", htmlAttributes: new { @class = "control-label" })
+
+                                                            @Html.Editor("NUM_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm",id= "NUM_DOC_ID_IND_PM" } })
+                                                            @Html.ValidationMessage("NUM_DOC_ID_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Lieu :", htmlAttributes: new { @class = "control-label" })
+
+                                                            @Html.Editor("LIEU_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessage("LIEU_DOC_ID_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Role :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.DropDownList("untextici", new List<SelectListItem>
+                                       {new SelectListItem {Text = "-----------" , Value="",Selected=true,Disabled=true },
+                                           new SelectListItem {Text = "Acheteur" , Value="Acheteur" },
+                                           new SelectListItem {Text = "Adhérent" , Value="Adhérent"},
+                                            new SelectListItem {Text = "Adhérent et Acheteur" , Value="Adhérent&Ach"},
+                                       }, new { @class = "form-control input-sm",id="choisirRole" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            @Html.Label("Groupe de sociétés : ", htmlAttributes: new { @class = "control-label" })
+                                                            <select name="GRP_IND" id="ESTDANSGROUPE" class="form-control input-sm " >
+                                                                <option value="0" selected>Non</option>
+                                                                <option value="1" >Oui</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Groupe de sociétés : ", htmlAttributes: new { @class = "control-label" })
+                                                            <select name="ID_GROUPE" id="NOM_GROUPE" class = "form-control input-sm " data-live-search = "true" disabled >
+                                                                <option value="" disabled selected>***************</option>
+                                                                @foreach (var item in ViewBag.ListeGroup)
+                                                                {
+                                                                    <option value="@item.Value">@item.Text</option>
+                                                                }
+                                                                <option value="Creation" >Ajouter un groupe</option>
+                                                            </select>
+                                                            @Html.ValidationMessage("GRP_IND", "", new { @class = "text-danger" })
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Activité :</label>
+                                                            @Html.DropDownList("COD_SCLAS", (IEnumerable<SelectListItem>)ViewBag.ListValProf, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                            @Html.ValidationMessage("COD_SCLAS", "", new { @class = "text-danger" })
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Date de création : ", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("DATE_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date" } })
+                                                            @Html.ValidationMessage("DATE_DOC_ID_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label(" Code TVA :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("COD_TVA_IND", new { htmlAttributes = new { @class = "form-control input-sm" } }) 
+                                                          
+                                                            @Html.ValidationMessage("COD_TVA_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Nationalite : </label>
+                                                            <select class="form-control input-sm selectpicker">
+                                                                <option>Tunisienne</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label(" Code adhérent :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("REF_ADH_IND", new { htmlAttributes = new { @class = "form-control input-sm",id= "REF_ADH_IND", @disabled=true} })
+                                                            @Html.ValidationMessage("REF_ADH_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+
+                                                        @*<div class="form-group">
+                                                            <label class="control-label">Role : </label>
+                                                            @Html.DropDownList("FROM_JUR_IND", (IEnumerable<SelectListItem>)ViewBag.LISTJURIDIQ, new { @class = "form-control input-sm" })
+                                                            @Html.ValidationMessage("FROM_JUR_IND", "", new { @class = "text-danger" })
+                                                        </div*@
+
+                                                        <div class="form-group" style="margin-top: 43px;">
+                                                            @Html.Label("Exonération TVA:", htmlAttributes: new { @class = "control-label" })
+
+                                                            <select name="EXO_TVA" id="EXO_TVA" class="form-control input-sm ">
+                                                                <option value="0" selected>Non</option>
+                                                                <option value="1">Oui</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group" style="margin-top: 18px;">
+                                                            @Html.Label("Date Debut Exonération TVA:", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("DAT_DEB_EXO", new { htmlAttributes = new { @class = "form-control input-sm", type = "date" ,id= "DAT_DEB_EXO"  , @disabled = true } })
+                                                            @Html.ValidationMessage("DAT_DEB_EXO", "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.Label("Date Fin Exonération TVA:", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("DAT_FIN_EXO", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date", id = "DAT_FIN_EXO", @disabled = true } })
+                                                            @Html.ValidationMessage("DAT_FIN_EXO", "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Langue : </label>
+                                                            @Html.DropDownList("ID_NLDP", (IEnumerable<SelectListItem>)ViewBag.ListValLang, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                            @Html.ValidationMessage("ID_NLDP", "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.Label(" Code Acheteur :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("REF_ACH_IND", new { htmlAttributes = new { @class = "form-control input-sm",id= "REF_ACH_IND", @disabled = true  } })
+                                                            @Html.ValidationMessage("REF_ACH_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <table id="myTable" class="table order-list">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>RIB</th>
+                                                                    <th>Banque</th>
+                                                                    <th>Agence</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td width="50%">
+                                                                        <input type="number" name="ribs[0].RIB_RIB1" class="verifeRib1" size="2" style="width:10%" />-<input type="number" name="ribs[0].RIB_RIB2" class="verifeRib2" id="code_Ag" size="2" style="width:20%" />-<input type="number" class="verifeRib3" name="ribs[0].RIB_RIB3" />
+                                                                    </td>
+
+                                                                    <td><input type="text" class="nom_bq" readonly/></td>
+
+                                                                    <td><input type="text" class="nom_Ag" readonly/></td>
+                                                                    <td><button type="button" id="ajouterRIB" class="btn btn-sm btn-success">+</button></td>
+                                                                </tr>
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                   
+                                                                </tr>
+                                                                <tr></tr>
+                                                            </tfoot>
+                                                        </table>
+
+
+                                                    </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="box box-default">
+                                        <div class="box-header with-border titleprghp">
+                                            <h3 class="box-title">Plus des informations</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @Html.Label("Adresse:", htmlAttributes: new { @class = "control-label" })
+
+                                                        @Html.Editor("ADR_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessage("ADR_IND", "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label">Ville :</label>
+                                                        @Html.DropDownList("CP_IND", (IEnumerable<SelectListItem>)ViewBag.ListValcp, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                        @Html.ValidationMessage("CP_IND", "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Telephone : ", htmlAttributes: new { @class = "control-label" })
+
+                                                        @Html.Editor("TEL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessage("TEL_IND", "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.Label("Fax :", htmlAttributes: new { @class = "control-label" })
+
+                                                        @Html.Editor("FAX_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessage("FAX_IND", "", new { @class = "text-danger" })
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Email :", htmlAttributes: new { @class = "control-label" })
+
+                                                        @Html.Editor("EMAIL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessage("EMAIL_IND", "", new { @class = "text-danger" })
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Login :", htmlAttributes: new { @class = "control-label" })
+                                                        @Html.Editor("LOGIN_WEB", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessage("LOGIN_WEB", "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.Label("Password :", htmlAttributes: new { @class = "control-label" })
+                                                        @Html.Editor("PASSWORD_WEB", new { htmlAttributes = new { @class = "form-control input-sm",type="password" } })
+                                                        @Html.ValidationMessage("PASSWORD_WEB", "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--Table Contact Individu Moral-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="box box-default">
+                                <div class="box-header with-border titleprghp">
+                                    <h3 class="box-title">Plus des informations</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-condensed" id="ContactPM">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom et Prénom</th>
+                                                        <th>Position</th>
+                                                        <th>Téléphone</th>
+                                                        <th>Email</th>
+                                                        <th>Fax</th>
+                                                        <th>Etat</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-4 col-centered">
+
+                                    <button id="SubmitPM" type="button" class="btn btn-primary btn btn-block">
+                                        <i class="fa fa-user-plus"></i>
+                                        Ajouter Individu
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            @Html.Hidden("test", "false", new { id = "test" });
+                            }
+                            <!--END-->
+                        </div>
+                <!-- END INDIVIDU MOARAL-->
+                <div class="tab-pane fade in" id="tab2">
+                   @using (Html.BeginForm("Create", "Individu", FormMethod.Post, new { id = "myFormPP" }))
+                   {
+                        @Html.Hidden("gnd", "PP");
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="box box-default">
+                                            <div class="box-header with-border titleprghp">
+                                                <h3 class="box-title">Fiche individu</h3>
+                                                <div class="box-tools pull-right">
+                                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            @Html.Label("Nationnalite :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.DropDownList("untextici", new List<SelectListItem>
+                                       {
+                                           new SelectListItem {Text = "Tunisienne" , Value="0",Selected=true}
+
+                                       }, new { @class = "form-control input-sm selectpicker" })
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Langue : </label>
+                                                            @Html.DropDownList("ID_NLDP", (IEnumerable<SelectListItem>)ViewBag.ListValLang, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                            @Html.ValidationMessageFor(model => model.individu.ID_NLDP, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            @Html.Label("Role :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.DropDownList("untextici", new List<SelectListItem>
+                                       {new SelectListItem {Text = "-----------" , Value="",Selected=true,Disabled=true },
+                                           new SelectListItem {Text = "Acheteur" , Value="Acheteur" },
+                                           new SelectListItem {Text = "Adhérent" , Value="Adhérent"},
+                                            new SelectListItem {Text = "Adhérent et Acheteur" , Value="Adhérent&Ach"},
+                                       }, new { @class = "form-control input-sm selectpicker", id = "choisirRolePP" })
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Nom : ", htmlAttributes: new { @class = "control-label" })
+
+                                                            @Html.Editor("NOM_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessageFor(model => model.individu.NOM_IND, "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Prenom:", htmlAttributes: new { @class = "control-label" })
+
+                                                            @Html.Editor("PRE_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessageFor(model => model.individu.PRE_IND, "", new { @class = "text-danger" })
+
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Date de Naissance   : </label>
+                                                            @Html.Editor("DAT_NAISS_CREAT", new { htmlAttributes = new { @class = "form-control input-sm", type = "date" } })
+                                                            @Html.ValidationMessageFor(model => model.individu.DAT_NAISS_CREAT, "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                      
+
+                                                    </div>
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Profession  : </label>
+
+                                                            @Html.DropDownList("COD_SCLAS", (IEnumerable<SelectListItem>)ViewBag.ListValProf, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                        </div>
+
+                                                        @*<div class="form-group">
+                                                            <label class="control-label">Reference Achteur  : </label>
+                                                            @Html.Editor("REF_ACH_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessageFor(model => model.individu.REF_ACH_IND, "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Reference Adherent  : </label>
+                                                            @Html.Editor("REF_ADH_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessageFor(model => model.individu.REF_ADH_IND, "", new { @class = "text-danger" })
+                                                        </div>*@
+                                                        <div class="form-group">
+                                                            @Html.Label("Login :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("LOGIN_WEB", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                            @Html.ValidationMessage("LOGIN_WEB", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label("Password :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("PASSWORD_WEB", new { htmlAttributes = new { @class = "form-control input-sm", type = "password" } })
+                                                            @Html.ValidationMessage("PASSWORD_WEB", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label(" Code adhérent :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("REF_ADH_IND", new { htmlAttributes = new { @class = "form-control input-sm",id= "REF_ADH_INDPP" } })
+                                                            @Html.ValidationMessage("REF_ADH_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.Label(" Code Acheteur :", htmlAttributes: new { @class = "control-label" })
+                                                            @Html.Editor("REF_ACH_IND", new { htmlAttributes = new { @class = "form-control input-sm" ,id= "REF_ACH_INDPP" } })
+                                                            @Html.ValidationMessage("REF_ACH_IND", "", new { @class = "text-danger" })
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="box box-default">
+                                        <div class="box-header with-border titleprghp">
+                                            <h3 class="box-title">Piéce d'identité</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Piece d'identite :</label>
+                                                        @Html.DropDownList("TYP_DOC_ID_IND", (IEnumerable<SelectListItem>)ViewBag.ListPiece, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                        @Html.ValidationMessageFor(model => model.individu.TYP_DOC_ID_IND, "", new { @class = "text-danger" })
+                                                    </div>
+
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Numéro pièce d'identité : ", htmlAttributes: new { @class = "control-label" })
+
+                                                        @Html.Editor("NUM_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm", id = "NUM_DOC_ID_IND_PHY" } })
+                                                        @Html.ValidationMessageFor(model => model.individu.NUM_DOC_ID_IND, "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label">délivré le   : </label>
+                                                        @Html.Editor("DATE_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm",type="date" } })
+                                                        @Html.ValidationMessageFor(model => model.individu.DATE_DOC_ID_IND, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Lieu :", htmlAttributes: new { @class = "control-label" })
+                                                        @Html.Editor("LIEU_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessageFor(model => model.individu.LIEU_DOC_ID_IND, "", new { @class = "text-danger" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="box box-default">
+                                        <div class="box-header with-border titleprghp">
+                                            <h3 class="box-title">Plus des informations</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        @Html.Label("Adresse:", htmlAttributes: new { @class = "control-label" })
+                                                        @Html.Editor("ADR_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessageFor(model => model.individu.ADR_IND, "", new { @class = "text - danger" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label">Ville :</label>
+                                                        @Html.DropDownList("CP_IND", (IEnumerable<SelectListItem>)ViewBag.ListValcp, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                                        @Html.ValidationMessageFor(model => model.individu.CP_IND, "", new { @class = "text - danger" })
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Telephone : ", htmlAttributes: new { @class = "control-label" })
+                                                        @Html.Editor("TEL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessageFor(model => model.individu.TEL_IND, "", new { @class = "text - danger" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.Label("Fax :", htmlAttributes: new { @class = "control-label" })
+                                                        @Html.Editor("FAX_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessageFor(model => model.individu.FAX_IND, "", new { @class = "text - danger" })
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Email :", htmlAttributes: new { @class = "control-label" })
+
+                                                        @Html.Editor("EMAIL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                                        @Html.ValidationMessageFor(model => model.individu.EMAIL_IND, "", new { @class = "text - danger" })
+
+                                                    </div>
+
+                                             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-9">
+                            <div class="col-md-12">
+                                <table id="myTable2" class="table order-list">
+                                    <thead>
+                                        <tr>
+                                            <th>RIB</th>
+                                            <th>Banque</th>
+                                            <th>Agence</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td width="50%">
+                                                <input type="number" name="ribs[0].RIB_RIB1" class="verifeRib1" size="2" style="width:10%" />-<input type="number" name="ribs[0].RIB_RIB2" class="verifeRib2" id="code_Ag" size="2" style="width:20%" />-<input type="number" class="verifeRib3" name="ribs[0].RIB_RIB3" />
+                                            </td>
+
+                                            <td><input type="text" class="nom_bq" readonly /></td>
+
+                                            <td><input type="text" class="nom_Ag" readonly /></td>
+                                            <td><button type="button" id="ajouterRIB2" class="btn btn-sm btn-success">+</button></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr></tr>
+                                        <tr></tr>
+                                    </tfoot>
+                                </table>
+
+
+                            </div>
+                        </div>
+                        <!--Table Contact IndividuPH-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="box box-default">
+                                    <div class="box-header with-border titleprghp">
+                                        <h3 class="box-title">Plus des informations</h3>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table class="table table-condensed" id="ContactPP">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom et Prénom</th>
+                                                            <th>Position</th>
+                                                            <th>Téléphone</th>
+                                                            <th>Email</th>
+                                                            <th>Fax</th>
+                                                            <th>Etat</th>
+                                                          
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-centered">
+
+                                                            <button  type="button" id="AjouteIndPH" class="btn btn-primary btn btn-block">
+                                                                <i class="fa fa-user-plus"></i>
+                                                                Ajouter Individu
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+
+                                                    @Html.Hidden("test", "false", new { @id = "test2" });
+                    }
+
+                </div>
+                <!-- END INDIVIDU PHYSIQUE-->
+          
+            </div>
+
+ </div>
+
+
+
+<!--Modal qui affiche formulaire d ajouter un groupe-->
+<div id="Groupe" class="modal fade" role="dialog">
+<div class="modal-dialog large">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Ajouter Groupe Société </h4>
+        </div>
+        <div class="modal-body">
+
+                <div class="form-group">
+                    @Html.Label("Nom de Groupe : ", htmlAttributes: new { @class = "control-label" })
+                    @Html.Editor("NOM_GROUP", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                    @Html.ValidationMessageFor(model => model.individu.TEL_IND, "", new { @class = "text - danger" })
+                </div>
+           <button type="button" id="ajouter_groupe" class="btn btn-primary">Ajouter</button>
+        </div>
+    </div>
+</div>
+</div>
+<!--Modal qui affiche formulaire d ajouter contact-->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ajouter Contact</h4>
+            </div>
+            <form id="formcontact">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+                                @Html.Label("Nom et prénom :", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("NOM_PRE_CONTACT", new { htmlAttributes = new { @class = "form-control input-sm", id = "NOM_PRE_CONTACT" } })
+                                @Html.ValidationMessage("NOM_PRE_CONTACT", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Position :</label>
+                                @Html.DropDownList("POS_CONTACT", (IEnumerable<SelectListItem>)ViewBag.ListValcp, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "POS_CONTACT" })
+                                @Html.ValidationMessage("POS_CONTACT", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Téléphone :", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("TEL1_CONTACT", new { htmlAttributes = new { @class = "form-control input-sm", id = "TEL1_CONTACT", type = "number" } })
+                                @Html.ValidationMessage("TEL1_CONTACT", "", new { @class = "text-danger"})
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Email : ", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("MAIL1_COONTACT", new { htmlAttributes = new { @class = "form-control input-sm", id = "MAIL1_COONTACT" } })
+                                @Html.ValidationMessage("MAIL1_COONTACT", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Fax :", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("FAX_CONTACT", new { htmlAttributes = new { @class = "form-control input-sm", id = "FAX_CONTACT" } })
+                                @Html.ValidationMessage("FAX_CONTACT", "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Situation:", htmlAttributes: new { @class = "control-label" })
+                                @Html.CheckBox("ACTIF_CONTACT", false, htmlAttributes: new { @class = "form-control input-sm", id = "ACTIF_CONTACT" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="ajoutercontact">Sauvgarder</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<!--Liste des Scriptes-->
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+<script src="~/Content/js/ScriptVerifFormIndividu.js"></script>
+<script src="~/Content/js/ScriptIndividu.js"></script>
+
+<script>
+$(document).ready(function () { 
+  $(".btn-pref .btn").click(function () {
+      $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+      $(this).removeClass("btn-default").addClass("btn-primary");
+  });
+});                             
+                                       ///
+                                  
+
+
+                        //ajouter les rib 
+$(document).on('keyup', 'input.verifeRib1', function (e) {
+    //alert(.index());
+    if ($(this).val().length == 2) {
+        $.ajax({
+            url: "/Individu/RechercheBanque/" + $(this).val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (data) {
+                $(e.target).closest("tr").find(".nom_bq").val(data)
+            }
+        });
+    }
+});
+
+var form = $("#myForm");
+$("#SubmitPM").click(function () {
+
+    if (form.valid())
+    {
+    $.ajax({
+        url: "/Individu/veriferIndividu/" +$("#NUM_DOC_ID_IND_PM").val() ,
+        type: "GET",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        success: function (data) {
+           
+
+
+
+
+            if (data == false) {
+                alert("Registre de commerce  " + $("#NUM_DOC_ID_IND_PM").val() + " déja Sauvgarder");
+            }
+            else {
+
+                $.ajax({
+                    url: "/Individu/veriferIndividuMF/" + $("#NUM_DOC_ID_IND_PM").val(),
+                    type: "GET",
+                    contentType: "application/json;charset=UTF-8",
+                    dataType: "json",
+                    success: function (data) { }
+                })
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Individu/Ajouter_Individu_Poste",
+                    data: form.serialize(),
+                    dataType: "json",
+                    // contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        //alert(data);
+                        if (data == "save") {
+                          
+                            $("#success-alert").show();
+                            document.getElementById("myForm").reset();
+                            window.location.href("/Individu/Index");
+                        }
+
+                    },
+                    error: function () {
+                        alert("Error while inserting data");
+                    }
+                });
+                   // $("#myForm").submit();
+            }
+        }
+    });
+    }
+});
+
+$("#ESTDANSGROUPE").change(function () {
+    if ($("#ESTDANSGROUPE").val() == "0") {
+        $("#NOM_GROUPE").attr("disabled", true);
+    }
+    else {
+        $("#NOM_GROUPE").removeAttr("disabled");
+    }
+});
+$("#EXO_TVA").change(function () {
+    if ($("#EXO_TVA").val() == "0") {
+        $("#DAT_DEB_EXO").attr("disabled", true);
+        $("#DAT_FIN_EXO").attr("disabled", true);
+    }
+    else {
+        $("#DAT_DEB_EXO").removeAttr("disabled");
+        $("#DAT_FIN_EXO").removeAttr("disabled");
+    }
+});
+                        /***************************************************************PH*/////////////////////
+                                        var form2 = $("#myFormPP");
+                                        $("#AjouteIndPH").click(function () {
+
+                                            if (form2.valid()) {
+                                                $.ajax({
+                                                    url: "/Individu/veriferIndividu/" + $("#NUM_DOC_ID_IND_PM").val(),
+                                                    type: "GET",
+                                                    contentType: "application/json;charset=UTF-8",
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        if (data == false) {
+                                                            alert("Cin " + $("#NUM_DOC_ID_IND_PM").val() + " déja Sauvgarder");
+                                                        }
+                                                        else {
+
+                                                          
+
+
+
+                                                            $("#myFormPP").submit();
+
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+                                        });
+
+
+                                        $(document).on('keyup', 'input.verifeRib2', function (e) {
+                                            //alert(.index());
+                                            if ($(this).val().length == 3) {
+                                                $.ajax({
+                                                    url: "/Individu/RechercheAgence/" + $(e.target).closest("tr").find(".verifeRib1").val()  + $(this).val(),
+                                                    type: "GET",
+                                                    contentType: "application/json;charset=UTF-8",
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        $(e.target).closest("tr").find(".nom_Ag").val(data)
+                                                    }
+                                                });
+                                            }
+                                        });
+
+                                      
+                                            
+
+
+                                        $("input[name='COD_TVA_IND']").blur(function () {
+                                            $.ajax({
+                                                url: "/Individu/TVAAlgo/" + $("input[name='COD_TVA_IND']").val(),
+                                                type: "GET",
+                                                contentType: "application/json;charset=UTF-8",
+                                                dataType: "json",
+                                                success: function (data) {
+                                                    $("input[name='COD_TVA_IND']").val(data);
+                                                }
+                                            });
+                                        });
+
+                                        $("#choisirRole").change(function () {
+                                            switch($("#choisirRole").val())
+                                            {
+                                                case 'Acheteur':
+                                                    $("#REF_ACH_IND").removeAttr("disabled");
+                                                    $("#REF_ADH_IND").attr("disabled", true);
+                                                    break;
+                                                case 'Adhérent':
+                                                    $("#REF_ADH_IND").removeAttr("disabled");
+                                                    $("#REF_ACH_IND").attr("disabled", true);
+                                                    break;
+                                                case 'Adhérent&Ach':
+                                                    $("#REF_ACH_IND").removeAttr("disabled");
+                                                    $("#REF_ACH_IND").removeAttr("disabled");
+                                                    break;
+                                            }
+                                            
+                                        });
+                                        $("#choisirRolePP").change(function () {
+                                            switch ($("#choisirRolePP").val()) {
+                                                case 'Acheteur':
+                                                    $("#REF_ACH_INDPP").removeAttr("disabled");
+                                                    $("#REF_ADH_INDPP").attr("disabled", true);
+                                                    break;
+                                                case 'Adhérent':
+                                                    $("#REF_ADH_INDPP").removeAttr("disabled");
+                                                    $("#REF_ACH_INDPP").attr("disabled", true);
+                                                    break;
+                                                case 'Adhérent&Ach':
+                                                    $("#REF_ADH_INDPP").removeAttr("disabled");
+                                                    $("#REF_ACH_INDPP").removeAttr("disabled");
+                                                    //  $("#").attr("disabled", true);
+                                                    break;
+                                            }
+
+                                        });
+                                    </script>

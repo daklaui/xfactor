@@ -1,0 +1,1084 @@
+﻿
+@{
+    ViewBag.Title = "financement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+
+</style>
+
+
+@section header {
+<h1>
+    Financement
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active"> Financement</li>
+
+</ol>
+    }
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>@TempData["message"]
+        </strong>
+        <a href='@TempData["Link"]' class='btn btn-danger' target='_blank'>@TempData["name"]</a>
+        
+     
+    </div>
+}
+
+<style>
+    .body {
+    font-size:small;
+    }
+</style>
+
+<div class="row">
+
+    <div class="col-lg-12">
+   
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Nom Adhérent :</label>
+                <select class="form-control input-sm selectpicker" id="test" data-live-search="true" name="REFCTR">
+                    <option value="" disabled selected>-- choisir nom --</option>
+
+                    @foreach (var resulta in ViewBag.ListNomInd)
+                    {
+                       <option value="@resulta.REF_CTR_CIR"><b>@resulta.NomAdh|@resulta.REF_CTR_CIR</b></option>
+                    }
+
+                </select>
+
+            </div>
+        </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <br />
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-default">Financement</button>
+                            <a  class="btn btn-success" target="_blank" id="ContratFin">Contrat</a>
+                            <a class="btn btn-primary" target="_blank" id="ConditionFin">Conditions Part</a>
+                            <a class="btn btn-default" target="_blank" id="RCFin">Visu RC</a>
+                            <a  class="btn btn-info"  target="_blank" id="MFFin">Visu MF</a>
+                            <button  class="btn btn-warning" id="Model_Extrait">Extrait_Compte</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+<div class="row">
+
+        <div class="col-lg-4">
+            <div class="input-group margin">
+                <div class="input-group-btn">
+                    @*<button type="button" id="" class="btn btn-warning">Extrait Compte</button>*@
+                    <button type="button" id="calculerdispo" class="btn btn-danger">Total Disponible</button>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="Dispo" readonly class="form-control">
+            </div>
+        </div>
+
+    <div class="col-lg-4" style="display:none">
+        <div class="input-group margin">
+            <div class="input-group-btn">
+                @*<button type="button" id="" class="btn btn-warning">Extrait Compte</button>*@
+                <button type="button" id="" class="btn btn-danger">Total Disponible Sans FDG Libérer</button>
+            </div>
+            <!-- /btn-group -->
+            <input type="text" id="Dispo_Sans_FDG" readonly class="form-control">
+        </div>
+    </div>
+
+    <div class="col-lg-4" style="display:none">
+        <div class="input-group margin">
+            <div class="input-group-btn">
+                @*<button type="button" id="" class="btn btn-warning">Extrait Compte</button>*@
+                <button type="button" id="" class="btn btn-danger">Total FDG Libérer</button>
+            </div>
+            <!-- /btn-group -->
+            <input type="text" id="fdglib" readonly class="form-control">
+        </div>
+    </div>
+
+
+    </div>
+
+            <div class="row">
+               
+                <div class="col-lg-12">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-default">
+                                    <div class="box-body ">
+                                        <div class="box-footer no-padding  ">
+                                            <div class="overlay" style="display:none">
+                                                <i class="fa fa-refresh fa-spin"></i>
+                                            </div>
+
+                                            <ul class="nav nav-stacked">
+                                                <li><a href="#"><span class="description-text">Encours de Factures</span> <span class="pull-right badge bg-blue" id="encours_fact"></span></a></li>
+                                                <li><a href="#" onclick="detaillFdg()"><span class="description-text">Fonds de Garantie</span> <span class="pull-right badge bg-blue" id="fdg"></span></a></li>
+
+                                                <li><a href="#" onclick="detaillDepLimit()"><span class="description-text">Dépassement de Limite de Financement Acheteurs<i class="fa fa-fw fa-eye"></i></span><span class="pull-right badge bg-blue" id="dep_limite_fin_ach"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Fonds de Reserve </span><span class="pull-right badge bg-blue" id="fonds_reserve">0</span></a></li>
+                                                <li><a href="#"><span class="description-text">Intéret Cumulé Mois En Cours </span><span class="pull-right badge bg-blue" id="INT_CU_MOIS_C"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Intéret Cumulé Année En Cours </span><span class="pull-right badge bg-blue" id="INT_CU_AN_C"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Intéret de Retard Cumulé Mois En Cours</span><span class="pull-right badge bg-blue" id="INT_RE_CU_MOIS_C"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Intéret de Retard Cumulé Année En Cours </span><span class="pull-right badge bg-blue" id="INT_RE_CU_AN_C"></span></a></li>
+
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+
+                                    <div class="panel-body">
+
+                                        <div class="box box-default">
+                                            <div class="box-body">
+
+                                                <div class="box-footer no-padding">
+                                                    <div class="overlay" style="display:none">
+                                                        <i class="fa fa-refresh fa-spin"></i>
+                                                    </div>
+                                                    <ul class="nav nav-stacked">
+
+                                                        <li><a href="#" onclick="impaye()"><span class="description-text"> Instruments de Paiement Impayés <i class="fa fa-fw fa-eye"></i></span><span class="pull-right badge bg-red" id="instrument_impye">0</span></a></li>
+                                                        <li><a href="#" onclick="retardalgo()"><span class="description-text">Retards Paiement Selon Algorithme <i class="fa fa-fw fa-eye"></i></span><span class="pull-right badge bg-red" id="retardp"></span></a></li>
+                                                        <li><a href="#"><span class="description-text">Litiges Ouverts en Dépassement </span><span class="pull-right badge bg-red" id="litigesouvert"></span></a></li>
+                                                        <li><a href="#"><span class="description-text">Total Disponible 2</span><span class="pull-right badge bg-red" id="dispo2"></span></a></li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            @*<div class="col-md-12">
+                        <div class="box box-default">
+
+                            <div class="box-body">
+
+                                <div class="box-footer no-padding">
+                                    <div class="overlay" style="display:none">
+                                        <i class="fa fa-refresh fa-spin"></i>
+                                    </div>
+                                    <ul class="nav nav-stacked">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-default">
+                                    <div class="box-body">
+
+                                        <div class="box-footer no-padding">
+                                            <div class="overlay" style="display:none">
+                                                <i class="fa fa-refresh fa-spin"></i>
+                                            </div>
+                                            <ul class="nav nav-stacked">
+                                                <li><a href="#" onclick="Facture()"><div class=""> <span class="description-text border-right">Total Factures <i class="fa fa-fw fa-eye"></i> </span><span class="pull-right badge" id="total_fact"></span></div></a></li>
+                                                <li><a href="#" onclick="Finanacment()"><span class="description-text">Total Financement <i class="fa fa-fw fa-eye"></i></span><span class="pull-right badge" id="total_fin"></span></a></li>
+                                                <li><a href="#" onclick="Avoir()"><span class="description-text">Total Avoir <i class="fa fa-fw fa-eye"></i></span><span class="pull-right badge" id="total_avoir"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Total Com Factoring</span><span class="pull-right badge" id="total_comf"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Total Frais divers</span><span class="pull-right badge" id="total_frais_d"></span></a></li>
+                                                <li><a href="#" onclick="detaillefrais()"><span class="description-text">Total Frais(C+T+V)<i class="fa fa-fw fa-eye"></i></span> <span class="pull-right badge" id="fraisCTV"></span></a></li>
+                                                <li><a href="#" onclick="credit()"><span class="description-text">Total Credit <i class="fa fa-fw fa-eye"></i></span><span class="pull-right badge" id="totalcredit"></span></a></li>
+                                                <li><a href="#" onclick="debit()"><span class="description-text">Total Débit <i class="fa fa-fw fa-eye"></i></span><span class="pull-right badge" id="totaldebt"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Financement par rapport Enc</span><span class="pull-right badge" id="fin_par_rapport_enc"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Total Intéret TTC</span> <span class="pull-right badge" id="total_interet"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Total Intéret de retard TTC</span> <span class="pull-right badge" id="total_interet_retard"></span></a></li>
+                                                <li><a href="#"><span class="description-text">Financement du mois</span><span class="pull-right badge" id="finmois"></span></a></li>
+                                                <li><a href="#" onclick="retenu()"><span class="description-text">Total Retenu <i class="fa fa-fw fa-eye"></i> </span><span class="pull-right badge" id="total_retenu"></span></a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-md-12">
+                        <div class="box box-default">
+                            <div class="box-body">
+
+                                <div class="box-footer no-padding">
+                                    <div class="overlay" style="display:none">
+                                        <i class="fa fa-refresh fa-spin"></i>
+                                    </div>
+                                    <ul class="nav nav-stacked">
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+
+
+
+                     
+                    </div>
+
+                </div>
+               
+            
+
+
+            </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <!-- Bar chart -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">Financements et Achats / mois</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div id="bar-chartb" class="chart" style="height: 300px;"></div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+            <!-- /.box -->
+            <!-- /.box -->
+        </div>
+    </div>
+</div>
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog">
+                @Html.BeginForm("financement", "Financement",FormMethod.Post , new { id = "formfinancement" })
+                {                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Financement</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group" id="ReverseFRS">
+                            
+                            </div>
+                                <div class="form-group">
+                                    @Html.Label("Financement : ", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("MONT_FIN", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma", type = "text" } })
+                                    @Html.ValidationMessage("MONT_FIN", "", new { @class = "text-danger" })
+                                </div>
+
+
+
+                                <input type="hidden" name="REF_CTR_FIN" id="REF_CTR_FIN" />
+                                <div class="form-group">
+                                    @Html.Label("Numero de l instrument de financement : ", htmlAttributes: new { @class = "control-label" })
+                                    <input type="number" name="REF_INSTR_FIN" class="form-control input-sm" value="@ViewBag.NumFIn" />
+
+                                    @Html.ValidationMessage("REF_INSTR_FIN", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Type de financement :", htmlAttributes: new { @class = "control-label" })
+
+                                    <select class="form-control input-sm" name="INSTR_FIN">
+                                        <option value="Cheque">Cheque</option>
+                                        <option value="Virement">Virement</option>
+                                        <option value="Billet à Ordre">Billet à Ordre</option>
+                                        <option value="Cheque/Traite">Cheque/Traite</option>
+                                        <option value="Traite">Traite</option>
+                                    </select>
+                                    @Html.ValidationMessage("INSTR_FIN", "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Date  de l instrument de financement : ", htmlAttributes: new { @class = "control-label" })
+                                    <input type="date" class="form-control input-sm" name="DAT_FIN" id="dtfin" />
+
+                                    @Html.ValidationMessage("DAT_FIN", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Financement
+                                      
+                                        <input type="checkbox" name="TypeFin" value="FinRDBTN" />
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Liberation FDG
+                                        <input type="checkbox" name="TypeFin" value="LibFDGRDBTN" />
+                                       
+
+                                    </label>
+                                </div>
+</form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Valider Financement</button>
+                    </div>
+                </div>
+                }
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+
+<div id="exampleModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+         
+              
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+               <div id="AddVal"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="exampleModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+          
+               <a href="" onclick="Extrait('Word')" class="btn btn-primary">Word</a>
+                <a href="" onclick="Extrait('Excel')" class="btn btn-success">Excel</a>
+                <a href="" onclick="Extrait('PDF')" class="btn btn-danger">PDF</a>
+                <a href="" onclick="Extrait('Image')" class="btn btn-info">Image</a>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+            <script src="~/Content/js/plugins/Chart.js"></script>
+            <script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+
+<script>
+
+
+   
+
+        var now = new Date();
+
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+
+        $('#dtfin').val(today);
+
+    $("#test").change(function () {
+        $('.overlay').show();
+                //alert($("#test").val());
+                $.get("/Financement/AllRecord",{ref_ctr:$("#test").val()},
+                  function (data) {
+                      if (data.Contrat == "" || data.Contrat==null) { $("#ContratFin").attr("disabled", "disabled"); } else { $("#ContratFin").attr("href", data.Contrat); }
+                      if (data.Condition == "" || data.Condition == null) { $("#ConditionFin").attr("disabled", "disabled"); } else { $("#ConditionFin").attr("href", data.Condition); }
+                      if (data.MF == "" || data.MF == null) { $("#RCFin").attr("disabled", "disabled"); } else { $("#RCFin").attr("href", data.MF); }
+                      if (data.RC == "" || data.RC == null) { $("#MFFin").attr("disabled", "disabled"); } else { $("#MFFin").attr("href", data.RC); }
+                     
+                      $('input[name$="LibFDGRDBTN"]').attr('readonly', false);
+                      $("#ReverseFRS").empty();
+                      /* Si le contrat de type reverse ==> Traitement*/
+                      if (data.type_contrat.trim() == "4")
+                      {
+                     
+                         // var Select = "<select class='form-control input-sm' id='FRS_LISTE' data-live-search='true' name='FRS' >";
+                          var $select = $('<select/>', {
+                              'class': "form-control input-sm selectpicker",'name':"FRS",'id':'FRS_LISTE' ,'data-live-search':'true' 
+                          });
+                          for (var i = 0; i < data.ListedesFRS.length; i++)
+                          {
+                              $select.append("<option value='" + data.ListedesFRS[i].REF_IND + "'>" + data.ListedesFRS[i].NOM_IND + "</option>");
+                          
+                          }
+                        //  Select += "</select>";
+                          $select.appendTo("#ReverseFRS").selectpicker('refresh');
+                          $('input[name$="LibFDGRDBTN"]').attr('readonly', true);
+
+                         // $("#ReverseFRS").append(Select);
+                         // $("#FRS_LISTE").addClass("selectpicker");
+                      }
+
+                 
+
+
+
+
+                      /* Fin de traitement */
+                 
+                      //fact
+                      if (data.total_ctr_final == null) {
+                          $("#encours_fact").text("0");
+
+                      }
+                      else {
+                      
+                          $("#encours_fact").text(data.total_ctr_final.toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      if (data.totalfact == null) { $("#total_fact").text("0"); }
+                      else {
+
+                          $("#total_fact").text(parseFloat(data.totalfact).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+
+                      //fin
+                      if (data.total_ctr_fin == null) {
+                          $("#total_fin").text("0");
+                      }
+                      else {
+                          $("#total_fin").text(parseFloat(data.total_ctr_fin).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      //avoir
+                      if (data.Avoir == null) {
+                          $("#total_avoir").text("0");
+                      }
+                      else {
+                          $("#total_avoir").text(parseFloat(data.Avoir).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      //commfact
+                      if (data.comfact == null) {
+                          $("#total_comf").text("0");
+                      }
+                      else {
+                          $("#total_comf").text(parseFloat(data.comfact).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      //frais_di
+                      if (data.t_fraisdivers == null) {
+                          $("#total_frais_d").text("0");
+                      }
+                      else {
+                          $("#total_frais_d").text(parseFloat(data.t_fraisdivers).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      //retenu
+                      if (data.total_retenu == null) {
+                          $("#total_retenu").text("0");
+                      }
+                      else {
+                          $("#total_retenu").text(parseFloat(data.total_retenu).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      //fdg
+                      if (data.FDG == null) {
+                          $("#fdg").text("0");
+                      }
+                      else {
+                          $("#fdg").text(parseFloat(data.FDG).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      //dep_limite_fin_ach
+                      if (data.dep_limite == null) {
+                          $("#dep_limite_fin_ach").text("0");
+                      }
+                      else {
+                          $("#dep_limite_fin_ach").text(parseFloat(data.dep_limite).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      //fonds_reserve
+                       if (data.FDR == null) {
+                        $("#fonds_reserve").text("0");
+                    }
+                    else {
+                           $("#fonds_reserve").text(parseFloat(data.FDR).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                    }
+                      //interet_c_par_mois
+                      if (data.interet_par_mois == null) {
+                          $("#INT_CU_MOIS_C").text("0");
+                      }
+                      else {
+                          $("#INT_CU_MOIS_C").text(parseFloat(data.interet_par_mois).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      if (data.interet_par_an == null) {
+                          $("#INT_CU_AN_C").text("0");
+                      }
+                      else {
+                          $("#INT_CU_AN_C").text(parseFloat(data.interet_par_an).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      if (data.interet_retard_par_mois == null) {
+                          $("#INT_RE_CU_MOIS_C").text("0");
+                      }
+                      else {
+                          $("#INT_RE_CU_MOIS_C").text(parseFloat(data.interet_retard_par_mois).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+                      if (data.interet_retard_par_an == null) {
+                          $("#INT_RE_CU_AN_C").text("0");
+                      }
+                      else {
+                          $("#INT_RE_CU_AN_C").text(parseFloat(data.interet_retard_par_an).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+                      if (data.finmois == null) {
+                          $("#finmois").text("0");
+                      }
+                      else {
+                          $("#finmois").text(parseFloat(data.finmois).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+                      if (data.t_fraisdiversAll == null) {
+                          $("#fraisCTV").text("0");
+                      }
+                      else {
+                          $("#fraisCTV").text(parseFloat(data.t_fraisdiversAll).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+                      if (data.t_credit == null) {
+                          $("#totalcredit").text("0");
+                      }
+                      else {
+                          $("#totalcredit").text(parseFloat(data.t_credit).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+                      if (data.t_debit == null) {
+                          $("#totaldebt").text("0");
+                      }
+                      else {
+                          $("#totaldebt").text(parseFloat(data.t_debit).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+                      if (data.montFinEncours == null) {
+                         $("#fin_par_rapport_enc").text("0");
+                      }
+                      else {
+                          $("#fin_par_rapport_enc").text(data.montFinEncours.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+					    if (data.total_intert == null) {
+                          $("#total_interet").text("0");
+                      }
+                      else {
+					        $("#total_interet").text(parseFloat(data.total_intert).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+					   if (data.total_intert_de_retard == null) {
+                          $("#total_interet_retard").text("0");
+                      }
+                      else {
+					       $("#total_interet_retard").text(parseFloat(data.total_intert_de_retard).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+					    if (data.SumMntImpaye == null) {
+                          $("#instrument_impye").text("0");
+                      }
+                      else {
+					        $("#instrument_impye").text(parseFloat(data.SumMntImpaye).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+					   if (data.SumMntFactDepAlgo == null) {
+                          $("#retardp").text("0");
+                      }
+                      else {
+					       $("#retardp").text(parseFloat(data.SumMntFactDepAlgo).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+					    if (data.SumMntLitige == null) {
+                          $("#litigesouvert").text("0");
+                      }
+                      else {
+					        $("#litigesouvert").text(parseFloat(data.SumMntLitige).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      }
+
+					    $("#dispo2").text(parseFloat(data.disponible2).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                      
+
+					 if (data.disponible == null) {
+                          $("#Dispo").text("0");
+                      }
+                      else {
+					     $("#Dispo").val(parseFloat(data.disponible).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+					 }
+
+					 if (data.disponible_SansFdg == null) {
+					     $("#Dispo_Sans_FDG").text("0");
+					 }
+					 else {
+					     $("#Dispo_Sans_FDG").val(parseFloat(data.disponible_SansFdg).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+					 }
+					 if (data.fdg_librer_calc == null) {
+					     $("#fdglib").text("0");
+					 }
+					 else {
+					     $("#fdglib").val(parseFloat(data.fdg_librer_calc).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+					 }
+					 
+
+					 $("#REF_CTR_FIN").val(data.ref_contart);
+					 $('.overlay').hide();
+
+
+
+
+                      /*
+           * BAR CHART
+           * ---------
+           */
+					 //var totalfact = parseFloat(data.totalfact).toFixed(3);
+					 //var total_ctr_fin = parseFloat(data.total_ctr_fin).toFixed(3);
+					 //var Avoir = parseFloat(data.Avoir).toFixed(3);
+					 //var comfact = parseFloat(data.comfact).toFixed(3);
+					 //var t_fraisdivers = parseFloat(data.t_fraisdivers).toFixed(3);
+					 //var finmois = parseFloat(data.finmois).toFixed(3);
+					 ////alert(x);
+					 //var bar_data = {
+					 //    data: [['Total Factures', totalfact], ['Total Financement', total_ctr_fin], ['Total Avoir', Avoir], ['Total Com Factoring', comfact], ['Total Frais divers', t_fraisdivers], ['Financement du mois', finmois]],
+					 //    color: '#3c8dbc'
+					 //}
+					 //$.plot('#bar-chart', [bar_data], {
+					 //    grid: {
+					 //        borderWidth: 1,
+					 //        borderColor: '#f3f3f3',
+					 //        tickColor: '#f3f3f3'
+					 //    },
+					 //    series: {
+					 //        bars: {
+					 //            show: true,
+					 //            barWidth: 0.5,
+					 //            align: 'center'
+					 //        }
+					 //    },
+					 //    xaxis: {
+					 //        mode: 'categories',
+					 //        tickLength: 0,
+					 //        stacked: true
+					 //    },
+					 //    data: bar_data
+                      //})
+
+					 var dataliste = [];
+
+					 for (var i = 0; i < data.listeachatsfina.length; i++) {
+					     if (data.listeachatsfina[i].montant_achat == null) { data[i].listeachatsfina.montant_achat = 0 }
+					     dataliste.push({ y: data.listeachatsfina[i].mois, a: data.listeachatsfina[i].montant_financement, b: data.listeachatsfina[i].montant_achat });
+
+					 }
+
+					 console.log(dataliste);
+
+					 var bar = new Morris.Bar({
+					     element: 'bar-chartb',
+					     resize: true,
+					     data: dataliste,
+					     barColors: ['#00a65a', '#f56954'],
+					     xkey: 'y',
+					     yLabelFormat: function (y) {
+					         return parseFloat(y).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",");
+					     },
+					     ykeys: ['a', 'b'],
+					     labels: ['Montant financement', 'Montant achat'],
+					     hideHover: 'auto'
+					 });
+
+
+
+                      /* END BAR CHART */
+                  }
+
+                );
+            });
+
+         var Avoir = function () {
+             var url = "/Financement/Detail_Avoir/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+         var Extrait = function ( text) {
+             var url = "/Financement/Detail_Avoir/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+         var Facture = function () {
+             var url = "/Financement/Detail_Facture/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+
+         var Finanacment = function () {
+             var url = "/Financement/Detail_FINANCEMENT/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+
+
+
+         var credit = function () {
+             var url = "/Financement/Detail_DEBIT/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+
+
+         var debit = function () {
+             var url = "/Financement/Detail_DEBIT/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+         var retenu = function () {
+             var url = "/Financement/Detail_RS/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+
+         var impaye = function () {
+             var url = "/Financement/E_Detail_IP_Impayes/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+
+         var retardalgo = function () {
+             var url = "/Financement/E_Detail_Retard_Enc_Alog/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+         var detaillefrais = function () {
+             var url = "/Financement/Detail_Cheques/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+
+         var detaillDepLimit = function () {
+             var url = "/Financement/DepassementLim/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+         var detaillFdg = function () {
+             var url = "/Financement/DetailFdg/" + $("#test").val();
+             $("#AddVal").load(url, function () {
+                 $("#exampleModal1").modal();
+             });
+         }
+
+         
+         $.validator.methods.range = function (value, element, param) {
+             var globalizedValue = value.replace(",", ".");
+             return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+         }
+
+         $.validator.methods.number = function (value, element) {
+             return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\,]\d{3})+)(?:[\,]\d+)?$/.test(value.replace(/\s/g, ""));
+         }
+
+         jQuery.extend(jQuery.validator.methods, {
+             min: function (value, element, value2) {
+                 var val = value.replace(/\s/g, "").replace(',', '.');
+                 return this.optional(element) || val >= value2;
+             }
+         });
+         $("#formfinancement").validate({
+             rules: {
+                 // compound rule
+                 MONT_FIN: {
+                     required: true,
+                     number:true,
+                     min:0
+                 },
+                 REF_INSTR_FIN: {
+                     required: true,
+                 },
+                 INSTR_FIN: {
+                     required: true,
+                 },
+                 DAT_FIN: {
+                     required: true,
+                 },
+                 TypeFin: {
+                     required: true,
+                 }
+             },
+
+             highlight: function (element) {
+                 $(element).closest('.form-group').addClass('has-error');
+             },
+             unhighlight: function (element) {
+                 $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+             }
+
+
+         });
+        
+
+         $("#Model_Extrait").click(function () {
+             var url = "/Rapporting/Extrait_Compte/" + $("#test").val();
+             window.open(url,"_Blanc");
+
+         });
+
+         $("input[name='MONT_FIN']").blur(function () {
+             var v = $("input[name='MONT_FIN']").val().replace(/\s/g, "").replace(",", ".");
+         
+             $("input[name='MONT_FIN']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+         });
+
+        </script>
+
+
+
+
+           
+@*<script>
+                $(function () {
+
+
+                    $('.select2').select2()
+                    /* ChartJS
+                     * -------
+                     * Here we will create a few charts using ChartJS
+                     */
+
+                    //--------------
+                    //- AREA CHART -
+                    //--------------
+
+                    // Get context with jQuery - using jQuery's .get() method.
+                    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+                    // This will get the first returned node in the jQuery collection.
+                    var areaChart = new Chart(areaChartCanvas)
+
+                    var areaChartData = {
+                        labels: ['Total Factures', 'Total Financement', 'Total Avoir ', 'Total Com Factoring', 'Total Frais divers', 'Financement du mois', 'Total Retenu'],
+                        datasets: [
+                          {
+                              label: 'Electronics',
+                              fillColor: 'rgba(210, 214, 222, 1)',
+                              strokeColor: 'rgba(210, 214, 222, 1)',
+                              pointColor: 'rgba(210, 214, 222, 1)',
+                              pointStrokeColor: '#c1c7d1',
+                              pointHighlightFill: '#fff',
+                              pointHighlightStroke: 'rgba(220,220,220,1)',
+                              data: [65, 59, 80, 81, 56, 55, 40]
+                          },
+                          {
+                              label: 'Digital Goods',
+                              fillColor: 'rgba(60,141,188,0.9)',
+                              strokeColor: 'rgba(60,141,188,0.8)',
+                              pointColor: '#3b8bba',
+                              pointStrokeColor: 'rgba(60,141,188,1)',
+                              pointHighlightFill: '#fff',
+                              pointHighlightStroke: 'rgba(60,141,188,1)',
+                              data: [28, 48, 40, 19, 86, 27, 90]
+                          }
+                        ]
+                    }
+
+                    var areaChartOptions = {
+                        //Boolean - If we should show the scale at all
+                        showScale: true,
+                        //Boolean - Whether grid lines are shown across the chart
+                        scaleShowGridLines: false,
+                        //String - Colour of the grid lines
+                        scaleGridLineColor: 'rgba(0,0,0,.05)',
+                        //Number - Width of the grid lines
+                        scaleGridLineWidth: 1,
+                        //Boolean - Whether to show horizontal lines (except X axis)
+                        scaleShowHorizontalLines: true,
+                        //Boolean - Whether to show vertical lines (except Y axis)
+                        scaleShowVerticalLines: true,
+                        //Boolean - Whether the line is curved between points
+                        bezierCurve: true,
+                        //Number - Tension of the bezier curve between points
+                        bezierCurveTension: 0.3,
+                        //Boolean - Whether to show a dot for each point
+                        pointDot: false,
+                        //Number - Radius of each point dot in pixels
+                        pointDotRadius: 4,
+                        //Number - Pixel width of point dot stroke
+                        pointDotStrokeWidth: 1,
+                        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+                        pointHitDetectionRadius: 20,
+                        //Boolean - Whether to show a stroke for datasets
+                        datasetStroke: true,
+                        //Number - Pixel width of dataset stroke
+                        datasetStrokeWidth: 2,
+                        //Boolean - Whether to fill the dataset with a color
+                        datasetFill: true,
+                        //String - A legend template
+                        legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].lineColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
+                        //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                        maintainAspectRatio: true,
+                        //Boolean - whether to make the chart responsive to window resizing
+                        responsive: true
+                    }
+
+                    //Create the line chart
+                    areaChart.Line(areaChartData, areaChartOptions)
+
+                    //-------------
+                    //- LINE CHART -
+                    //--------------
+                    var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+                    var lineChart = new Chart(lineChartCanvas)
+                    var lineChartOptions = areaChartOptions
+                    lineChartOptions.datasetFill = false
+                    lineChart.Line(areaChartData, lineChartOptions)
+
+                    //-------------
+                    //- PIE CHART -
+                    //-------------
+                    // Get context with jQuery - using jQuery's .get() method.
+                    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+                    var pieChart = new Chart(pieChartCanvas)
+                    var PieData = [
+                      {
+                          value: 700,
+                          color: '#f56954',
+                          highlight: '#f56954',
+                          label: 'Chrome'
+                      },
+                      {
+                          value: 500,
+                          color: '#00a65a',
+                          highlight: '#00a65a',
+                          label: 'IE'
+                      },
+                      {
+                          value: 400,
+                          color: '#f39c12',
+                          highlight: '#f39c12',
+                          label: 'FireFox'
+                      },
+                      {
+                          value: 600,
+                          color: '#00c0ef',
+                          highlight: '#00c0ef',
+                          label: 'Safari'
+                      },
+                      {
+                          value: 300,
+                          color: '#3c8dbc',
+                          highlight: '#3c8dbc',
+                          label: 'Opera'
+                      },
+                      {
+                          value: 100,
+                          color: '#d2d6de',
+                          highlight: '#d2d6de',
+                          label: 'Navigator'
+                      }
+                    ]
+                    var pieOptions = {
+                        //Boolean - Whether we should show a stroke on each segment
+                        segmentShowStroke: true,
+                        //String - The colour of each segment stroke
+                        segmentStrokeColor: '#fff',
+                        //Number - The width of each segment stroke
+                        segmentStrokeWidth: 2,
+                        //Number - The percentage of the chart that we cut out of the middle
+                        percentageInnerCutout: 50, // This is 0 for Pie charts
+                        //Number - Amount of animation steps
+                        animationSteps: 100,
+                        //String - Animation easing effect
+                        animationEasing: 'easeOutBounce',
+                        //Boolean - Whether we animate the rotation of the Doughnut
+                        animateRotate: true,
+                        //Boolean - Whether we animate scaling the Doughnut from the centre
+                        animateScale: false,
+                        //Boolean - whether to make the chart responsive to window resizing
+                        responsive: true,
+                        // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                        maintainAspectRatio: true,
+                        //String - A legend template
+                        legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+                    }
+                    //Create pie or douhnut chart
+                    // You can switch between pie and douhnut using the method below.
+                    pieChart.Doughnut(PieData, pieOptions)
+
+                    //-------------
+                    //- BAR CHART -
+                    //-------------
+                    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+                    var barChart = new Chart(barChartCanvas)
+                    var barChartData = areaChartData
+                    barChartData.datasets[1].fillColor = '#00a65a'
+                    barChartData.datasets[1].strokeColor = '#00a65a'
+                    barChartData.datasets[1].pointColor = '#00a65a'
+                    var barChartOptions = {
+                        //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                        scaleBeginAtZero: true,
+                        //Boolean - Whether grid lines are shown across the chart
+                        scaleShowGridLines: true,
+                        //String - Colour of the grid lines
+                        scaleGridLineColor: 'rgba(0,0,0,.05)',
+                        //Number - Width of the grid lines
+                        scaleGridLineWidth: 1,
+                        //Boolean - Whether to show horizontal lines (except X axis)
+                        scaleShowHorizontalLines: true,
+                        //Boolean - Whether to show vertical lines (except Y axis)
+                        scaleShowVerticalLines: true,
+                        //Boolean - If there is a stroke on each bar
+                        barShowStroke: true,
+                        //Number - Pixel width of the bar stroke
+                        barStrokeWidth: 2,
+                        //Number - Spacing between each of the X value sets
+                        barValueSpacing: 5,
+                        //Number - Spacing between data sets within X values
+                        barDatasetSpacing: 1,
+                        //String - A legend template
+                        legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
+                        //Boolean - whether to make the chart responsive
+                        responsive: true,
+                        maintainAspectRatio: true
+                    }
+
+                    barChartOptions.datasetFill = false
+                    barChart.Bar(barChartData, barChartOptions)
+                })
+</script>*@

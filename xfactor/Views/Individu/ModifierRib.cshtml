@@ -1,0 +1,36 @@
+﻿
+@model xfactor.Models.T_CONTACT
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <input type="hidden" value="@ViewBag.ref_ind" name="REF_IND_CONTACT" />
+
+    <div class="form-group">
+
+        @Html.Label("Rib:", htmlAttributes: new { @class = "control-label" })
+        <input type="text" name="rib1" class="form-control" /> - <input type="text" name="rib2" class="form-control" /> -<input type="text" name="rib3" class="form-control" /> 
+    </div>
+    <div class="form-group">
+
+        @Html.Label("Banque:", htmlAttributes: new { @class = "control-label" })
+        <input type="text" name="banque" class="form-control" /> 
+    </div>
+    <div class="form-group">
+
+        @Html.Label("Agence:", htmlAttributes: new { @class = "control-label" })
+        <input type="text" name="agence" class="form-control" /> 
+    </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input type="submit" value="Ajouter" class="btn btn-primary pull-left" />
+            </div>
+        </div>
+
+}
+
+

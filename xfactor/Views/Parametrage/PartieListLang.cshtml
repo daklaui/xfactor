@@ -1,0 +1,114 @@
+﻿@model xfactor.Models.TR_NLDP
+<form action="/Parametrage/PartieListLang" method="post" id="formListLang">
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.Label("Libellé Nationamité", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LIB_NT, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LIB_NT, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Abréviation Nationalite", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ABRV_NAT, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ABRV_NAT, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Libellé Langue", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LIB_LANG, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LIB_LANG, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Abréviation Langue", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ABRV_LANG, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ABRV_LANG, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Libellé Devise", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LIB_DEVISE, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LIB_DEVISE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Abréviation Devise", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ABRV_DEVISE, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ABRV_DEVISE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Libellé Pays", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LIB_PAYS, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LIB_PAYS, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Abréviation Pays", htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ABRV_PAYS, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ABRV_PAYS, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </div>
+    </div>
+
+</form>
+
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+<script>
+    $("#formListLang").validate({
+        rules: {
+            // compound rule
+            LIB_NT: {
+                required: true
+
+            },
+            ABRV_NAT: {
+                required: true,
+            },
+            LIB_LANG: {
+                required: true,
+            },
+            ABRV_LANG: {
+                required: true,
+            },
+            LIB_DEVISE: {
+                required: true,
+            }
+
+        },
+
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+
+    });
+</script>
+

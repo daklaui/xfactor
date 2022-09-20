@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "Prorogations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    tbody > tr:hover, tbody > tr.selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+
+    .selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+</style>
+@section header {
+
+    <h1>
+        Litiges et Prorogations
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active">Litiges et Prorogations</li>
+        <li class="active">Prorogations</li>
+    </ol>
+}
+
+
+@if (TempData["notice"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["notice"] !</strong>
+    </div>
+}
+
+<form action="/LitigesEtProrogations/Prorogations" method="post">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    @Html.Label("Nom Adhérent:", htmlAttributes: new { @class = "control-label" })
+
+                    <select id="Nom_Adh" name="REF_CTR_PROG" class="form-control input-sm selectpicker" data-live-search="true">
+                        <option value="" disabled selected>-- choisir nom --</option>
+                           @foreach (var item in ViewBag.ADH)
+                        {
+                            <option data-refind="@item.RefAdh" value="@item.REF_CTR_CIR">@item.NomAdh|@item.REF_CTR_CIR</option>
+                        }
+
+                    </select>
+                </div>
+                <input type="hidden" name="ID_DET_BORD_PROG" id="ID_DET_BORD_PROG" />
+                <div class="form-group">
+                    @Html.Label("Nom Acheteur:", htmlAttributes: new { @class = "control-label" })
+                    <select id="Nom_Ach" class="form-control input-sm"></select>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Echéance:", htmlAttributes: new { @class = "control-label" })
+                    <input type="date" name="Echeance_Facture_Pro" class="form-control input-sm" id="Echeance_Facture_Pro" required/>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Type Prorogation:", htmlAttributes: new { @class = "control-label" })
+                    <select id="" class="form-control input-sm" name="TYP_PROG">
+                        <option value="Achat">Achat</option>
+                        <option value="Sond.">Sond.</option>
+                        <option value="P Dir">P Dir</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Motif prorogation:", htmlAttributes: new { @class = "control-label" })
+                    <input type="text" class="form-control input-sm" name="MOTIF_PROG" required/>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Echéance Après Prorogation:", htmlAttributes: new { @class = "control-label" })
+                    <input type="date" class="form-control input-sm" name="ECH_PROG"  required/>
+                </div>
+                <button type="submit" class="btn btn-success">Valider Prorogation</button>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="col-lg-12">
+                    <div class="table-responsive " data-pattern="priority-columns">
+                        <table cellspacing="0" id="factureprog" class="table table-small-font table-bordered ">
+                            <thead>
+                                <tr class="bg-primary">
+                                    <th data-priority="3"><center>Référence Document</center></th>
+                                    <th data-priority="1">Montant TTC</th>
+                                    <th data-priority="1"><center>Devise</center></th>
+                                    <th data-priority="1"><center>Echéance</center></th>
+                                    <th data-priority="1"><center>Montant Ouvert</center></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+
+    $("#factureprog > tbody").delegate("tr", "click", function () {
+        $(this).addClass("selected").siblings().removeClass("selected");
+        $("#ID_DET_BORD_PROG").val($(this).data("detbord"));
+        $("#Echeance_Facture_Pro").val($(this).find("td").eq(3).text());
+    });
+    $("#Nom_Adh").change(function () {
+        $.ajax({
+            url: "/LitigesEtProrogations/RecherchCtrAch22/" + $(this).children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (data) {
+                $("#Nom_Ach").empty();
+                $("#Nom_Ach").append('<option selected disabled> *********** </option>');
+                $.each(data, function (index, element) {
+                    $("#Nom_Ach").append('<option value="' + element.RefAch + '">' + element.NomAch + '</option>');
+                });
+            }
+        });
+
+    });
+
+
+    $("#Nom_Ach").change(function () {
+        $.ajax({
+            url: "/LitigesEtProrogations/RecherchFactureVersion2/" + $("#Nom_Adh").children("option:selected").val() + "/" + $("#Nom_Ach").children("option:selected").val(),
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                $('#factureprog>tbody').empty();
+
+                $.each(result, function (index, element) {
+
+                    var value = new Date(parseInt(element.ECHANCE.replace(/(^.*\()|([+-].*$)/g, '')));
+                    //var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                    var month = "";
+                    var day = "";
+                    if (Number(value.getMonth() + 1) < 10) {
+                        month = "0" + Number(value.getMonth() + 1);
+                    }
+                    else {
+                        month = Number(value.getMonth() + 1);
+                    }
+
+                    if (Number(value.getDate()) < 10) {
+                        day = "0" + value.getDate();
+                    }
+                    else {
+                        day = value.getDate();
+                    }
+
+                    var dat = value.getFullYear() + "-" + month + "-" + day;
+
+                    $("#factureprog > tbody").append("<tr data-detbord='" + element.ID_DET_BORD + "'> <td>" + element.REF_DOCUMENT_DET_BORD + "</td>"
+                                                        + "<td style='text-align:right'>" + element.MONT_TTC_DET_BORD.toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".",",") + "</td>"
+                                                               + "<td>" + element.DEVISE_DET_BORD + "</td>"
+                                                         + "<td>" + dat + "</td>"
+                                                          + "<td style='text-align:right'>" + element.MONT_OUV_DET_BORD.toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",") + "</td>" + "</tr>"
+                    );
+                });
+
+                //$('.NomAchteurs').selectpicker('refresh');
+            }
+        });
+    });
+
+</script>
+

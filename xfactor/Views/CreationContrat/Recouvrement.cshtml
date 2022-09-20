@@ -1,0 +1,529 @@
+﻿
+@{
+    ViewBag.Title = "Recouvrement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    tbody>tr:hover, tbody>tr.selected {
+    background-color: dodgerblue;
+    color:white;
+    cursor:pointer;
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+
+</style>
+@section header {
+
+<h1>
+    Recouvrement
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active"> Recouvrement</li>
+</ol>
+    }
+
+
+@if (TempData["notice"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["notice"] !</strong>
+    </div>
+}
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+               
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-label">TTC</label>
+                                <input type="text" id="ttc" name="ttc" class="form-control" readonly/>
+                            </div>
+
+                            <label class="form-label">Ouvert</label>
+                            <div class="form-group">
+                                <input type="text" id="Ouvert" name="Retenue" class="form-control" readonly/>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="form-label">Retenue</label>
+
+                                <input type="text" id="Retenue" name="Ouvert" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <form action="/CreationContrat/UpdateComm" method="post">
+                           
+                                <div class="form-group">
+                                    @Html.DropDownList("comm_rec", (IEnumerable<SelectListItem>)ViewBag.Listval, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "comm_rec" })
+                                    @Html.ValidationMessage("comm_rec", "", new { @class = "text-danger" })
+                                    <input type="date" id="date_rec" required name="date_rec" class="form-control" />
+                                </div>
+                               
+                                <div class="form-group">
+                                    <input type="hidden" id="REF_CTR_DET_BORD_FACTURE" name="REF_CTR_DET_BORD_FACTURE" class="form-control" />
+                                    <input type="hidden" id="ID_DET_BORD" name="ID_DET_BORD" class="form-control" />
+                                    <textarea rows="5" id="" name="com" class="form-control"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Valider</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <select id="etatfacture" class="form-control input-sm selectpicker" data-live-search="true">
+                    <option value="All"> Toutes Les Factures</option>
+                    <option value="Ech">Factures Echues </option>
+                    <option value="NEchu">Factures Non Echues </option>
+                </select>
+          
+                </div>
+            </div>
+
+            <div class="box-body">
+                <div class="row">
+                    <div id="lstctr">
+                        <div class="col-lg-12" id="Table0">
+                            <div class="table-responsive " data-pattern="priority-columns">
+                                <table cellspacing="0" class="table table-small-font table-bordered LestRec2">
+                                    <thead>
+                                        <tr class="bg-primary">
+                                            <th data-priority="3"><center>Référence Papier</center></th>
+                                            <th data-priority="3"><center>Référence</center></th>
+                                            <th data-priority="1"> Adhérent</th>
+                                            <th data-priority="1"> Acheteur</th>
+                                            <th data-priority="1"><center>Type</center></th>
+                                            <th data-priority="1"><center>Date</center></th>
+                                            <th data-priority="1"><center>Montant TTC</center></th>
+                                            <th data-priority="1"><center>Retenu</center></th>
+                                            <th data-priority="1"><center>Montant ouvert</center></th>
+                                            <th data-priority="1"><center>Mode de réglement </center></th>
+                                            <th data-priority="1"><center>Commentaire</center></th>
+                                        </tr>
+                                        <tr class="bg-info">
+                                            <th data-priority="3" style="visibility:hidden"><center>Référence Papier</center></th>
+                                            <th data-priority="3"><center>Référence</center></th>
+                                            <th data-priority="1"> Adhérent</th>
+                                            <th data-priority="1"> Acheteur</th>
+                                            <th data-priority="1"><center>Type</center></th>
+                                            <th data-priority="1"><center>Date</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Montant TTC</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Retenu</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Montant ouvert</center></th>
+                                            <th data-priority="1"><center>Mode de réglement </center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Commentaire</center></th>
+                                        </tr>
+                               
+                                    </thead>
+                                    <tbody>
+                               
+                                        @foreach (var item in ViewBag.ListeFacture)
+                                        {
+                                            <tr data-refdet="@item.ID_DET_BORD">
+                                                <td>@item.REF_DOCUMENT_DET_BORD  </td>
+                                                <td>@item.REF_CTR_DET_BORD  </td>
+                                                <td>@item.NOM_ADH  </td>
+                                                <td>@item.NOM_IND  </td>
+                                                <td>@item.TYP_DET_BORD  </td>
+                                                @if (item.DAT_DET_BORD != null)
+                                                {
+                                                    <td>
+                                                        @item.DAT_DET_BORD.ToString("d")
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @item.DAT_DET_BORD
+                                                    </td>
+                                                }
+
+
+                                                @{
+                                                    string v = String.Format("{0:N3}", item.MONT_TTC_DET_BORD);
+                                                    v = v.Replace(",", ".");
+                                                    string v1 = String.Format("{0:N3}", item.RETENU_DET_BORD);
+                                                    v1 = v1.Replace(",", ".");
+                                                    string v2 = String.Format("{0:N3}", item.MONT_OUV_DET_BORD);
+                                                    v2 = v2.Replace(",", ".");
+
+                                                }
+
+                                                <td style="text-align:right">
+                                                    @v
+
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @v1
+
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @v2
+
+                                                </td>
+                                                <td>  @item.MODE_REG_DET_BORD  </td>
+                                                <td>  @item.COMM_DET_BORD  </td>
+                                            </tr>
+
+
+
+                                        }
+
+
+
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" id="Table1" style="display:none" >
+                            <div class="table-responsive " data-pattern="priority-columns">
+
+
+
+                                <table cellspacing="0" class="table table-small-font table-bordered LestRec2">
+                                    <thead>
+                                        <tr class="bg-primary">
+                                            <th data-priority="3"><center>Référence Papier</center></th>
+                                            <th data-priority="3"><center>Référence</center></th>
+                                            <th data-priority="1"> Adhérent</th>
+                                            <th data-priority="1"> Acheteur</th>
+                                            <th data-priority="1"><center>Type</center></th>
+                                            <th data-priority="1"><center>Date</center></th>
+                                            <th data-priority="1"><center>Montant TTC</center></th>
+                                            <th data-priority="1"><center>Retenu</center></th>
+                                            <th data-priority="1"><center>Montant ouvert</center></th>
+                                            <th data-priority="1"><center>Mode de réglement </center></th>
+                                            <th data-priority="1"><center>Commentaire</center></th>
+                                        </tr>
+                                        <tr class="bg-info">
+                                            <th data-priority="3" style="visibility:hidden"><center>Référence Papier</center></th>
+                                            <th data-priority="3"><center>Référence</center></th>
+                                            <th data-priority="1"> Adhérent</th>
+                                            <th data-priority="1"> Acheteur</th>
+                                            <th data-priority="1"><center>Type</center></th>
+                                            <th data-priority="1"><center>Date</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Montant TTC</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Retenu</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Montant ouvert</center></th>
+                                            <th data-priority="1"><center>Mode de réglement </center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Commentaire</center></th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.ListeFactureEch)
+                                        {
+                                            <tr data-refdet="@item.ID_DET_BORD">
+                                                <td>@item.REF_DOCUMENT_DET_BORD  </td>
+                                                <td>@item.REF_CTR_DET_BORD  </td>
+                                                <td>@item.NOM_ADH  </td>
+                                                <td>@item.NOM_IND  </td>
+                                                <td>@item.TYP_DET_BORD  </td>
+                                                @if (item.DAT_DET_BORD != null)
+                                                {
+                                                    <td>
+                                                        @item.DAT_DET_BORD.ToString("d")
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @item.DAT_DET_BORD
+                                                    </td>
+                                                }
+
+                                                @{
+                                                    string v = String.Format("{0:N3}", item.MONT_TTC_DET_BORD);
+                                                    v = v.Replace(",", ".");
+                                                    string v1 = String.Format("{0:N3}", item.RETENU_DET_BORD);
+                                                    v1 = v1.Replace(",", ".");
+                                                    string v2 = String.Format("{0:N3}", item.MONT_OUV_DET_BORD);
+                                                    v2 = v2.Replace(",", ".");
+
+                                                }
+
+                                                <td style="text-align:right">
+                                                    @v
+
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @v1
+
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @v2
+
+                                                </td>
+
+                                                <td>  @item.MODE_REG_DET_BORD  </td>
+                                                <td>  @item.COMM_DET_BORD  </td>
+                                            </tr>
+
+
+
+                                        }
+
+
+
+                                    </tbody>
+                        
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" id="Table2" style="display:none" >
+                            <div class="table-responsive " data-pattern="priority-columns">
+
+
+                                <table cellspacing="0"  class="table table-small-font table-bordered LestRec2">
+                                    <thead>
+                                        <tr class="bg-primary">
+                                            <th data-priority="3"><center>Référence Papier</center></th>
+                                            <th data-priority="3"><center>Référence</center></th>
+                                            <th data-priority="1"> Adhérent</th>
+                                            <th data-priority="1"> Acheteur</th>
+                                            <th data-priority="1"><center>Type</center></th>
+                                            <th data-priority="1"><center>Date</center></th>
+                                            <th data-priority="1"><center>Montant TTC</center></th>
+                                            <th data-priority="1"><center>Retenu</center></th>
+                                            <th data-priority="1"><center>Montant ouvert</center></th>
+                                            <th data-priority="1"><center>Mode de réglement </center></th>
+                                            <th data-priority="1"><center>Commentaire</center></th>
+                                        </tr>
+                                        <tr class="bg-info">
+                                            <th data-priority="3" style="visibility:hidden"><center>Référence Papier</center></th>
+                                            <th data-priority="3"><center>Référence</center></th>
+                                            <th data-priority="1"> Adhérent</th>
+                                            <th data-priority="1"> Acheteur</th>
+                                            <th data-priority="1"><center>Type</center></th>
+                                            <th data-priority="1"><center>Date</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Montant TTC</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Retenu</center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Montant ouvert</center></th>
+                                            <th data-priority="1"><center>Mode de réglement </center></th>
+                                            <th data-priority="1" style="visibility:hidden"><center>Commentaire</center></th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.listefactureNonEchu)
+                                        {
+                                            <tr data-refdet="@item.ID_DET_BORD">
+                                                <td>@item.REF_DOCUMENT_DET_BORD  </td>
+                                                <td>@item.REF_CTR_DET_BORD  </td>
+                                                <td>@item.NOM_ADH  </td>
+                                                <td>@item.NOM_IND  </td>
+                                                <td>@item.TYP_DET_BORD  </td>
+                                                @if (item.DAT_DET_BORD != null)
+                                                {
+                                                    <td>
+                                                        @item.DAT_DET_BORD.ToString("d")
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @item.DAT_DET_BORD
+                                                    </td>
+                                                }
+                                                @{ 
+                                                    string v = String.Format("{0:N3}", item.MONT_TTC_DET_BORD);
+                                                    v = v.Replace(",", ".");
+                                                    string v1 = String.Format("{0:N3}", item.RETENU_DET_BORD);
+                                                    v1 = v1.Replace(",", ".");
+                                                    string v2 = String.Format("{0:N3}", item.MONT_OUV_DET_BORD);
+                                                    v2 = v2.Replace(",", ".");
+
+                                                }
+
+                                                <td style="text-align:right">
+                                                    @v
+
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @v1
+
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @v2
+
+                                                </td>
+
+                                                <td>  @item.MODE_REG_DET_BORD  </td>
+                                                <td>  @item.COMM_DET_BORD  </td>
+                                            </tr>
+                                        }
+
+
+
+                                    </tbody>
+                             
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                </div>
+            </div>
+        </div>
+  
+@*<div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <div class="box box-default">
+            <div class="box-header with-border">
+            </div>
+
+            <div class="box-body">
+                <div class="col-sm-12">
+                    @*<div class="col-sm-3">
+                            <div class="form-group">
+                                @Html.Label("Nom Adhérant:", htmlAttributes: new { @class = "control-label" })
+                                <select id="Nom_Adh" name="Nom_Adh" class="form-control input-sm selectpicker" data-live-search = "true">
+                                    @foreach (var item in ViewBag.ADH)
+                                    {
+
+                                        <option data-ref_ind="@item.a"  value="@item.c">@item.b | @item.c</option>
+
+                                    }
+                                </select>
+                                @Html.ValidationMessage("Nom_Adh", "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Nom Achteur:", htmlAttributes: new { @class = "control-label" })
+                                <select id="nom_ach" name="nom_ach" class="form-control selectpicker" data-live-search = "true" >
+                                    @foreach (var item in ViewBag.ACH)
+                                    {
+
+                                        <option value="@item.a">@item.b</option>
+
+                                    }
+                                </select>
+                            </div>
+                        </div>*@
+
+                    @*<div class="col-sm-2">
+                            <div class="radio">
+                                <label><input type="radio" name="optradio"> </label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio">  </label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio"> </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="radio">
+                                <label><input type="radio" name="optradio"> Chéque </label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio"> Traite</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio">Virement</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="optradio">Espece</label>
+                            </div>
+                        </div>*@
+                    @*<div class="col-sm-12">
+                        <select id="etatfacture" class="form-control input-sm selectpicker" data-live-search="true">
+                            <option value="All"> Toutes Les Factures</option>
+                            <option value="Ech">Factures Echues </option>
+                            <option value="NEchu">Factures Non Echues </option>
+                        </select>
+                        <form action="/CreationContrat/UpdateComm" method="post">
+                            <div class="form-group">
+                                <input type="hidden" id="REF_CTR_DET_BORD_FACTURE" name="REF_CTR_DET_BORD_FACTURE" class="form-control" />
+                                <input type="hidden" id="ID_DET_BORD" name="ID_DET_BORD" class="form-control" />
+                                <input type="text" id="" name="com" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                @Html.DropDownList("comm_rec", (IEnumerable<SelectListItem>)ViewBag.Listval, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "comm_rec" })
+                                @Html.ValidationMessage("comm_rec", "", new { @class = "text-danger" })
+                                <input type="date" id="date_rec" required name="date_rec" class="form-control" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Valider</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
+    </div>*@
+
+
+               <script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+                <script>
+                    $("tbody tr").click(function () {
+                        $(this).addClass("selected").siblings().removeClass("selected");
+                        $("#ttc").val($.trim($(this).find("td").eq(6).text()));
+                        $("#Retenue").val($.trim($(this).find("td").eq(7).text()));
+                        $("#Ouvert").val($.trim($(this).find("td").eq(8).text()));
+                        $("#ID_DET_BORD").val($.trim(($(this).data("refdet"))));
+                        $("#REF_CTR_DET_BORD_FACTURE").val($.trim($(this).find("td").eq(1).text()));
+                        $("#myModal").modal();
+                    });
+                    $(document).ready(function () {
+
+                        var test = '@TempData["notice"]';
+                        if (test != "") {
+                            $("#modal-success").modal();
+                        }
+                    });
+
+                    $("#etatfacture").change(function () {
+                       
+                        switch ($("#etatfacture").val()) {
+                            case "Ech":
+                                $("#Table0").hide();
+                                $("#Table1").show();
+                                $("#Table2").hide();
+                                break;
+                            case "NEchu":
+                                $("#Table2").show();
+                                $("#Table0").hide();
+                                $("#Table1").hide();
+                               
+                                break;
+                            default:
+                                $("#Table0").show();
+                                $("#Table1").hide();
+                                $("#Table2").hide();
+                        }
+                     
+                  });
+                    
+                 
+
+
+                </script>

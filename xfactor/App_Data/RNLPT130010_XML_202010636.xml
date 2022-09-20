@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<Document>
+<Entete>
+<CodeBanque>60</CodeBanque>
+<DateAnnexe>20201002</DateAnnexe>
+<CodeAnnexe>130</CodeAnnexe>
+</Entete>
+<Annexe id='130'>
+<Rubrique id='13006010000000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010100000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010101000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010102000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010200000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010201000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010202000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010300000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006010400000'>
+<Colonne id='1'/>
+</Rubrique>
+<Rubrique id='13006020000000'>
+<Colonne id='1'/>
+</Rubrique>
+</Annexe>
+</Document>

@@ -1,0 +1,258 @@
+﻿
+@{
+    decimal sumfininit = 0m;
+
+}
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("Etatcontrat_Rapport",new {id= "PDF",id2=ViewBag.refadh})"   class="btn btn-danger" target="_blank"     > <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("Etatcontrat_Rapport",new {id= "Excel",id2=ViewBag.refadh})" class="btn btn-success" target="_blank"   ><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("Etatcontrat_Rapport",new {id= "Word",id2=ViewBag.refadh})"  class="btn btn-primary" target="_blank"  > <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("Etatcontrat_Rapport",new {id= "Image",id2=ViewBag.refadh})" class="btn btn-info" target="_blank"       ><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="ListeFacturesLitiges" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Contrat</center></th>
+                        <th data-priority="1">Adhérent</th>
+                        <th data-priority="1"><center>Total Facture </center></th>
+                        <th data-priority="1"><center>Financement</center></th>
+                        <th data-priority="1"><center>Avoir</center></th>
+                        <th data-priority="1"><center>Commission</center></th>
+                        <th data-priority="1"><center>Frais</center></th>
+                        <th data-priority="1"><center>Debit</center></th>
+                        <th data-priority="1"><center>Credit</center></th>
+                        <th data-priority="1"><center> Interet </center></th>
+                        <th data-priority="1"><center> Dépassement de Limite</center></th>
+                        <th data-priority="1"><center> Retenue</center></th>
+                        <th data-priority="1"><center>FDG</center></th>
+                        <th data-priority="1"><center>Disponible </center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @try
+                    {
+                        foreach (var item in ViewBag.EtatRap)
+                        {
+                            <tr>
+                                <td data-title="Contrat">@item.Ref_Ctr__ETAT_DISPO</td>
+                                <td data-title="Adhérent">@item.NOM_IND</td>
+
+                                @if (item.Total_Facture_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Total Facture" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Facture_ETAT_DISPO)
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Total Facture">0,000 </td>
+                                }
+
+
+                                @if (item.Total_Fin_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Financement" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Fin_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Financement">0,000  </td>
+                                }
+
+
+                                @if (item.Total_Av_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Avoir" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Av_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Avoir">0,000 </td>
+                                }
+
+                                @if (item.Total_Comm_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Commission" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Comm_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Commission">0,000 </td>
+                                }
+
+
+                            
+
+
+                                @if (item.Total_Frais_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Frais" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Frais_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Frais">0,000 </td>
+                                }
+
+
+                                @if (item.Total_Debit_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Debit" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Debit_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Debit">0,000  </td>
+                                }
+
+                                @if (item.Total_Credit_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Credit" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Credit_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Credit">0,000 </td>
+                                }
+
+                                @if (item.Total_Interet_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Interet" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Interet_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Interet">0,000  </td>
+                                }
+
+
+                                @if (item.Depass_Limite_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Dépassement de Limite" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Depass_Limite_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Dépassement de Limite">0,000  </td>
+                                }
+
+
+                                @if (item.Total_Retenue_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Retenue" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_Retenue_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Retenue">0,000  </td>
+                                }
+
+
+                                @if (item.Total_FDG_ETAT_DISPO != null)
+                                {
+                                    <td data-title="FDG" style="text-align:right">
+                                        @String.Format("{0:N3}", item.Total_FDG_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="FDG">0,000  </td>
+                                }
+
+
+                                @if (item.Disponible_ETAT_DISPO != null)
+                                {
+                                    <td data-title="Disponible " style="text-align:right">
+                                        @String.Format("{0:N3}", item.Disponible_ETAT_DISPO)
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Disponible ">0,000  </td>
+                                }
+
+                            </tr>
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                    <script>alert("aucune donnée disponible ");</script>}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

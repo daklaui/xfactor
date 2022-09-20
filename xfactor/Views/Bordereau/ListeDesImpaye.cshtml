@@ -1,0 +1,229 @@
+﻿
+@{
+    ViewBag.Title = "ListeDesImpaye";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+        tbody>tr:hover, tbody>tr.selected {
+    background-color: dodgerblue;
+    color:white;
+    cursor:pointer;
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+</style>
+
+
+@section header {
+
+    <h1>
+        Impaye
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class="active"> Impaye </li>
+        <li class="active">Liste des Impaye</li>
+    </ol>
+}
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-3">
+            <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" class="table table-small-font table-bordered">
+                               
+                                    <tr>
+                                        <th><center>Id Encaissement</center></th>
+                                    </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" id="ID_ENC" readonly /></td>
+                                    </tr>
+                                <tr>
+                                        <th><center>Référence</center></th>
+                                    </tr>
+                                <tr>
+                                    <td><select  class="form-control" id="REF_ENC"></select></td>
+                                </tr>
+                                    <tr>
+                                        <th><center>Montant</center></th>
+                                    </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" id="MONT_ENC"  readonly/></td>
+                                    <input type="hidden" class="form-control" id="MNTTABELE" disabled />
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button id="resoluimp" class="btn btn-primary btn-block">Résolution Impayé suite <bR />Remplacement IP </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <div class="col-lg-9">
+            <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="ListeImpaye" class="table table-small-font table-bordered">
+                                <thead>
+
+                                    <tr class="bg-primary">
+
+                                        <th data-priority="3"><center>Encaissement</center></th>
+                                        <th data-priority="1">Adhérent</th>
+                                        <th data-priority="1"><center>Etablissement payeur</center></th>
+                                        <th data-priority="1"><center>Date impayé</center></th>
+                                        <th data-priority="1"><center>Date saisie</center></th>
+                                        <th data-priority="1"><center>Montant</center></th>
+                                        <th data-priority="1"><center>Type</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.ListImpaye)
+                                    {
+                                        <tr data-ec="@item.ID_ENC_IMP">
+                                            <td>
+                                                @item.Encaissement
+                                            </td>
+                                            <td>
+                                                @item.Adherent
+                                            </td>
+                                          
+                                            <td>
+                                                @item.Payeur
+                                            </td>
+                                            @if (item.DATE_IMP != null)
+                                            {
+                                                <td>
+                                                    @item.DATE_IMP.ToString("d")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.DATE_IMP
+                                                </td>
+                                            }
+
+                                            @if (item.DATE_SAISI_IMP != null)
+                                            {
+                                                <td>
+                                                    @item.DATE_SAISI_IMP.ToString("d")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.DATE_SAISI_IMP
+                                                </td>
+                                            }
+                                            @{
+                                                string v = "";
+                                                try
+                                                {
+                                                    v = @String.Format("{0:N3}", (item.MONT_IMP));
+                                            
+                                                }
+                                                catch (Exception) { v = item.MONT_IMP; }
+
+                                             }
+                                            <td style="text-align:right" data-mnt="@item.MONT_IMP">
+                                               @v
+                                            </td>
+                                           
+                                            <td>
+                                                @item.Type
+                                            </td>
+                                        </tr>
+                                    }
+
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <input type="hidden" id="ancienenc" />
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+    $("#ListeImpaye").delegate("tr", "click", function () {
+        $(this).addClass("selected").siblings().removeClass("selected");
+        $("#MNTTABELE").val($(this).find("td").eq(5).data("mnt"));
+        var t = $("#MNTTABELE").val();
+        //t = $.trim(t);
+        $("#MNTTABELE").val(t.replace(",", "."));
+     //   alert($(this).data("ec"));
+        $("#ancienenc").val($(this).data("ec"));
+        
+        $.get("/Bordereau/FillByRefAdh", { refAdh: $(this).find("td").eq(1).text() },
+         function (data) {
+            // alert("test");
+             $("#REF_ENC").empty();
+             $("#REF_ENC").append('<option selected disabled> *********** </option>');
+             $("#MONT_ENC").val("");
+             $("#ID_ENC").val("");
+             $.each(data, function (index, element) {
+                 $("#REF_ENC").append('<option value="' + element.REF_ENC + '" data-id_enc="' + element.ID_ENC + '" data-mnt="' + element.MONT_ENC+ '">' + element.REF_ENC + '</option>');
+             });
+         });
+    });
+    $("#resoluimp").click(function () {
+      //  alert($("#REF_ENC").children("option:selected").data("id_enc") + "  |   " + $("#ancienenc").val());
+        if (parseFloat($("#MNTTABELE").val()).toFixed(3) == parseFloat($("#MONT_ENC").val()).toFixed(3)) {
+            $.ajax({
+                url: "/Bordereau/ResoluionImpaye/" + $("#REF_ENC").children("option:selected").data("id_enc") + "/" + $("#ancienenc").val(),
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                }
+            });
+
+        }
+        else {
+            alert("Information : Il faut que le nouveau montant de l'encaissement  soit égale à l'ancien encaissement");
+        }
+
+    });
+    $("#REF_ENC").change(function () {
+       
+        $("#MONT_ENC").val($(this).children("option:selected").data("mnt"));
+        $("#ID_ENC").val($(this).children("option:selected").data("id_enc"));
+
+    });
+</script>

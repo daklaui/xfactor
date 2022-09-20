@@ -1,0 +1,1058 @@
+﻿
+@{
+    ViewBag.Title = "ListeDesContrat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .DemoModal2 {
+        margin: 100px;
+    }
+    .modal-lg {
+        width: 95%;
+    }
+#ListeDesCtr>tbody>tr:hover, #ListeDesCtr>tbody>tr.selected {
+    background-color: dodgerblue;
+    color:white;
+    cursor:pointer;
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+    border-radius:5px;
+}
+/* modal backdrop fix */
+
+</style>
+
+@section header {
+
+<h1>
+    Contrat
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active">Contrat</li>
+    <li class="active">Liste des contrats</li>
+</ol>
+    }
+<div class="modal fade" id="exampleModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+          
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+            </div>
+            <div class="box-body">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="ListeDesCtr" class="table table-small-font table-bordered ">
+                                <thead>
+                                    <tr class="bg-primary">
+                                        <th data-priority="3"><center>Réf Contrat</center></th>
+                                        <th data-priority="1">Nom Adhérent</th>
+                                        <th data-priority="1"><center>Encours des Factures</center></th>
+                                        <th data-priority="1"><center>Total Factures</center></th>
+                                        <th data-priority="1"><center>Total Financements</center></th>
+                                        <th data-priority="1"><center>Total Encaissements</center></th>
+                                        <th data-priority="1"><center>Total Avoirs</center></th>
+                                        <th data-priority="1"><center>Total Intérets</center></th>
+                                        <th data-priority="1"><center>Limite de Financement</center></th>
+                                        <th data-priority="1"><center>Devise</center></th>
+                                        <th data-priority="1"><center>Nomber d'Acheteurs Prévus</center></th>
+                                        <th data-priority="1"><center>Nomber de Factures Prévues</center></th>
+                                        <th data-priority="1"><center>Nomber d'Avoirs Prévus</center></th>
+                                        <th data-priority="1"><center>Nomber de Remises Prévues</center></th>
+                                        <th data-priority="1"><center>Délai Moyen de Réglement</center></th>
+                                        <th data-priority="1"><center>Délai Max de Réglement</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.ListCtr)
+                                        {
+                                                        <tr data-ref_ctr="@item.REF_CTR_CIR ">
+                                                            <td>
+                                                                @item.REF_CTR_CIR 
+                                                            </td>
+                                                            <td>
+                                                                @item.Adhérent
+                                                            </td>
+                                                    @{
+                                                        string v = String.Format("{0:N3}", item.Encours_Factures);
+                                                     
+
+                                                        string v1 = String.Format("{0:N3}", item.Somme_Factures);
+                                                    
+                                                        string v2 = String.Format("{0:N3}", item.Total_Fianancements);
+                                                    
+
+                                                        string v3 = String.Format("{0:N3}", item.Totla_Encaissements);
+                                                   
+
+                                                        string v4 = String.Format("{0:N3}", item.Totlal_Avoirs);
+                                           
+
+                                                        string v5 = String.Format("{0:N3}", item.Total_interet);
+                                               
+                                                        string v6;
+                                                        if (item.LIM_FIN_CTR != null)
+                                                        {
+                                                            v6 = String.Format("{0:N3}", item.LIM_FIN_CTR);
+                                                   
+                                                        }
+                                                        else
+                                                        {
+                                                            v6 = item.LIM_FIN_CTR;
+                                                        }
+                                                        }
+                                                                <td style='text-align:right'>
+                                                                 
+                                                                 @v
+                                                                </td>
+                                                            
+
+                                                           
+                                                                <td style='text-align:right'>
+                                                                    @v1
+                                                                 
+                                                                </td>
+                                                          
+                                                                <td style='text-align:right'>
+                                                                    @v2
+                                                                </td>
+                                                            <td style='text-align:right'>
+                                                                @v3
+
+
+
+                                                            </td>
+                                                        
+                                                                <td style='text-align:right'>
+                                                                    @v4
+                                                               
+                                                                </td>
+                                                         
+                                                                <td style='text-align:right'>
+                                                                    @v5
+                                                                
+                                                                </td>
+                                                         
+                                                  
+                                                        <td style='text-align:right'>
+                                                            @v6
+                                                        </td>
+
+                                               
+
+                                                            <td>
+                                                                @item.DEVISE_CTR
+                                                            </td>
+                                                            <td>
+                                                                @item.NB_ACH_PREVU_CTR
+                                                            </td>
+                                                            <td>
+                                                                @item.NB_FACT_PREVU_CTR
+                                                            </td>
+                                                            <td>
+                                                                @item.NB_AVOIRS_PREVU_CTR
+                                                            </td>
+                                                            <td>
+                                                                @item.NB_REMISES_PREVU_CTR
+                                                            </td>
+                                                            <td>
+                                                                @item.DELAI_MOYEN_REG_CTR
+                                                            </td>
+                                                            <td>
+                                                                @item.DELAI_MAX_REG_CTR
+                                                            </td>
+                                                        </tr>
+
+
+                                        }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-success fade" id="PDF_MODEL">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="doc-viewer-id" style="width:100%;height:700px;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="DemoModal2">
+    <!-- Launch Modal -->
+    <!-- Modal Contents -->
+    <div id="mymodel" class="modal fade">
+        <!-- class modal and fade -->
+        <div class="modal modal-success fade" id="modal-success">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>enregistrement a été effectué avec succès</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="modal-dialog modal-lg md">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <!-- modal header -->
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+
+                    <a id="exporter"  class="btn btn-success pull-right"
+                           >
+                     Exporter
+                    </a>
+               
+
+                    <h4 class="modal-title">Modifier Contrat</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="loding_partie" class="loader" style="display:none">
+                        <div class="loader-inner">
+                            <div class="loading one"></div>
+                        </div>
+                        <div class="loader-inner">
+                            <div class="loading two"></div>
+                        </div>
+                        <div class="loader-inner">
+                            <div class="loading three"></div>
+                        </div>
+                        <div class="loader-inner">
+                            <div class="loading four"></div>
+                        </div>
+                    </div>
+                    <!-- modal body -->
+                 <div class="row">
+                     <div class="col-lg-4">
+                         <div class="table-responsive">
+                             <form action="/CreationContrat/ListeDesContrat" method="post">
+                                 <table class="table table-bordered">
+                                     <thead>
+                                         <tr>
+                                             <th>Reférence</th>
+                                             <th>Statut</th>
+                                             <th>Réf Contrat Papier</th>
+                                         </tr>
+                                         <tr>
+                                             <td><input type="text" name="REF_CTR" class="form-control input-sm" id="REF_CTR" disabled /></td>
+                                             <td><input type="text" name="STATUT_CTR" class="form-control input-sm" id="STATUT_CTR" /></td>
+                                             <td><input type="text" name="REF_CTR_PAPIER_CTR" class="form-control input-sm" id="REF_CTR_PAPIER_CTR" /></td>
+                                         </tr>
+                                         <tr>
+                                             <th>Date Résiliation</th>
+                                             <th>Date Praochaine Révision</th>
+                                             <th>chiffre d'affaires</th>
+                                         </tr>
+                                         <tr>
+                                             <td><input type="date" name="DAT_RESIL_CTR" class="form-control input-sm" id="DAT_RESIL_CTR" /></td>
+                                             <td><input type="date" name="DAT_PROCH_VERS_CTR" class="form-control input-sm" id="DAT_PROCH_VERS_CTR" /></td>
+                                             <td><input type="number" name="CA_CTR" class="form-control input-sm" id="CA_CTR" /></td>
+                                         </tr>
+                                         <tr>
+                                             <th>Service</th>
+                                             <th>CA Export </th>
+                                             <th>CA Domicile </th>
+                                         </tr>
+                                         <tr>
+                                             <td><input type="checkbox" class="" id="SERVICE_CTR" /></td>
+                                             <td><input type="number" name="CA_EXP_CTR" class="form-control input-sm" id="CA_EXP_CTR" /></td>
+                                             <td><input type="number" name="CA_IMP_CTR" class="form-control input-sm" id="CA_IMP_CTR" /> </td>
+                                         </tr>
+                                         <tr>
+                                             <th>NB Acheteurs Prévu </th>
+                                             <th>NB Factures Prévu</th>
+                                             <th>NB Avoirs Prévu</th>
+                                         </tr>
+                                         <tr>
+                                             <td><input type="number" name="NB_ACH_PREVU_CTR"  class="form-control input-sm" id="NB_ACH_PREVU_CTR" /></td>
+                                             <td><input type="number" name="NB_FACT_PREVU_CTR" class="form-control input-sm" id="NB_FACT_PREVU_CTR" /></td>
+                                             <td><input type="number" name="NB_AVOIRS_PREVU_CTR"  class="form-control input-sm" id="NB_AVOIRS_PREVU_CTR" /></td>
+                                         </tr>
+                                         <tr>
+                                             <th>NB Remises Prévu</th>
+                                             <th>Délai Moyen de Réglement </th>
+                                             <th>Délai Max de Réglement</th>
+                                         </tr>
+                                         <tr>
+                                             <td><input type="text" name="NB_REMISES_PREVU_CTR" class="form-control input-sm" id="NB_REMISES_PREVU_CTR" /></td>
+                                             <td><input type="text" name="DELAI_MOYEN_REG_CTR" class="form-control input-sm" id="DELAI_MOYEN_REG_CTR" /></td>
+                                             <td><input type="text" name="DELAI_MAX_REG_CTR" class="form-control input-sm" id="DELAI_MAX_REG_CTR" /></td>
+                                         </tr>
+                                         <tr>
+                                             <th>FACT REG CTR  </th>
+                                             <th>Fonds De Reserve </th>
+                                         </tr>
+                                         <tr>
+                                             <td><input type="checkbox" name="FACT_REG_CTR" class="" id="FACT_REG_CTR" /></td>
+                                             <td><input type="text" name="DERN_MONT_DISP_2"  class="form-control input-sm" id="DERN_MONT_DISP_2" /> </td>
+                                         </tr>
+                                     </thead>
+
+                                 </table>
+                                 <div class="row">
+                                     <div class="col-lg-6">
+                                         <button type="button" id="modifierctr" class="btn btn-primary">Modifier</button>
+                                     </div>
+                                    
+                                 </div>
+                             </form>
+                         </div>
+                         @*Partie 1*@
+                       
+                     </div>
+                     <div class="col-lg-8">
+                    
+                             <div class="nav-tabs-custom">
+                                 <ul class="nav nav-pills nav-tabs">
+
+                                     <li><a href="#FondGR" data-toggle="tab">Fonds de Garantie</a></li>
+                                     <li><a href="#FraisD" data-toggle="tab">Frais Divers</a></li>
+                                     <li><a href="#FraisPai" data-toggle="tab">Frais De Paiement</a></li>
+                                     <li><a href="#CommFact" data-toggle="tab">Commissions De Factoring</a></li>
+                                     <li><a href="#IntertDeFin" data-toggle="tab">Intéret de Financement</a></li>
+                                     <li><a href="#InterDeCtr" data-toggle="tab">Intervenants du contrat</a></li>
+                                 </ul>
+                             </div>
+                         
+                   
+                             <div class="tab-content">
+                                 <div class="tab-pane" id="FondGR">
+                                     <div class="table-responsive">
+                                         <table class="table table-bordered" id="FDGTABLE">
+                                             <thead>
+                                                 <tr>
+                                                     <th>Type FDG</th>
+                                                     <th>Réf Contrat</th>
+                                                     <th>Libellé FDG</th>
+                                                     <th>Taux FDG</th>
+                                                     <th>Montant Max FDG</th>
+                                                     <th>Montant Min FDG</th>
+                                                     <th>Type Document Remis FDG </th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody></tbody>
+                                         </table>
+                                     </div>
+                                 </div>
+                                 <div class="tab-pane" id="FraisD">
+
+                                     <div class="table-responsive">
+                                         <table class="table table-bordered" id="FRAISD">
+                                             <thead>
+                                                 <tr>
+                                                     <th>Type Frais</th>
+                                                     <th>Référence Contrat</th>
+                                                     <th>Montant Par Unité</th>
+                                                     <th>Libellé Frais</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody></tbody>
+                                         </table>
+                                     </div>
+
+                                 </div>
+                                 <div class="tab-pane" id="FraisPai">
+                                     <div class="table-responsive">
+                                         <table class="table table-bordered" id="FRAISP">
+                                             <thead>
+                                                 <tr>
+                                                     <th>Type Frais Paiement</th>
+                                                     <th>Référence Contrat</th>
+                                                     <th>Montant Par Instrument</th>
+                                                     <th>Libellé</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody></tbody>
+                                         </table>
+                                     </div>
+                                 </div>
+                                 <div class="tab-pane" id="CommFact">
+                                     <div class="table-responsive">
+                                         <table class="table table-bordered" id="COMMF">
+                                             <thead>
+                                                 <tr>
+                                                     <th>Type Commission</th>
+                                                     <th>Référence Contrat</th>
+                                                     <th>Taux De Commission</th>
+                                                     <th>Montant Min Document</th>
+                                                     <th>Montant Min Contrat</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody></tbody>
+                                         </table>
+                                     </div>
+                                 </div>
+                                 <div class="tab-pane" id="IntertDeFin">
+                                     <div class="table-responsive">
+                                         <table class="table table-small-font table-bordered table-striped " id="INTEREFIN">
+                                             <thead>
+                                                 <tr>
+                                                     <th>Type Instrument</th>
+                                                     <th>Référence Contrat</th>
+                                                     <th>Taux Intérêt Marché</th>
+                                                     <th>Taux Marge Contrat</th>
+                                                     <th>Délai Max Paiement</th>
+                                                     <th>Pécompte</th>
+                                                     <th>Major</th>
+                                                     <th>Date Début Validité</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody></tbody>
+                                         </table>
+                                     </div>
+                                 </div>
+                                 <div class="tab-pane" id="InterDeCtr">
+                                    
+                                     <div class="table-responsive">
+                                         <div class="tableinfotest"></div>
+                                         <br />
+                                         <br />
+                                         <br />
+                                         <table class="table table-bordered" id="INTERCTR">
+                                             <thead>
+                                                 <tr>
+                                                     <th>Nom Intervenant</th>
+                                                     <th>Role</th>
+                                                     <th>Référence Intervenant</th>
+                                                     <th>Référence Conrat</th>
+                                                     <th>Référence Adhérent</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody></tbody>
+                                         </table>
+                                     </div>
+                                 </div>
+                             </div>
+                              </div>
+                             </div>
+                     </div>
+                 </div>
+         
+
+                
+
+            </div> <!-- / .modal-content -->
+
+        </div> <!-- / .modal-dialog -->
+
+    </div><!-- / .modal -->
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+<script>
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\,]\d{3})+)(?:[\,]\d+)?$/.test(value);
+    }
+    jQuery.extend(jQuery.validator.methods, {
+        min: function (value, element, value2) {
+            var val = value.replace(',', '.');
+            return this.optional(element) || val >= value2;
+        }
+    });
+    $.validator.addClassRules("verifmnt", {
+        required: true,
+        number: true,
+        min: 0
+    });
+
+ //   var printpdf = function ( ) {
+ //       //$('#exampleModal').modal('show');
+ //       $(".loader").show();
+ //       $("#exporter").text('en cour de creation');
+ //       $.get("/CreationContrat/creationWordDoc/", { ref_ctr: $("#REF_CTR").val() },
+ //function (data) {
+  
+ //    alert("le fichier est sauvegardé dans "+data);
+ //    $(".loader").hide();
+ //    $("#exporter").text('Exporter');
+ //    $("#lien").attr("href", data);
+ //})
+ //   };
+
+    $("#ListeDesCtr > tbody").delegate("tr", "click", function () {
+        $('.tableinfotest').empty();
+        $("#INTERCTR").dataTable().fnDestroy();
+        $("#exporter").attr("href", "/CreationContrat/creationWordDoc/" + $(this).data("ref_ctr"));
+        $.get("/CreationContrat/GetAllRecord/", { ref_ctr: $(this).data("ref_ctr") },
+            function (data) {
+                //  alert(data.ctr.REF_CTR);
+                //$.each(data.ctr, function (index, element) {
+                if (data.ctr.DAT_RESIL_CTR != null) {
+                    var value = new Date(parseInt(data.ctr.DAT_RESIL_CTR.replace(/(^.*\()|([+-].*$)/g, '')));
+                    //var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                    var month = "";
+                    var day = "";
+                    if (Number(value.getMonth() + 1) < 10) {
+                        month = "0" + Number(value.getMonth() + 1);
+                    }
+                    else {
+                        month = Number(value.getMonth() + 1);
+                    }
+
+                    if (Number(value.getDate()) < 10) {
+                        day = "0" + value.getDate();
+                    }
+                    else {
+                        day = value.getDate();
+                    }
+
+                    var dat = value.getFullYear() + "-" + month + "-" + value.getDate();
+                }
+                else {
+                    var dat = data.ctr.DAT_RESIL_CTR;
+                }
+
+                //date proche rev
+                if (data.ctr.DAT_PROCH_VERS_CTR != null) {
+                    var value2 = new Date(parseInt(data.ctr.DAT_PROCH_VERS_CTR.replace(/(^.*\()|([+-].*$)/g, '')));
+                    //var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                    var month2 = "";
+                    var day2 = "";
+                    if (Number(value2.getMonth() + 1) < 10) {
+                        month2 = "0" + Number(value2.getMonth() + 1);
+                    }
+                    else {
+                        month2 = Number(value2.getMonth() + 1);
+                    }
+
+                    if (Number(value2.getDate()) < 10) {
+                        day2 = "0" + value2.getDate();
+                    }
+                    else {
+                        day2 = value2.getDate();
+                    }
+
+                    var dat_proch = value2.getFullYear() + "-" + month2 + "-" + day2;
+
+                    //alert(dat_proch);
+                }
+                else {
+                    var dat_proch = data.ctr.DAT_PROCH_VERS_CTR;
+                }
+
+
+
+                //
+                $("#REF_CTR").val(data.ctr.REF_CTR);
+                $("#STATUT_CTR").val(data.ctr.STATUT_CTR);
+                $("#REF_CTR_PAPIER_CTR").val(data.ctr.REF_CTR_PAPIER_CTR);
+                $("#DAT_RESIL_CTR").val(dat);
+                $("#DAT_PROCH_VERS_CTR").val(dat_proch);
+                $("#CA_CTR").val(data.ctr.CA_CTR);
+                $("#CA_EXP_CTR").val(data.ctr.CA_EXP_CTR);
+                $("#CA_IMP_CTR").val(data.ctr.CA_IMP_CTR);
+                
+                if (data.ctr.SERVICE_CTR == true) {
+                    $('.icheckbox_minimal-blue').first().addClass('checked');
+                }
+                $("#NB_ACH_PREVU_CTR").val(data.ctr.NB_ACH_PREVU_CTR);
+                $("#NB_FACT_PREVU_CTR").val(data.ctr.NB_FACT_PREVU_CTR);
+                $("#NB_AVOIRS_PREVU_CTR").val(data.ctr.NB_AVOIRS_PREVU_CTR);
+                $("#NB_REMISES_PREVU_CTR").val(data.ctr.NB_REMISES_PREVU_CTR);
+                
+                $("#DELAI_MOYEN_REG_CTR").val(data.ctr.DELAI_MOYEN_REG_CTR);
+                $("#DELAI_MAX_REG_CTR").val(data.ctr.DELAI_MAX_REG_CTR);
+                if (data.ctr.FACT_REG_CTR == true) { $('.icheckbox_minimal-blue').eq(1).addClass('checked'); }
+                $("#DERN_MONT_DISP_2").val(data.ctr.DERN_MONT_DISP_2);
+
+                //});
+                $('#FDGTABLE > tbody').empty();
+
+                $.each(data.fondg, function (index, element) {
+                    var TX_FDG;
+                    var MONT_MAX_FDG;
+                    var MONT_MIN_FDG;
+                    if (element.TX_FDG != null) { TX_FDG = parseFloat(element.TX_FDG).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_FDG = 0; }
+                    if (element.MONT_MAX_FDG != null) { MONT_MAX_FDG = parseFloat(element.MONT_MAX_FDG).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MAX_FDG = 0,000; }
+                    if (element.MONT_MIN_FDG != null) { MONT_MIN_FDG = parseFloat(element.MONT_MIN_FDG).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MIN_FDG = 0,000; }
+
+
+                    $("#FDGTABLE > tbody").append("<tr>" +
+                                 "<td >" + element.TYP_FDG + "</td>" +
+                                 "<td >" + element.REF_CTR_FDG + "</td>" +
+                                 "<td >" + element.LIB_FDG + "</td>" +
+                                 "<td contenteditable='true'class='verifmnt'style='text-align:right'>" + TX_FDG + "</td>" +
+                                 "<td contenteditable='true'class='verifmnt'style='text-align:right'>" + MONT_MAX_FDG + "</td>" +
+                                 "<td contenteditable='true'class='verifmnt'style='text-align:right'>" + MONT_MIN_FDG + "</td>" +
+                                 "<td contenteditable='true'class='verifmnt'style='text-align:right'>" + element.TYP_DOC_REMIS_FDG + "</td>" +
+
+                                   "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>"
+                                 + "</tr>"
+                                 );
+                });
+
+                $('#FRAISP > tbody').empty();
+                $.each(data.fraisp, function (index, element) {
+                    var MONT_PAR_INSTR_FRAIS_PAIE;
+                    if (element.MONT_PAR_INSTR_FRAIS_PAIE != null) { MONT_PAR_INSTR_FRAIS_PAIE = parseFloat(element.MONT_PAR_INSTR_FRAIS_PAIE).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_PAR_INSTR_FRAIS_PAIE = 0, 000; }
+                    $("#FRAISP > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_FRAIS_PAIE + "</td>" +
+                                 "<td>" + element.REF_CTR_FRAIS_PAIE + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_PAR_INSTR_FRAIS_PAIE + "</td>" +
+                                 "<td>" + element.LIB_FRAIS_PAIE + "</td>" +
+                                   "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+                
+                $('#FRAISD > tbody').empty();
+                $.each(data.fraisd, function (index, element) {
+                    var MONT_PAR_UNIT_FRAIS_DIVERS;
+                    if (element.MONT_PAR_UNIT_FRAIS_DIVERS != null) { MONT_PAR_UNIT_FRAIS_DIVERS = parseFloat(element.MONT_PAR_UNIT_FRAIS_DIVERS).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_PAR_UNIT_FRAIS_DIVERS = 0, 000; }
+                    $("#FRAISD > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_FRAIS_DIVERS + "</td>" +
+                                 "<td>" + element.REF_CTR_FRAIS_DIVERS + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_PAR_UNIT_FRAIS_DIVERS + "</td>" +
+                                 "<td>" + element.LIB_FRAIS_DIVERS + "</td>" +
+                                  "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+
+                $('#COMMF > tbody').empty();
+                $.each(data.commfact, function (index, element) {
+                    var TX_COMM_FACTORING;
+                    var MONT_MIN_DOC_COMM_FACTORING;
+                    var MONT_MIN_CTR_COMM_FACTORING;
+                    if (element.TX_COMM_FACTORING != null) { TX_COMM_FACTORING = parseFloat(element.TX_COMM_FACTORING).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_COMM_FACTORING = 0; }
+                    if (element.MONT_MIN_DOC_COMM_FACTORING != null) { MONT_MIN_DOC_COMM_FACTORING = parseFloat(element.MONT_MIN_DOC_COMM_FACTORING).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MIN_DOC_COMM_FACTORING = 0,000; }
+                    if (element.MONT_MIN_CTR_COMM_FACTORING != null) { MONT_MIN_CTR_COMM_FACTORING = parseFloat(element.MONT_MIN_CTR_COMM_FACTORING).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MIN_CTR_COMM_FACTORING = 0,000; }
+
+                    $("#COMMF > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_COMM_FACTORING + "</td>" +
+                                 "<td>" + element.REF_CTR_COMM_FACTORING + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + TX_COMM_FACTORING + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_MIN_DOC_COMM_FACTORING + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_MIN_CTR_COMM_FACTORING + "</td>" +
+                                  "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+
+                $('#INTEREFIN > tbody').empty();
+                $.each(data.fin, function (index, element) {
+                    
+                    if (element.DAT_DEB_VALID_INT_FIN != null) {
+                        var dat;
+                        var value = new Date(parseInt(element.DAT_DEB_VALID_INT_FIN.replace(/(^.*\()|([+-].*$)/g, '')));
+                        if (value.getDate() < 10) { dat = "0" + value.getDate(); } else { dat = value.getDate();}
+                        if (Number(value.getMonth() + 1) < 10) { dat = dat + "/" + "0" + Number(value.getMonth() + 1); } else { dat = dat + "/" + Number(value.getMonth() + 1); }
+                        //var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                         dat =dat +"/" + value.getFullYear();
+                    }
+                    else { dat = ""; }
+                      // alert(dat);
+                    var TX_INT_MARCHE_INT_FIN;
+                    var TX_MARGE_CTR_INT_FIN;
+                    var PRECOMPTE_INT_FIN;
+                    var MAJOR_INT_INT_FIN;
+
+                    if (element.TX_INT_MARCHE_INT_FIN != null) { TX_INT_MARCHE_INT_FIN = parseFloat(element.TX_INT_MARCHE_INT_FIN).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_INT_MARCHE_INT_FIN = 0; }
+                    if (element.TX_MARGE_CTR_INT_FIN != null) { TX_MARGE_CTR_INT_FIN = parseFloat(element.TX_MARGE_CTR_INT_FIN).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_MARGE_CTR_INT_FIN = 0; }
+                    if (element.PRECOMPTE_INT_FIN != null) { PRECOMPTE_INT_FIN = parseFloat(element.PRECOMPTE_INT_FIN).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { PRECOMPTE_INT_FIN = 0, 000; }
+                    if (element.MAJOR_INT_INT_FIN != null) { MAJOR_INT_INT_FIN = parseFloat(element.MAJOR_INT_INT_FIN).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MAJOR_INT_INT_FIN = 0, 000; }
+
+
+                    $("#INTEREFIN > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_INSTR_INT_FIN + "</td>" +
+                                 "<td>" + element.REF_CTR_INT_FIN + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + TX_INT_MARCHE_INT_FIN + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + TX_MARGE_CTR_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + element.DELAI_MAX_PAI_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + PRECOMPTE_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + MAJOR_INT_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + dat + "</td>" +
+                                   "<td contenteditable='true'>" + dat + "</td>" +
+                                    "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+                $('#INTERCTR > tbody').empty();
+                $.each(data.int_ctr, function (index, element) {
+                    $("#INTERCTR > tbody").append("<tr>" +
+                                 "<td>" + element.NomAch + "</td>" +
+                                 "<td>" + element.ID_ROLE_CIR + "</td>" +
+                                 "<td>" + element.RefAch + "</td>" +
+                                 "<td>" + element.REF_CTR_CIR + "</td>" +
+                                 "<td>" + element.RefAdh + "</td>" +
+                                 + "</tr>"
+                                 );
+                });
+
+
+                var tb=   $("#INTERCTR").DataTable({
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    'paging': false,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false,
+                    "scrollY": "500px",
+                    "scrollCollapse": true,
+                    "language": {
+                        "sProcessing": "Traitement en cours...",
+                        "sSearch": "Rechercher&nbsp;:",
+                        "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                        "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                        "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+                        "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                        "sInfoPostFix": "",
+                        "sLoadingRecords": "Chargement en cours...",
+                        "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                        "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+                        "oPaginate": {
+                            "sFirst": "Premier",
+                            "sPrevious": "Pr&eacute;c&eacute;dent",
+                            "sNext": "Suivant",
+                            "sLast": "Dernier"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                            "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                        },
+                        "select": {
+                            "rows": {
+                                _: "%d lignes séléctionnées",
+                                0: "Aucune ligne séléctionnée",
+                                1: "1 ligne séléctionnée"
+                            }
+                        }
+                    }
+                  
+               
+                });
+
+                var tableTools = new $.fn.dataTable.Buttons(tb, {
+                    buttons: [
+               {
+                   extend: 'excel',
+                   //text: data.nom_adh,
+                   title: 'Liste des acheteurs de  ' + data.nom_adh,
+                   exportOptions: {
+                       modifier: {
+                           page: 'current'
+                       }
+                   }
+               }
+                    ]
+                });
+                // $(tableTools.fnContainer()).insertAfter('div.info');
+
+                tb.buttons().container().insertAfter('.tableinfotest');
+            }
+
+       );
+
+      
+       
+        $("#mymodel").modal();
+
+
+    });
+    $("#FDGTABLE > tbody").delegate(".table-update", "click", function () {
+        
+     
+        var array = new Array();
+        array[0] = $(this).parents('tr').find("td").eq(3).text();
+        array[1] = $(this).parents('tr').find("td").eq(1).text();
+        array[2] = $(this).parents('tr').find("td").eq(0).text();
+        $.ajax({
+            url: "/CreationContrat/updateFdg",
+            type: "POST",
+            data: JSON.stringify({ "info": array }),
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                alert("enregistrement a été effectué avec succès");
+                $('#FDGTABLE> tbody').empty();
+                $.each(result, function (index, element) {
+                    var TX_FDG;
+                    var MONT_MAX_FDG;
+                    var MONT_MIN_FDG;
+                    if (element.TX_FDG != null) { TX_FDG = parseFloat(element.TX_FDG).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_FDG = 0; }
+                    if (element.MONT_MAX_FDG != null) { MONT_MAX_FDG = parseFloat(element.MONT_MAX_FDG).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MAX_FDG = 0, 000; }
+                    if (element.MONT_MIN_FDG != null) { MONT_MIN_FDG = parseFloat(element.MONT_MIN_FDG).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MIN_FDG = 0, 000; }
+
+
+                    $("#FDGTABLE > tbody").append("<tr>" +
+                                 "<td >" + element.TYP_FDG + "</td>" +
+                                 "<td >" + element.REF_CTR_FDG + "</td>" +
+                                 "<td >" + element.LIB_FDG + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + TX_FDG + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_MAX_FDG + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_MIN_FDG + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + element.TYP_DOC_REMIS_FDG + "</td>" +
+
+                                   "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>"
+                                 + "</tr>"
+                                 );
+                });
+
+
+
+            },
+            error: function (result) { alert("error");}
+            });
+    });
+
+
+    $("#FRAISP > tbody").delegate(".table-update", "click", function () {
+        var array = new Array();
+        array[0] = $(this).parents('tr').find("td").eq(2).text();
+        array[1] = $(this).parents('tr').find("td").eq(1).text();
+        array[2] = $(this).parents('tr').find("td").eq(0).text();
+        $.ajax({
+            url: "/CreationContrat/updateFraisP",
+            type: "POST",
+            data: JSON.stringify({ "info": array }),
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                alert("enregistrement a été effectué avec succès");
+                $('#FRAISP > tbody').empty();
+                $.each(result, function (index, element) {
+                    var MONT_PAR_INSTR_FRAIS_PAIE;
+                    if (element.MONT_PAR_INSTR_FRAIS_PAIE != null) { MONT_PAR_INSTR_FRAIS_PAIE = parseFloat(element.MONT_PAR_INSTR_FRAIS_PAIE).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_PAR_INSTR_FRAIS_PAIE = 0, 000; }
+                    $("#FRAISP > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_FRAIS_PAIE + "</td>" +
+                                 "<td>" + element.REF_CTR_FRAIS_PAIE + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_PAR_INSTR_FRAIS_PAIE + "</td>" +
+                                 "<td>" + element.LIB_FRAIS_PAIE + "</td>" +
+                                   "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+
+            }
+        });
+    });
+
+    $("#FRAISD > tbody").delegate(".table-update", "click", function () {
+        var array = new Array();
+        array[0] = $(this).parents('tr').find("td").eq(2).text();
+        array[1] = $(this).parents('tr').find("td").eq(1).text();
+        array[2] = $(this).parents('tr').find("td").eq(0).text();
+        $.ajax({
+            url: "/CreationContrat/updateFraisD",
+            type: "POST",
+            data: JSON.stringify({ "info": array }),
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                alert("enregistrement a été effectué avec succès");
+                $('#FRAISD > tbody').empty();
+                $.each(result, function (index, element) {
+                    var MONT_PAR_UNIT_FRAIS_DIVERS;
+                    if (element.MONT_PAR_UNIT_FRAIS_DIVERS != null) { MONT_PAR_UNIT_FRAIS_DIVERS = parseFloat(element.MONT_PAR_UNIT_FRAIS_DIVERS).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_PAR_UNIT_FRAIS_DIVERS = 0, 000; }
+                    $("#FRAISD > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_FRAIS_DIVERS + "</td>" +
+                                 "<td>" + element.REF_CTR_FRAIS_DIVERS + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + MONT_PAR_UNIT_FRAIS_DIVERS + "</td>" +
+                                 "<td>" + element.LIB_FRAIS_DIVERS + "</td>" +
+                                  "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+
+            }
+        });
+    });
+
+    $("#COMMF > tbody").delegate(".table-update", "click", function () {
+        var array = new Array();
+        array[0] = $(this).parents('tr').find("td").eq(2).text();
+        array[1] = $(this).parents('tr').find("td").eq(1).text();
+        array[2] = $(this).parents('tr').find("td").eq(3).text();
+        array[3] = $(this).parents('tr').find("td").eq(4).text();
+        array[4] = $(this).parents('tr').find("td").eq(0).text();
+        $.ajax({
+            url: "/CreationContrat/updateCommF",
+            type: "POST",
+            data: JSON.stringify({ "info": array }),
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                alert("enregistrement a été effectué avec succès");
+                $('#COMMF > tbody').empty();
+                $.each(result, function (index, element) {
+                    var TX_COMM_FACTORING;
+                    var MONT_MIN_DOC_COMM_FACTORING;
+                    var MONT_MIN_CTR_COMM_FACTORING;
+                    if (element.TX_COMM_FACTORING != null) { TX_COMM_FACTORING = parseFloat(element.TX_COMM_FACTORING).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_COMM_FACTORING = 0; }
+                    if (element.MONT_MIN_DOC_COMM_FACTORING != null) { MONT_MIN_DOC_COMM_FACTORING = parseFloat(element.MONT_MIN_DOC_COMM_FACTORING).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MIN_DOC_COMM_FACTORING = 0, 000; }
+                    if (element.MONT_MIN_CTR_COMM_FACTORING != null) { MONT_MIN_CTR_COMM_FACTORING = parseFloat(element.MONT_MIN_CTR_COMM_FACTORING).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MONT_MIN_CTR_COMM_FACTORING = 0, 000; }
+
+                    $("#COMMF > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_COMM_FACTORING + "</td>" +
+                                 "<td>" + element.REF_CTR_COMM_FACTORING + "</td>" +
+                                 "<td contenteditable='true'class='verifmnt'style='text-align:right'>" + TX_COMM_FACTORING + "</td>" +
+                                 "<td contenteditable='true'class='verifmnt'style='text-align:right'>" + MONT_MIN_DOC_COMM_FACTORING + "</td>" +
+                                 "<td contenteditable='true'class='verifmnt'style='text-align:right'>" + MONT_MIN_CTR_COMM_FACTORING + "</td>" +
+                                  "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+
+            }
+        });
+    });
+
+
+    $("#INTEREFIN > tbody").delegate(".table-update", "click", function () {
+        var array = new Array();
+        array[0] = $(this).parents('tr').find("td").eq(2).text();
+        array[1] = $(this).parents('tr').find("td").eq(1).text();
+        array[2] = $(this).parents('tr').find("td").eq(3).text();
+        array[3] = $(this).parents('tr').find("td").eq(4).text();
+        array[4] = $(this).parents('tr').find("td").eq(5).text();
+        array[5] = $(this).parents('tr').find("td").eq(6).text();
+        array[6] = $(this).parents('tr').find("td").eq(7).text();
+        array[7] = $(this).parents('tr').find("td").eq(8).text();
+        array[8] = $(this).parents('tr').find("td").eq(0).text();
+        $.ajax({
+           
+            url: "/CreationContrat/updateInteretFin",
+            type: "POST",
+            data: JSON.stringify({ "info": array }),
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                alert("enregistrement a été effectué avec succès");
+                $('#INTEREFIN > tbody').empty();
+                $.each(result, function (index, element) {
+                    if (element.DAT_DEB_VALID_INT_FIN != null) {
+                        var dat;
+                        var value = new Date(parseInt(element.DAT_DEB_VALID_INT_FIN.replace(/(^.*\()|([+-].*$)/g, '')));
+                        if (value.getDate() < 10) { dat = "0" + value.getDate(); } else { dat = value.getDate(); }
+                        if (Number(value.getMonth() + 1) < 10) { dat = dat + "/" + "0" + Number(value.getMonth() + 1); } else { dat = dat + "/" + Number(value.getMonth() + 1); }
+                        //var value2 = new Date(parseInt(element.DAT_VAL_ENC.replace(/(^.*\()|([+-].*$)/g, '')));
+                        dat = dat + "/" + value.getFullYear();
+                    }
+                    else { dat = ""; }
+                 
+                    var TX_INT_MARCHE_INT_FIN;
+                    var TX_MARGE_CTR_INT_FIN;
+                    var PRECOMPTE_INT_FIN;
+                    var MAJOR_INT_INT_FIN;
+
+                    if (element.TX_INT_MARCHE_INT_FIN != null) { TX_INT_MARCHE_INT_FIN = parseFloat(element.TX_INT_MARCHE_INT_FIN).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_INT_MARCHE_INT_FIN = 0; }
+                    if (element.TX_MARGE_CTR_INT_FIN != null) { TX_MARGE_CTR_INT_FIN = parseFloat(element.TX_MARGE_CTR_INT_FIN).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { TX_MARGE_CTR_INT_FIN = 0; }
+                    if (element.PRECOMPTE_INT_FIN != null) { PRECOMPTE_INT_FIN = parseFloat(element.PRECOMPTE_INT_FIN).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { PRECOMPTE_INT_FIN = 0, 000; }
+                    if (element.MAJOR_INT_INT_FIN != null) { MAJOR_INT_INT_FIN = parseFloat(element.MAJOR_INT_INT_FIN).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,").replace(".", ","); } else { MAJOR_INT_INT_FIN = 0, 000; }
+
+
+                    $("#INTEREFIN > tbody").append("<tr>" +
+                                 "<td>" + element.TYP_INSTR_INT_FIN + "</td>" +
+                                 "<td>" + element.REF_CTR_INT_FIN + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + TX_INT_MARCHE_INT_FIN + "</td>" +
+                                 "<td contenteditable='true' style='text-align:right'>" + TX_MARGE_CTR_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + element.DELAI_MAX_PAI_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + PRECOMPTE_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + MAJOR_INT_INT_FIN + "</td>" +
+                                 "<td contenteditable='true'>" + dat + "</td>" +
+                                   "<td contenteditable='true'>" + dat + "</td>" +
+                                    "<td> <span class='table-update'><button type='button' class='btn btn-success'><i class='fa fa-fw fa-edit'></i></button></span></td>" +
+                                 + "</tr>"
+                                 );
+                });
+
+            }
+        });
+    });
+
+
+    $("#modifierctr").click(function () {
+
+        if (parseFloat($("#CA_CTR").val()) != parseFloat($("#CA_EXP_CTR").val()) + parseFloat($("#CA_IMP_CTR").val())) { alert("verifier ca_ctr"); }
+        else {
+            var myarray = {};
+            myarray.REF_CTR = $("#REF_CTR").val();
+            myarray.STATUT_CTR = $("#STATUT_CTR").val();
+            myarray.REF_CTR_PAPIER_CTR = $("#REF_CTR_PAPIER_CTR").val();
+            myarray.DAT_RESIL_CTR = $("#DAT_RESIL_CTR").val();
+            myarray.DAT_PROCH_VERS_CTR = $("#DAT_PROCH_VERS_CTR").val();
+            myarray.CA_CTR = $("#CA_CTR").val().replace(".",",");
+            myarray.CA_EXP_CTR = $("#CA_EXP_CTR").val().replace(".", ",");
+            myarray.CA_IMP_CTR = $("#CA_IMP_CTR").val().replace(".", ",");
+            if ($('.icheckbox_minimal-blue').eq(0).hasClass('checked') == true) {
+                myarray.SERVICE_CTR = true;
+
+            }
+            else {
+                myarray.SERVICE_CTR = false;
+            }
+            myarray.NB_ACH_PREVU_CTR = $("#NB_ACH_PREVU_CTR").val();
+            myarray.NB_FACT_PREVU_CTR = $("#NB_FACT_PREVU_CTR").val();
+            myarray.NB_AVOIRS_PREVU_CTR = $("#NB_AVOIRS_PREVU_CTR").val();
+            myarray.NB_REMISES_PREVU_CTR = $("#NB_REMISES_PREVU_CTR").val();
+            myarray.DELAI_MOYEN_REG_CTR = $("#DELAI_MOYEN_REG_CTR").val();
+            myarray.DELAI_MAX_REG_CTR = $("#DELAI_MAX_REG_CTR").val();
+            if ($('.icheckbox_minimal-blue').eq(1).hasClass('checked') == true) {
+                myarray.FACT_REG_CTR = true;
+
+            }
+            else {
+                myarray.FACT_REG_CTR = false;
+            }
+            myarray.DERN_MONT_DISP_2 = $("#DERN_MONT_DISP_2").val().replace(".", ",");
+
+            $.ajax({
+                url: "/CreationContrat/updatecontrat",
+                type: "POST",
+                data: JSON.stringify({ "contart": myarray }),
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    alert("enregistrement a été effectué avec succès");
+                }
+            });
+        }
+    });
+</script>

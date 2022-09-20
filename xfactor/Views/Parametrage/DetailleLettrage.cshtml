@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "DetailleLettrage";
+    Layout = "~/Views/Shared/_Layout - Copy.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive " data-pattern="priority-columns">
+            <table cellspacing="0" id="listFactLettrage" class="table table-small-font table-bordered">
+                <thead>
+
+                    <tr class="bg-primary">
+                        <th data-priority="3"><center>Référence</center></th>
+                        <th data-priority="3"><center>Montant TTC</center></th>
+                        <th data-priority="1">Montant ouvert</th>
+                        <th data-priority="1"><center>Date</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.List)
+                    {
+                        <tr onclick="AA(@item.ID_DET_BORD_LET)">
+                            <td>@item.REF</td>
+                            @{
+                                string v = String.Format("{0:N3}", item.TTC);
+
+
+                                string v2 = String.Format("{0:N3}", item.OUV);
+
+                            }
+                            <td style="text-align:right">
+                                @v
+                            </td>
+                            <td style="text-align:right">
+                                @v
+                            </td>
+                            @if (item.DAT != null)
+                            {
+                                <td>@item.DAT.ToString("d")</td>
+                            }
+                            else
+                            {
+                                <td>@item.DAT</td>
+
+                            }
+                        </tr>
+                                }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script>
+    $("tr").click(function(){
+    $(this).addClass("selected").siblings().removeClass("selected");
+    });
+  
+</script>
+

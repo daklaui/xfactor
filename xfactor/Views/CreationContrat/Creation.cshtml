@@ -1,0 +1,1234 @@
+﻿
+@{
+    ViewBag.Title = "Creation_Contrat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+}
+
+<style>
+    .StyleContrat {
+        background: green;
+    color: white;
+    }
+      @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+    .bocsh {
+     -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+
+</style>
+
+
+@section header {
+<h1>
+    Contrat
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active">Contrat</li>
+    <li class="active">Ajouter Contrat</li>
+</ol>
+    }
+@if (TempData["notice"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["notice"] <a href="@TempData["Link"]" target="_blank">Télécharger</a></strong>
+    </div>
+}
+
+<div id="ContratSimpleView" style="display:none">
+
+    <div style="background:white" id="ContanetSteps">
+        <div class="row form-group">
+            <div class="col-xs-12">
+                <ul class="nav nav-pills nav-justified thumbnail setup-panel" id="listedesSteps">
+                    <li class="active">
+                        <a href="#step-1">
+                            <h4 class="list-group-item-heading">Etape 1</h4>
+                            <p class="list-group-item-text">INFOS GENERALEs </p>
+                        </a>
+                    </li>
+                    <li class="disabled">
+                        <a href="#step-2">
+                            <h4 class="list-group-item-heading">Etape 2</h4>
+                            <p class="list-group-item-text">AUTRES COMM ET FRAIS</p>
+                        </a>
+                    </li>
+                    <li class="disabled">
+                        <a href="#step-3">
+                            <h4 class="list-group-item-heading">Etape 3</h4>
+                            <p class="list-group-item-text">COMMISION FACTORING ET INTERET DE FINANCEMENT</p>
+                        </a>
+                    </li>
+                    <li class="disabled">
+                        <a href="#step-4">
+                            <h4 class="list-group-item-heading">Etape 4</h4>
+                            <p class="list-group-item-text">ACHETEUR</p>
+                        </a>
+                    </li>
+
+                    <li class="disabled" id="reversecontratcondition" style="display:none">
+                        <a href="#step-5">
+                            <h4 class="list-group-item-heading">Etape 5</h4>
+                            <p class="list-group-item-text">FOURNISSEUR</p>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </div>
+        </div>
+        @using (Html.BeginForm("Creation", "CreationContrat", FormMethod.Post, new { id = "formcontrat" }))
+        {
+            <input type="hidden" id="type_contrat" name="type_contrat" />
+            <div class="row setup-content" id="step-1">
+                <div class="col-xs-12">
+                    <div class="col-md-12 well">
+
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Numéro contrat Papier : ", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("REF_CTR_PAPIER_CTR", new { htmlAttributes = new { @class = "form-control input-sm required" } })
+                                        @Html.ValidationMessage("REF_CTR_PAPIER_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Statut contrat : </label>
+                                        @Html.DropDownList("STATUT_CTR", (IEnumerable<SelectListItem>)ViewBag.Stat_CTR, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                        @Html.ValidationMessage("STATUT_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" id="nomadherent">Nom Adhérent : </label>
+                                        @Html.DropDownList("indiv", (IEnumerable<SelectListItem>)ViewBag.Ind, new { @class = "form-control input-sm selectpicker", data_live_search = "true" ,id="Nom_Individu"})
+                                        @Html.ValidationMessage("indiv", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Date Signature: ", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("DAT_SIGN_CTR", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date" } })
+                                        @Html.ValidationMessage("DAT_SIGN_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Date Démarrage:", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("DAT_DEB_CTR", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date", id = "DAT_DEB_CTR_id" } })
+                                        @Html.ValidationMessage("DAT_DEB_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Type contrat : </label>
+                                        @Html.DropDownList("TYP_CTR", (IEnumerable<SelectListItem>)ViewBag.ctr, string.Empty, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "typectr" })
+                                        @Html.ValidationMessage("TYP_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Devise : </label>
+                                        @Html.DropDownList("DEVISE_CTR", (IEnumerable<SelectListItem>)ViewBag.Devise, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                        @Html.ValidationMessage("DEVISE_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    @*<div class="form-group">
+                                            @Html.Label("Activité de la Sté : ", htmlAttributes: new { @class = "control-label" })
+                                            @Html.Editor("v", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                            @Html.ValidationMessage("v", "", new { @class = "text-danger" })
+                                        </div>*@
+
+                                    <div class="form-group">
+                                        @Html.Label("Date de résiliation :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("DAT_RESIL_CTR", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date" } })
+                                        @Html.ValidationMessage("DAT_RESIL_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Date de prochaine révision:", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("DAT_PROCH_VERS_CTR", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date", id = "DAT_PROCH_VERS_CTR_ID" } })
+                                        @Html.ValidationMessage("DAT_PROCH_VERS_CTR", "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Chiffre d'affaires : ", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("CA_CTR", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma Separateur", id = "CA_CTR" } })
+                                        @Html.ValidationMessage("CA_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Dont Export :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("CA_EXP_CTR", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma Separateur", id = "CA_EXP_CTR" } })
+                                        @Html.ValidationMessage("CA_EXP_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Dont dom :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("CA_IMP_CTR", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma Separateur", id = "CA_IMP_CTR" } })
+                                        @Html.ValidationMessage("CA_IMP_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Limite de financement :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("LIM_FIN_CTR", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma Separateur" } })
+                                        @Html.ValidationMessage("LIM_FIN_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Délai moyen de réglement(jour):", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("DELAI_MOYEN_REG_CTR", new { htmlAttributes = new { @class = "form-control input-sm " } })
+                                        @Html.ValidationMessage("DELAI_MOYEN_REG_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Comm.Min Factoring :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("comf", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma Separateur" } })
+                                        @Html.ValidationMessage("comf", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        @Html.Label("Facture transmises avec réglements :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("tt", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        @Html.ValidationMessage("tt", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Nbr d'achteurs Prévus:", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("NB_ACH_PREVU_CTR", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        @Html.ValidationMessage("NB_ACH_PREVU_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Nbr factures Prévus:", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("NB_FACT_PREVU_CTR", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        @Html.ValidationMessage("NB_FACT_PREVU_CTR", "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Nbr d'avoirs Prévus :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("NB_AVOIRS_PREVU_CTR", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        @Html.ValidationMessage("NB_AVOIRS_PREVU_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Délai Max de règlement :", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("DELAI_MAX_REG_CTR", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        @Html.ValidationMessage("DELAI_MAX_REG_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Nbr de remise Prévus", htmlAttributes: new { @class = "control-label" })
+                                        @Html.Editor("NB_REMISES_PREVU_CTR", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        @Html.ValidationMessage("NB_REMISES_PREVU_CTR", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    @Html.Label("Assureur : ", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("ACTIF_ASS", new { htmlAttributes = new { @class = "form-control input-sm", disabled = "disabled", id = "ACTIF_ASS" } })
+                                    @Html.ValidationMessage("ACTIF_ASS", "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.Label("Prime d'assurance :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("PRIME_ASS", new { htmlAttributes = new { @class = "form-control input-sm ", disabled = "disabled", id = "PRIME_ASS" } })
+                                    @Html.ValidationMessage("PRIME_ASS", "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.Label("Taux de couverture :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("TX_COUVERTURE_ASS", new { htmlAttributes = new { @class = "form-control input-sm ", disabled = "disabled", id = "TX_COUVERTURE_ASS" } })
+                                    @Html.ValidationMessage("TX_COUVERTURE_ASS", "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.Label("Délai de déclaration de sinstre:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("DELAIS_DECALARATION_SINISTRE_ASS", new { htmlAttributes = new { @class = "form-control input-sm", disabled = "disabled", id = "DELAIS_DECALARATION_SINISTRE_ASS" } })
+                                    @Html.ValidationMessage("DELAIS_DECALARATION_SINISTRE_ASS", "", new { @class = "text-danger" })
+                                </div>
+                                @Html.Hidden("Verif", "false", htmlAttributes: new { id = "ver" })
+                            </div>
+                        </div>
+
+
+
+                        <button type="button" id="activate-step-2" class="btn btn-primary pull-right">Suivant</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row setup-content" id="step-2">
+                <div class="col-xs-12">
+                    <div class="col-md-12 well">
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                @foreach (var data in ViewBag.List2)
+                                {
+                                    <div class="form-group">
+
+                                        @{
+                                            string x = data.LIB_FRAIS_DIVERS;
+                                            string v = "";
+
+                                            switch (x)
+                                            {
+                                                case "OPINION": v = "OP"; break;
+                                                case "RENOUVELLEMENT": v = "ROP"; break;
+
+                                            }
+
+                                        }
+
+                                        <label class="control-label"> @data.LIB_FRAIS_DIVERS :</label>
+                                        @Html.Editor("fins[" + @i + "].MONT_PAR_UNIT_FRAIS_DIVERS", new { htmlAttributes = new { @class = "form-control input-sm verifmnt ConvertPointToComma Separateur" } })
+                                        @Html.ValidationMessage("MONT_PAR_UNIT_FRAIS_DIVERS", "", new { @class = "text-danger" })
+                                        <input type="hidden" name="fins[@i].TYP_FRAIS_DIVERS" required="required" value="@v" />
+                                        <input type="hidden" name="fins[@i].LIB_FRAIS_DIVERS" value="" />
+                                    </div>
+                                                i++;
+                                            }
+
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Nom" class="col-sm-5 control-label">Cheque :</label>
+                                    <input type="hidden" name="pais[0].TYP_FRAIS_PAIE" class="form-control input-sm" value="C">
+                                    <input type="text" name="pais[0].MONT_PAR_INSTR_FRAIS_PAIE" class="form-control input-sm verifmnt ConvertPointToComma Separateur">
+                                    <input type="hidden" name="pais[0].LIB_FRAIS_PAIE" class="form-control input-sm" id="" value="Cheque">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Nom" class="col-sm-5 control-label">Traite :</label>
+                                    <input type="hidden" name="pais[1].TYP_FRAIS_PAIE" class="form-control input-sm" value="T">
+                                    <input type="text" name="pais[1].MONT_PAR_INSTR_FRAIS_PAIE" class="form-control input-sm verifmnt ConvertPointToComma Separateur">
+                                    <input type="hidden" name="pais[1].LIB_FRAIS_PAIE" class="form-control input-sm" id="" value="traite">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Nom" class="col-sm-5 control-label">Virement :</label>
+                                    <input type="hidden" name="pais[2].TYP_FRAIS_PAIE" class="form-control input-sm" value="V">
+                                    <input type="text" name="pais[2].MONT_PAR_INSTR_FRAIS_PAIE" class="form-control input-sm verifmnt ConvertPointToComma Separateur">
+                                    <input type="hidden" name="pais[2].LIB_FRAIS_PAIE" class="form-control input-sm" value="virement">
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+
+                                @foreach (var data in ViewBag.List)
+                                {
+                                    <div class="form-group">
+                                        @{
+                                            string x = data.LIB_FRAIS_DIVERS;
+                                            string v = "";
+                                            switch (x)
+                                            {
+                                                case "TIMBRE": v = "TIM"; break;
+                                                case "PROROGATION ECHEANCE": v = "ProE"; break;
+                                                case "LITIGE": v = "Lit"; break;
+                                                case "PROROGATION LITIGE": v = "ProL"; break;
+                                                case "SUR CONTRAT": v = "SurC"; break;
+                                                case "IMPAYE": v = "Imp"; break;
+                                                case "RETROCESSION": v = "Ret"; break;
+                                            }
+
+                                        }
+
+                                        <label class="control-label"> @data.LIB_FRAIS_DIVERS :</label>
+                                        @if (v == "SurC")
+                                        {
+                                            @Html.Editor("fins[" + @i + "].MONT_PAR_UNIT_FRAIS_DIVERS", new { htmlAttributes = new { @class = "form-control input-sm verifmnt ConvertPointToComma Separateur", id = "SurC" } })
+                                        }
+                                        else
+                                        {
+                                            @Html.Editor("fins[" + @i + "].MONT_PAR_UNIT_FRAIS_DIVERS", new { htmlAttributes = new { @class = "form-control input-sm verifmnt ConvertPointToComma Separateur" } })
+                                        }
+                                        @Html.ValidationMessage("MONT_PAR_UNIT_FRAIS_DIVERS", "", new { @class = "text-danger" })
+                                        <input type="hidden" name="fins[@i].TYP_FRAIS_DIVERS" required="required" value="@v" />
+                                        <input type="hidden" name="fins[@i].LIB_FRAIS_DIVERS" value="" />
+                                    </div>
+
+
+                                                i++;
+                                            }
+
+
+
+                            </div>
+
+                            <button type="button" id="activate-step-3" class="btn btn-primary pull-right">Suivant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row setup-content" id="step-3">
+                <div class="col-xs-12">
+                    <div class="col-md-12 well">
+                        <div id="no-more-tables">
+                            <table class="col-md-12 table-bordered table-striped table-condensed cf">
+                                <thead class="cf">
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>% du FDG</th>
+                                        <th class="numeric">% du Commission de Factoring</th>
+                                        <th class="numeric">Montant Minimum Contrat de factoring</th>
+                                        <th class="numeric">Montant Minimum Document de factoring</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td data-title="Type">
+                                            Facture  <input type="hidden" name="fondgars[0].TYP_FDG" class="form-control input-sm" value="F" />
+                                            <input type="hidden" name="fondgars[0].LIB_FDG" class="form-control input-sm" value="Facture" />
+                                            <input type="hidden" name="commfacts[0].TYP_COMM_FACTORING" class="form-control input-sm" value="F" />
+                                        </td>
+                                        <td data-title="% du FDG" class="numeric">
+                                            <input type="text" name="fondgars[0].TX_FDG" class="form-control input-sm verifmnt ConvertPointToComma" />
+                                        </td>
+                                        <td data-title="% du C_F" class="numeric"> <input type="text" name="commfacts[0].TX_COMM_FACTORING" class="form-control input-sm verifmnt ConvertPointToComma " /></td>
+                                        <td data-title="Mnt Min CTR_F" class="numeric"> <input type="text" name="commfacts[0].MONT_MIN_DOC_COMM_FACTORING" class="form-control input-sm verifmnt ConvertPointToComma Separateur" /></td>
+                                        <td data-title="Mnt Min D_F" class="numeric"><input type="text" name="commfacts[0].MONT_MIN_CTR_COMM_FACTORING" class="form-control input-sm verifmnt ConvertPointToComma Separateur" /></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td data-title="Type">
+                                            Bon de Commande
+                                            <input type="hidden" class="form-control input-sm" name="fondgars[1].TYP_FDG" value="BC" />
+                                            <input type="hidden" class="form-control input-sm" name="fondgars[1].LIB_FDG" value="Bon de Commande" />
+                                            <input type="hidden" class="form-control input-sm" name="commfacts[1].TYP_COMM_FACTORING" value="BC" />
+                                        </td>
+                                        <td data-title="% du FDG" class="numeric ">
+                                            <input type="text" class="form-control input-sm verifmnt ConvertPointToComma" name="fondgars[1].TX_FDG" />
+                                        </td>
+                                        <td data-title="% du C_F" class="numeric"> <input type="text" class="form-control input-sm verifmnt ConvertPointToComma" name="commfacts[1].TX_COMM_FACTORING" /></td>
+                                        <td data-title="Mnt Min CTR_F" class="numeric"> <input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="commfacts[1].MONT_MIN_DOC_COMM_FACTORING" /></td>
+                                        <td data-title="Mnt Min D_F" class="numeric"><input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="commfacts[1].MONT_MIN_CTR_COMM_FACTORING" /></td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td data-title="Type">
+                                            Marché
+                                            <input type="hidden" class="form-control input-sm" name="fondgars[2].TYP_FDG" value="M" />
+                                            <input type="hidden" class="form-control input-sm" name="fondgars[2].LIB_FDG" value="Marché" />
+                                            <input type="hidden" class="form-control input-sm" name="commfacts[2].TYP_COMM_FACTORING" value="M" />
+                                        </td>
+                                        <td data-title="% du FDG" class="numeric">
+                                            <input type="text" class="form-control input-sm verifmnt ConvertPointToComma" name="fondgars[2].TX_FDG" />
+                                        </td>
+                                        <td data-title="% du C_F" class="numeric"> <input type="text" class="form-control input-sm verifmnt ConvertPointToComma" name="commfacts[2].TX_COMM_FACTORING" /></td>
+                                        <td data-title="Mnt Min CTR_F" class="numeric"> <input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="commfacts[2].MONT_MIN_DOC_COMM_FACTORING" /></td>
+                                        <td data-title="Mnt Min D_F" class="numeric "><input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="commfacts[2].MONT_MIN_CTR_COMM_FACTORING" /></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td data-title="Type">
+                                            Caution
+                                            <input type="hidden" class="form-control input-sm" name="fondgars[3].TYP_FDG" value="C" />
+                                            <input type="hidden" class="form-control input-sm" name="fondgars[3].LIB_FDG" value="Caution" />
+                                            <input type="hidden" class="form-control input-sm" name="commfacts[3].TYP_COMM_FACTORING" value="C" />
+                                        </td>
+                                        <td data-title="% du FDG" class="numeric">
+                                            <input type="text" class="form-control input-sm verifmnt ConvertPointToComma" name="fondgars[3].TX_FDG" />
+                                        </td>
+                                        <td data-title="% du C_F" class="numeric"> <input type="text" class="form-control input-sm verifmnt ConvertPointToComma" name="commfacts[3].TX_COMM_FACTORING" /></td>
+                                        <td data-title="Mnt Min CTR_F" class="numeric"> <input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="commfacts[3].MONT_MIN_DOC_COMM_FACTORING" /></td>
+                                        <td data-title="Mnt Min D_F" class="numeric"><input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="commfacts[3].MONT_MIN_CTR_COMM_FACTORING" /></td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr />
+                        <div id="no-more-tables">
+                            <table class="col-md-12 table-bordered  table-condensed cf" id="t">
+                                <thead class="cf">
+                                    <tr>
+                                        <th></th>
+                                        <th>FDG ?</th>
+                                        <th>Taux d'indexation</th>
+                                        <th class="numeric">Taux de Marge </th>
+                                        <th class="numeric">Délais Max Paiement </th>
+                                        <th class="numeric">Précompter</th>
+                                        <th class="numeric">Intéret Majoré</th>
+                                        <th class="numeric">Date début de validité</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td data-title="Type">
+                                            Cheque/Virement
+                                            <input input type="hidden" class="form-control input-sm" name="intertfin[0].TYP_INSTR_INT_FIN" value="C" />
+                                        </td>
+                                        <td data-title="">
+                                            <input type="checkbox" value="false" id="">
+                                        </td>
+                                        <td data-title="T_indexation" class="numeric">
+                                            <select class="form-control input-sm " name="intertfin[0].TX_INT_MARCHE_INT_FIN" required>
+                                                <option selected value="TMM">TMM</option>
+                                                <option value="T4M">T4M</option>
+                                                <option value="IBORD">IBORD</option>
+                                            </select>
+                                        </td>
+                                        <td data-title="T_Marge" class="numeric">
+                                            <input type="text" class="form-control input-sm verifmnt ConvertPointToComma" name="intertfin[0].TX_MARGE_CTR_INT_FIN" />
+                                        </td>
+                                        <td data-title="D_MAX_Paiement" class="numeric"> <input type="number" class="form-control input-sm " name="intertfin[0].DELAI_MAX_PAI_INT_FIN" /></td>
+                                        <td data-title="Précompter" class="numeric"><input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="intertfin[0].PRECOMPTE_INT_FIN" /></td>
+                                        <td data-title="Intéret_Maj " class="numeric"><input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="intertfin[0].MAJOR_INT_INT_FIN" /></td>
+                                        <td data-title="Date début de validité " class="numeric">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="date" class="form-control input-sm pull-right datectr" name="intertfin[0].DAT_DEB_VALID_INT_FIN" required>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td data-title="Type">
+                                            Billet à Order
+                                            <input input type="hidden" class="form-control input-sm" name="intertfin[1].TYP_INSTR_INT_FIN" value="BO" />
+
+                                        </td>
+                                        <td data-title="">
+                                            <input type="checkbox" value="false">
+                                        </td>
+
+                                        <td data-title="T_indexation" class="numeric">
+                                            <select class="form-control input-sm" name="intertfin[1].TX_INT_MARCHE_INT_FIN">
+                                                <option selected value="TMM">TMM</option>
+                                                <option value="T4M">T4M</option>
+                                                <option value="IBORD">IBORD</option>
+                                            </select>
+                                        </td>
+                                        <td data-title="T_Marge" class="numeric">
+                                            <input class="form-control input-sm verifmnt ConvertPointToComma" name="intertfin[1].TX_MARGE_CTR_INT_FIN" />
+                                        </td>
+                                        <td data-title="D_MAX_Paiement" class="numeric"> <input type="text" class="form-control input-sm " name="intertfin[1].DELAI_MAX_PAI_INT_FIN" /></td>
+                                        <td data-title="Précompter" class="numeric"><input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="intertfin[1].PRECOMPTE_INT_FIN" /></td>
+                                        <td data-title="Intéret_Maj " class="numeric"><input type="text" class="form-control input-sm verifmnt ConvertPointToComma Separateur" name="intertfin[1].MAJOR_INT_INT_FIN" /></td>
+                                        <td data-title="Intéret_Maj " class="numeric">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="date" class="form-control input-sm pull-right datectr" name="intertfin[1].DAT_DEB_VALID_INT_FIN" required>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <button type="button" id="activate-step-4" class="btn btn-primary pull-right">Suivant </button>
+            </div>
+            <div class="row setup-content" id="step-4">
+                <div class="col-xs-12">
+                    <div class="col-md-12 well">
+                        <div class="row">
+
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-8 center-block">
+                                <div class="form-group" id="limiteAcheteurReverse">
+                                    <label class="control-label">Nom Acheteur : </label>
+
+
+                                    @Html.DropDownList("nomAch", (IEnumerable<SelectListItem>)ViewBag.Ind, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "nomAch" })
+                                    @Html.ValidationMessage("nomAch", "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    @Html.Label("Montant de limite de financement:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("mntdelimitef", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma Separateur", id = "MONT_DEM_LIM" } })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Délais:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("delais", new { htmlAttributes = new { @class = "form-control input-sm", id = "DELAIS_DEM_LIM", required = "required", type = "number" } })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.Label("Montant de limite de credit", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("mntdelimitec", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma Separateur", id = "MONT_DEM_LIMC", disabled = "disabled" } })
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Mode de Paiement:</label>
+                                    <select class="form-control sm" id="MODE_PAY_DEM_LIM" required>
+                                        <option value="" selected disabled>--Select-- </option>
+                                        <option value="Espece">Espece</option>
+                                        <option value="Cheque">Cheque</option>
+                                        <option value="Virement">Virement</option>
+                                        <option value="Traite">Traite</option>
+                                        <option value="Cheque/Traite">Cheque/Traite</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.Label("Date de limite de credit:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("datelimitec", new { htmlAttributes = new { @class = "form-control input-sm", id = "DATLIM_DEM_LIMC", type = "Date", disabled = "disabled", required = "required" } })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Date de limite de financement:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("datelimitef", new { htmlAttributes = new { @class = "form-control input-sm", id = "DATLIM_DEM_LIM", type = "Date", required = "required" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="Etape4SimpleCtr">
+
+                            <div class="col-md-12">
+                                <button  type="button" class="btn btn-lg btn-primary pull-right ajouterach">Ajouter</button>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="tableAch">
+                                            <thead class="cf">
+                                                <tr class="bg-black">
+                                                    <th>Réf</th>
+                                                    <th>Nom</th>
+                                                    <th>Type Document ID </th>
+                                                    <th>Numero Document ID </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+
+                                        <table class="col-md-12 table-bordered table-striped table-condensed cf" style="display:none" id="tabledemach">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success pull-right" id="SubmitPartieSimple">Enregistrer</button>
+            </div>
+
+
+
+
+            <div class="row setup-content" id="step-5">
+                <div class="col-xs-12">
+                    <div class="col-md-12 well">
+                        <div class="row">
+
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-8 center-block">
+                                <div class="form-group">
+                                    <label class="control-label">Nom Fournisseur : </label>
+                                    @Html.DropDownList("nomFrs", (IEnumerable<SelectListItem>)ViewBag.Ind, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "nomFrs" })
+                                    @Html.ValidationMessage("nomFrs", "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+
+                        </div>
+
+                        
+
+
+                        <div class="col-md-12">
+                            <button  type="button" class="btn btn-lg btn-primary pull-right ajouterach">Ajouter</button>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <table class="col-md-12 table-bordered table-striped table-condensed cf" id="tableAch">
+                                        <thead class="cf">
+                                            <tr class="bg-black">
+                                                <th>Réf</th>
+                                                <th>Nom</th>
+                                                <th>Type Document ID </th>
+                                                <th>Numero Document ID </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+
+                                </div>
+
+                                <table class="col-md-12 table-bordered table-striped table-condensed cf" style="display:none" id="tableCir">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success pull-right">Enregistrer</button>
+            </div>
+                                            }
+
+    </div>
+
+
+
+
+
+    </div>
+
+
+
+<div class="modal fade" id="ChoisirTypeContart" tabindex="-1" role="dialog" aria-labelledby="smallModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Type de contrat</h4>
+            </div>
+            <div class="modal-body">
+                <h3><input type="checkbox" id="contratsimple" class="form-control" /> Contrat Simple  </h3>
+          
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary"  id="ConfirmeModalChoixCtr">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+        <script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+        <script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+        <script src="~/Content/localization/messages_fr.js"></script>
+
+        <script>
+            $(document).ready(function () {
+
+                /*******Partie creation contrat etape 0 (choisir type de  contrat) 24052020 *****************/
+
+                $("#ChoisirTypeContart").modal({ backdrop: 'static', keyboard: false });
+
+                $("#ConfirmeModalChoixCtr").click(function(){
+                
+                    if (!($("#contratsimple").is(':checked')) && !($("#contartreverse").is(':checked'))) {
+                        alert("vous n'êtes pas choisi aucune suggestion ");
+
+                    }
+                    else if ($("#contratsimple").is(':checked') && $("#contartreverse").is(':checked')) {
+                        //Traitement
+                        alert("Merci de choisir une suggestion  ");
+                    }
+                    else if ($("#contratsimple").is(':checked')) {
+                        //Traitement
+                        $("#type_contrat").val("Contrat_Simple");
+                        $("#ContratSimpleView").show();
+                        $("#ChoisirTypeContart").modal("toggle");
+                    }
+                    else {
+                        //Traitement
+                        $("#type_contrat").val("Contrat_Reverse");
+                        $("#nomAch").remove();
+                        $("#nomadherent").text("Nom");
+                        $("#typectr").prop('disabled', 'disabled');
+                        $("#nomAch").empty();
+                        $("#limiteAcheteurReverse").append("<input type='text' class='form-control input-sm'  id='NomAcheteurReverse' /> ");
+                        $('#NomAcheteurReverse').prop('readonly', true);
+                        $("#SubmitPartieSimple").removeAttr("type").attr("type", "button");
+                        $("#SubmitPartieSimple").attr("id", "activate-step-5");
+                        $("#activate-step-5").text("Next");
+                        $("#activate-step-5").removeClass("btn-success").addClass("btn-primary");
+                        $("#Etape4SimpleCtr").remove();
+                        $('ul.setup-panel li:eq(3) h4').text("Etape 4");
+                        $('ul.setup-panel li:eq(3) p').text("LIMITE ACHETEUR");
+
+                        /**************************************************************/
+                        $("#DATLIM_DEM_LIM").removeAttr("name").attr("name", "DATLIM_DEM_LIM");
+                        $("#DATLIM_DEM_LIMC").removeAttr("name").attr("name", "DATLIM_DEM_LIMC");
+                        $("#MONT_DEM_LIM").removeAttr("name").attr("name", "MONT_DEM_LIM");
+                        $("#MONT_DEM_LIMC").removeAttr("name").attr("name", "MONT_DEM_LIMC");
+                        $("#DELAIS_DEM_LIM").removeAttr("name").attr("name", "DELAIS_DEM_LIM");
+                        $("#MODE_PAY_DEM_LIM").removeAttr("name").attr("name", "MODE_PAY_DEM_LIM");
+
+
+
+                        /*******************************************************************/
+
+
+
+                        $('#activate-step-5').on('click', function (e) {
+                            if (form.valid()) {
+                                $('ul.setup-panel li:eq(4)').removeClass('disabled');
+                                $('ul.setup-panel li a[href="#step-5"]').trigger('click');
+
+                                //  $(this).remove();
+                            }
+                        })
+      
+                      /*  var li = "<li class='disabled'>"+
+                                    "<a href='#step-5'>"+
+                                    "<h4 class='list-group-item-heading'>Etape 5</h4>"+
+                                    "<p class='list-group-item-text'>FOURNISSEURS</p>"+
+                                    " </a>"+
+                                    " </li>";
+                        $("#listedesSteps").append(li);*/
+                        $("#reversecontratcondition").show();
+                        $("#ContratSimpleView").show();
+                        $("#ChoisirTypeContart").modal("toggle");
+
+
+
+
+
+
+                    //    $("#ContratReverseView").show();
+                     //   $("#ChoisirTypeContart").modal("toggle");
+
+                        
+                }
+
+                });
+
+             
+
+
+                /**********************************************************************************/
+
+                function RemoveEspace(Montant)
+                {
+                    verif = true;
+                    while (verif)
+                    {
+                        if (Montant.indexOf(' ') !=-1) {
+                            Montant = Montant.replace(" ", "");
+
+                        }
+                        else {
+
+                            verif = false;
+                        }
+                    }
+                    return Montant;
+
+                }
+
+
+
+                var navListItems = $('ul.setup-panel li a'),
+                    allWells = $('.setup-content');
+
+                allWells.hide();
+
+                navListItems.click(function (e) {
+                    e.preventDefault();
+                    var $target = $($(this).attr('href')),
+                        $item = $(this).closest('li');
+
+                    if (!$item.hasClass('disabled')) {
+                        navListItems.closest('li').removeClass('active');
+                        $item.addClass('active');
+                        allWells.hide();
+                        $target.show();
+                    }
+                });
+
+                $('ul.setup-panel li.active a').trigger('click');
+
+                // DEMO ONLY //
+                $('#activate-step-2').on('click', function (e) {
+                 
+                
+                    if (form.valid()) {
+
+                    
+
+                        if (RemoveEspace($("#CA_CTR").val()).replace(",", ".") != (Number(RemoveEspace($("#CA_EXP_CTR").val()).replace(",", ".")) + Number(RemoveEspace($("#CA_IMP_CTR").val()).replace(" ", "").replace(",", "."))) || RemoveEspace($("#CA_CTR").val()) == "") {
+                          
+                            alert("verifier montant Chiffre d'affaires ");
+                           
+                        }
+                        else {
+                          
+                            $('ul.setup-panel li:eq(1)').removeClass('disabled');
+                            $('ul.setup-panel li a[href="#step-2"]').trigger('click');
+                 
+                           //$(this).remove();
+                        }
+                  }
+                })
+
+                $('#activate-step-3').on('click', function (e) {
+                    if (form.valid()) {
+                        $('ul.setup-panel li:eq(2)').removeClass('disabled');
+                        $('ul.setup-panel li a[href="#step-3"]').trigger('click');
+                        $("#NomAcheteurReverse").val($("#Nom_Individu").children("option:selected").text());
+                      //  $(this).remove();
+                    }
+                })
+
+                $('#activate-step-4').on('click', function (e) {
+                   if (form.valid()) {
+                        $('ul.setup-panel li:eq(3)').removeClass('disabled');
+                       $('ul.setup-panel li a[href="#step-4"]').trigger('click');
+                    
+                    //  $(this).remove();
+                  }
+                })
+
+            
+
+
+                //active
+            });
+
+
+            $.validator.methods.range = function (value, element, param) {
+                var globalizedValue = value.replace(",", ".");
+                return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+            }
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\,]\d{3})+)(?:[\,]\d+)?$/.test(value.replace(/\s/g, ""));
+            }
+
+            jQuery.extend(jQuery.validator.methods, {
+                min: function (value, element, value2) {
+                    var val = value.replace(/\s/g, "").replace(',', '.');
+                    return this.optional(element) || val >= value2;
+                }
+            });
+            $.validator.addClassRules("verifmnt", {
+                required: true,
+                number: true,
+                min: 0
+            });
+
+            $("#typectr").change(function () {
+                if ($("#typectr").val() == "3") {
+                    $("#ACTIF_ASS").removeAttr("disabled");
+                    $("#PRIME_ASS").removeAttr("disabled");
+                    $("#TX_COUVERTURE_ASS").removeAttr("disabled");
+                    $("#DELAIS_DECALARATION_SINISTRE_ASS").removeAttr("disabled");
+                    $("#DATLIM_DEM_LIMC").removeAttr("disabled");
+                    $("#MONT_DEM_LIMC").removeAttr("disabled");
+                    $("#ver").val("true");
+                }
+                else {
+                    $("#ACTIF_ASS").attr("disabled", "disabled");
+                    $("#PRIME_ASS").attr("disabled", "disabled");
+                    $("#TX_COUVERTURE_ASS").attr("disabled", "disabled");
+                    $("#DELAIS_DECALARATION_SINISTRE_ASS").attr("disabled", "disabled");
+                    $("#DATLIM_DEM_LIMC").attr("disabled", "disabled");
+                    $("#MONT_DEM_LIMC").attr("disabled", "disabled");
+                    $("#ver").val("false");
+                }
+            });
+            var form = $("#formcontrat");
+            form.validate({
+                rules: {
+                    // compound rule
+                    REF_CTR_PAPIER_CTR: {
+                        required: true
+                    },
+                    ACTIF_ASS: {
+                        required: true
+                    },
+                    PRIME_ASS: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    TX_COUVERTURE_ASS: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    DELAIS_DECALARATION_SINISTRE_ASS: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    DAT_SIGN_CTR: {
+                        required: true,
+                    },
+                    DAT_DEB_CTR: {
+                        required: true,
+                    },
+                    TYP_CTR: {
+                        required: true,
+                    },
+                   
+                    DAT_PROCH_VERS_CTR: {
+                        required: true,
+                    },
+                    CA_CTR: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    CA_EXP_CTR: {
+                        required: true,
+                        min: 0
+                    }
+        ,
+                    CA_IMP_CTR: {
+                        required: true,
+                        min: 0
+                    },
+                    LIM_FIN_CTR: {
+                        required: true,
+                        min: 0
+                    },
+                    DELAI_MOYEN_REG_CTR: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    tt: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    NB_ACH_PREVU_CTR: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    NB_AVOIRS_PREVU_CTR: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    DELAI_MAX_REG_CTR: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    NB_FACT_PREVU_CTR: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    MONT_PAR_UNIT_FRAIS_DIVERS: {
+                        required: true,
+                        min: 0
+                    },
+                    mntdelimitef: {
+
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    mntdelimitec: {
+
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    
+
+                },
+
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                }
+
+
+            });
+
+            /*******************Ajouter Acheteurs ************************/
+            var TousLesAchteurs = new Array();
+            var TousLesAchteursCir = new Array();
+            var i = 0;
+            var bgc = "";
+            var comp = 0;
+            $(".ajouterach").click(function () {
+                var myArray2 = {};
+                var id = 0;
+                var nom = "";
+                if ($("#type_contrat").val() == "Contrat_Reverse") { id = $("#nomFrs").children("option:selected").val(); nom = $("#nomFrs").children("option:selected").text(); } else { id = $("#nomAch").children("option:selected").val(); nom = $("#nomAch").children("option:selected").text(); }
+                if (TousLesAchteursCir.findIndex(p => p.REF_IND_CIR == id) != -1) {
+                    alert("ce acheteur deja sélectionné");
+                }
+                else {
+                    myArray2.REF_IND_CIR = id;
+                    var tBody = $("#tableAch tbody");
+                    TousLesAchteursCir.push(myArray2);
+                        $.ajax({
+                            url: "/CreationContrat/SelectAch/" + id,
+                            type: "GET",
+                            contentType: "application/json;charset=UTF-8",
+                            dataType: "json",
+                            success: function (result) {
+                                var myArray3 = {};
+
+                                if ($("#type_contrat").val() == "Contrat_Reverse") {
+
+                                    var markup = "<tr>" +
+                                                          "<td><input type='text' name='FourCir[" + comp + "].REF_IND_CIR' value='" + $("#nomFrs").children("option:selected").val() + "'/> </td>" +
+
+                                                          "</tr>";
+                                    comp++;
+                                    $("#tableCir tbody").append(markup);
+
+
+                                }
+
+                                else {
+                                    if ($("#ver").val() == "false") {
+                                        var markup = "<tr>" +
+
+                                           "<td><input type='text' name='AchDem[" + comp + "].TYP_DEM_LIM' value='FIN' size='5'/></td>" +
+                                                            "<td><input type='text' name='AchDem[" + comp + "].DAT_DEM_LIM' value='" +    $("#DATLIM_DEM_LIM").val() + "'/> </td>" +
+                                                            "<td><input type='text' name='AchDem[" + comp + "].DATLIM_DEM_LIM' value='" + $("#DATLIM_DEM_LIM").val() + "'size='5'/></td>" +
+                                                            "<td><input type='text' name='AchDem[" + comp + "].MONT_DEM_LIM' value='" +   $("#MONT_DEM_LIM").val().replace(" ", "") + "'size='8'/></td>" +
+                                                "<td><input type='text' name='AchDem[" + comp + "].DEVISE' value='TND'size='8'/></td>" +
+                                                            "<td><input type='text' name='AchDem[" + comp + "].DELAIS_DEM_LIM' value='" + $("#DELAIS_DEM_LIM").val() + "'size='10'/></td>" +
+                                                          "<td><input type='text' name='AchDem[" + comp + "].MODE_PAY_DEM_LIM' value='" + $("#MODE_PAY_DEM_LIM").children("option:selected").val() + "'size='8'/></td>" +
+                                                            "<td><input type='text' name='AchDem[" + comp + "].REF_ACH_LIM' value='" + id + "'size='8'/></td>" +
+                                                            "</tr>";
+                                        comp++;
+                                        $("#tabledemach tbody").append(markup);
+                                    }
+                                    else {
+                                        var markup = "<tr>" +
+
+                                           "<td><input type='text' name='AchDem[" + comp + "].TYP_DEM_LIM' value='FIN' size='5'/></td>" +
+                                           "<td><input type='text' name='AchDem[" + comp + "].DAT_DEM_LIM' value='" + $("#DATLIM_DEM_LIM").val() + "'/> </td>" +
+                                           "<td><input type='text' name='AchDem[" + comp + "].DATLIM_DEM_LIM' value='" + $("#DATLIM_DEM_LIM").val() + "'size='5'/></td>" +
+                                           "<td><input type='text' name='AchDem[" + comp + "].MONT_DEM_LIM' value='" + $("#MONT_DEM_LIM").val().replace(" ", "") + "'size='8'/></td>" +
+                                           "<td><input type='text' name='AchDem[" + comp + "].DEVISE' value='TND'size='8'/></td>" +
+                                           "<td><input type='text' name='AchDem[" + comp + "].DELAIS_DEM_LIM' value='" + $("#DELAIS_DEM_LIM").val() + "'size='10'/></td>" +
+                                           "<td><input type='text' name='AchDem[" + comp + "].MODE_PAY_DEM_LIM' value='" + $("#MODE_PAY_DEM_LIM").children("option:selected").val() + "'size='8'/></td>" +
+                                           "<td><input type='text' name='AchDem[" + comp + "].REF_ACH_LIM' value='" + id + "'size='8'/></td>" +
+                                           "</tr>";
+                                        comp++;
+                                        $("#tabledemach tbody").append(markup);
+                                        var markup = "<tr>" +
+
+                                          "<td><input type='text' name='AchDem[" + comp + "].TYP_DEM_LIM' value='CRE' size='5'/></td>" +
+                                          "<td><input type='text' name='AchDem[" + comp + "].DAT_DEM_LIM' value='" + $("#DATLIM_DEM_LIM").val() + "'/> </td>" +
+                                          "<td><input type='text' name='AchDem[" + comp + "].DATLIM_DEM_LIM' value='" + $("#DATLIM_DEM_LIMC").val() + "'size='5'/></td>" +
+                                          "<td><input type='text' name='AchDem[" + comp + "].MONT_DEM_LIM' value='" + $("#MONT_DEM_LIMC").val().replace(" ", "") + "'size='8'/></td>" +
+                                          "<td><input type='text' name='AchDem[" + comp + "].DEVISE' value='TND'size='8'/></td>" +
+                                          "<td><input type='text' name='AchDem[" + comp + "].DELAIS_DEM_LIM' value='" + $("#DELAIS_DEM_LIM").val() + "'size='10'/></td>" +
+                                          "<td><input type='text' name='AchDem[" + comp + "].MODE_PAY_DEM_LIM' value='" + $("#MODE_PAY_DEM_LIM").children("option:selected").val() + "'size='8'/></td>" +
+                                          "<td><input type='text' name='AchDem[" + comp + "].REF_ACH_LIM' value='" + id + "'size='8'/></td>" +
+                                          "</tr>";
+                                        comp++;
+                                        $("#tabledemach tbody").append(markup);
+
+
+                                    }
+
+                                }
+                              
+                                if (i % 2 == 0) { bgc = "bg-gray"; } else { bgc = "bg-info"; } i++;
+                                var row = tBody.append("<tr class=" + bgc + ">" +
+                                    "<td>" + id + "</td>" +
+                                    "<td>" + nom + "</td>" +
+                                    "<td>" + result[0] + "</td>" +
+                                    "<td>" + result[1] + "</td></tr>");
+                            },
+                            error: function (errormessage) {
+                                alert("err");
+                            }
+                        });
+
+
+                    }
+
+                 
+                
+            });
+          
+            $(".Separateur").blur(function () {
+                if ($(this).val() != "") {
+                    var v = $(this).val().replace(/\s/g, "").replace(",", ".");
+                    $(this).val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
+                }
+
+            });
+            $("#DAT_DEB_CTR_id").blur(function () {
+                
+                var now = new Date($("#DAT_DEB_CTR_id").val());
+                now.setDate(now.getDate() + 365);
+                var field = document.querySelector('#DAT_PROCH_VERS_CTR_ID');
+                var date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+                // Set the date
+                field.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) +
+                    '-' + date.getDate().toString().padStart(2, 0);
+
+              
+                $(".datectr").val($("#DAT_DEB_CTR_id").val());
+            });
+        </script>

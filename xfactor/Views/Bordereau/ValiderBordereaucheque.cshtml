@@ -1,0 +1,232 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12">
+              
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="ListeDesEnCBord" class="table table-small-font table-bordered">
+                                <thead>
+
+                                    <tr class="bg-primary">
+                                        <th data-priority="3"><center>Factor</center></th>
+                                        <th data-priority="1"><center>Nbr Chéque</center></th>
+                                        <th data-priority="1"><center>Num Bord</center></th>
+                                        <th data-priority="1"><center>Montant Total</center></th>
+                                        <th data-priority="1"><center>Date Creation</center></th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+        <tr>
+            <td>
+                @TempData["Nom_Factor"]
+            </td>
+            <td>
+                @TempData["Nomber_Ch"]
+            </td>
+            <td>
+                @TempData["Num_bord"]
+            </td>
+
+            <td style="text-align:right">
+                @String.Format("{0:N3}", TempData["TotalMnt"])
+            </td>
+
+            <td>
+               
+                @TempData["Date_Creation"]
+            </td>
+           
+           
+
+        </tr>
+   
+
+
+    
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="DetailleMoadel" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              
+             
+               
+               
+                
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    @*<div class="col-sm-4">
+                        <b>Liste des banques </b>
+                        <select name="listerib" class="form-control" id="ListeDesRib"></select>
+                    </div>
+                    <div class="col-sm-4">
+                        <b>-- </b>
+                        <select name="listerib" class="form-control" id="ListeDesChoix">
+                            <option value="1">Effets a l'escompte</option>
+                            <option value="2">Effets a l'encaissement</option>
+                            <option value="3">Chéques</option>
+                        </select>
+                    </div>*@
+                    <div class="col-sm-4">
+                        <b>Numero bordereau </b> <input type="number" class="form-control" readonly value="@TempData["Num_bord"]" id="NumBord" />
+                    </div>
+                </div>
+                <hr />
+                <div id="det"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="Gen" >Generate</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+
+        $("#ListeDesEnCBord tbody").delegate("tr", "click", function () {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            var url = "/Bordereau/ListeDesBordereauCHeques";
+            $("#det").load(url, function () {
+                //$("#ListeDesRib").empty();
+                //$.ajax({
+               
+                //    url: "/Bordereau/ListeDesBanque",
+                //    type: "GET",
+                //    contentType: "application/json;charset=UTF-8",
+                //    dataType: "json",
+                //    success: function (result) {
+                //        var text = "";
+                //        $.each(result, function (index, element) {
+                //            text += "<option value='" + element.id + "'>" + element.Nom_Banque + "</option>";
+                            
+                                
+                //        });
+
+                //        $("#ListeDesRib").append(text);
+                //    }
+                //})
+
+
+
+                $("#DetailleMoadel").modal();
+            });
+        });
+    });
+
+    $("#Gen").click(function () {
+        var b=" <i class='fa fa-refresh fa-spin'></i>";
+        $("#Gen").append(b);
+        $.ajax({
+
+            url: "/Bordereau/GenereBordCh/" + $("#id_rib").val(),
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                if (result == "True")
+                {
+                    window.open('/Bordereau/Bordereau_CH_Rapport/' + $("#NumBord").val() + "/" + $("#id_rib").val()+ "/" + $("#id_choix").val(), '_blank');
+                    window.location.href='/Bordereau/Bordereau_cheque';
+                }
+
+            }
+        })
+    });
+    
+
+</script>
+    
+@*string ref_enc = item.REF_ENC_BORD_FACTOR;
+
+                                        <tr data-ec="@item.ID_ENC_BORD_FACTOR" data-ref_ctr="@item.REF_CTR_BORD_FACTOR">
+                                            <td>
+                                                @item.REF_ENC_BORD_FACTOR
+                                            </td>
+                                            @if (item.DAT_CRE_BORD_FACTOR != null)
+                                            {
+                                                <td>
+                                                    @item.DAT_CRE_BORD_FACTOR.ToString("d")
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.DAT_CRE_BORD_FACTOR
+                                                </td>
+                                            }
+                                            <td>
+                                                @item.Adhérent
+                                            </td>
+                                            <td>
+                                                @item.Acheteur
+                                            </td>
+
+                                            @{
+                                                string v = "";
+                                                try
+                                                {
+                                                    v = @String.Format("{0:N3}", (item.MONT_ENC));
+
+                                                }
+                                                catch (Exception) { v = item.MONT_ENC; }
+
+                                            }
+                                            <td style="text-align:right" data-mnt="@item.MONT_ENC">
+                                                @v
+                                            </td>
+                                            @if (item.TYP_ENC == "T" && ref_enc.Length == 7)
+                                            {
+                                                <td>
+                                                    TC
+                                                </td>
+                                            }
+
+                                            else if (item.TYP_ENC == "T" && ref_enc.Length == 12)
+                                            {
+                                                <td>
+                                                    TR
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @item.TYP_ENC
+                                                </td>
+                                            }
+                                        </tr>*@
+
+

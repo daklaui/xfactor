@@ -1,0 +1,42 @@
+﻿
+
+<input type="hidden" value="@TempData["id_banque"]" id="id_rib" />
+<input type="hidden" value="@TempData["id_type"]" id="id_choix" />
+<div class="table-responsive " data-pattern="priority-columns">
+    <table cellspacing="0" id="dettable" class="table table-small-font table-bordered data_table">
+        <thead>
+
+            <tr class="bg-primary">
+                <th data-priority="3"><center>Réference</center></th>
+                <th data-priority="1">Tireur</th>
+                <th data-priority="1"><center>Montant</center></th>
+                <th data-priority="1"><center>Type</center></th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.ListeBord)
+            {
+                <tr>
+
+                    <td>
+                        @item.ref_enc
+                    </td>
+                    <td>
+                        @item.ach
+                    </td>
+                    <td style="text-align:right">
+                        @String.Format("{0:N3}", item.mnt)
+                    </td>
+
+                    <td>
+                        @item.type
+                    </td>
+                   
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

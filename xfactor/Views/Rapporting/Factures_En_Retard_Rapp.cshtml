@@ -1,0 +1,255 @@
+﻿<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div  style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("Factures_En_Retard_Rapport",new {id= "PDF",id2=ViewBag.refadh})" target="_blank" class="btn btn-danger"> <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("Factures_En_Retard_Rapport",new {id= "Excel",id2=ViewBag.refadh})" target="_blank" class="btn btn-success"><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("Factures_En_Retard_Rapport",new {id= "Word",id2=ViewBag.refadh})" target="_blank" class="btn btn-primary"> <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("Factures_En_Retard_Rapport",new {id= "Image",id2=ViewBag.refadh})" target="_blank" class="btn btn-info"><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="ListeDesFactures_en_retard" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Acheteur</center></th>
+                        <th data-priority="1">Type</th>
+                        <th data-priority="1"><center>Référence</center></th>
+                        <th data-priority="1"><center>Montant ouvert</center></th>
+                        <th data-priority="1"><center>Retrad(jours)</center></th>
+                        <th data-priority="1"><center> Echéance</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @try
+                    {
+                        foreach (var item in ViewBag.Factures_retard)
+                        {
+                            <tr>
+                                <td>@item.NomAch</td>
+                                <td>@item.TYP_DET_BORD</td>
+                                <td>@item.REF_DOCUMENT_DET_BORD</td>
+                                @if (item.MONT_OUV_DET_BORD != null)
+                                {
+                                    <td data-title="Montant" style="text-align:right">
+                                        @String.Format("{0:N3}", item.MONT_OUV_DET_BORD)
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right" data-title="Montant">0,000 </td>
+                                }
+
+                                <td>@item.Retard</td>
+
+                                @if (item.echeance != null)
+                                {
+                                    <td data-title="Date">
+                                        @item.echeance.ToString("dd/MM/yyyy")
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td data-title="Date">
+                                      
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    }
+                    catch (Exception)
+                    {
+                 }
+
+                
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+
+    var buttonCommon = {
+
+        exportOptions: {
+            format: {
+                body: function (data, row, column, node) {
+                    // Strip $ from salary column to make it numeric
+                    //  alert(data);
+                    cel = "";
+                    test = true;
+                    while (test) {
+                        if (column === 3) {
+                            cel = data.replace('&nbsp;', "");
+                            data = cel;
+                            // alert(data);
+                            //  alert(cel);
+                        }
+                        else { cel = data; }
+                        //   alert();
+                        console.log(data);
+                        console.log(cel.indexOf('&nbsp;'));
+
+                        if (cel.indexOf('&nbsp;') >= 0) {
+
+                            test = true;
+                        }
+                        else { test = false; }
+                    }
+                    return cel.replace(",", ".");
+                }
+            }
+        }
+    };
+
+  var table=  $('#ListeDesFactures_en_retard').DataTable({
+
+      
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+            }
+        },
+        columnDefs: [
+          { type: 'date-eu', targets: [5] },
+{ type: 'formatted-num', targets: [3] }]
+        , "order": [[5, "desc"]]
+      /*,
+     //   dom: '<"top"l>rt<"bottom"fpi><"clear">',
+   
+      
+           "initComplete": function () {
+              var column = this.api().column(0);
+
+              var select = $('<select class="form-control input-sm selectpicker" data-live-search="true"><option value="">**************************</option></select>')
+                       .on('change', function () {
+
+                           var val = $(this).val();
+
+                           column.search(val ? '^' + val + '$' : '', true, false).draw();
+                       })
+         .appendTo('#Nom_Ach');
+              column.data().unique().sort().each(function (d, j) {
+                  select.append('<option value="' + d + '">' + d + '</option>');
+                  select.selectpicker('refresh');
+              });
+
+            
+
+          }
+            */
+    });
+
+  var tableTools = new $.fn.dataTable.Buttons(table, {
+       "buttons": [
+
+          $.extend(true, {}, buttonCommon, {
+              extend: 'copyHtml5', title: 'Detail_Avoir'
+          }),
+        $.extend(true, {}, buttonCommon, {
+            extend: 'excelHtml5', autoFilter: true, title: 'Detail_Avoir'
+        }),
+        $.extend(true, {}, {
+            extend: 'pdfHtml5', title: 'Detail_Avoir', orientation: 'landscape',
+            pageSize: 'LEGAL'
+        })
+
+
+
+        ]
+    });
+ // $(tableTools.fnContainer()).insertAfter('div.info');
+
+//  table.buttons().container().insertAfter('.tableinfotest');
+</script>

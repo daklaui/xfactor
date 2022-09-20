@@ -1,0 +1,380 @@
+﻿@{ 
+  //  ViewBag.Title = "financement";
+    //Layout = "~/Views/Shared/_Layout - Copy.cshtml";
+    decimal sumfininit = 0m;
+
+}
+
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="padding:10px; border:1px solid black">
+            <a href="@Url.Action("Commission_par_bord_Rapport",new {id= "PDF",id2=ViewBag.refadh})"  target="_blank"  class="btn btn-danger" > <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("Commission_par_bord_Rapport",new {id= "Excel",id2=ViewBag.refadh})" target="_blank" class="btn btn-success" ><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("Commission_par_bord_Rapport",new {id= "Word",id2=ViewBag.refadh})" target="_blank"  class="btn btn-primary" > <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("Commission_par_bord_Rapport",new {id= "Image",id2=ViewBag.refadh})" target="_blank" class="btn btn-info"   ><i class="fa fa-fw fa-file-image-o"></i></a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="ListeComm" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>N°</center></th>
+                        <th data-priority="1">Montant</th>
+                        <th data-priority="1"><center>FDG Initial</center></th>
+                        <th data-priority="1"><center>FDG Libere</center></th>
+                        <th data-priority="1"><center> Mt Financier Initial</center></th>
+                        <th data-priority="1"><center> FDG Actuel</center></th>
+                        <th data-priority="1"><center> Mt à financer</center></th>
+                        <th data-priority="1"><center> Comm. HT</center></th>
+                        <th data-priority="1"><center> Comm. TTC</center></th>
+                        <th data-priority="1"><center> Date </center></th>
+                        <th data-priority="1"><center> Annee</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+@try
+{
+    foreach (var item in ViewBag.commbord)
+    {
+                        <tr>
+                            <td data-title="N°" >@item.NUM_BORD</td>
+
+
+                            @if (item.MONT_TOT_BORD != null)
+                            {
+                                <td data-title="Montant" style="text-align:right">
+                                    @String.Format("{0:N3}", item.MONT_TOT_BORD)
+
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Montant">0,000 </td>
+                            }
+
+
+                            @if (item.FDG_Initial != null)
+                            {
+                                <td data-title="FDG Initial" style="text-align:right">
+                                    @String.Format("{0:N3}", item.FDG_Initial)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="FDG Initial">0,000  </td>
+                            }
+
+
+                            @if (item.FDG_Libere != null)
+                            {
+                                <td data-title="FDG Libere" style="text-align:right">
+                                    @String.Format("{0:N3}", item.FDG_Libere)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="FDG Libere">0,000 </td>
+                            }
+
+
+                           @{ 
+                                decimal x;
+                                try { x = decimal.Parse(item.FDG_Initial); } catch (Exception) { x = 0; }
+
+                                decimal mt_financier_initial = item.MONT_TOT_BORD -x ;
+                                sumfininit += mt_financier_initial;
+                            }
+                               
+                                <td data-title="Mt Financier Initial" style="text-align:right">
+                                    @String.Format("{0:N3}", mt_financier_initial)
+                                </td>
+                        
+
+                            @if (item.FDG != null)
+                            {
+                                <td data-title="FDG Actuel" style="text-align:right">
+                                    @String.Format("{0:N3}", item.FDG)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="FDG Actuel">0,000 </td>
+                            }
+
+
+                            @if (item.Mont_fin != null)
+                            {
+                                <td data-title="Mt à financer" style="text-align:right">
+                                    @String.Format("{0:N3}", item.Mont_fin)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Mt à financer">0,000  </td>
+                            }
+
+                            @if (item.COMM_HT != null)
+                            {
+                                <td data-title="Comm. HT" style="text-align:right">
+                                    @String.Format("{0:N3}", item.COMM_HT)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Comm. HT">0,000 </td>
+                            }
+
+                            @if (item.MONT_TTC != null)
+                            {
+                                <td data-title="Comm. TTC" style="text-align:right">
+                                    @String.Format("{0:N3}", item.MONT_TTC)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:right" data-title="Comm. TTC">0,000  </td>
+                            }
+                            @if (@item.dat_bord != null)
+                            {
+                                <td data-title="Date" >
+                                  @item.dat_bord.ToString("dd/MM/yyyy")
+                                </td>
+                            }
+                            else
+                            {
+                            <td data-title="Date">
+                                @item.dat_bord
+                            </td> }
+                            <td data-title="Annee">
+                                @item.ANNEE_BORD
+                            </td>
+                        </tr>
+                                   }
+                               }
+                               catch (Exception) { }
+
+                      
+
+                    
+
+                </tbody>
+                <tfoot>
+                    <tr class="bg-gray-active text-success">
+                        <td></td>
+
+
+                        @if (ViewBag.sumMntTotalBord != null)
+                        {
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", ViewBag.sumMntTotalBord)
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right">0,000 </td>
+                        }
+
+
+                        @if (ViewBag.sumMntFdgInit != null)
+                        {
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", ViewBag.sumMntFdgInit)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right">0,000  </td>
+                        }
+
+
+                        @if (ViewBag.sumMntFdgLibre != null)
+                        {
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", ViewBag.sumMntFdgLibre)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right">0,000 </td>
+                        }
+
+
+
+                        <td style="text-align:right">
+                            @String.Format("{0:N3}", sumfininit)
+                        </td>
+
+
+                        @if (ViewBag.sumFdg != null)
+                        {
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", ViewBag.sumFdg)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right">0,000 </td>
+                        }
+
+
+                        @if (ViewBag.mntfin != null)
+                        {
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", ViewBag.mntfin)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right">0,000  </td>
+                        }
+
+                        @if (ViewBag.commht != null)
+                        {
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", ViewBag.commht)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right">0,000 </td>
+                        }
+
+                        @if (ViewBag.commttc != null)
+                        {
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", ViewBag.commttc)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right">0,000  </td>
+                        }
+
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    $('#ListeComm').DataTable({
+
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': true,
+        'info': true,
+        'autoWidth': false,
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+            }
+        },
+        
+           
+
+
+        columnDefs: [
+             { type: 'date-eu', targets: [9] },
+{ type: 'formatted-num', targets: [1, 2, 3, 4, 5, 6, 7, 8] }]
+        , "order": [[9, "desc"]]
+
+
+
+    });
+</script>

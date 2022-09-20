@@ -1,0 +1,289 @@
+﻿
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="btnRap">
+         
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="Extrait" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Date op</center></th>
+                        <th data-priority="1">Libelle op</th>
+                        <th data-priority="1"><center>Debit </center></th>
+                        <th data-priority="1"><center>Credit</center></th>
+                        <th data-priority="1"><center>autre</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in ViewBag.ListeExtrait)
+                    {
+                        <tr>
+                            @if (item.Date_OP != null)
+                            {
+                                <td data-title="Nom Acheteur">@item.Date_OP.ToString("dd/MM/yyyy")</td>
+
+                            }
+                            else
+                            {
+                                <td data-title="Nom Acheteur"></td>
+                            }
+
+
+                            @if (item.Libelle_OP != null)
+                            {
+                                <td data-title="Nom Acheteur">@item.Libelle_OP</td>
+
+                            }
+                            else
+                            {
+                                <td data-title="Nom Acheteur"></td>
+                            }
+
+
+                            @if (item.debit != null)
+                            {
+                                <td style="text-align:right" data-title="Nom Acheteur"> @String.Format("{0:N3}", item.debit)</td>
+
+                            }
+                            else
+                            {
+                                <td data-title="Nom Acheteur"></td>
+                            }
+
+
+                            @if (item.Credit != null)
+                            {
+                                <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.Credit)</td>
+
+                            }
+                            else
+                            {
+                                <td data-title="Nom Acheteur"></td>
+                            }
+
+
+                            @if (item.autre != null)
+                            {
+                                <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.autre)</td>
+
+                            }
+                            else
+                            {
+                                <td data-title="Nom Acheteur"></td>
+                            }
+
+
+                            @*@if (item.Encours_Facture != null)
+                {
+                    <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.Encours_Facture)</td>
+
+                }
+                else
+                {
+                    <td data-title="Nom Acheteur"></td>
+                }
+
+
+                @if (item.Disponible != null)
+                {
+                    <td style="text-align:right" data-title="Nom Acheteur">@String.Format("{0:N3}", item.Disponible)</td>
+
+                }
+                else
+                {
+                    <td data-title="Nom Acheteur"></td>
+                }*@
+
+
+
+
+
+                        </tr>
+                    }
+
+
+
+                </tbody>
+              
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    var buttonCommon = {
+
+        exportOptions: {
+            format: {
+                body: function (data, row, column, node) {
+                    // Strip $ from salary column to make it numeric
+                    //  alert(data);
+                    cel = "";
+                    test = true;
+                    while (test) {
+                        if (column == 2 ||column == 3 ||column == 4) {
+                            cel = data.replace('&nbsp;', "");
+                            data = cel;
+                            // alert(data);
+                            //  alert(cel);
+                        }
+                        else { cel = data; }
+                        //   alert();
+                        console.log(data);
+                        console.log(cel.indexOf('&nbsp;'));
+
+                        if (cel.indexOf('&nbsp;') >= 0) {
+
+                            test = true;
+                        }
+                        else { test = false; }
+                    }
+                    return cel.replace(",", ".");
+                }
+            }
+        }
+    };
+
+
+  var tb=  $('#Extrait').DataTable({
+
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': true,
+        'info': true,
+        'autoWidth': false,
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+            }
+        },
+
+
+
+
+        columnDefs: [
+             { type: 'date-eu', targets: [0] },
+{ type: 'formatted-num', targets: [2,3,4] }]
+        , "order": [[0, "desc"]]
+
+
+
+    });
+
+    var tableTools = new $.fn.dataTable.Buttons(tb, {
+        "buttons": [
+
+           $.extend(true, {}, buttonCommon, {
+               extend: 'copyHtml5', title: 'Rapport Extrait Par periode '
+           }),
+         $.extend(true, {}, buttonCommon, {
+             extend: 'excelHtml5', autoFilter: true, title: 'Rapport Extrait Par periode '
+         }),
+         $.extend(true, {}, {
+             extend: 'pdfHtml5', title: 'Rapport Extrait Par periode ', orientation: 'landscape',
+             pageSize: 'LEGAL'
+         })
+
+
+
+        ]
+    });
+    // $(tableTools.fnContainer()).insertAfter('div.info');
+
+    tb.buttons().container().appendTo('#btnRap');
+
+</script>

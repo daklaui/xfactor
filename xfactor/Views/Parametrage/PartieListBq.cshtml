@@ -1,0 +1,79 @@
+﻿@model xfactor.Models.TR_Ag_Bq
+
+<form method="post" action="/Parametrage/PartieListBq" id="formBq">
+
+    @Html.AntiForgeryToken()
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*<div class="form-group">
+        @Html.Label("Code Banque / Agence", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Bq_Ag, new { htmlAttributes = new { @class = "form-control"  } })
+        @Html.ValidationMessageFor(model => model.Code_Bq_Ag, "", new { @class = "text-danger" })
+    </div>*@
+
+    <div class="form-group">
+        @Html.Label("Code Banque", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Bq, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_Bq, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Banque", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Banque, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Banque, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Code Agence", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Code_Ag, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Code_Ag, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Agence", htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Agence, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Agence, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </div>
+    </div>
+
+    
+</form>
+
+<script src="~/Content/js/plugins/jquery.validate.min.js"></script>
+<script src="~/Content/localization/messages_fr.js"></script>
+<script>
+    $("#formBq").validate({
+        rules: {
+            // compound rule
+          
+            Code_Bq: {
+                required: true,
+            },
+            Banque: {
+                required: true,
+            },
+            Code_Ag: {
+                required: true,
+            },
+            Agence: {
+                required: true,
+            }
+
+        },
+      
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+
+
+    });
+</script>

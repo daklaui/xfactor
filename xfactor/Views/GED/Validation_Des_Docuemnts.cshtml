@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "Validation_Des_Docuemnts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    tbody > tr:hover, tbody > tr.selected {
+        background-color: dodgerblue;
+        color: white;
+        cursor: pointer;
+        -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+    }
+</style>
+
+@section header {
+
+<h1>
+    Gestion des documents 
+
+</h1>
+<ol class="breadcrumb">
+    <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+    <li class="active">GED</li>
+    <li class="active">Validation_Des_Docuemnts</li>
+</ol>
+    }
+
+
+@if (TempData["notice"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["notice"] !</strong>
+    </div>
+}
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div id="loding_partie" class="loader">
+                    <div class="loader-inner">
+                        <div class="loading one"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading two"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading three"></div>
+                    </div>
+                    <div class="loader-inner">
+                        <div class="loading four"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="table-responsive " data-pattern="priority-columns">
+            <table cellspacing="0" id="VALID_GED" class="table table-small-font table-bordered">
+                <thead>
+
+                    <tr class="bg-primary">
+                        <th data-priority="3"><center>Tache</center></th>
+                        <th data-priority="1">Nom Individu :</th>
+                        <th data-priority="1"><center>Libelle :</center></th>
+                        <th data-priority="1"><center>Reference:</center></th>
+                        <th data-priority="1">Date Réception : </th>
+                        <th data-priority="1">Date Echeance</th>
+                        <th data-priority="1">Gestionnaire</th>
+                        <th data-priority="1">Nom Responsable</th>
+                        <th data-priority="1">#</th>
+                    </tr>
+                    <tr class="bg-info">
+                        <th data-priority="3"><center>Tache</center></th>
+                        <th data-priority="1">Nom Individu :</th>
+                        <th data-priority="1"><center>Libelle :</center></th>
+                        <th data-priority="1"><center>Reference:</center></th>
+                        <th data-priority="1">Date Réception : </th>
+                        <th data-priority="1">Date Echeance</th>
+                        <th data-priority="1">Gestionnaire</th>
+                        <th data-priority="1">Nom Responsable</th>
+                        <th data-priority="1" style="display:none">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.valid)
+                    {
+                        <tr data-id_ged="@item.id">
+                            <td>
+                                @item.ID_IND_GED
+                            </td>
+                            <td>
+                                @item.NOM_IND
+                            </td>
+                            <td>
+                                @item.LIBELLE_GED
+                            </td>
+                            <td>
+                                @item.LIBELLE2_GED
+                            </td>
+
+                            <td>
+                                @item.DATE_TACHE_GED.ToString("d")
+                            </td>
+                            <td>
+                                @item.Expr1.ToString("d")
+                            </td>
+                            <td>
+                                @item.Expr3
+                            </td>
+
+
+                            <td>
+                                @item.Expr2
+                            </td>
+                           
+
+                            <td>
+                                <button type="button" id="valideGed" class="btn btn-success btn-sm" onclick="Valide(@item.id)" data-item="@item.id"><i class="fa fa-fw fa-thumbs-o-up"></i></button>
+                                @*<a href="/GED/Validation/@item.id " class="btn btn-success"><i class="fa fa-fw fa-thumbs-o-up"></i></a>*@
+                              <!--  <a href="/GED/Refuse/@item.id" class="btn btn-danger"><i class="fa fa-fw fa-remove"></i></a>-->
+                                <button type="button" class="btn btn-danger btn-sm" data-id_ged="@item.id" onclick="Remove(@item.id)"><i class="fa fa-fw fa-remove"></i></button> 
+                                <a href="/GED/visualiser/@item.id" class="btn btn-info"><i class="fa fa-fw fa-eye"></i></a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/jquery-ui.min.js"></script>
+<script>
+   
+
+    function Valide(id)
+    {
+        $('#exampleModal').modal('show');
+        location.href="/GED/Validation/"+id;
+    }
+
+    function Remove(id)
+    {
+        if(confirm("voulez vous rejeter ce document"))
+        { location.href="/GED/Refuse/"+id;}
+        else
+        {alert("merci");}
+    }
+</script>

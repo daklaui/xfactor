@@ -1,0 +1,33 @@
+﻿@model xfactor.Models.TR_TMM
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.Label("Date Début TMM", htmlAttributes: new { @class = "control-label " })
+        @Html.EditorFor(model => model.DATE_DEBUT_TMM, new { htmlAttributes = new { @class = "form-control",type="date",required="required" } })
+        @Html.ValidationMessageFor(model => model.DATE_DEBUT_TMM, "", new { @class = "text-danger" })
+    </div>
+
+        <div class="form-group">
+            @Html.Label("Date Fin TMM", htmlAttributes: new { @class = "control-label " })
+            @Html.EditorFor(model => model.DATE_FIN_TMM, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+            @Html.ValidationMessageFor(model => model.DATE_FIN_TMM, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Taux TMM", htmlAttributes: new { @class = "control-label " })
+
+            @Html.EditorFor(model => model.TAUX_TMM, new { htmlAttributes = new { @class = "form-control", required = "required"} })
+            @Html.ValidationMessageFor(model => model.TAUX_TMM, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Ajouter" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+
+}

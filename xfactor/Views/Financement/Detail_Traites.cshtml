@@ -1,0 +1,37 @@
+﻿
+@model IEnumerable<xfactor.Models.T_ENCAISSEMENT>
+<div class="table-responsive " data-pattern="priority-columns">
+    <table cellspacing="0" class="table table-small-font table-bordered data_table">
+        <thead>
+
+            <tr class="bg-primary">
+                <th data-priority="3"><center>Reference</center></th>
+                <th data-priority="1">Montant</th>
+                <th data-priority="1"><center>Date Réception</center></th>
+                <th data-priority="1"><center>Date Valeur</center></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.REF_ENC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MONT_ENC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DAT_RECEP_ENC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DAT_VAL_ENC)
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

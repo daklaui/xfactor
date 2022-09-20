@@ -1,0 +1,160 @@
+﻿@{
+
+    string bgcolor = "";
+    string disa = "";
+ }
+
+                <div class="table-responsive " data-pattern="priority-columns">
+                    <table cellspacing="0" id="rec" class="table table-small-font table-bordered ">
+                        <thead>
+                            <tr class="bg-primary">
+                                <th data-priority="3"><center>Réf Encaissement</center></th>
+                                <th data-priority="1">Montant Encaissement</th>
+                                <th data-priority="1"><center>Montant Letrrage</center></th>
+                                <th data-priority="1"><center>Date Valeur</center></th>
+                                <th data-priority="1"><center>Nomber Factures</center></th>
+                                <th data-priority="1"><center>Adhérent</center></th>
+                                <th data-priority="1"><center>Acheteur</center></th>
+                                <th data-priority="1"><center>Contart</center></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Lettrage)
+
+                            {
+
+                                if (item.IMPAYE != 0)
+                                {
+                                    bgcolor = "dangerbg  row-disabled";
+                                    disa = "disabled";
+                                }
+                                else
+                                {
+                                    bgcolor = "";
+                                    disa = "";
+                                }
+                                <tr class="@bgcolor" data-id_enc="@item.id_enc">
+                                    <td>
+                                        @item.ref_enc
+                                    </td>
+                                    @{
+                                        string v = "";
+                                        try
+                                        {
+                                            v = @String.Format("{0:N3}", (item.mont_enc));
+
+                                        }
+                                        catch (Exception) { v = item.mont_enc; }
+                                    }
+                                    <td style="text-align:right">
+                                        @v
+                                    </td>
+                                    @{
+                                        string v2 = "";
+                                        try
+                                        {
+                                            v2 = @String.Format("{0:N3}", (item.Somme_Lettrage));
+
+                                        }
+                                        catch (Exception) { v = item.Somme_Lettrage; }
+                                    }
+                                    <td style="text-align:right">
+                                        @v2
+                                    </td>
+                                    @if (item.dat_val_enc != null)
+                                    {
+                                        <td>
+                                            @item.dat_val_enc.ToString("d")
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @item.dat_val_enc
+                                        </td>
+                                    }
+
+                                    <td>
+                                        @item.Nombre_Lettrage
+                                    </td>
+                                    <td>
+                                        @item.Adhérent
+                                    </td>
+                                    <td>
+                                        @item.Acheteur
+                                    </td>
+                                    <td>
+                                        @item.ref_ctr_enc
+                                    </td>
+                                    <td>
+                                        @*<a href="@Url.Action("Réconsiliation", "Bordereau",
+                                            new { id = item.id_enc })"  onclick="event.stopPropagation();" class="btn btn-success" data-toggle="tooltip" title="Réconciliation">Réconciliation</a>
+                                                                                                                    <a href="@Url.Action("Impaye", "Bordereau",
+                                            new { id = item.id_enc })"  onclick="event.stopPropagation();" class="btn btn-danger @disa" data-toggle="tooltip" title="Impayé">Impayé</a>*@
+                                        <button type="button" class="btn btn-success" onclick="event.stopPropagation();Reconsilier(@item.id_enc)">Réconciliation</button>
+                                        <button type="button" class="btn btn-danger" @disa data-id_enc="@item.id_enc" onclick="event.stopPropagation();Impaye(@item.id_enc)">Impayé</button>
+                                        <button class="btn btn-primary" target="popup"
+                                                onclick="event.stopPropagation();window.open('/Parametrage/DetailleLettrage/@item.id_enc', 'popup', 'width=600,height=600'); return false;">
+                                            <i class="fa fa-fw fa-eye"></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+
+                                        }
+                        </tbody>
+                    </table>
+                </div>
+       
+
+<script>
+    $("#rec").delegate("tr", "click", function () {
+        if ($(this).hasClass("dangerbg") != true) {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            $("#enc").val($(this).data("id_enc"));
+        }
+        else { alert("Encaissement est déjà impayé"); }
+
+
+    });
+
+
+ $('#rec').DataTable({
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+            }
+        },
+        columnDefs: [
+{ type: 'date-eu', targets: 3 },
+{ type: 'formatted-num', targets: [1, 2] }
+        ]
+    });
+
+</script>

@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "ValiderFinancement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section header {
+    <h1>
+        Financement
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
+        <li class=""> Financement</li>
+        <li class="active"> Valider Financement</li>
+    </ol>
+}
+
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong> @TempData["message"] !</strong>
+    </div>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="table-responsive " data-pattern="priority-columns">
+            <table cellspacing="0" id="ListeFinacmentValide" class="table table-small-font table-bordered  ">
+                <thead>
+                    <tr class="bg-primary">
+                        <th data-priority="3"><center>Référence</center></th>
+                        <th data-priority="3"><center>Date saisie</center></th>
+                        <th data-priority="1"> Adhérent</th>
+                        <th data-priority="1"> Montant</th>
+                        <th data-priority="1"><center>Date</center></th>
+                        <th data-priority="1"><center>Instrument</center></th>
+                        @*<th data-priority="1"><center>#</center></th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.listfin)
+                    {
+                        <tr data-fin="@item.ID_FIN">
+
+                            <td>@item.Référence  </td>
+                            @if (item.DAT_INSTR_FIN != null)
+                            {
+                                <td>
+                                    @item.DAT_INSTR_FIN.ToString("d")
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @item.DAT_INSTR_FIN
+                                </td>
+                            }
+                            <td>@item.Adhérent  </td>
+                         
+                            <td style="text-align:right">
+                                @String.Format("{0:N3}", item.Montant)
+
+                            </td>
+
+                            @if (item.Date != null)
+                            {
+                                <td>
+                                    @item.Date.ToString("d")
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @item.Date
+                                </td>
+                            }
+
+                            <td>@item.Instrument  </td>
+
+                            @*<td style="text-align:center">
+                                <centre>
+                                    <a class="btn btn-success" href="/Financement/ValiderFinancementV/@item.ID_FIN/@item.Référence"><i class="fa fa-check" aria-hidden="true"></i></a>
+                               
+                                </centre>
+                            </td>*@
+                        </tr>
+
+
+
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

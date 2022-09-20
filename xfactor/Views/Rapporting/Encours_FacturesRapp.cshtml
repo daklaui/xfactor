@@ -1,0 +1,380 @@
+﻿
+<style>
+    @@media only screen and (max-width: 800px) {
+
+        /* Force table to not be like tables anymore */
+        #no-more-tables table,
+        #no-more-tables thead,
+        #no-more-tables tbody,
+        #no-more-tables th,
+        #no-more-tables td,
+        #no-more-tables tr {
+            display: block;
+        }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            #no-more-tables thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        #no-more-tables tr {
+            border: 1px solid #ccc;
+        }
+
+        #no-more-tables td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+            white-space: normal;
+            text-align: left;
+        }
+
+            #no-more-tables td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /*
+    Label the data
+    */
+            #no-more-tables td:before {
+                content: attr(data-title);
+            }
+    }
+
+    @@media print {
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div id="btnRap">
+            @*<a href="@Url.Action("Encours_Factures_Rapport",new {id= "PDF",id2=ViewBag.refadh})" target="_blank"     class="btn btn-danger"  > <i class="fa fa-fw fa-file-pdf-o"></i></a>
+            <a href="@Url.Action("Encours_Factures_Rapport",new {id= "Excel",id2=ViewBag.refadh})" target="_blank"   class="btn btn-success" ><i class="fa fa-fw fa-file-excel-o"></i></a>
+            <a href="@Url.Action("Encours_Factures_Rapport",new {id= "Word",id2=ViewBag.refadh})" target="_blank"    class="btn btn-primary"> <i class="fa fa-fw fa-file-word-o"></i></a>
+            <a href="@Url.Action("Encours_Factures_Rapport",new {id= "Image",id2=ViewBag.refadh})" target="_blank"   class="btn btn-info"     ><i class="fa fa-fw fa-file-image-o"></i></a>*@
+
+
+        </div>
+    </div>
+</div>
+<div class="row" id='printableArea'>
+    <p id="search"></p>
+    <div class="col-lg-12">
+        <div id="no-more-tables">
+            <table cellspacing="0" id="EncoursFact" class="col-md-12 table-bordered table-striped table-condensed cf ">
+                <thead>
+                    <tr class="bg-primary cf">
+                        <th data-priority="3"><center>Acheteur</center></th>
+                        <th data-priority="1">REF. Facture</th>
+                        <th data-priority="1"><center>Date </center></th>
+                        <th data-priority="1"><center>Mont. TTC</center></th>
+                        <th data-priority="1"><center>Mont. Ouvert</center></th>
+                        <th data-priority="1"><center>Echéance</center></th>
+                        <th data-priority="1"><center>Bord</center></th>
+                        <th data-priority="1"><center>Montant Lettrer</center></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in ViewBag.EtatRap)
+                    {
+                       
+                    <tr>
+                        <td data-title="Nom Acheteur">@item.NOM_IND</td>
+                        <td data-title="Nom Acheteur">@item.REF_DOCUMENT_DET_BORD</td>
+
+
+                        @if (item.DAT_DET_BORD != null)
+                        {
+                            <td data-title="Date Bordereau">
+                                @item.DAT_DET_BORD.ToString("dd/MM/yyyy")
+                            </td>
+                        }
+                        else
+                        {
+                            <td data-title="Date Bordereau">
+                                @item.DAT_DET_BORD
+                            </td>
+                        }
+
+
+                        @if (item.MONT_TTC_DET_BORD != null)
+                        {
+                            <td data-title="Mnt Facture" style="text-align:right">
+                                @String.Format("{0:N3}", item.MONT_TTC_DET_BORD)
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Mnt Facture">0,000 </td>
+                        }
+
+                        @if (item.MONT_OUV_DET_BORD != null)
+                        {
+                            <td data-title="Mnt Encaissement" style="text-align:right">
+                                @String.Format("{0:N3}", item.MONT_OUV_DET_BORD)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Mnt Encaissement">0,000  </td>
+                        }
+
+
+                        @if (item.Date_d_écheance != null)
+                        {
+                            <td data-title="Echéance">
+                                @item.Date_d_écheance.ToString("dd/MM/yyyy")
+                            </td>
+                        }
+                        else
+                        {
+                            <td data-title="Echéance">
+                                @item.Date_d_écheance
+                            </td>
+                        }
+
+
+                        <td data-title="">@item.NUM_BORD</td>
+
+                        @if (item.DEVISE_DET_BORD != null)
+                        {
+                            <td data-title="Mnt Facture" style="text-align:right">
+                                @String.Format("{0:N3}", decimal.Parse(item.DEVISE_DET_BORD.Replace(".",",")))
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align:right" data-title="Mnt Lettrer">0,000 </td>
+                        }
+                        
+
+                    </tr>
+
+                    }
+
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <th colspan="2" style="text-align:right"></th>
+                        <th style="text-align:right">Total : </th>
+                        <th style="text-align:right">0.000</th>
+                        <th style="text-align:right">0.000</th>
+                    </tr>
+                  
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+    function removeespace(a)
+    {
+        cel = "";
+        test = true;
+        while (test) {
+         
+                cel = a.toString().replace('&nbsp;', "");
+                a = cel;
+
+
+            if (cel.indexOf('&nbsp;') >= 0) {
+
+                test = true;
+            }
+            else { test = false; }
+        }
+        return cel.replace(",", ".");
+    }
+
+    var buttonCommon = {
+
+        exportOptions: {
+            format: {
+                body: function (data, row, column, node) {
+                    // Strip $ from salary column to make it numeric
+                    //  alert(data);
+                    cel = "";
+                    test = true;
+                    while (test) {
+                        if (column === 3 || column === 4) {
+                            cel = data.replace('&nbsp;', "");
+                            data = cel;
+                            // alert(data);
+                            //  alert(cel);
+                        }
+                        else { cel = data; }
+                        //   alert();
+                        console.log(data);
+                        console.log(cel.indexOf('&nbsp;'));
+
+                        if (cel.indexOf('&nbsp;') >= 0) {
+
+                            test = true;
+                        }
+                        else { test = false; }
+                    }
+                    return cel.replace(",", ".");
+                }
+            }
+        }
+    };
+  var tb=  $('#EncoursFact').DataTable({
+      "footerCallback": function ( row, data, start, end, display ) {
+          var api = this.api(), data;
+ 
+          // Remove the formatting to get integer data for summation
+          var intVal = function ( i ) {
+              return typeof i === 'string' ?
+                  i.replace(/[\$,]/g, '')*1 :
+                  typeof i === 'number' ?
+                  i : 0;
+          };
+ 
+          // Total over all pages
+          total = api
+              .column( 3 )
+              .data()
+              .reduce( function (a, b) {
+                  return intVal(removeespace(a)) + intVal(removeespace(b));
+              }, 0 );
+ 
+          // Total over this page
+          pageTotal = api
+              .column( 3, { page: 'current'} )
+              .data()
+              .reduce( function (a, b) {
+                  return intVal(removeespace(a)) + intVal(removeespace(b));
+              }, 0 );
+          // Total over this page
+          pageTotal2 = api
+              .column(4, { page: 'current' })
+              .data()
+              .reduce(function (a, b) {
+                  return intVal(removeespace(a)) + intVal(removeespace(b));
+              }, 0);
+          // Update footer
+          $( api.column( 3 ).footer() ).html(
+            parseFloat(pageTotal).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",")
+          );
+          $(api.column(4).footer()).html(
+            parseFloat(pageTotal2).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ",")
+          );
+      },
+
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        'paging': true,
+        'lengthChange': true,
+        'searching': true,
+        'ordering': true,
+        'info': true,
+        'autoWidth': false,
+        "language": {
+            "sProcessing": "Traitement en cours...",
+            "sSearch": "Rechercher&nbsp;:",
+            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+            "sInfoFiltered": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix": "",
+            "sLoadingRecords": "Chargement en cours...",
+            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
+            "oPaginate": {
+                "sFirst": "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext": "Suivant",
+                "sLast": "Dernier"
+            },
+            "oAria": {
+                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
+                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+            },
+            "select": {
+                "rows": {
+                    _: "%d lignes séléctionnées",
+                    0: "Aucune ligne séléctionnée",
+                    1: "1 ligne séléctionnée"
+                }
+            }
+        },
+
+
+        columnDefs: [
+             { type: 'date-eu', targets: [2,5] },
+{ type: 'formatted-num', targets: [3,4] }]
+        
+     , "initComplete": function () {
+          var column = this.api().column(0);
+
+          var select = $('<select class="form-control input-sm selectpicker" data-live-search="true"><option value="">**************************</option></select>')
+                   .on('change', function () {
+                       var val = $(this).val();
+
+                       column.search(val ? '^' + val + '$' : '', true, false).draw();
+                   })
+     .appendTo('#Nom_Ach');
+              column.data().unique().sort().each( function ( d, j ) {
+                  select.append('<option value="' + d + '">' + d + '</option>');
+                  select.selectpicker('refresh');
+              } );
+  
+
+    
+      }
+
+    });
+
+  var tableTools = new $.fn.dataTable.Buttons(tb, {
+      buttons: [
+
+
+              $.extend(true, {}, buttonCommon, {
+                  extend: 'copyHtml5', title: 'Encours factures', footer: true
+              }),
+            $.extend(true, {}, buttonCommon, {
+                extend: 'excelHtml5', autoFilter: true, title: 'Encours factures', footer: true
+            }),
+            $.extend(true, {}, {
+                extend: 'pdfHtml5', title: 'Encours factures', orientation: 'landscape',
+                pageSize: 'LEGAL', footer: true
+            })
+
+
+      ]
+  });
+  // $(tableTools.fnContainer()).insertAfter('div.info');
+
+  tb.buttons().container().appendTo('#btnRap');
+
+    //.on( 'change', function () {
+    //    var val = $.fn.dataTable.util.escapeRegex(
+    //        $(this).val()
+    //    );
+    //    column
+    //        .search( val ? '^'+val+'$' : '', true, false )
+    //        .draw();
+    //} );
+
+</script>

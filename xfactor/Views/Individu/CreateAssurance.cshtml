@@ -1,0 +1,222 @@
+﻿@model xfactor.Models.T_INDIVIDU
+@{
+    ViewBag.Title = "CreateAssurance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+</style>
+@using (Html.BeginForm())
+{
+    if (TempData["notice"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong> @TempData["notice"] !</strong>
+        </div>
+    }
+<div class="row">
+    <div class="col-md-9">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-default">
+                    <div class="box-header with-border titleprghp">
+                        <h3 class="box-title">Fiche individu</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Forme juridique :</label>
+                                    @Html.DropDownList("FROM_JUR_IND", (IEnumerable<SelectListItem>)ViewBag.LISTJURIDIQ, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                    @Html.ValidationMessage("FROM_JUR_IND", "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Dénomination : ", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("NOM_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                    @Html.ValidationMessage("NOM_IND", "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Nom commercial :", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("PRE_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                    @Html.ValidationMessage("PRE_IND", "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Registre de commerce :", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("NUM_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                    @Html.ValidationMessage("NUM_DOC_ID_IND", "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Lieu :", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("LIEU_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                    @Html.ValidationMessage("LIEU_DOC_ID_IND", "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+
+                                <div class="form-group">
+                                    @Html.Label("Groupe de sociétés : ", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("GRP_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                    @Html.ValidationMessage("GRP_IND", "", new { @class = "text-danger" })
+
+                                </div>
+                             
+                                <div class="form-group">
+                                    @Html.Label("Date de création : ", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("DATE_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date" } })
+                                    @Html.ValidationMessage("DATE_DOC_ID_IND", "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label(" Code TVA :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("COD_TVA_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                    @Html.ValidationMessage("COD_TVA_IND", "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Langue : </label>
+                                    @Html.DropDownList("ID_NLDP", (IEnumerable<SelectListItem>)ViewBag.ListValLang, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                    @Html.ValidationMessage("ID_NLDP", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+
+               
+
+                                <div class="form-group" style="margin-top:28px;">
+                                    @Html.Label("Exonération TVA:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.CheckBox("EXO_TVA", false, htmlAttributes: new { @class = "form-control input-sm" })
+                                    @Html.ValidationMessage("EXO_TVA", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group" style="margin-top: 18px;">
+                                    @Html.Label("Date Debut Exonération TVA:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("DAT_DEB_EXO", new { htmlAttributes = new { @class = "form-control input-sm", type = "date" } })
+                                    @Html.ValidationMessage("DAT_DEB_EXO", "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Date Fin Exonération TVA:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("DAT_FIN_EXO", new { htmlAttributes = new { @class = "form-control input-sm ", type = "date" } })
+                                    @Html.ValidationMessage("DAT_FIN_EXO", "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="form-group">
+                                    @Html.Label("Référence externe:", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("notthis", new { htmlAttributes = new { @class = "form-control input-sm "} })
+                                    @Html.ValidationMessage("notthis", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box box-default">
+                <div class="box-header with-border titleprghp">
+                    <h3 class="box-title">Plus des informations</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.Label("Adresse:", htmlAttributes: new { @class = "control-label" })
+
+                                @Html.Editor("ADR_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                @Html.ValidationMessage("ADR_IND", "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Ville :</label>
+                                @Html.DropDownList("CP_IND", (IEnumerable<SelectListItem>)ViewBag.ListValcp, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                @Html.ValidationMessage("CP_IND", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Telephone : ", htmlAttributes: new { @class = "control-label" })
+
+                                @Html.Editor("TEL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                @Html.ValidationMessage("TEL_IND", "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Fax :", htmlAttributes: new { @class = "control-label" })
+
+                                @Html.Editor("FAX_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                @Html.ValidationMessage("FAX_IND", "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Email :", htmlAttributes: new { @class = "control-label" })
+
+                                @Html.Editor("EMAIL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                @Html.ValidationMessage("EMAIL_IND", "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-lg-4 col-centered">
+
+        <button id="envoier" type="submit" class="btn btn-primary btn btn-block">
+            <i class="fa fa-user-plus"></i>
+            Ajouter Individu
+        </button>
+
+    </div>
+</div>
+
+}
+
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+
+<script>
+                $("#success-alert").fadeTo(2000, 500).fadeOut("slow", function () {
+                    $("#success-alert").fadeOut("slow");
+                });
+</script>
+
+

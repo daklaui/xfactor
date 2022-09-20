@@ -1,0 +1,378 @@
+﻿@model xfactor.Models.IndividuContactModel
+
+@{
+    ViewBag.Title = "CreateIndividuPhysqiue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .input-validation-error {
+        color: #D8000C;
+        border-color: red;
+    }
+
+    .input-validation-succes {
+        color: #00ff21;
+        border-color: green;
+    }
+
+    .sauter {
+        padding-bottom: 5px;
+    }
+
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+</style>
+
+
+@using (Html.BeginForm())
+{
+    if (TempData["notice"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade in" id="success-alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong> @TempData["notice"] !</strong>
+        </div>
+    }
+    <div class="row sauter">
+        <div class="col-sm-2  pull-right" id="btncontacthide">
+            <button type="button" id="affichedivcontact" class="btn btn-danger btn-block ">
+                <i class="fa fa-address-card"></i>
+                Ajouter Contact
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box box-default">
+                        <div class="box-header with-border titleprghp">
+                            <h3 class="box-title">Fiche individu</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+            <label class="control-label">Nationalité  : </label>
+            @Html.DropDownList("ID_NLDP", (IEnumerable<SelectListItem>)ViewBag.ListValLang, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+           @Html.ValidationMessageFor(model => model.individu.ID_NLDP, "", new { @class = "text-danger" })
+        </div>
+                                </div>
+                                <div class="col-md-6">
+                                 
+                                        <div class="form-group">
+                                            @Html.Label("Role :", htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownList("untextici", new List<SelectListItem>
+                                       {
+                                           new SelectListItem {Text = "Achteur" , Value="Achteur",Selected=true},
+                                           new SelectListItem {Text = "Adhérent" , Value="Adhérent" }
+                                       }, new { @class = "form-control input-sm selectpicker" })
+                                        </div>
+                                    <div class="form-group">
+                                        @Html.Label("Nom : ", htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.Editor("NOM_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                       @Html.ValidationMessageFor(model => model.individu.NOM_IND, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.Label("Prenom:", htmlAttributes: new { @class = "control-label" })
+
+                                        @Html.Editor("PRE_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                       @Html.ValidationMessageFor(model => model.individu.PRE_IND, "", new { @class = "text-danger" })
+
+                                    </div>
+                               
+
+                                    <div class="form-group">
+                                        <label class="control-label">Date de Naissance   : </label>
+                                        @Html.Editor("DAT_NAISS_CREAT", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                       @Html.ValidationMessageFor(model => model.individu.DAT_NAISS_CREAT, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    
+                                    
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label class="control-label">Profession  : </label>
+                                      
+                                        @Html.DropDownList("COD_SCLAS", (IEnumerable<SelectListItem>)ViewBag.ListValProf, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Reference Achteur  : </label>
+                                        @Html.Editor("REF_ACH_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                       @Html.ValidationMessageFor(model => model.individu.REF_ACH_IND, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Reference Adherent  : </label>
+                                        @Html.Editor("REF_ADH_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                       @Html.ValidationMessageFor(model => model.individu.REF_ADH_IND, "", new { @class = "text-danger" })
+                                    </div>
+                                 
+                                </div>
+                              
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-default">
+                    <div class="box-header with-border titleprghp">
+                        <h3 class="box-title">Piéce d'identité</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Piece d'identite :</label>
+                                    @Html.DropDownList("TYP_DOC_ID_IND", (IEnumerable<SelectListItem>)ViewBag.ListPiece, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                   @Html.ValidationMessageFor(model => model.individu.TYP_DOC_ID_IND, "", new { @class = "text-danger" })
+                                </div>
+                          
+
+                                <div class="form-group">
+                                    @Html.Label("Numéro pièce d'identité : ", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("NUM_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                   @Html.ValidationMessageFor(model => model.individu.NUM_DOC_ID_IND, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">délivré le   : </label>
+                                    @Html.Editor("DATE_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                   @Html.ValidationMessageFor(model => model.individu.DATE_DOC_ID_IND, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Lieu :", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("LIEU_DOC_ID_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                   @Html.ValidationMessageFor(model => model.individu.LIEU_DOC_ID_IND, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box box-default">
+                    <div class="box-header with-border titleprghp">
+                        <h3 class="box-title">Plus des informations</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.Label("Adresse:", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("ADR_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                   @Html.ValidationMessageFor(model => model.individu.ADR_IND, "", new { @class = "text - danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Ville :</label>
+                                    @Html.DropDownList("CP_IND", (IEnumerable<SelectListItem>)ViewBag.ListValcp, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                   @Html.ValidationMessageFor(model => model.individu.CP_IND, "", new { @class = "text - danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Telephone : ", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("TEL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                   @Html.ValidationMessageFor(model => model.individu.TEL_IND, "", new { @class = "text - danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Fax :", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("FAX_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                   @Html.ValidationMessageFor(model => model.individu.FAX_IND, "", new { @class = "text - danger" })
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Email :", htmlAttributes: new { @class = "control-label" })
+
+                                    @Html.Editor("EMAIL_IND", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                   @Html.ValidationMessageFor(model => model.individu.EMAIL_IND, "", new { @class = "text - danger" })
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+                <div class="row">
+
+                    <div class="col-md-12" id="contactdiv">
+                        <div class="box box-default">
+                            <div class="box-header with-border titleprghp">
+                                <div class="box-tools pull-right">
+
+                                    <button type = "button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    <button type = "button" id="remove" class="btn btn-box-tool"><i class="fa fa-remove"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            @Html.Label("Nom et prénom :", htmlAttributes: new { @class = "control-label" })
+                                            @Html.Editor("NOM_PRE_CONTACT", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                           @Html.ValidationMessageFor(model => model.contact.NOM_PRE_CONTACT, "", new { @class = "text - danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Position :</label>
+                                            @Html.DropDownList("POS_CONTACT", (IEnumerable<SelectListItem>)ViewBag.ListValcp, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                           @Html.ValidationMessageFor(model => model.contact.POS_CONTACT, "", new { @class = "text-danger" })
+                                        </div>
+                                        </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            @Html.Label("Téléphone :", htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.Editor("TEL1_CONTACT", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                           @Html.ValidationMessageFor(model => model.contact.TEL1_CONTACT, "", new { @class = "text-danger", type = "date" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            @Html.Label("Email : ", htmlAttributes: new { @class = "control-label" })
+
+                                            @Html.Editor("MAIL1_COONTACT", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                           @Html.ValidationMessageFor(model => model.contact.MAIL1_COONTACT, "", new { @class = "text - danger" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            @Html.Label("Fax :", htmlAttributes: new { @class = "control-label" })
+                                            @Html.Editor("FAX_CONTACT", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                           @Html.ValidationMessageFor(model => model.contact.FAX_CONTACT, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            @Html.Label("Etat :", htmlAttributes: new { @class = "control-label" })
+                                            @Html.DropDownList("ROLE_CONTACT", new List<SelectListItem>
+                                       {
+                                           new SelectListItem {Text = "Principale" , Value="Principale",Selected=true},
+                                           new SelectListItem {Text = "Secondaire" , Value="Secondaire" }
+                                       }, new { @class = "form-control input-sm selectpicker" })
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                         
+                                            @Html.Label("Situation:", htmlAttributes: new { @class = "control-label" })
+                                            @Html.CheckBox("ACTIF_CONTACT", false, htmlAttributes: new { @class = "form-control input-sm" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-4 col-centered">
+
+                                <button id="envoier" type="submit" class="btn btn-primary btn btn-block">
+                                    <i class="fa fa-user-plus"></i>
+                                    Ajouter Individu
+                                </button>
+
+                            </div>
+                        </div>
+
+                        @Html.Hidden("test", "false", new { id = "test" });
+}
+
+
+    <script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+
+            <script>
+                $("#contactdiv").hide();
+                $("#affichedivcontact").click(function () {
+                    $("#contactdiv").show();
+                    $("#affichedivcontact").hide();
+                    $("#test").val("true");
+                });
+                $("#remove").click(function () {
+                    $("#contactdiv").hide();
+                    $("#affichedivcontact").show();
+                    $("#test").val("false");
+                });
+                $("#success-alert").fadeTo(2000, 500).fadeOut("slow", function () {
+                    $("#success-alert").fadeOut("slow");
+                });
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

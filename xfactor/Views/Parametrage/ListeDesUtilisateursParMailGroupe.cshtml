@@ -1,0 +1,54 @@
+﻿
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+            <div class="box-header with-border titleprghp">
+                <h3 class="box-title"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive " data-pattern="priority-columns">
+                            <table cellspacing="0" id="validBord" class="table table-small-font table-bordered ">
+                                <thead>
+
+                                    <tr class="bg-primary">
+
+                                        <th data-priority="3"><center>Login utilisateur</center></th>
+                                        <th data-priority="1">Email utilisateur</th>
+                                        <th data-priority="1"><center>#</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.users)
+                                    {
+                                        <tr data-id_user="@item.ID_EMAIL">
+                                            <td>
+                                                @item.NOM_USER
+                                            </td>
+                                            <td>
+                                                @item.MAIL_USER
+                                            </td>
+                                            
+                                            <td style="text-align:center">
+                                                <centre>
+                                                   
+                                                    <button type="button" class="btn btn-danger" onclick="event.stopPropagation();RemoveBord(@item.ID_EMAIL)"><i class="fa fa-remove"></i> </button>
+                                         
+                                                </centre>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
