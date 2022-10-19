@@ -20,7 +20,7 @@ namespace xfactor.Models
         public Nullable<decimal> debit { get; set; }
         public Nullable<decimal> autre { get; set; }
         public Nullable<System.DateTime> Date_OP { get; set; }
-        public Nullable<decimal> Encours_Facture { get; set; }
-        public Nullable<decimal> Disponible { get; set; }
+        public string Encours_Facture { get; set; }
+        public string Disponible { get; set; }
     }
 }

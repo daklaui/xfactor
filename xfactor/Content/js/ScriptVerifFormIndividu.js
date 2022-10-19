@@ -30,9 +30,9 @@ $("#myForm").validate({
         },
         untextici: {
             required: true
-        }
-        , REF_ACH_IND: { required: true, number: true, min: 1 },
-        REF_ADH_IND: { required: true, number: true, min: 1 }
+        },
+        REF_ACH_IND: { required: true, number: true,minlength: 8, maxlength: 8 },
+        REF_ADH_IND: { required: true, number: true,minlength: 8, maxlength: 8 }
 
 
 
@@ -88,9 +88,8 @@ $("#myFormPP").validate({
         DATE_DOC_ID_IND: {
             required: true
         },
-        REF_ACH_IND: { required: true, number: true, min: 1 },
-        REF_ADH_IND: { required: true, number: true, min: 1 }
-         ,
+        REF_ACH_IND: { required: true, number: true, minlength: 8, maxlength: 8 },
+        REF_ADH_IND: { required: true, number: true, minlength: 8, maxlength: 8 },
         untextici: {
             required: true
         }

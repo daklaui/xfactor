@@ -55,6 +55,7 @@
              <div class="panel-body">
    @foreach (var item in ViewBag.ListUsers)
    {
+        if (item.DIRECTION_USER != "hidden_users") { 
                  <div class="col-xs-12 col-sm-4 col-md-6 col-lg-6">
                      <div class="well well-sm drop-shadow">
                          <div class="row">
@@ -87,9 +88,9 @@
                                      <br />
                                      <i class="fa fa-phone-square"></i>   @item.MOBILE_USER
                                      <br />
-                                     <i class="fa fa-user-secret"></i>   @item.LOGIN_USER
+                                  @{/*   <i class="fa fa-user-secret"></i>   @item.LOGIN_USER
                                      <br />
-                                     <i class="fa fa-key"></i>   @item.MDP_USER
+                                     <i class="fa fa-key"></i>   @item.MDP_USER*/}
                                  </p>
                                  <!-- Split button -->
                                  <div class="action pull-right">
@@ -102,7 +103,7 @@
                          </div>
                      </div>
                  </div>
-   }
+   }}
 
              </div>
          </div>

@@ -869,6 +869,7 @@ namespace xfactor.Controllers
 
             Anuulationretenu(id_det);
 
+
             //T_HISTORIQUE hist = new T_HISTORIQUE();
             //hist.DATE_ACTION = DateTime.Now;
             //hist.ACTION = "suppression";

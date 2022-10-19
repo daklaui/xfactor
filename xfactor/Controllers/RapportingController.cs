@@ -2205,7 +2205,7 @@ var ListAdh = (from q in db.T_INDIVIDU
         public ActionResult Rapport_Extrait_Rapp(int id,DateTime id2,DateTime id3)
         {
            
-            ViewBag.ListeExtrait = db.Extrait_Compte_Periode2(id).Where(p => p.Date_OP >= id2.Date && p.Date_OP <= id3.Date).ToList();
+            ViewBag.ListeExtrait = db.Extrait_Compte_New_Rapport(id).Where(p => p.Date_OP >= id2.Date && p.Date_OP <= id3.Date).OrderBy(p=>p.Date_OP).ToList();
             try {  } catch (Exception) { }
             return PartialView();
         }

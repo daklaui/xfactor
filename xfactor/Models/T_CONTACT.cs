@@ -23,6 +23,6 @@ namespace xfactor.Models
         public string MAIL1_COONTACT { get; set; }
         public string MAIL2_COONTACT { get; set; }
         public string FAX_CONTACT { get; set; }
-        public bool ACTIF_CONTACT { get; set; }
+        public Nullable<bool> ACTIF_CONTACT { get; set; }
     }
 }

@@ -1,0 +1,9 @@
+@echo off
+REM: print new line
+echo.
+echo -----------------------------------------
+echo *** Build Xfactor Web App Script  ***
+echo -----------------------------------------
+REM: print new line
+echo.
+echo BUILD_ENV is %1
