@@ -14,9 +14,9 @@ namespace xfactor
     public class MvcApplication : HttpApplication
     {
        // data source = ; initial catalog = ; user id = ; password=xpertiseit2019
-     //   string con = @"Data Source=192.168.49.151;Initial Catalog=Xfactor_prod_web;Persist Security Info=True;User ID=medfactor;Password=xfactor2013;MultipleActiveResultSets=True";
+      string con = @"Data Source=192.168.49.151;Initial Catalog=Xfactor_prod_web;Persist Security Info=True;User ID=medfactor;Password=xfactor2013;MultipleActiveResultSets=True";
         //   string con = @"Data Source=192.168.49.151;Initial Catalog=XFactor_WEB_VTEST;Persist Security Info=True;User ID=medfactor;Password=xfactor2013;MultipleActiveResultSets=True";
-       string con = @"Data Source=51.210.243.165;Initial Catalog=Xfactor_R;Persist Security Info=True;User ID=xpertiseit;Password=Xpertiseit2019;MultipleActiveResultSets=True";
+      // string con = @"Data Source=51.210.243.165;Initial Catalog=Xfactor_R;Persist Security Info=True;User ID=xpertiseit;Password=Xpertiseit2019;MultipleActiveResultSets=True";
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

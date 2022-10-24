@@ -216,7 +216,7 @@
 <div class="row">
 <div class="col-lg-12">
     @*<button type="button" class="btn btn-sm btn-success pull-right" id="AjouerLigne">Ajouter ligne </button>*@
-    <div class="table-responsive " data-pattern="priority-columns">
+    <div class="" data-pattern="priority-columns">
         <table cellspacing="0" id="DetBord" class="table table-small-font table-bordered table-striped ">
             <thead>
 
@@ -388,9 +388,10 @@
         if (form.valid()) {
             $("#DetBord>tbody").empty();
             for (i = 0; i < $("#NB_DOC_B").val() ; i++) {
-
+               
                 var markup = "<tr>" +
-                 "<td><select name='Det_Bord[" + i + "].REF_IND_DET_BORD' class='form-control input-sm defaultpicker NomAchteurs verifnomrequ' id='' required></select> </td>" +
+                    "<td> \
+                   <div class='form-group'> <select name = 'Det_Bord[" + i + "].REF_IND_DET_BORD' class='form-control input-sm selectpicker NomAchteurs verifnomrequ' data-live-search='true'  id = '' required ></select > </div></td> " +
                  "<td><select name='Det_Bord[" + i + "].TYP_DET_BORD' class='form-control input-sm defaultpicker type_doc'>" +
                  " <option value='fact'>MINI_CREDIT</option> <option value='fact'>FACTURE</option>   <option value='Caut'>CAUTION</option> <option value='bdc'>BON DE COMMANDE</option><option value='march'>MARCHE</option>" +
                  "</select> </td>" +
@@ -406,7 +407,8 @@
             }
 
             $("#DetBord").append("<tr><td colspan='6'><button id='validerbord' onclick='variffonction()' disabled type='button' class='btn btn-success pull-right ' >   valider" +
-                       " </button></td><td>   <input type='text' id='sum1' readOnly  class='form-control input-sm'/></td></tr>");
+                " </button></td><td>   <input type='text' id='sum1' readOnly  class='form-control input-sm'/></td></tr>");
+           
             $.ajax({
                 url: "/Bordereau/RecherchCtrAch/" + $("#ctr").children("option:selected").val(),
                 type: "GET",
@@ -421,7 +423,8 @@
                             text: element.PRE_IND
                         }));
                     });
-                    //$('.NomAchteurs').selectpicker('refresh');
+                    
+                    $('.selectpicker').selectpicker('refresh');
                 }
             });
 

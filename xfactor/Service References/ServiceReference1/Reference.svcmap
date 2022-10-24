@@ -19,7 +19,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://srvshpgedweb:2080/Service/XPFactor.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://srvshpgedweb.poulinagh.pgh:2080/Service/XPFactor.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="XPFactor.xsd" MetadataType="Schema" ID="3a8109f7-a5c7-4760-b97e-9ab14f0e5b22" SourceId="1" SourceUrl="http://srvshpgedweb.poulinagh.pgh:2080/Service/XPFactor.svc?xsd=xsd2" />
