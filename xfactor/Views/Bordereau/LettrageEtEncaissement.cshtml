@@ -1290,7 +1290,29 @@
                 else { alert("merci"); }
                    
             }
+            function Preavis(x) {
+                if (confirm("Etes vous sur?")) {
+                    $('#loaderin').show();
 
+                    $.ajax({
+                        url: "/Bordereau/PreavisJson/" + x,
+                        type: "GET",
+                        contentType: "application/json;charset=UTF-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.type == "save") {
+                                alert(data.messagee);
+                                $('#rec tr[data-id_enc="' + x + '"]').addClass("alert-warning");
+                                $('#rec tr button[data-id_enc_preavis="' + x + '"]').attr("disabled", true);
+
+                            }
+                            $('#loaderin').hide();
+                        }
+                    });
+                }
+                else { alert("merci"); }
+
+            }
             function Impaye(x) {
                 if (confirm("Etes vous sur?")) {
                     $('#loaderin').show();

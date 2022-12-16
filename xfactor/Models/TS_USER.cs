@@ -31,7 +31,7 @@ namespace xfactor.Models
         public string MOBILE_USER { get; set; }
         public string PHOTO_USER { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
-        public string ONE_SIGNAL_PLAYER_ID { get; set; }
+       
         public virtual TS_GRP_USER TS_GRP_USER { get; set; }
     }
 }

@@ -21,6 +21,5 @@ namespace xfactor.Models
         public string LOGO_WEB { get; set; }
         public bool ACTIF_USER_WEB { get; set; }
         public Nullable<System.DateTime> DATE_FIN_COMPTE { get; set; }
-        public string ONE_SIGNAL_PLAYER_ID { get; set; }
     }
 }

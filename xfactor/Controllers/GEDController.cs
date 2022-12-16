@@ -384,62 +384,83 @@ namespace xfactor.Controllers
         {
             if(id2.ToLower().Contains("encaissementcheque"))
             {
-                ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Cheque").ToList();
+                //  ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Cheque").ToList();
+                ViewBag.Type = "encaissementcheque";
+                ViewBag.Liste = db.T_DOC_GED_VISUALISATION(id, "Encaissement Cheque");
             }
             if (id2.ToLower().Contains("encaissementchéque"))
             {
-                ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Chéque").ToList();
+                ViewBag.Type = "encaissementchéque";
+                // ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Chéque").ToList();
+                ViewBag.Liste = db.T_DOC_GED_VISUALISATION(id, "Encaissement Chéque");
             }
             if (id2.ToLower().Contains("encaissementtraite"))
             {
-                ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Traite").ToList();
+                ViewBag.Type = "encaissementtraite";
+                //ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Traite").ToList();
+                ViewBag.Liste = db.T_DOC_GED_VISUALISATION(id, "Encaissement Traite");
             }
             if (id2.ToLower().Contains("avoir"))
             {
-                ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Avoir").ToList();
+                ViewBag.Type = "encaissementavoir";
+                // ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Avoir").ToList();
+                ViewBag.Liste = db.T_DOC_GED_VISUALISATION(id, "Avoir");
             }
             if (id2.ToLower().Contains("encaissementvirement"))
             {
-                ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Virement").ToList();
+                ViewBag.Type = "encaissementvirement";
+                // ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Virement").ToList();
+                ViewBag.Liste = db.T_DOC_GED_VISUALISATION(id, "Encaissement Virement");
             }
             if (id2.ToLower().Contains("financement"))
             {
+                ViewBag.Type = "financement";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Financement").ToList();
             }
             if (id2.ToLower().Contains("encaissementespece"))
             {
-                ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Espece").ToList();
+                ViewBag.Type = "encaissementespece";
+                //  ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Encaissement Espece").ToList();
+                ViewBag.Liste = db.T_DOC_GED_VISUALISATION(id, "Encaissement Espece");
             }
             if (id2.ToLower().Contains("bordereau"))
             {
+                ViewBag.Type = "bordereau";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Bordereau").ToList();
             }
             if (id2.ToLower().Contains("contrat"))
             {
+                ViewBag.Type = "contrat";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Contrat").ToList();
             }
             if (id2.ToLower().Contains("avance"))
             {
+                ViewBag.Type = "avance";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Avance").ToList();
             }
             if (id2.ToLower().Contains("liberationfinancement"))
             {
+                ViewBag.Type = "liberationfinancement";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Liberation Financement").ToList();
             }
             if (id2.ToLower().Contains("cartedidentiténationale"))
             {
+                ViewBag.Type = "cartedidentiténationale";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Carte d’identité nationale").ToList();
             }
             if (id2.ToLower().Contains("registredecommerce"))
             {
+                ViewBag.Type = "registredecommerce";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Registre De Commerce").ToList();
             }
             if (id2.ToLower().Contains("conditionsparticulières"))
             {
+                ViewBag.Type = "conditionsparticulières";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Conditions Particulières").ToList();
             }
             if (id2.ToLower().Contains("matriclefiscale"))
             {
+                ViewBag.Type = "matriclefiscale";
                 ViewBag.Liste = db.T_DOC_GED.Where(p => p.ID_CTR_GED == id && p.LIBELLE_GED == "Matricle Fiscale").ToList();
             }
             return PartialView();

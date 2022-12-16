@@ -2571,6 +2571,11 @@
     <Content Include="Views\BCT\RNLPT130010.cshtml" />
     <Content Include="Views\Rapporting\Liste_Réconsiliation.cshtml" />
     <Content Include="Views\Rapporting\Liste_Réconsiliation_Detaile.cshtml" />
+    <Content Include="Views\Bordereau\Debit.cshtml" />
+    <Content Include="Views\Bordereau\HistoriqueImpaye.cshtml" />
+    <Content Include="Views\Parametrage\RecouvrementSettings.cshtml" />
+    <Content Include="Views\Parametrage\PartieFormRecouvrement.cshtml" />
+    <Content Include="Views\Parametrage\PartieUpdateRecouvrement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3220,6 +3225,9 @@
     <Compile Include="Models\T_DOC_GED_VALID_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\T_DOC_GED_VISUALISATION_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\T_DOC_H_GED.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -3308,9 +3316,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\T_MVT_DEBIT.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\T_OTP.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\T_PROROGATION.cs">

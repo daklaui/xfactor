@@ -83,7 +83,6 @@
         <EntityTypeShape EntityType="Xfactor_prod_webModel.T_CONFIGURATION_EMAIL" Width="1.5" PointX="0.75" PointY="25.75" />
         <EntityTypeShape EntityType="Xfactor_prod_webModel.T_Bordereau_MFG" Width="1.5" PointX="14.375" PointY="25.75" />
         <EntityTypeShape EntityType="Xfactor_prod_webModel.T_Comm_MFG" Width="1.5" PointX="26.375" PointY="5.75" />
-        <EntityTypeShape EntityType="Xfactor_prod_webModel.T_OTP" Width="1.5" PointX="26.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

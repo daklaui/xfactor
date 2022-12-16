@@ -2,6 +2,7 @@
 
     string bgcolor = "";
     string disa = "";
+    string disabledPreavisButton = "";
  }
 
                 <div class="table-responsive " data-pattern="priority-columns">
@@ -21,89 +22,95 @@
                         </thead>
                         <tbody>
                             @foreach (var item in ViewBag.Lettrage)
-
                             {
 
+
+                                if (item.PREAVIS != false) {
+                                    bgcolor = "alert-warning  row-disabled";
+                                    disabledPreavisButton = "disabled";
+                                }
                                 if (item.IMPAYE != 0)
                                 {
                                     bgcolor = "dangerbg  row-disabled";
                                     disa = "disabled";
                                 }
-                                else
+                                if(item.IMPAYE != 1 && item.PREAVIS != true)
                                 {
                                     bgcolor = "";
                                     disa = "";
+                                    disabledPreavisButton = "";
                                 }
-                                <tr class="@bgcolor" data-id_enc="@item.id_enc">
-                                    <td>
-                                        @item.ref_enc
-                                    </td>
-                                    @{
-                                        string v = "";
-                                        try
-                                        {
-                                            v = @String.Format("{0:N3}", (item.mont_enc));
-
-                                        }
-                                        catch (Exception) { v = item.mont_enc; }
-                                    }
-                                    <td style="text-align:right">
-                                        @v
-                                    </td>
-                                    @{
-                                        string v2 = "";
-                                        try
-                                        {
-                                            v2 = @String.Format("{0:N3}", (item.Somme_Lettrage));
-
-                                        }
-                                        catch (Exception) { v = item.Somme_Lettrage; }
-                                    }
-                                    <td style="text-align:right">
-                                        @v2
-                                    </td>
-                                    @if (item.dat_val_enc != null)
+                            <tr class="@bgcolor" data-id_enc="@item.id_enc">
+                                <td>
+                                    @item.ref_enc
+                                </td>
+                                @{
+                                    string v = "";
+                                    try
                                     {
-                                        <td>
-                                            @item.dat_val_enc.ToString("d")
-                                        </td>
+                                        v = @String.Format("{0:N3}", (item.mont_enc));
+
                                     }
-                                    else
+                                    catch (Exception) { v = item.mont_enc; }
+                                }
+                                <td style="text-align:right">
+                                    @v
+                                </td>
+                                @{
+                                    string v2 = "";
+                                    try
                                     {
-                                        <td>
-                                            @item.dat_val_enc
-                                        </td>
+                                        v2 = @String.Format("{0:N3}", (item.Somme_Lettrage));
+
                                     }
+                                    catch (Exception) { v = item.Somme_Lettrage; }
+                                }
+                                <td style="text-align:right">
+                                    @v2
+                                </td>
+                                @if (item.dat_val_enc != null)
+                                {
+                                    <td>
+                                        @item.dat_val_enc.ToString("d")
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @item.dat_val_enc
+                                    </td>
+                                }
 
-                                    <td>
-                                        @item.Nombre_Lettrage
-                                    </td>
-                                    <td>
-                                        @item.Adhérent
-                                    </td>
-                                    <td>
-                                        @item.Acheteur
-                                    </td>
-                                    <td>
-                                        @item.ref_ctr_enc
-                                    </td>
-                                    <td>
-                                        @*<a href="@Url.Action("Réconsiliation", "Bordereau",
-                                            new { id = item.id_enc })"  onclick="event.stopPropagation();" class="btn btn-success" data-toggle="tooltip" title="Réconciliation">Réconciliation</a>
-                                                                                                                    <a href="@Url.Action("Impaye", "Bordereau",
-                                            new { id = item.id_enc })"  onclick="event.stopPropagation();" class="btn btn-danger @disa" data-toggle="tooltip" title="Impayé">Impayé</a>*@
-                                        <button type="button" class="btn btn-success" onclick="event.stopPropagation();Reconsilier(@item.id_enc)">Réconciliation</button>
-                                        <button type="button" class="btn btn-danger" @disa data-id_enc="@item.id_enc" onclick="event.stopPropagation();Impaye(@item.id_enc)">Impayé</button>
-                                        <button class="btn btn-primary" target="popup"
-                                                onclick="event.stopPropagation();window.open('/Parametrage/DetailleLettrage/@item.id_enc', 'popup', 'width=600,height=600'); return false;">
-                                            <i class="fa fa-fw fa-eye"></i>
-                                        </button>
+                                <td>
+                                    @item.Nombre_Lettrage
+                                </td>
+                                <td>
+                                    @item.Adhérent
+                                </td>
+                                <td>
+                                    @item.Acheteur
+                                </td>
+                                <td>
+                                    @item.ref_ctr_enc
+                                </td>
+                                <td>
+                                    @*<a href="@Url.Action("Réconsiliation", "Bordereau",
+                new { id = item.id_enc })"  onclick="event.stopPropagation();" class="btn btn-success" data-toggle="tooltip" title="Réconciliation">Réconciliation</a>
+                                                                                        <a href="@Url.Action("Impaye", "Bordereau",
+                new { id = item.id_enc })"  onclick="event.stopPropagation();" class="btn btn-danger @disa" data-toggle="tooltip" title="Impayé">Impayé</a>*@
+                                    <button type="button" class="btn btn-success"  onclick="event.stopPropagation();Reconsilier(@item.id_enc)">Réconciliation</button>
+                                    <button type="button" class="btn btn-warning" @disabledPreavisButton data-id_enc_preavis="@item.id_enc" onclick="event.stopPropagation();Preavis(@item.id_enc)">Préavis</button>
+                                    <button type="button" class="btn btn-danger" @disa data-id_enc="@item.id_enc" onclick="event.stopPropagation();Impaye(@item.id_enc)">Impayé</button>
+                                    <button class="btn btn-primary" target="popup"
+                                            onclick="event.stopPropagation();window.open('/Parametrage/DetailleLettrage/@item.id_enc', 'popup', 'width=600,height=600'); return false;">
+                                        <i class="fa fa-fw fa-eye"></i>
+                                    </button>
 
-                                    </td>
-                                </tr>
+                                </td>
+                            </tr>
 
 
-                                        }
+                            }
                         </tbody>
                     </table>
                 </div>

@@ -97,7 +97,6 @@ namespace xfactor.Models
         public virtual DbSet<T_CONFIGURATION_EMAIL> T_CONFIGURATION_EMAIL { get; set; }
         public virtual DbSet<T_Bordereau_MFG> T_Bordereau_MFG { get; set; }
         public virtual DbSet<T_Comm_MFG> T_Comm_MFG { get; set; }
-        public virtual DbSet<T_OTP> T_OTP { get; set; }
     
         public virtual ObjectResult<f_usp_recherche_doc_ctr_Result> f_usp_recherche_doc_ctr(Nullable<int> param_REF_CTR_RECH)
         {
@@ -2573,6 +2572,19 @@ namespace xfactor.Models
                 new ObjectParameter("id_financement", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_Etat_Financements_By_Id_Result>("usp_Etat_Financements_By_Id", id_financementParameter);
+        }
+    
+        public virtual ObjectResult<T_DOC_GED_VISUALISATION_Result> T_DOC_GED_VISUALISATION(Nullable<int> ref_ctr, string libelle_ged)
+        {
+            var ref_ctrParameter = ref_ctr.HasValue ?
+                new ObjectParameter("ref_ctr", ref_ctr) :
+                new ObjectParameter("ref_ctr", typeof(int));
+    
+            var libelle_gedParameter = libelle_ged != null ?
+                new ObjectParameter("libelle_ged", libelle_ged) :
+                new ObjectParameter("libelle_ged", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<T_DOC_GED_VISUALISATION_Result>("T_DOC_GED_VISUALISATION", ref_ctrParameter, libelle_gedParameter);
         }
     }
 }

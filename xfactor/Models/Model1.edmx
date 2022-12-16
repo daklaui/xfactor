@@ -20,7 +20,7 @@
           <Property Name="ACTIF_ADR" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_BCT_RCM00' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_BCT_RCM00' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_BCT_RCM00">
           <Key>
             <PropertyRef Name="ID_RCM00" />
@@ -56,7 +56,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_BCT_RCM00' does not have a 
           <Property Name="REF_ENC_BORD_FACTOR" Type="varchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_BORD_MFG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_BORD_MFG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_BORD_MFG">
           <Key>
             <PropertyRef Name="ID_BORD_MFG" />
@@ -91,7 +91,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_BORD_MFG' does not have a p
           <Property Name="EMETTEUR" Type="varchar" MaxLength="200" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_Bordereau_MFG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_Bordereau_MFG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_Bordereau_MFG">
           <Key>
             <PropertyRef Name="ID_Bord_MFG" />
@@ -113,7 +113,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_Bordereau_MFG' does not hav
           <Property Name="Flag_MFG" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_CALC_DISPO' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_CALC_DISPO' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_CALC_DISPO">
           <Key>
             <PropertyRef Name="ID_CALC_DISPO" />
@@ -146,7 +146,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_CALC_DISPO' does not have a
           <Property Name="DAT_CALC_INT" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_CALC_INT_IR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_CALC_INT_IR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_CALC_INT_IR">
           <Key>
             <PropertyRef Name="ID_CALC_IR" />
@@ -171,7 +171,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_CALC_INT_IR' does not have 
           <Property Name="MONT_MIN_CTR_COMM_FACTORING" Type="decimal" Precision="15" Scale="3" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_Comm_MFG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_Comm_MFG' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_Comm_MFG">
           <Key>
             <PropertyRef Name="Id_MFG" />
@@ -402,7 +402,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_Comm_MFG' does not have a p
           <Property Name="DOC_RECU_DOC_PHY" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_EC_COMPTABLE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_EC_COMPTABLE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_EC_COMPTABLE">
           <Key>
             <PropertyRef Name="ID_EC_CPT" />
@@ -485,9 +485,10 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_EC_COMPTABLE' does not have
           <Property Name="RIB_ENC" Type="nchar" MaxLength="30" />
           <Property Name="BORD_ENC" Type="varchar" MaxLength="50" />
           <Property Name="REF_SEQ_ENC" Type="varchar" MaxLength="9" />
+          <Property Name="PREAVIS" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_ETAT_DISPO' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_ETAT_DISPO' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_ETAT_DISPO">
           <Key>
             <PropertyRef Name="ID_ETAT_DISPO" />
@@ -565,7 +566,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_ETAT_DISPO' does not have a
           <Property Name="Det_Doc_GED" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.T_Fichiers_Scan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.T_Fichiers_Scan' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T_Fichiers_Scan">
           <Key>
             <PropertyRef Name="Id_Scan" />
@@ -795,23 +796,13 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_Fichiers_Scan' does not hav
           <Property Name="MONT_DEBIT" Type="decimal" Precision="15" Scale="3" />
           <Property Name="DATE_DEBIT" Type="date" />
         </EntityType>
-        <EntityType Name="T_OTP">
-          <Key>
-            <PropertyRef Name="CodeOtp" />
-            <PropertyRef Name="ID_USER" />
-            <PropertyRef Name="EXPERIATION" />
-          </Key>
-          <Property Name="CodeOtp" Type="varchar" MaxLength="4" Nullable="false" />
-          <Property Name="ID_USER" Type="int" Nullable="false" />
-          <Property Name="EXPERIATION" Type="datetime" Nullable="false" />
-        </EntityType>
         <EntityType Name="T_PROROGATION">
           <Key>
             <PropertyRef Name="ID_PROROGATION" />
           </Key>
           <Property Name="REF_CTR_PROG" Type="int" Nullable="false" />
           <Property Name="TYP_PROG" Type="char" MaxLength="5" Nullable="false" />
-          <Property Name="MOTIF_PROG" Type="varchar" MaxLength="100" />
+          <Property Name="MOTIF_PROG" Type="varchar" MaxLength="10" />
           <Property Name="DAT_PROG" Type="date" />
           <Property Name="ECH_PROG" Type="date" Nullable="false" />
           <Property Name="ETAT_PROG" Type="bit" />
@@ -847,7 +838,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.T_Fichiers_Scan' does not hav
           <Property Name="LIB_ROLE" Type="varchar" MaxLength="20" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.TABLE_UN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.TABLE_UN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TABLE_UN">
           <Key>
             <PropertyRef Name="ID_TABLE_UN" />
@@ -867,7 +858,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TABLE_UN' does not have a pri
           <Property Name="COLONNE_QUATRE_TABLE_UN" Type="nchar" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ACH_EX' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.TJ_ACH_EX' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TJ_ACH_EX">
           <Key>
             <PropertyRef Name="ID_ACH_EX" />
@@ -880,7 +871,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ACH_EX' does not have a pr
           <Property Name="ID_ROLE_CIR" Type="varchar" MaxLength="10" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Xfactor_R.dbo.TJ_ADH_WEB' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TJ_ADH_WEB">
           <Key>
             <PropertyRef Name="ID_WEB" />
@@ -1001,6 +992,8 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="LIB_LIST_VAL" Type="varchar" MaxLength="50" />
           <Property Name="COM_LIST_VAL" Type="varchar" MaxLength="300" />
           <Property Name="ID_LIST_VAL" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NB_JOUR_LIST_VAL" Type="int" />
+          <Property Name="TYPE_RECOUVREMENT" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="TR_LISTE_FRAIS_DIVERS">
           <Key>
@@ -1086,7 +1079,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="TEL_FIXE_USER" Type="varchar" MaxLength="50" />
           <Property Name="MOBILE_USER" Type="varchar" MaxLength="50" />
           <Property Name="PHOTO_USER" Type="varchar" MaxLength="200" />
-          <Property Name="ONE_SIGNAL_PLAYER_ID" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="TS_USERS_WEB">
           <Key>
@@ -1099,8 +1091,103 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="LOGO_WEB" Type="varchar" MaxLength="100" />
           <Property Name="ACTIF_USER_WEB" Type="bit" Nullable="false" />
           <Property Name="DATE_FIN_COMPTE" Type="date" />
-          <Property Name="ONE_SIGNAL_PLAYER_ID" Type="varchar" MaxLength="100" />
         </EntityType>
+        <Association Name="FK__T_ADRESSE__REF_I__0662F0A3">
+          <End Role="T_INDIVIDU" Type="Self.T_INDIVIDU" Multiplicity="1" />
+          <End Role="T_ADRESSE" Type="Self.T_ADRESSE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_INDIVIDU">
+              <PropertyRef Name="REF_IND" />
+            </Principal>
+            <Dependent Role="T_ADRESSE">
+              <PropertyRef Name="REF_IND_ADR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_DET_BOR__REF_C__6501FCD8">
+          <End Role="T_CONTRAT" Type="Self.T_CONTRAT" Multiplicity="1" />
+          <End Role="T_DET_BORD" Type="Self.T_DET_BORD" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_CONTRAT">
+              <PropertyRef Name="REF_CTR" />
+            </Principal>
+            <Dependent Role="T_DET_BORD">
+              <PropertyRef Name="REF_CTR_DET_BORD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TS_USER__ID_GRP___5C6CB6D7">
+          <End Role="TS_GRP_USER" Type="Self.TS_GRP_USER" Multiplicity="1" />
+          <End Role="TS_USER" Type="Self.TS_USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TS_GRP_USER">
+              <PropertyRef Name="ID_GRP_USER" />
+            </Principal>
+            <Dependent Role="TS_USER">
+              <PropertyRef Name="ID_GRP_USER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CIR_CONTRAT">
+          <End Role="T_CONTRAT" Type="Self.T_CONTRAT" Multiplicity="1" />
+          <End Role="TJ_CIR" Type="Self.TJ_CIR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_CONTRAT">
+              <PropertyRef Name="REF_CTR" />
+            </Principal>
+            <Dependent Role="TJ_CIR">
+              <PropertyRef Name="REF_CTR_CIR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CIR_INDIVIDU">
+          <End Role="T_INDIVIDU" Type="Self.T_INDIVIDU" Multiplicity="1" />
+          <End Role="TJ_CIR" Type="Self.TJ_CIR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_INDIVIDU">
+              <PropertyRef Name="REF_IND" />
+            </Principal>
+            <Dependent Role="TJ_CIR">
+              <PropertyRef Name="REF_IND_CIR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CIR_ROLE">
+          <End Role="T_ROLE" Type="Self.T_ROLE" Multiplicity="1" />
+          <End Role="TJ_CIR" Type="Self.TJ_CIR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_ROLE">
+              <PropertyRef Name="ID_ROLE" />
+            </Principal>
+            <Dependent Role="TJ_CIR">
+              <PropertyRef Name="ID_ROLE_CIR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T_CALC_INT_T_CONTRAT">
+          <End Role="T_CONTRAT" Type="Self.T_CONTRAT" Multiplicity="1" />
+          <End Role="T_CALC_INT" Type="Self.T_CALC_INT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_CONTRAT">
+              <PropertyRef Name="REF_CTR" />
+            </Principal>
+            <Dependent Role="T_CALC_INT">
+              <PropertyRef Name="REF_CTR_CALC_INT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TJ_DOCUMENT_DET_BORD_TJ_DOCUMENT_DET_BORD">
+          <End Role="TJ_DOCUMENT_DET_BORD" Type="Self.TJ_DOCUMENT_DET_BORD" Multiplicity="1" />
+          <End Role="TJ_DOCUMENT_DET_BORD1" Type="Self.TJ_DOCUMENT_DET_BORD" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TJ_DOCUMENT_DET_BORD">
+              <PropertyRef Name="ID_DOCUMENT_DET_BORD" />
+            </Principal>
+            <Dependent Role="TJ_DOCUMENT_DET_BORD1">
+              <PropertyRef Name="ID_DOCUMENT_DET_BORD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="f_usp_recherche_doc_ctr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="_usp_recherche_doc_ctr">
           <Parameter Name="param_REF_CTR_RECH" Type="int" Mode="In" />
         </Function>
@@ -1112,10 +1199,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
         </Function>
         <Function Name="All_Ecran_Financements" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Ref_Ctr" Type="int" Mode="In" />
-        </Function>
-        <Function Name="Annulation_Reconsiliation_Liste" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Ref_Ctr" Type="int" Mode="In" />
-          <Parameter Name="Ref_Enc" Type="varchar" Mode="In" />
         </Function>
         <Function Name="AnnulerLettrageParRefEnc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_enc" Type="int" Mode="In" />
@@ -1518,6 +1601,10 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
         </Function>
         <Function Name="T_DOC_GED_SCAN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="T_DOC_GED_VALID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="T_DOC_GED_VISUALISATION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ref_ctr" Type="int" Mode="In" />
+          <Parameter Name="libelle_ged" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="T_ENC_MATERIALISER_FillByRefAdh" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="refADH" Type="varchar" Mode="In" />
         </Function>
@@ -1891,7 +1978,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <EntitySet Name="T_MOTIF_PROG" EntityType="Self.T_MOTIF_PROG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_MVT_CREDIT" EntityType="Self.T_MVT_CREDIT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_MVT_DEBIT" EntityType="Self.T_MVT_DEBIT" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="T_OTP" EntityType="Self.T_OTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_PROROGATION" EntityType="Self.T_PROROGATION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_RELANCE" EntityType="Self.T_RELANCE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_RIB_FACTOR" EntityType="Self.T_RIB_FACTOR" Schema="dbo" store:Type="Tables" />
@@ -2102,6 +2188,38 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
     [TJ_ADH_WEB].[DATE_FIN_WEB] AS [DATE_FIN_WEB]
     FROM [dbo].[TJ_ADH_WEB] AS [TJ_ADH_WEB]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK__T_ADRESSE__REF_I__0662F0A3" Association="Self.FK__T_ADRESSE__REF_I__0662F0A3">
+            <End Role="T_INDIVIDU" EntitySet="T_INDIVIDU" />
+            <End Role="T_ADRESSE" EntitySet="T_ADRESSE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_DET_BOR__REF_C__6501FCD8" Association="Self.FK__T_DET_BOR__REF_C__6501FCD8">
+            <End Role="T_CONTRAT" EntitySet="T_CONTRAT" />
+            <End Role="T_DET_BORD" EntitySet="T_DET_BORD" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TS_USER__ID_GRP___5C6CB6D7" Association="Self.FK__TS_USER__ID_GRP___5C6CB6D7">
+            <End Role="TS_GRP_USER" EntitySet="TS_GRP_USER" />
+            <End Role="TS_USER" EntitySet="TS_USER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CIR_CONTRAT" Association="Self.FK_CIR_CONTRAT">
+            <End Role="T_CONTRAT" EntitySet="T_CONTRAT" />
+            <End Role="TJ_CIR" EntitySet="TJ_CIR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CIR_INDIVIDU" Association="Self.FK_CIR_INDIVIDU">
+            <End Role="T_INDIVIDU" EntitySet="T_INDIVIDU" />
+            <End Role="TJ_CIR" EntitySet="TJ_CIR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CIR_ROLE" Association="Self.FK_CIR_ROLE">
+            <End Role="T_ROLE" EntitySet="T_ROLE" />
+            <End Role="TJ_CIR" EntitySet="TJ_CIR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T_CALC_INT_T_CONTRAT" Association="Self.FK_T_CALC_INT_T_CONTRAT">
+            <End Role="T_CONTRAT" EntitySet="T_CONTRAT" />
+            <End Role="T_CALC_INT" EntitySet="T_CALC_INT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TJ_DOCUMENT_DET_BORD_TJ_DOCUMENT_DET_BORD" Association="Self.FK_TJ_DOCUMENT_DET_BORD_TJ_DOCUMENT_DET_BORD">
+            <End Role="TJ_DOCUMENT_DET_BORD" EntitySet="TJ_DOCUMENT_DET_BORD" />
+            <End Role="TJ_DOCUMENT_DET_BORD1" EntitySet="TJ_DOCUMENT_DET_BORD" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -2434,6 +2552,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="RIB_ENC" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="BORD_ENC" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="REF_SEQ_ENC" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="PREAVIS" Type="Boolean" />
         </EntityType>
         <EntityType Name="T_EXTRAIT">
           <Key>
@@ -2709,7 +2828,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           </Key>
           <Property Name="REF_CTR_PROG" Type="Int32" Nullable="false" />
           <Property Name="TYP_PROG" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="MOTIF_PROG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MOTIF_PROG" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DAT_PROG" Type="DateTime" Precision="0" />
           <Property Name="ECH_PROG" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ETAT_PROG" Type="Boolean" />
@@ -2853,6 +2972,8 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="LIB_LIST_VAL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="COM_LIST_VAL" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="ID_LIST_VAL" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NB_JOUR_LIST_VAL" Type="Int32" />
+          <Property Name="TYPE_RECOUVREMENT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TR_LISTE_FRAIS_DIVERS">
           <Key>
@@ -2940,7 +3061,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="MOBILE_USER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PHOTO_USER" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TS_GRP_USER" Relationship="Self.FK__TS_USER__ID_GRP___5C6CB6D7" FromRole="TS_USER" ToRole="TS_GRP_USER" />
-          <Property Name="ONE_SIGNAL_PLAYER_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TS_USERS_WEB">
           <Key>
@@ -2953,7 +3073,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="LOGO_WEB" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ACTIF_USER_WEB" Type="Boolean" Nullable="false" />
           <Property Name="DATE_FIN_COMPTE" Type="DateTime" Precision="0" />
-          <Property Name="ONE_SIGNAL_PLAYER_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="T_BCT_RCM00">
           <Key>
@@ -4094,13 +4213,16 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <FunctionImport Name="Entet_Bordereau_par_jour" ReturnType="Collection(Xfactor_prod_webModel.Entet_Bordereau_par_jour_Result)" />
           <FunctionImport Name="Bordereau_SendToMFG" ReturnType="Collection(Xfactor_prod_webModel.Bordereau_SendToMFG_Result)" />
           <FunctionImport Name="Annulation_Reconsiliation_Liste" ReturnType="Collection(Xfactor_prod_webModel.Annulation_Reconsiliation_Liste_Result)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
-            <Parameter Name="Ref_Enc" Mode="In" Type="String" />
+            <Parameter Name="Ref_Ctr" Type="Int32" Mode="In" />
+            <Parameter Name="Ref_Enc" Type="String" Mode="In" />
           </FunctionImport>
           <FunctionImport Name="usp_Etat_Financements_By_Id" ReturnType="Collection(Xfactor_prod_webModel.usp_Etat_Financements_By_Id_Result)">
             <Parameter Name="id_financement" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="T_OTP" EntityType="Xfactor_prod_webModel.T_OTP" />
+          <FunctionImport Name="T_DOC_GED_VISUALISATION" ReturnType="Collection(Xfactor_prod_webModel.T_DOC_GED_VISUALISATION_Result)">
+            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+            <Parameter Name="libelle_ged" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="f_usp_recherche_doc_ctr_Result">
           <Property Type="String" Name="ID_DET_BORD" Nullable="false" MaxLength="30" />
@@ -4923,6 +5045,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Type="String" Name="Adhérent" Nullable="true" MaxLength="150" />
           <Property Type="Decimal" Name="Somme_Lettrage" Nullable="true" Precision="38" Scale="3" />
           <Property Type="Int32" Name="IMPAYE" Nullable="true" />
+          <Property Type="Boolean" Name="PREAVIS" Nullable="true" />
         </ComplexType>
         <ComplexType Name="LETTRE_RESTE_ENC_Result">
           <Property Type="Decimal" Name="LETTRE" Nullable="true" Precision="38" Scale="3" />
@@ -4991,6 +5114,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Type="DateTime" Name="DATE_IMP" Nullable="true" />
           <Property Type="DateTime" Name="DATE_SAISI_IMP" Nullable="true" />
           <Property Type="Decimal" Name="MONT_IMP" Nullable="true" Precision="15" Scale="3" />
+          <Property Type="Boolean" Name="IS_RESOLU" Nullable="true" />
         </ComplexType>
         <ComplexType Name="ListeFactureValider_Result">
           <Property Type="String" Name="NOM_IND" Nullable="true" MaxLength="150" />
@@ -6728,16 +6852,18 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Type="String" Name="INSTR_FIN" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TYPE_ENC" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <EntityType Name="T_OTP">
-          <Key>
-            <PropertyRef Name="CodeOtp" />
-            <PropertyRef Name="ID_USER" />
-            <PropertyRef Name="EXPERIATION" />
-          </Key>
-          <Property Name="CodeOtp" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="ID_USER" Type="Int32" Nullable="false" />
-          <Property Name="EXPERIATION" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
+        <ComplexType Name="T_DOC_GED_VISUALISATION_Result">
+          <Property Type="String" Name="LIBELLE_GED" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LIBELLE2_GED" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="DATE_SCAN_GED" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DAT_RECEP_ENC" Nullable="true" />
+          <Property Type="DateTime" Name="DAT_VAL_ENC" Nullable="true" />
+          <Property Type="String" Name="ADRESS_DOC_GED" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="ID_Emetteur_GED" Nullable="true" MaxLength="50" />
+          <Property Type="Int16" Name="ID_ENC" Nullable="false" />
+          <Property Type="Int32" Name="REF_ACH_ENC" Nullable="true" />
+          <Property Type="String" Name="NOM_IND" Nullable="true" MaxLength="150" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7059,6 +7185,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <EntitySetMapping Name="T_ENCAISSEMENT">
             <EntityTypeMapping TypeName="Xfactor_prod_webModel.T_ENCAISSEMENT">
               <MappingFragment StoreEntitySet="T_ENCAISSEMENT">
+                <ScalarProperty Name="PREAVIS" ColumnName="PREAVIS" />
                 <ScalarProperty Name="ID_ENC" ColumnName="ID_ENC" />
                 <ScalarProperty Name="REF_CTR_ENC" ColumnName="REF_CTR_ENC" />
                 <ScalarProperty Name="REF_ADH_ENC" ColumnName="REF_ADH_ENC" />
@@ -7499,6 +7626,8 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <EntitySetMapping Name="TR_LIST_VAL">
             <EntityTypeMapping TypeName="Xfactor_prod_webModel.TR_LIST_VAL">
               <MappingFragment StoreEntitySet="TR_LIST_VAL">
+                <ScalarProperty Name="TYPE_RECOUVREMENT" ColumnName="TYPE_RECOUVREMENT" />
+                <ScalarProperty Name="NB_JOUR_LIST_VAL" ColumnName="NB_JOUR_LIST_VAL" />
                 <ScalarProperty Name="ABR_LIST_VAL" ColumnName="ABR_LIST_VAL" />
                 <ScalarProperty Name="TYP_LIST_VAL" ColumnName="TYP_LIST_VAL" />
                 <ScalarProperty Name="ORD_LIST_VAL" ColumnName="ORD_LIST_VAL" />
@@ -7583,7 +7712,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <EntitySetMapping Name="TS_USER">
             <EntityTypeMapping TypeName="Xfactor_prod_webModel.TS_USER">
               <MappingFragment StoreEntitySet="TS_USER">
-                <ScalarProperty Name="ONE_SIGNAL_PLAYER_ID" ColumnName="ONE_SIGNAL_PLAYER_ID" />
                 <ScalarProperty Name="ID_USER" ColumnName="ID_USER" />
                 <ScalarProperty Name="ID_GRP_USER" ColumnName="ID_GRP_USER" />
                 <ScalarProperty Name="NOM_USER" ColumnName="NOM_USER" />
@@ -7605,7 +7733,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <EntitySetMapping Name="TS_USERS_WEB">
             <EntityTypeMapping TypeName="Xfactor_prod_webModel.TS_USERS_WEB">
               <MappingFragment StoreEntitySet="TS_USERS_WEB">
-                <ScalarProperty Name="ONE_SIGNAL_PLAYER_ID" ColumnName="ONE_SIGNAL_PLAYER_ID" />
                 <ScalarProperty Name="ID_USER_WEB" ColumnName="ID_USER_WEB" />
                 <ScalarProperty Name="REF_IND_WEB" ColumnName="REF_IND_WEB" />
                 <ScalarProperty Name="LOGIN_WEB" ColumnName="LOGIN_WEB" />
@@ -8876,6 +9003,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
                 <ScalarProperty Name="Adhérent" ColumnName="Adhérent" />
                 <ScalarProperty Name="Somme_Lettrage" ColumnName="Somme_Lettrage" />
                 <ScalarProperty Name="IMPAYE" ColumnName="IMPAYE" />
+                <ScalarProperty Name="PREAVIS" ColumnName="PREAVIS" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -8960,6 +9088,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
                 <ScalarProperty Name="DATE_IMP" ColumnName="DATE_IMP" />
                 <ScalarProperty Name="DATE_SAISI_IMP" ColumnName="DATE_SAISI_IMP" />
                 <ScalarProperty Name="MONT_IMP" ColumnName="MONT_IMP" />
+                <ScalarProperty Name="IS_RESOLU" ColumnName="IS_RESOLU" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -11240,25 +11369,22 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Annulation_Reconsiliation_Liste" FunctionName="Xfactor_prod_webModel.Store.Annulation_Reconsiliation_Liste">
+          <FunctionImportMapping FunctionImportName="T_DOC_GED_VISUALISATION" FunctionName="Xfactor_prod_webModel.Store.T_DOC_GED_VISUALISATION">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="Xfactor_prod_webModel.Annulation_Reconsiliation_Liste_Result">
+              <ComplexTypeMapping TypeName="Xfactor_prod_webModel.T_DOC_GED_VISUALISATION_Result">
+                <ScalarProperty Name="LIBELLE_GED" ColumnName="LIBELLE_GED" />
+                <ScalarProperty Name="LIBELLE2_GED" ColumnName="LIBELLE2_GED" />
+                <ScalarProperty Name="DATE_SCAN_GED" ColumnName="DATE_SCAN_GED" />
+                <ScalarProperty Name="DAT_RECEP_ENC" ColumnName="DAT_RECEP_ENC" />
+                <ScalarProperty Name="DAT_VAL_ENC" ColumnName="DAT_VAL_ENC" />
+                <ScalarProperty Name="ADRESS_DOC_GED" ColumnName="ADRESS_DOC_GED" />
+                <ScalarProperty Name="ID_Emetteur_GED" ColumnName="ID_Emetteur_GED" />
+                <ScalarProperty Name="ID_ENC" ColumnName="ID_ENC" />
+                <ScalarProperty Name="REF_ACH_ENC" ColumnName="REF_ACH_ENC" />
                 <ScalarProperty Name="NOM_IND" ColumnName="NOM_IND" />
-                <ScalarProperty Name="REF_DOCUMENT_DET_BORD" ColumnName="REF_DOCUMENT_DET_BORD" />
-                <ScalarProperty Name="MONT_TTC_DET_BORD" ColumnName="MONT_TTC_DET_BORD" />
-                <ScalarProperty Name="ID_ENC_LET" ColumnName="ID_ENC_LET" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="T_OTP">
-            <EntityTypeMapping TypeName="Xfactor_prod_webModel.T_OTP">
-              <MappingFragment StoreEntitySet="T_OTP">
-                <ScalarProperty Name="EXPERIATION" ColumnName="EXPERIATION" />
-                <ScalarProperty Name="ID_USER" ColumnName="ID_USER" />
-                <ScalarProperty Name="CodeOtp" ColumnName="CodeOtp" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

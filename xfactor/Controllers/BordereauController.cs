@@ -1527,6 +1527,35 @@ namespace xfactor.Controllers
             catch (Exception) { return RedirectToAction("InternalServerError", "Error"); }
             return View();
         }
+
+        public ActionResult Debit()
+
+        {
+            try
+            {
+                ViewBag.List = new SelectList(db.TR_LIST_VAL.Where(p => p.TYP_LIST_VAL == "Typ_Credit_Debit"), "ABR_LIST_VAL", "LIB_LIST_VAL");
+                //   var ListAdh = (from q in db.T_INDIVIDU
+                //                  join q2 in db.TJ_CIR
+                //                  on q.REF_IND equals q2.REF_IND_CIR
+                //                  where (q2.ID_ROLE_CIR == "ADH" && q2.REF_CTR_CIR != 28LeF && q2.REF_CTR_CIR != 32 && q2.REF_CTR_CIR != 38 && q2.REF_CTR_CIR != 54 && q2.REF_CTR_CIR != 56 && q2.REF_CTR_CIR != 58 && q2.REF_CTR_CIR != 65 && q2.REF_CTR_CIR != 69 && q2.REF_CTR_CIR != 72 && q2.REF_CTR_CIR != 74 && q2.REF_CTR_CIR != 80 && q2.REF_CTR_CIR != 82 && q2.REF_CTR_CIR != 93 && q2.REF_CTR_CIR != 96)
+                //                  select new { q.PRE_IND, q2.REF_CTR_CIR });
+                ////  = new SelectList(ListAdh, "REF_CTR_CIR", "PRE_IND");
+                //   List<SelectListItem> Adherents = new List<SelectListItem>{
+                //       new SelectListItem {Text="***choisir un adhérent***",Value="",Selected=true,Disabled=true }
+                //   };
+                //   foreach (var item in ListAdh)
+                //   {
+                //       Adherents.Add(new SelectListItem { Text = item.PRE_IND + "|" + item.REF_CTR_CIR.ToString(), Value = item.REF_CTR_CIR.ToString() });
+                //   }
+                ViewBag.ADH = db.Recherche_CTR_ADH().ToList();
+                TempData["Debit"] = "active";
+
+            }
+            catch (Exception) { return RedirectToAction("InternalServerError", "Error"); }
+            return View();
+        }
+
+
         [HttpPost]
         public ActionResult CreditDebit(int REF_CTR,string MNTCR,string MNTDB, string ABEV_DEBIT,string REF_SEQ,string libelleDebitCredit,string ref_enc_cred,DateTime dat_val_enc_cred)
         {
@@ -2147,9 +2176,27 @@ namespace xfactor.Controllers
             {
                 try
                 {
-                    ViewBag.ListImpaye = db.ListeDesImpayes();
+                    ViewBag.ListImpaye = db.ListeDesImpayes().Where(imp => imp.IS_RESOLU == null ); 
                     TempData["Impaye"] = "active";
                     TempData["ListeDesImpaye"] = "active";
+                    return View();
+                }
+                catch (Exception) { return RedirectToAction("InternalServerError", "Error"); }
+            }
+            else
+            {
+                return RedirectToAction("login", "Login");
+            }
+        }
+        public ActionResult HistoriqueImpaye()
+        {
+            if (Session["UserLogin"] != null)
+            {
+                try
+                {
+                    ViewBag.HistoriqueImpaye = db.ListeDesImpayes().Where(imp => imp.IS_RESOLU != null && imp.IS_RESOLU == true);
+                    TempData["Impaye"] = "active";
+                    TempData["HistoriqueImpaye"] = "active";
                     return View();
                 }
                 catch (Exception) { return RedirectToAction("InternalServerError", "Error"); }
@@ -2835,7 +2882,20 @@ namespace xfactor.Controllers
             }
         }
 
-
+        public ActionResult PreavisJson(int id)
+        {
+            T_ENCAISSEMENT enc = db.T_ENCAISSEMENT.Where(o => o.ID_ENC == id).First();
+            enc.PREAVIS = true;
+            db.SaveChanges();
+            TempData["messagee"] = "l encaissement " + enc.REF_ENC + "a ete enregistrer comme préavis ";
+            // TempData["tab3"] = "active";
+            var j = new
+            {
+                type = "save",
+                messagee = TempData["messagee"]
+            };
+            return Json(j, JsonRequestBehavior.AllowGet);
+        }
 
         /****************************FIN*************************/
 
@@ -3080,10 +3140,6 @@ namespace xfactor.Controllers
                 return Json("il y a une bordereau n est pas valide", JsonRequestBehavior.AllowGet);
 
             }
-
-
-        
-
         //    return View();
         }
         public ActionResult Reconsiliation()

@@ -933,6 +933,91 @@ namespace xfactor.Controllers
             return View();
         }
 
+        public ActionResult RecouvrementSettings()
+        {
+           
+            List<TR_LIST_VAL> li = db.TR_LIST_VAL.Where(p => p.TYP_LIST_VAL == "COMM_RECOUV").ToList();
+             
+            ViewBag.listeRec = li;
+            TempData["Parametrage_Recouvrement"] = "active";
+            //TempData["Email"] = "active";
+            return View(li);
+        }
+        public ActionResult PartieFormRecouvrement()
+        {
+            if (Session["UserLogin"] != null)
+            {
+                return PartialView();
+            }
+            else
+            {
+                return RedirectToAction("login", "Login");
+            }
+
+        }
+        [HttpPost]
+        public ActionResult PartieFormRecouvrement(TR_LIST_VAL recouvrementObject)
+        {
+            try
+            {
+                string max = db.TR_LIST_VAL.Where(p => p.TYP_LIST_VAL == "COMM_RECOUV").Max(p => p.ABR_LIST_VAL);
+                recouvrementObject.TYP_LIST_VAL = "COMM_RECOUV";
+                recouvrementObject.LIB_LIST_VAL = recouvrementObject.COM_LIST_VAL;
+                recouvrementObject.ABR_LIST_VAL = int.Parse(max) + 1+"";
+                recouvrementObject.ORD_LIST_VAL = (short?)(int.Parse(db.TR_LIST_VAL.Where(p => p.TYP_LIST_VAL == "COMM_RECOUV").Max(p=>p.ABR_LIST_VAL))+ 1);
+            
+                 
+                db.TR_LIST_VAL.Add(recouvrementObject);
+                db.SaveChanges();
+                T_HISTORIQUE hist = new T_HISTORIQUE();
+                hist.DATE_ACTION = DateTime.Now;
+                hist.ACTION = "Ajout";
+                hist.T_TABLE = "TR_LIST_VAL";
+                hist.ID_ENREGISTREMENT = db.TR_LIST_VAL.Max(p => p.ID_LIST_VAL).ToString();
+                hist.LOGIN_USER = Session["ID_USER"].ToString();
+                hist.NOM_PC = Dns.GetHostName();
+                hist.IP_PC = Dns.GetHostByName(hist.NOM_PC).AddressList[0].ToString();
+                db.T_HISTORIQUE.Add(hist);
+                db.SaveChanges();
+                TempData["listval"] = "save";
+            }
+            catch (Exception) { TempData["error"] = "Erreur"; }
+            return RedirectToAction("RecouvrementSettings");
+        }
+
+        public ActionResult PartieUpdateRecouvrement(int id)
+        {
+            if (Session["UserLogin"] != null)
+            {
+                TR_LIST_VAL val = new TR_LIST_VAL();
+                val = db.TR_LIST_VAL.Find(id);
+                return PartialView(val);
+            }
+            else
+            {
+                return RedirectToAction("login", "Login");
+            }
+
+        }
+        [HttpPost]
+        public ActionResult PartieUpdateRecouvrement(TR_LIST_VAL val)
+        {
+            try
+            {
+                TR_LIST_VAL val_updated = new TR_LIST_VAL();
+                val_updated = db.TR_LIST_VAL.Find(val.ID_LIST_VAL);
+                val_updated.COM_LIST_VAL = val.COM_LIST_VAL;
+                val_updated.NB_JOUR_LIST_VAL = val.NB_JOUR_LIST_VAL;
+                val_updated.TYPE_RECOUVREMENT = val.TYPE_RECOUVREMENT;
+                db.Entry(val_updated).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["recouvrementSe"] = "save";
+            }
+            catch (Exception) { TempData["error"] = "Erreur"; }
+            return RedirectToAction("RecouvrementSettings");
+        }
+
+
 
         public ActionResult ListeDesUtilisateursParMailGroupe(string id)
         {

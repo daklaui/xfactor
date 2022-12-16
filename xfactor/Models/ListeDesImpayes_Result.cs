@@ -25,5 +25,6 @@ namespace xfactor.Models
         public Nullable<System.DateTime> DATE_IMP { get; set; }
         public Nullable<System.DateTime> DATE_SAISI_IMP { get; set; }
         public Nullable<decimal> MONT_IMP { get; set; }
+        public Nullable<bool> IS_RESOLU { get; set; }
     }
 }

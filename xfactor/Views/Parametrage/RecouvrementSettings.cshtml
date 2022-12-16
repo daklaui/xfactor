@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "RecouvrementSettings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row" id="tab8primary">
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="button" onclick="AddPRecouvrement()" class="btn btn-top  btn-primary btn-success pull-right" style="margin-right: 15px;" href="#"> <span class="glyphicon glyphicon-plus"></span> &nbsp Ajouter</button>
+        </div>
+    </div>
+    <div id="no-more-tables">
+        <table class="col-md-12 table-bordered  table-condensed cf display">
+            <thead class="cf">
+                <tr>
+                    <th>Commantaire</th>
+                    <th>Nombre de jours</th>
+                    <th>Type</th>
+  
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in ViewBag.listeRec)
+                {
+                    <tr>
+                        <td data-title="Commantaire">
+                            @item.COM_LIST_VAL
+                        </td>
+                        <td data-title="Nombre de jours">
+                            @item.NB_JOUR_LIST_VAL
+                        </td>
+                       
+                        <td data-title="Type ">
+                            @item.TYPE_RECOUVREMENT
+                        </td>
+                        <td>
+                            <button type="button" onclick="EditPRecouvrement(@item.ID_LIST_VAL)" class="btn btn-top  btn-primary btn-success pull-right" href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Recouvrement Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="AddVal">
+
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.js"></script>
+<script src="~/Content/js/plugins/bootstrap/bootstrap.min.js"></script>
+<script>
+    var AddPRecouvrement = function () {
+      
+        var url = "/Parametrage/PartieFormRecouvrement";
+        $("#AddVal").load(url, function () {
+           
+            $("#exampleModal1").modal('show');
+        })
+    }
+
+    var EditPRecouvrement = function (id) {
+
+        var url = "/Parametrage/PartieUpdateRecouvrement/" + id;
+        $("#AddVal").load(url, function () {
+
+            $("#exampleModal1").modal();
+        })
+    }
+</script>

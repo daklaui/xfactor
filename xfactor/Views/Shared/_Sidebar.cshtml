@@ -28,8 +28,8 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">Menu</li>
             @*       <li class="@Url.IsLinkActive("Index", "Home")">
-                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Home</span></a>
-                </li>*@
+            <a href="@Url.Action("Index", "Home")"><i class="fa fa-link"></i> <span>Home</span></a>
+        </li>*@
             <li class="treeview @TempData["Parametrage"]">
                 <a href="#">
                     <i class="fa fa-file-text"></i><span>Paramétrage</span>
@@ -48,6 +48,7 @@
                     <li class="@TempData["Annuler_Encaissement"]"><a href="@Url.Action("Annuler_Encaissement", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Annuler Encaissement</a></li>
                     <li class="@TempData["Email"]"><a href="@Url.Action("Email", "Parametrage")"><i class="glyphicon glyphicon-plus"></i>Notification par mail</a></li>
                     <li class="@TempData["Liste_Réconsiliation"]"><a href="@Url.Action("Liste_Réconsiliation", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Annuler Réconsiliation</a></li>
+                    <li class="@TempData["Parametrage_Recouvrement"]"><a href="@Url.Action("RecouvrementSettings", "Parametrage")"><i class="glyphicon glyphicon-plus"></i>Parametrage Recouvrement</a></li>
                     @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
                 </ul>
             </li>
@@ -78,11 +79,11 @@
                     @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
 
                     <li class="@TempData["ValiderBordereau"]"><a href="@Url.Action("ValiderBordereau", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Valider Bordereau</a></li>
-                 <li class="@TempData["Bordereau_cheque"]"><a href="@Url.Action("Bordereau_cheque", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Trésorie</a></li>
-                <li class="@TempData["Liste_Des_Bordereaux_CH"]"><a href="@Url.Action("Liste_Des_Bordereaux_CH", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Etat des encaissements <br />chez la Banque</a></li>
+                    <li class="@TempData["Bordereau_cheque"]"><a href="@Url.Action("Bordereau_cheque", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Trésorie</a></li>
+                    <li class="@TempData["Liste_Des_Bordereaux_CH"]"><a href="@Url.Action("Liste_Des_Bordereaux_CH", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Etat des encaissements <br />chez la Banque</a></li>
 
 
-         @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
+                    @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
                 </ul>
             </li>
 
@@ -101,6 +102,7 @@
 
                     <li class="@TempData["impaye_partiel"]"><a href="@Url.Action("impaye_partiel", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Résolution impaye </a></li>
                     <li class="@TempData["ListeDesImpaye"]"><a href="@Url.Action("ListeDesImpaye", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Liste des Impayés </a></li>
+                    <li class="@TempData["HistoriqueImpaye"]"><a href="@Url.Action("HistoriqueImpaye", "Bordereau")"><i class="glyphicon glyphicon-plus"></i>Historique des Impayés </a></li>
                     @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
 
 
@@ -167,7 +169,7 @@
                     <li class="@TempData["EtatDesEncaissements"]"><a href="@Url.Action("EtatDesEncaissements", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Etat Des Encaissements </a></li>
                     <li class="@TempData["RetenuAlaSource"]"><a href="@Url.Action("RetenuAlaSource", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Retenu A la Source </a></li>
                     @*<li class="@TempData["Rapport_Mensuel_des_AdhérentsRapp"]"><a href="@Url.Action("Rapport_Mensuel_des_AdhérentsRapp", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Rapport Mensuel des Adhérents </a></li>
-                        <li class="@TempData["ReleveMensuel"]"><a href="@Url.Action("ReleveMensuel", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Releve Mensuel </a></li>*@
+                <li class="@TempData["ReleveMensuel"]"><a href="@Url.Action("ReleveMensuel", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Releve Mensuel </a></li>*@
                     <li class="@TempData["FicheAdh"]"><a href="@Url.Action("FicheAdh", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Fiche Adhérent </a></li>
                     <li class="@TempData[""]"><a href="@Url.Action("", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Resolution Litigie </a></li>
                     <li class="@TempData["FactEnLitige"]"><a href="@Url.Action("FactEnLitige", "Rapporting")"><i class="glyphicon glyphicon-plus"></i>Factures en litige </a></li>
@@ -195,54 +197,54 @@
 
 
             @*<li>
-                    <a href="" onClick="MyWindow = window.open('http://92.222.95.184:8070/web#view_type=kanban&model=account.journal&menu_id=150&action=198', 'MyWindow', width = 600, height = 300);">
-                        <i class="glyphicon glyphicon-plus"></i> <span>Comptabilite </span>
-                        <span class="pull-right-container">
-                            <small class="label pull-right bg-green">nouveau</small>
-                        </span>
-                    </a>
-                </li>*@
+            <a href="" onClick="MyWindow = window.open('http://92.222.95.184:8070/web#view_type=kanban&model=account.journal&menu_id=150&action=198', 'MyWindow', width = 600, height = 300);">
+                <i class="glyphicon glyphicon-plus"></i> <span>Comptabilite </span>
+                <span class="pull-right-container">
+                    <small class="label pull-right bg-green">nouveau</small>
+                </span>
+            </a>
+        </li>*@
 
             @*<li>
-                    <a href="">
-                        <i class="glyphicon glyphicon-plus"></i> <span>Ajout Tiers</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <i class="glyphicon glyphicon-plus"></i> <span>Facturation</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <i class="glyphicon glyphicon-plus"></i> <span>Echéancier</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <i class="glyphicon glyphicon-plus"></i> <span>Gestion des documents -GED</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <i class="glyphicon glyphicon-plus"></i> <span>Rapport</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                </li>*@
+            <a href="">
+                <i class="glyphicon glyphicon-plus"></i> <span>Ajout Tiers</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="glyphicon glyphicon-plus"></i> <span>Facturation</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="glyphicon glyphicon-plus"></i> <span>Echéancier</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="glyphicon glyphicon-plus"></i> <span>Gestion des documents -GED</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <i class="glyphicon glyphicon-plus"></i> <span>Rapport</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+        </li>*@
 
             <li class="treeview @TempData["GED"]">
                 <a href="#">
@@ -266,23 +268,30 @@
 
             <li class="@TempData["CreditDebit"]">
                 <a href="@Url.Action("CreditDebit", "Bordereau")">
-                    <i class="glyphicon glyphicon-plus"></i> <span>Credit et debit</span>
+                    <i class="glyphicon glyphicon-plus"></i> <span>Credit</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="@TempData["Debit"]">
+                <a href="@Url.Action("Debit", "Bordereau")">
+                    <i class="glyphicon glyphicon-plus"></i> <span>debit</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
             </li>
 
-
             @*<li><a href="@Url.Action("Index", "Individu")"><i class="glyphicon glyphicon-eye-open"></i>Lister les individus</a></li>*@
             @*<li class="@TempData["financement"]">
-                    <a href="@Url.Action("financement", "Financement")">
-                        <i class="glyphicon glyphicon-plus"></i> <span>Financement</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                </li>*@
+            <a href="@Url.Action("financement", "Financement")">
+                <i class="glyphicon glyphicon-plus"></i> <span>Financement</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+        </li>*@
             <li class="treeview @TempData["financement"]">
                 <a href="#">
                     <i class="fa fa-file-text"></i><span>Financement</span>

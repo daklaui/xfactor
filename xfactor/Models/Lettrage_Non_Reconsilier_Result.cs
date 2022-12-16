@@ -23,5 +23,6 @@ namespace xfactor.Models
         public string Adhérent { get; set; }
         public Nullable<decimal> Somme_Lettrage { get; set; }
         public Nullable<int> IMPAYE { get; set; }
+        public Nullable<bool> PREAVIS { get; set; }
     }
 }

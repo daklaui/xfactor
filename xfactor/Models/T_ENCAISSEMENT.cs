@@ -28,5 +28,6 @@ namespace xfactor.Models
         public string RIB_ENC { get; set; }
         public string BORD_ENC { get; set; }
         public string REF_SEQ_ENC { get; set; }
+        public Nullable<bool> PREAVIS { get; set; }
     }
 }

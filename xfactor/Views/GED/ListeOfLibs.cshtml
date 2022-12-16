@@ -1,29 +1,69 @@
 ﻿
 
 <div class="table-responsive " data-pattern="priority-columns">
-    <table cellspacing="0" id="" class="table table-small-font table-bordered data_table">
+    <table cellspacing="0" id="ListeDocs" class="table table-small-font table-bordered data_table">
 
         <tbody>
-            @foreach (var item in ViewBag.Liste)
-            {
-
-                <tr>
-                    @if (item.ADRESS_DOC_GED != null)
+            @{
+                if (ViewBag.Type.Contains("encaissement"))
+                {
+                     <tr>
+                         <td>Nom Acheteur</td>
+                         <td>Document</td>
+                     </tr>
+                    foreach (var item in ViewBag.Liste)
                     {
-                        <td>
-                            <a href="@item.ADRESS_DOC_GED" target="_blank">@item.LIBELLE_GED  @item.LIBELLE2_GED</a>
-                        </td>
+
+                        <tr>
+                            @if (item.ADRESS_DOC_GED != null)
+                            {
+                                <td>
+                                    @item.NOM_IND
+                                </td>
+
+                                <td>
+                                    <a href="@item.ADRESS_DOC_GED" target="_blank">@item.LIBELLE_GED  @item.LIBELLE2_GED</a>
+                                </td>
+
+                            }
+                            else
+                            {
+                                <td>
+                                    @item.NOM_IND
+                                </td>
+                                <td>
+                                    <p>@item.LIBELLE_GED  @item.LIBELLE2_GED</p>
+                                </td>
+                            }
+                        </tr>
 
                     }
-                    else
+                }
+                else
+                {
+                    foreach (var item in ViewBag.Liste)
                     {
-                        <td>
-                            <p>@item.LIBELLE_GED  @item.LIBELLE2_GED</p>
-                        </td>
-                    }
-                </tr>
 
+                        <tr>
+                            @if (item.ADRESS_DOC_GED != null)
+                            {
+                                <td>
+                                    <a href="@item.ADRESS_DOC_GED" target="_blank">@item.LIBELLE_GED  @item.LIBELLE2_GED</a>
+                                </td>
+
+                            }
+                            else
+                            {
+                                <td>
+                                    <p>@item.LIBELLE_GED  @item.LIBELLE2_GED</p>
+                                </td>
+                            }
+                        </tr>
+
+                    }
+                }
             }
+
         </tbody>
     </table>
 </div>

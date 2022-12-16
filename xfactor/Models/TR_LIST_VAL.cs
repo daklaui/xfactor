@@ -20,5 +20,7 @@ namespace xfactor.Models
         public string LIB_LIST_VAL { get; set; }
         public string COM_LIST_VAL { get; set; }
         public int ID_LIST_VAL { get; set; }
+        public Nullable<int> NB_JOUR_LIST_VAL { get; set; }
+        public string TYPE_RECOUVREMENT { get; set; }
     }
 }

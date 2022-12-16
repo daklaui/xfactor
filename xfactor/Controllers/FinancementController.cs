@@ -796,7 +796,7 @@ namespace xfactor.Controllers
         public ActionResult ValiderFinancement()
         {
             //  ViewBag.listfin = db.ValiderFincancement().Where(p=>p.DAT_INSTR_FIN==DateTime.Today).OrderByDescending(p=>p.Référence).ToList();
-            ViewBag.listfin = db.ValiderFincancement().OrderByDescending(p => p.Référence).ToList();
+            ViewBag.listfin = db.ValiderFincancement().OrderByDescending(p => int.Parse(p.Référence.Replace(" ",""))).ToList();
             TempData["financement"] = "active";
 
             TempData["ValiderFinancement"] = "active";

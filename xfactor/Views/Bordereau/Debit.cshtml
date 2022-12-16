@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "CreditDebit";
+    ViewBag.Title = "Debit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,12 +8,12 @@
 @section header {
 
     <h1>
-        Credit et debit
+         debit
 
     </h1>
     <ol class="breadcrumb">
         <li><a href="/Home/Index"><i class="fa fa-dashboard"></i> Accueil</a></li>
-        <li class="active"> Credit et debit</li>
+        <li class="active">  debit</li>
     </ol>
 }
 
@@ -65,17 +65,21 @@
                                 </select>
 
                                 @*@Html.DropDownList("REF_CTR", (IEnumerable<SelectListItem>)ViewBag.ADH, new { @class = "form-control input-sm selectpicker", data_live_search = "true", id = "REF_CTR" })
-                                @Html.ValidationMessage("REF_CTR", "", new { @class = "text-danger" })*@
+                                    @Html.ValidationMessage("REF_CTR", "", new { @class = "text-danger" })*@
                             </div>
                             <div class="col-lg-6">
 
                                 <div class="form-group">
-                                    @Html.Label("Montant Credit :", htmlAttributes: new { @class = "control-label" })
-                                    @Html.Editor("MNTCR", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma" } })
-                                    @Html.ValidationMessage("MNTCR", "", new { @class = "text-danger" })
+                                    @Html.Label("Montant Debit :", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("MNTDB", new { htmlAttributes = new { @class = "form-control input-sm ConvertPointToComma" } })
+                                    @Html.ValidationMessage("MNTDB", "", new { @class = "text-danger" })
 
                                 </div>
-                               
+                                <div class="form-group">
+                                    <label class="control-label">Type :</label>
+                                    @Html.DropDownList("ABEV_DEBIT", (IEnumerable<SelectListItem>)ViewBag.List, new { @class = "form-control input-sm selectpicker", data_live_search = "true" })
+                                    @Html.ValidationMessage("ABEV_DEBIT", "", new { @class = "text-danger" })
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label">Type Instrument :</label>
                                     <select class="form-control input-sm" name="TYP_ENC" id="TYP_ENC">
@@ -188,12 +192,7 @@
     form.validate({
         rules: {
             // compound rule
-
-            MNTCR: {
-                required: true,
-                number: true,
-                min: 0
-            },
+ 
             MNTDB: {
                 required: true,
                 number: true,
@@ -204,7 +203,7 @@
             },
             TYP_ENC: {
                 required: true
-          
+
             },
             REF_SEQ: {
                 required: true
@@ -231,15 +230,7 @@
 
 
     });
-
-    $("input[name='MNTCR']").blur(function () {
-
-        if ($("input[name='MNTCR']").val() != "") {
-            var v = $("input[name='MNTCR']").val().replace(/\s/g, "").replace(",", ".");
-            $("input[name='MNTCR']").val(parseFloat(v).toFixed(3).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ").replace(".", ","));
-        }
-
-    });
+ 
 
     $("input[name='MNTDB']").blur(function () {
 
@@ -249,5 +240,5 @@
         }
 
     });
-    
+
 </script>
