@@ -7644,7 +7644,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public RapportEncaissementsNonEchusRow FindByID_ENC(short ID_ENC) {
+            public RapportEncaissementsNonEchusRow FindByID_ENC(int ID_ENC) {
                 return ((RapportEncaissementsNonEchusRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -17037,7 +17037,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ProcedureBordereauChRow FindByID_ENC(short ID_ENC) {
+            public ProcedureBordereauChRow FindByID_ENC(int ID_ENC) {
                 return ((ProcedureBordereauChRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -22224,7 +22224,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableRapportEncaissementsNonEchus.ID_ENCColumn]));
                 }
@@ -28125,7 +28125,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableProcedureBordereauCh.ID_ENCColumn]));
                 }

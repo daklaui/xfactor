@@ -18,7 +18,7 @@ namespace xfactor.Models
         public string REF_ENC { get; set; }
         public int REF_CTR_ENC { get; set; }
         public Nullable<decimal> MONT_ENC { get; set; }
-        public short ID_ENC { get; set; }
+        public int ID_ENC { get; set; }
         public Nullable<System.DateTime> DAT_VAL_ENC { get; set; }
         public Nullable<System.DateTime> DAT_RECEP_ENC { get; set; }
     }

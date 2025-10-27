@@ -15,7 +15,7 @@ namespace xfactor.Models
     {
         public string ref_enc { get; set; }
         public Nullable<decimal> mont_enc { get; set; }
-        public short id_enc { get; set; }
+        public int id_enc { get; set; }
         public int ref_ctr_enc { get; set; }
         public Nullable<System.DateTime> dat_val_enc { get; set; }
         public Nullable<int> Nombre_Lettrage { get; set; }

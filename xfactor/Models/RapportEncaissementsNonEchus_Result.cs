@@ -21,6 +21,6 @@ namespace xfactor.Models
         public Nullable<System.DateTime> DAT_VAL_ENC { get; set; }
         public string Adhérent { get; set; }
         public string FACTURE { get; set; }
-        public short ID_ENC { get; set; }
+        public int ID_ENC { get; set; }
     }
 }

@@ -11,15 +11,11 @@ namespace xfactor.Models
 {
     using System;
     
-    public partial class Trop_Percu_Result
+    public partial class Annulation_Reconsiliation_Liste1_Result
     {
-        public int REF_CTR_ENC { get; set; }
-        public string ADH { get; set; }
-        public string ACH { get; set; }
-        public int ID_ENC { get; set; }
-        public string REF_ENC { get; set; }
-        public Nullable<decimal> mnt_encaissement { get; set; }
-        public Nullable<decimal> mnt_Letterage { get; set; }
-        public Nullable<decimal> trop_perçu { get; set; }
+        public string NOM_IND { get; set; }
+        public string REF_DOCUMENT_DET_BORD { get; set; }
+        public Nullable<decimal> MONT_TTC_DET_BORD { get; set; }
+        public int ID_ENC_LET { get; set; }
     }
 }

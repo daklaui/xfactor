@@ -14,7 +14,7 @@ namespace xfactor.Models
     
     public partial class T_ENCAISSEMENT
     {
-        public short ID_ENC { get; set; }
+        public int ID_ENC { get; set; }
         public int REF_CTR_ENC { get; set; }
         public Nullable<int> REF_ADH_ENC { get; set; }
         public Nullable<int> REF_ACH_ENC { get; set; }

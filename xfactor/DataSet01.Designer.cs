@@ -17264,9 +17264,9 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public Lettrage_Non_ReconsilierRow FindByid_enc(short id_enc) {
+            public Lettrage_Non_ReconsilierRow FindByid_enc(int ID_ENC) {
                 return ((Lettrage_Non_ReconsilierRow)(this.Rows.Find(new object[] {
-                            id_enc})));
+                            ID_ENC})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -32897,7 +32897,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public T_ENC_MATERIALISER_FillByRefAdhRow FindByID_ENC(short ID_ENC) {
+            public T_ENC_MATERIALISER_FillByRefAdhRow FindByID_ENC(int ID_ENC) {
                 return ((T_ENC_MATERIALISER_FillByRefAdhRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -33365,7 +33365,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public T_ENC_MATERIALISER_REFCTR_REFACHRow FindByID_ENC(short ID_ENC) {
+            public T_ENC_MATERIALISER_REFCTR_REFACHRow FindByID_ENC(int ID_ENC) {
                 return ((T_ENC_MATERIALISER_REFCTR_REFACHRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -33844,7 +33844,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public T_ENCAISSEMENT_MATERIALISER_FILLRow FindByID_ENC(short ID_ENC) {
+            public T_ENCAISSEMENT_MATERIALISER_FILLRow FindByID_ENC(int ID_ENC) {
                 return ((T_ENCAISSEMENT_MATERIALISER_FILLRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -34284,7 +34284,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public T_ENCAISSEMENT_MATERIALISER_Non_RecRow FindByID_ENC(short ID_ENC) {
+            public T_ENCAISSEMENT_MATERIALISER_Non_RecRow FindByID_ENC(int ID_ENC) {
                 return ((T_ENCAISSEMENT_MATERIALISER_Non_RecRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -34695,7 +34695,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public T_Encaissement_materialiser_par_ref_ctrRow FindByID_ENC(short ID_ENC) {
+            public T_Encaissement_materialiser_par_ref_ctrRow FindByID_ENC(int ID_ENC) {
                 return ((T_Encaissement_materialiser_par_ref_ctrRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -35101,7 +35101,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public T_Encaissement_materialiser_par_ref_ctr2Row FindByID_ENC(short ID_ENC) {
+            public T_Encaissement_materialiser_par_ref_ctr2Row FindByID_ENC(int ID_ENC) {
                 return ((T_Encaissement_materialiser_par_ref_ctr2Row)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -42859,7 +42859,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public usp_Encaissement_CTRRow FindByID_ENC(short ID_ENC) {
+            public usp_Encaissement_CTRRow FindByID_ENC(int ID_ENC) {
                 return ((usp_Encaissement_CTRRow)(this.Rows.Find(new object[] {
                             ID_ENC})));
             }
@@ -69475,7 +69475,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short id_enc {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableLettrage_Non_Reconsilier.id_encColumn]));
                 }
@@ -80460,7 +80460,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableT_ENC_MATERIALISER_FillByRefAdh.ID_ENCColumn]));
                 }
@@ -80838,7 +80838,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableT_ENC_MATERIALISER_REFCTR_REFACH.ID_ENCColumn]));
                 }
@@ -81257,7 +81257,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableT_ENCAISSEMENT_MATERIALISER_FILL.ID_ENCColumn]));
                 }
@@ -81664,7 +81664,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableT_ENCAISSEMENT_MATERIALISER_Non_Rec.ID_ENCColumn]));
                 }
@@ -81968,7 +81968,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableT_Encaissement_materialiser_par_ref_ctr.ID_ENCColumn]));
                 }
@@ -82230,7 +82230,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableT_Encaissement_materialiser_par_ref_ctr2.ID_ENCColumn]));
                 }
@@ -86132,7 +86132,7 @@ namespace xfactor {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public short ID_ENC {
+            public int ID_ENC {
                 get {
                     return ((short)(this[this.tableusp_Encaissement_CTR.ID_ENCColumn]));
                 }

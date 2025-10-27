@@ -1049,8 +1049,8 @@ namespace xfactor.Controllers
                         }
 
                         int ref_max = db.T_ENCAISSEMENT.Max(p => p.ID_ENC);
-                        enc.ID_ENC = (short)(ref_max + 1);
-                        enc.MONT_ENC = decimal.Parse(MONT_ENC.Replace(".", ","));
+                        enc.ID_ENC = (ref_max + 1);
+                        enc.MONT_ENC = decimal.Parse(MONT_ENC.Replace(" ","").Replace(".", ","));
                         enc.VALIDE_ENC = true;
                         db.T_ENCAISSEMENT.Add(enc);
                         db.SaveChanges();

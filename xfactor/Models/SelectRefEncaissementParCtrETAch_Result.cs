@@ -16,7 +16,7 @@ namespace xfactor.Models
         public Nullable<System.DateTime> DAT_RECEP_ENC { get; set; }
         public Nullable<System.DateTime> DAT_VAL_ENC { get; set; }
         public string DEVISE_ENC { get; set; }
-        public short ID_ENC { get; set; }
+        public int ID_ENC { get; set; }
         public Nullable<decimal> MONT_ENC { get; set; }
         public Nullable<int> REF_ACH_ENC { get; set; }
         public Nullable<int> REF_ADH_ENC { get; set; }

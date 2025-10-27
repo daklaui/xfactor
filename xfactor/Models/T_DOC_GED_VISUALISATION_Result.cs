@@ -20,7 +20,7 @@ namespace xfactor.Models
         public Nullable<System.DateTime> DAT_VAL_ENC { get; set; }
         public string ADRESS_DOC_GED { get; set; }
         public string ID_Emetteur_GED { get; set; }
-        public short ID_ENC { get; set; }
+        public int ID_ENC { get; set; }
         public Nullable<int> REF_ACH_ENC { get; set; }
         public string NOM_IND { get; set; }
     }
