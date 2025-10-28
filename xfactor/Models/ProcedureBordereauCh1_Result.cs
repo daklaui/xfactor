@@ -13,7 +13,7 @@ namespace xfactor.Models
     
     public partial class ProcedureBordereauCh1_Result
     {
-        public int ID_ENC { get; set; }
+        public short ID_ENC { get; set; }
         public int REF_CTR_ENC { get; set; }
         public string Acheteur { get; set; }
         public string Adhérent { get; set; }

@@ -2735,6 +2735,15 @@
     <Compile Include="Models\Encours_Factures_Par_Date_Fin_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Encour_facpar_refctr_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Encour_facpa_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Encour_fact_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Engagement_N06082019_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -2786,6 +2795,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Etat_Limite_ADH_WEB_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ETAT_MOUVEMENT_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Extrait_ADH_Result.cs">
@@ -2863,12 +2875,8 @@
     <Compile Include="Models\financement_N06082019_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Financmement_ParID1_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Financmement_ParID2_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Financmement_ParID1_Result.cs" />
+    <Compile Include="Models\Financmement_ParID2_Result.cs" />
     <Compile Include="Models\Financmement_ParID_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -2900,7 +2908,13 @@
     <Compile Include="Models\Les_Factures_En_retard_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\les_Interets_Par_Month_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\les_Interets_Par_Month_V2_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\les_Interets_Par_Year_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\les_Interets_Par_Year_V2_Result.cs">
@@ -2979,9 +2993,7 @@
     <Compile Include="Models\Partie_Enc1_ADH_WEB_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ProcedureBordereauCh1_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\ProcedureBordereauCh1_Result.cs" />
     <Compile Include="Models\ProcedureBordereauCh_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -3427,9 +3439,7 @@
     <Compile Include="Models\usp_Etat_Depass_Lim_ALL_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\usp_Etat_Financements_By_Id_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\usp_Etat_Financements_By_Id_Result.cs" />
     <Compile Include="Models\usp_Etat_Financements_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
