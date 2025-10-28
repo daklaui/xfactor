@@ -19,5 +19,6 @@ namespace xfactor.Models
         public int ID_DOCUMENT_DET_BORD { get; set; }
         public Nullable<decimal> RETENU_DET_BORD { get; set; }
         public string ANNEE_BORD { get; set; }
+        public string ID_DET_BORD { get; set; }
     }
 }

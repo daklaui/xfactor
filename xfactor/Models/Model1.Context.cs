@@ -33,6 +33,7 @@ namespace xfactor.Models
         public virtual DbSet<T_CALC_INT> T_CALC_INT { get; set; }
         public virtual DbSet<T_COMM_FACTORING> T_COMM_FACTORING { get; set; }
         public virtual DbSet<T_COMPTE> T_COMPTE { get; set; }
+        public virtual DbSet<T_CONFIGURATION_EMAIL> T_CONFIGURATION_EMAIL { get; set; }
         public virtual DbSet<T_CONTACT> T_CONTACT { get; set; }
         public virtual DbSet<T_CONTRAT> T_CONTRAT { get; set; }
         public virtual DbSet<T_DEM_FIN_CREDIT> T_DEM_FIN_CREDIT { get; set; }
@@ -43,6 +44,7 @@ namespace xfactor.Models
         public virtual DbSet<T_DOC_H_GED> T_DOC_H_GED { get; set; }
         public virtual DbSet<T_DOC_PHYSIQUE> T_DOC_PHYSIQUE { get; set; }
         public virtual DbSet<T_EC_CPT> T_EC_CPT { get; set; }
+        public virtual DbSet<T_EMAIL> T_EMAIL { get; set; }
         public virtual DbSet<T_ENCAISSEMENT> T_ENCAISSEMENT { get; set; }
         public virtual DbSet<T_EXTRAIT> T_EXTRAIT { get; set; }
         public virtual DbSet<T_FACTOR> T_FACTOR { get; set; }
@@ -82,21 +84,19 @@ namespace xfactor.Models
         public virtual DbSet<TR_TVA> TR_TVA { get; set; }
         public virtual DbSet<TS_GRP_USER> TS_GRP_USER { get; set; }
         public virtual DbSet<TS_USER> TS_USER { get; set; }
-        public virtual DbSet<TS_USERS_WEB> TS_USERS_WEB { get; set; }
         public virtual DbSet<T_BCT_RCM00> T_BCT_RCM00 { get; set; }
         public virtual DbSet<T_BORD_MFG> T_BORD_MFG { get; set; }
+        public virtual DbSet<T_Bordereau_MFG> T_Bordereau_MFG { get; set; }
         public virtual DbSet<T_CALC_DISPO> T_CALC_DISPO { get; set; }
         public virtual DbSet<T_CALC_INT_IR> T_CALC_INT_IR { get; set; }
+        public virtual DbSet<T_Comm_MFG> T_Comm_MFG { get; set; }
         public virtual DbSet<T_EC_COMPTABLE> T_EC_COMPTABLE { get; set; }
         public virtual DbSet<T_ETAT_DISPO> T_ETAT_DISPO { get; set; }
         public virtual DbSet<T_Fichiers_Scan> T_Fichiers_Scan { get; set; }
         public virtual DbSet<TABLE_UN> TABLE_UN { get; set; }
         public virtual DbSet<TJ_ACH_EX> TJ_ACH_EX { get; set; }
         public virtual DbSet<TJ_ADH_WEB> TJ_ADH_WEB { get; set; }
-        public virtual DbSet<T_EMAIL> T_EMAIL { get; set; }
-        public virtual DbSet<T_CONFIGURATION_EMAIL> T_CONFIGURATION_EMAIL { get; set; }
-        public virtual DbSet<T_Bordereau_MFG> T_Bordereau_MFG { get; set; }
-        public virtual DbSet<T_Comm_MFG> T_Comm_MFG { get; set; }
+        public virtual DbSet<TS_USERS_WEB> TS_USERS_WEB { get; set; }
     
         public virtual ObjectResult<f_usp_recherche_doc_ctr_Result> f_usp_recherche_doc_ctr(Nullable<int> param_REF_CTR_RECH)
         {
@@ -134,6 +134,19 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<All_Ecran_Financements_Result>("All_Ecran_Financements", ref_CtrParameter);
         }
     
+        public virtual ObjectResult<Annulation_Reconsiliation_Liste_Result> Annulation_Reconsiliation_Liste(Nullable<int> ref_Ctr, string ref_Enc)
+        {
+            var ref_CtrParameter = ref_Ctr.HasValue ?
+                new ObjectParameter("Ref_Ctr", ref_Ctr) :
+                new ObjectParameter("Ref_Ctr", typeof(int));
+    
+            var ref_EncParameter = ref_Enc != null ?
+                new ObjectParameter("Ref_Enc", ref_Enc) :
+                new ObjectParameter("Ref_Enc", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Annulation_Reconsiliation_Liste_Result>("Annulation_Reconsiliation_Liste", ref_CtrParameter, ref_EncParameter);
+        }
+    
         public virtual ObjectResult<AnnulerLettrageParRefEnc_Result> AnnulerLettrageParRefEnc(Nullable<int> id_enc)
         {
             var id_encParameter = id_enc.HasValue ?
@@ -150,6 +163,16 @@ namespace xfactor.Models
                 new ObjectParameter("id_enc", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Anuuler_rec_t_det_bord", id_encParameter);
+        }
+    
+        public virtual ObjectResult<Bordereau_par_jour_Result> Bordereau_par_jour()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Bordereau_par_jour_Result>("Bordereau_par_jour");
+        }
+    
+        public virtual ObjectResult<Bordereau_SendToMFG_Result> Bordereau_SendToMFG()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Bordereau_SendToMFG_Result>("Bordereau_SendToMFG");
         }
     
         public virtual ObjectResult<BordereauAvecRefCtr_Result> BordereauAvecRefCtr(Nullable<int> refCtrBord)
@@ -191,6 +214,15 @@ namespace xfactor.Models
                 new ObjectParameter("RefCtr", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CTR_ADH_Result>("CTR_ADH", refCtrParameter);
+        }
+    
+        public virtual int DeleteCtr(string param_REF_CTR_RECH)
+        {
+            var param_REF_CTR_RECHParameter = param_REF_CTR_RECH != null ?
+                new ObjectParameter("param_REF_CTR_RECH", param_REF_CTR_RECH) :
+                new ObjectParameter("param_REF_CTR_RECH", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteCtr", param_REF_CTR_RECHParameter);
         }
     
         public virtual ObjectResult<DemandesDeLimitesParRefCtr_Result> DemandesDeLimitesParRefCtr()
@@ -328,6 +360,15 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Disponible_SANS_FDG", ref_CtrParameter);
         }
     
+        public virtual ObjectResult<Nullable<decimal>> Disponible_Sans_FDG_Libérer(Nullable<int> ref_ctr)
+        {
+            var ref_ctrParameter = ref_ctr.HasValue ?
+                new ObjectParameter("ref_ctr", ref_ctr) :
+                new ObjectParameter("ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Disponible_Sans_FDG_Libérer", ref_ctrParameter);
+        }
+    
         public virtual ObjectResult<E_Detail_Impaye_Result> E_Detail_Impaye(Nullable<int> refCtr)
         {
             var refCtrParameter = refCtr.HasValue ?
@@ -373,6 +414,37 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Ecaissement_ADH_WEB2_Result>("Ecaissement_ADH_WEB2", loginCtrParameter);
         }
     
+        public virtual ObjectResult<Encour_facpa_Result> Encour_facpa(Nullable<int> param_RefAch, Nullable<int> param_ref_ctr)
+        {
+            var param_RefAchParameter = param_RefAch.HasValue ?
+                new ObjectParameter("param_RefAch", param_RefAch) :
+                new ObjectParameter("param_RefAch", typeof(int));
+    
+            var param_ref_ctrParameter = param_ref_ctr.HasValue ?
+                new ObjectParameter("param_ref_ctr", param_ref_ctr) :
+                new ObjectParameter("param_ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Encour_facpa_Result>("Encour_facpa", param_RefAchParameter, param_ref_ctrParameter);
+        }
+    
+        public virtual ObjectResult<Encour_facpar_refctr_Result> Encour_facpar_refctr(Nullable<int> param_ref_ctr)
+        {
+            var param_ref_ctrParameter = param_ref_ctr.HasValue ?
+                new ObjectParameter("param_ref_ctr", param_ref_ctr) :
+                new ObjectParameter("param_ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Encour_facpar_refctr_Result>("Encour_facpar_refctr", param_ref_ctrParameter);
+        }
+    
+        public virtual ObjectResult<Encour_fact_Result> Encour_fact(Nullable<System.DateTime> dateFin)
+        {
+            var dateFinParameter = dateFin.HasValue ?
+                new ObjectParameter("DateFin", dateFin) :
+                new ObjectParameter("DateFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Encour_fact_Result>("Encour_fact", dateFinParameter);
+        }
+    
         public virtual ObjectResult<Encours_ADH_WEB_Result> Encours_ADH_WEB(string loginCtr)
         {
             var loginCtrParameter = loginCtr != null ?
@@ -404,6 +476,15 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Encours_Factures_Par_ADH_ACH_Result>("Encours_Factures_Par_ADH_ACH", param_RefCtrParameter, param_RefAchParameter);
         }
     
+        public virtual ObjectResult<Encours_Factures_Par_Date_Fin_Result> Encours_Factures_Par_Date_Fin(Nullable<System.DateTime> dateFin)
+        {
+            var dateFinParameter = dateFin.HasValue ?
+                new ObjectParameter("DateFin", dateFin) :
+                new ObjectParameter("DateFin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Encours_Factures_Par_Date_Fin_Result>("Encours_Factures_Par_Date_Fin", dateFinParameter);
+        }
+    
         public virtual ObjectResult<Engagement_N06082019_Result> Engagement_N06082019(Nullable<int> ref_ctr)
         {
             var ref_ctrParameter = ref_ctr.HasValue ?
@@ -429,6 +510,11 @@ namespace xfactor.Models
                 new ObjectParameter("Ref_ctr", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Engagement_N3_06082019_Result>("Engagement_N3_06082019", ref_ctrParameter);
+        }
+    
+        public virtual ObjectResult<Entet_Bordereau_par_jour_Result> Entet_Bordereau_par_jour()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Entet_Bordereau_par_jour_Result>("Entet_Bordereau_par_jour");
         }
     
         public virtual ObjectResult<Etat_Comm_ADH_WEB_Result> Etat_Comm_ADH_WEB(string loginCtr)
@@ -498,6 +584,15 @@ namespace xfactor.Models
                 new ObjectParameter("LoginCtr", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Etat_Limite_ADH_WEB_Result>("Etat_Limite_ADH_WEB", loginCtrParameter);
+        }
+    
+        public virtual ObjectResult<ETAT_MOUVEMENT_Result> ETAT_MOUVEMENT(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ETAT_MOUVEMENT_Result>("ETAT_MOUVEMENT", refCtrParameter);
         }
     
         public virtual ObjectResult<Etatdesencaissements_Result> Etatdesencaissements(Nullable<int> ref_adh)
@@ -589,6 +684,15 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_COMMFACT_Result>("Extrait_Compte_COMMFACT", refCtrParameter);
         }
     
+        public virtual ObjectResult<Extrait_Compte_COMMFACT_Rapport_Result> Extrait_Compte_COMMFACT_Rapport(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_COMMFACT_Rapport_Result>("Extrait_Compte_COMMFACT_Rapport", refCtrParameter);
+        }
+    
         public virtual ObjectResult<Extrait_Compte_Detaille_Achat_Result> Extrait_Compte_Detaille_Achat(Nullable<int> refCtr)
         {
             var refCtrParameter = refCtr.HasValue ?
@@ -596,6 +700,15 @@ namespace xfactor.Models
                 new ObjectParameter("RefCtr", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Detaille_Achat_Result>("Extrait_Compte_Detaille_Achat", refCtrParameter);
+        }
+    
+        public virtual ObjectResult<Extrait_Compte_Detaille_Achat_Rapport_Result> Extrait_Compte_Detaille_Achat_Rapport(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Detaille_Achat_Rapport_Result>("Extrait_Compte_Detaille_Achat_Rapport", refCtrParameter);
         }
     
         public virtual ObjectResult<Extrait_Compte_Frais_Result> Extrait_Compte_Frais(Nullable<int> refCtr)
@@ -607,6 +720,15 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Frais_Result>("Extrait_Compte_Frais", refCtrParameter);
         }
     
+        public virtual ObjectResult<Extrait_Compte_Frais_Rapport_Result> Extrait_Compte_Frais_Rapport(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Frais_Rapport_Result>("Extrait_Compte_Frais_Rapport", refCtrParameter);
+        }
+    
         public virtual ObjectResult<Extrait_Compte_FRAISP_Result> Extrait_Compte_FRAISP(Nullable<int> refCtr)
         {
             var refCtrParameter = refCtr.HasValue ?
@@ -614,6 +736,59 @@ namespace xfactor.Models
                 new ObjectParameter("RefCtr", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_FRAISP_Result>("Extrait_Compte_FRAISP", refCtrParameter);
+        }
+    
+        public virtual ObjectResult<Extrait_Compte_FRAISP_Rapport_Result> Extrait_Compte_FRAISP_Rapport(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_FRAISP_Rapport_Result>("Extrait_Compte_FRAISP_Rapport", refCtrParameter);
+        }
+    
+        public virtual ObjectResult<Extrait_Compte_New_Result> Extrait_Compte_New(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_New_Result>("Extrait_Compte_New", refCtrParameter);
+        }
+    
+        public virtual ObjectResult<Extrait_Compte_New_Rapport_Result> Extrait_Compte_New_Rapport(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_New_Rapport_Result>("Extrait_Compte_New_Rapport", refCtrParameter);
+        }
+    
+        public virtual ObjectResult<Extrait_Compte_Periode_Result> Extrait_Compte_Periode(Nullable<int> refCtr, Nullable<System.DateTime> date_debut, Nullable<System.DateTime> date_fin)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            var date_debutParameter = date_debut.HasValue ?
+                new ObjectParameter("Date_debut", date_debut) :
+                new ObjectParameter("Date_debut", typeof(System.DateTime));
+    
+            var date_finParameter = date_fin.HasValue ?
+                new ObjectParameter("Date_fin", date_fin) :
+                new ObjectParameter("Date_fin", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Periode_Result>("Extrait_Compte_Periode", refCtrParameter, date_debutParameter, date_finParameter);
+        }
+    
+        public virtual ObjectResult<Extrait_Compte_Periode2_Result> Extrait_Compte_Periode2(Nullable<int> refCtr)
+        {
+            var refCtrParameter = refCtr.HasValue ?
+                new ObjectParameter("RefCtr", refCtr) :
+                new ObjectParameter("RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Periode2_Result>("Extrait_Compte_Periode2", refCtrParameter);
         }
     
         public virtual ObjectResult<FactureEnRetard_ADH_WEB_Result> FactureEnRetard_ADH_WEB(string loginCtr)
@@ -653,6 +828,15 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FacturesNonEchu_Result>("FacturesNonEchu");
         }
     
+        public virtual ObjectResult<Nullable<decimal>> FDG_Libérer_From_T_Finacement(Nullable<int> ref_ctr)
+        {
+            var ref_ctrParameter = ref_ctr.HasValue ?
+                new ObjectParameter("ref_ctr", ref_ctr) :
+                new ObjectParameter("ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("FDG_Libérer_From_T_Finacement", ref_ctrParameter);
+        }
+    
         public virtual ObjectResult<Nullable<decimal>> FIN_MOIS_CTR(Nullable<int> refCtr)
         {
             var refCtrParameter = refCtr.HasValue ?
@@ -669,6 +853,15 @@ namespace xfactor.Models
                 new ObjectParameter("RefCtr", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<financement_N06082019_Result>("financement_N06082019", refCtrParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> Financemnt_Sans_FDG_Libérer(Nullable<int> ref_ctr)
+        {
+            var ref_ctrParameter = ref_ctr.HasValue ?
+                new ObjectParameter("ref_ctr", ref_ctr) :
+                new ObjectParameter("ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Financemnt_Sans_FDG_Libérer", ref_ctrParameter);
         }
     
         public virtual ObjectResult<Financmement_ParID_Result> Financmement_ParID(Nullable<int> param_Port_Ref_CTR)
@@ -754,6 +947,82 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertQuery", numDocParameter, numctrParameter, anbordParameter, numborParameter, datDocParameter, montDctParameter, echDocParameter, modpaiParameter);
         }
     
+        public virtual ObjectResult<Les_Factures_En_retard_Result> Les_Factures_En_retard(Nullable<int> param_ref_ctr, Nullable<int> param_RefAch)
+        {
+            var param_ref_ctrParameter = param_ref_ctr.HasValue ?
+                new ObjectParameter("param_ref_ctr", param_ref_ctr) :
+                new ObjectParameter("param_ref_ctr", typeof(int));
+    
+            var param_RefAchParameter = param_RefAch.HasValue ?
+                new ObjectParameter("param_RefAch", param_RefAch) :
+                new ObjectParameter("param_RefAch", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Les_Factures_En_retard_Result>("Les_Factures_En_retard", param_ref_ctrParameter, param_RefAchParameter);
+        }
+    
+        public virtual ObjectResult<Les_Factures_En_retard_Par_Adh_Result> Les_Factures_En_retard_Par_Adh(Nullable<int> param_ref_ctr)
+        {
+            var param_ref_ctrParameter = param_ref_ctr.HasValue ?
+                new ObjectParameter("param_ref_ctr", param_ref_ctr) :
+                new ObjectParameter("param_ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Les_Factures_En_retard_Par_Adh_Result>("Les_Factures_En_retard_Par_Adh", param_ref_ctrParameter);
+        }
+    
+        public virtual ObjectResult<les_Interets_Par_Month_Result> les_Interets_Par_Month(Nullable<int> ref_adh)
+        {
+            var ref_adhParameter = ref_adh.HasValue ?
+                new ObjectParameter("ref_adh", ref_adh) :
+                new ObjectParameter("ref_adh", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_Par_Month_Result>("les_Interets_Par_Month", ref_adhParameter);
+        }
+    
+        public virtual ObjectResult<les_Interets_Par_Month_V2_Result> les_Interets_Par_Month_V2(Nullable<int> ref_adh)
+        {
+            var ref_adhParameter = ref_adh.HasValue ?
+                new ObjectParameter("ref_adh", ref_adh) :
+                new ObjectParameter("ref_adh", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_Par_Month_V2_Result>("les_Interets_Par_Month_V2", ref_adhParameter);
+        }
+    
+        public virtual ObjectResult<les_Interets_Par_Year_Result> les_Interets_Par_Year(Nullable<int> ref_adh)
+        {
+            var ref_adhParameter = ref_adh.HasValue ?
+                new ObjectParameter("ref_adh", ref_adh) :
+                new ObjectParameter("ref_adh", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_Par_Year_Result>("les_Interets_Par_Year", ref_adhParameter);
+        }
+    
+        public virtual ObjectResult<les_Interets_Par_Year_V2_Result> les_Interets_Par_Year_V2(Nullable<int> ref_adh)
+        {
+            var ref_adhParameter = ref_adh.HasValue ?
+                new ObjectParameter("ref_adh", ref_adh) :
+                new ObjectParameter("ref_adh", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_Par_Year_V2_Result>("les_Interets_Par_Year_V2", ref_adhParameter);
+        }
+    
+        public virtual ObjectResult<les_Interets_R_Par_Month_V2_Result> les_Interets_R_Par_Month_V2(Nullable<int> ref_adh)
+        {
+            var ref_adhParameter = ref_adh.HasValue ?
+                new ObjectParameter("ref_adh", ref_adh) :
+                new ObjectParameter("ref_adh", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_R_Par_Month_V2_Result>("les_Interets_R_Par_Month_V2", ref_adhParameter);
+        }
+    
+        public virtual ObjectResult<les_Interets_R_Par_Year_V2_Result> les_Interets_R_Par_Year_V2(Nullable<int> ref_adh)
+        {
+            var ref_adhParameter = ref_adh.HasValue ?
+                new ObjectParameter("ref_adh", ref_adh) :
+                new ObjectParameter("ref_adh", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_R_Par_Year_V2_Result>("les_Interets_R_Par_Year_V2", ref_adhParameter);
+        }
+    
         public virtual ObjectResult<Lettrage_Manuel_Result> Lettrage_Manuel(Nullable<int> ref_Acheteur)
         {
             var ref_AcheteurParameter = ref_Acheteur.HasValue ?
@@ -775,6 +1044,11 @@ namespace xfactor.Models
                 new ObjectParameter("id_enc", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LETTRE_RESTE_ENC_Result>("LETTRE_RESTE_ENC", id_encParameter);
+        }
+    
+        public virtual ObjectResult<Liste_Des_Bordereaux_CH_Result> Liste_Des_Bordereaux_CH()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Liste_Des_Bordereaux_CH_Result>("Liste_Des_Bordereaux_CH");
         }
     
         public virtual ObjectResult<ListeDesContrats_Result> ListeDesContrats()
@@ -905,6 +1179,20 @@ namespace xfactor.Models
         public virtual ObjectResult<string> Piece_Identite()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Piece_Identite");
+        }
+    
+        public virtual ObjectResult<procedure_Annulation_Encaissement_Result> procedure_Annulation_Encaissement()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procedure_Annulation_Encaissement_Result>("procedure_Annulation_Encaissement");
+        }
+    
+        public virtual ObjectResult<ProcedureBordereauCh_Result> ProcedureBordereauCh(string id_bord)
+        {
+            var id_bordParameter = id_bord != null ?
+                new ObjectParameter("id_bord", id_bord) :
+                new ObjectParameter("id_bord", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProcedureBordereauCh_Result>("ProcedureBordereauCh", id_bordParameter);
         }
     
         public virtual ObjectResult<rapport_details_assurance_Result> rapport_details_assurance()
@@ -1131,6 +1419,23 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectRefEncaissementParCtrETAch_Result>("SelectRefEncaissementParCtrETAch", ref_ctrParameter, refachParameter);
         }
     
+        public virtual int Send_Generic_Email(string body, string subject, string recipients)
+        {
+            var bodyParameter = body != null ?
+                new ObjectParameter("Body", body) :
+                new ObjectParameter("Body", typeof(string));
+    
+            var subjectParameter = subject != null ?
+                new ObjectParameter("Subject", subject) :
+                new ObjectParameter("Subject", typeof(string));
+    
+            var recipientsParameter = recipients != null ?
+                new ObjectParameter("Recipients", recipients) :
+                new ObjectParameter("Recipients", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Send_Generic_Email", bodyParameter, subjectParameter, recipientsParameter);
+        }
+    
         public virtual ObjectResult<SituationAch_Result> SituationAch(Nullable<int> param_RefAch)
         {
             var param_RefAchParameter = param_RefAch.HasValue ?
@@ -1165,6 +1470,15 @@ namespace xfactor.Models
                 new ObjectParameter("param_Refctr", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SituationAdh14112019_Result>("SituationAdh14112019", param_RefctrParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> Sum_FDG_Libérer(Nullable<int> ref_ctr)
+        {
+            var ref_ctrParameter = ref_ctr.HasValue ?
+                new ObjectParameter("ref_ctr", ref_ctr) :
+                new ObjectParameter("ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Sum_FDG_Libérer", ref_ctrParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> SumMntFactDepAlgo(Nullable<int> refCtr)
@@ -1220,6 +1534,19 @@ namespace xfactor.Models
         public virtual ObjectResult<T_DOC_GED_VALID_Result> T_DOC_GED_VALID()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<T_DOC_GED_VALID_Result>("T_DOC_GED_VALID");
+        }
+    
+        public virtual ObjectResult<T_DOC_GED_VISUALISATION_Result> T_DOC_GED_VISUALISATION(Nullable<int> ref_ctr, string libelle_ged)
+        {
+            var ref_ctrParameter = ref_ctr.HasValue ?
+                new ObjectParameter("ref_ctr", ref_ctr) :
+                new ObjectParameter("ref_ctr", typeof(int));
+    
+            var libelle_gedParameter = libelle_ged != null ?
+                new ObjectParameter("libelle_ged", libelle_ged) :
+                new ObjectParameter("libelle_ged", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<T_DOC_GED_VISUALISATION_Result>("T_DOC_GED_VISUALISATION", ref_ctrParameter, libelle_gedParameter);
         }
     
         public virtual ObjectResult<T_ENC_MATERIALISER_FillByRefAdh_Result> T_ENC_MATERIALISER_FillByRefAdh(string refADH)
@@ -1716,6 +2043,15 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_Encours_Fact_ALL_Result>("usp_Encours_Fact_ALL", param_Port_Ref_INDParameter);
         }
     
+        public virtual ObjectResult<Nullable<decimal>> usp_Encours_Fact_CTR(Nullable<int> ref_ctr)
+        {
+            var ref_ctrParameter = ref_ctr.HasValue ?
+                new ObjectParameter("Ref_ctr", ref_ctr) :
+                new ObjectParameter("Ref_ctr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("usp_Encours_Fact_CTR", ref_ctrParameter);
+        }
+    
         public virtual ObjectResult<Nullable<decimal>> usp_Encours_Fact_Ouv_Adh_Ach(Nullable<int> param_RefCtr, Nullable<int> param_RefAch)
         {
             var param_RefCtrParameter = param_RefCtr.HasValue ?
@@ -1772,7 +2108,16 @@ namespace xfactor.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("usp_Encours_Fact_Ouvert_Echus", param_Port_Ref_INDParameter);
         }
-    
+
+        public virtual ObjectResult<ProcedureBordereauCh1_Result> ProcedureBordereauCh1(string id_bord)
+        {
+            var id_bordParameter = id_bord != null ?
+                new ObjectParameter("id_bord", id_bord) :
+                new ObjectParameter("id_bord", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProcedureBordereauCh1_Result>("ProcedureBordereauCh1", id_bordParameter);
+        }
+
         public virtual ObjectResult<Nullable<decimal>> usp_Encours_Fact_Ouvert_NonEchus(Nullable<int> param_Port_Ref_IND)
         {
             var param_Port_Ref_INDParameter = param_Port_Ref_IND.HasValue ?
@@ -2153,6 +2498,24 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("usp_RefDocumentDetBordByOthers", param_ID_DETBORDParameter, param_RefCtrParameter, param_NumBordParameter);
         }
     
+        public virtual ObjectResult<usp_SituationAdh_ACH_ALL_Result> usp_SituationAdh_ACH_ALL(Nullable<int> param_RefCtr)
+        {
+            var param_RefCtrParameter = param_RefCtr.HasValue ?
+                new ObjectParameter("param_RefCtr", param_RefCtr) :
+                new ObjectParameter("param_RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_SituationAdh_ACH_ALL_Result>("usp_SituationAdh_ACH_ALL", param_RefCtrParameter);
+        }
+    
+        public virtual ObjectResult<usp_SituationAdh_ACH_ALL_Code_MFG_Result> usp_SituationAdh_ACH_ALL_Code_MFG(Nullable<int> param_RefCtr)
+        {
+            var param_RefCtrParameter = param_RefCtr.HasValue ?
+                new ObjectParameter("param_RefCtr", param_RefCtr) :
+                new ObjectParameter("param_RefCtr", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_SituationAdh_ACH_ALL_Code_MFG_Result>("usp_SituationAdh_ACH_ALL_Code_MFG", param_RefCtrParameter);
+        }
+    
         public virtual ObjectResult<usp_SituationAdhAch_Result> usp_SituationAdhAch(Nullable<int> param_RefCtr, Nullable<int> param_RefAch)
         {
             var param_RefCtrParameter = param_RefCtr.HasValue ?
@@ -2277,294 +2640,6 @@ namespace xfactor.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ValiderFincancement_Result>("ValiderFincancement");
         }
     
-        public virtual ObjectResult<Encours_Factures_Par_Date_Fin_Result> Encours_Factures_Par_Date_Fin(Nullable<System.DateTime> dateFin)
-        {
-            var dateFinParameter = dateFin.HasValue ?
-                new ObjectParameter("DateFin", dateFin) :
-                new ObjectParameter("DateFin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Encours_Factures_Par_Date_Fin_Result>("Encours_Factures_Par_Date_Fin", dateFinParameter);
-        }
-    
-        public virtual ObjectResult<Financmement_ParID1_Result> Financmement_ParID1(Nullable<int> param_Port_Ref_CTR)
-        {
-            var param_Port_Ref_CTRParameter = param_Port_Ref_CTR.HasValue ?
-                new ObjectParameter("param_Port_Ref_CTR", param_Port_Ref_CTR) :
-                new ObjectParameter("param_Port_Ref_CTR", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Financmement_ParID1_Result>("Financmement_ParID1", param_Port_Ref_CTRParameter);
-        }
-    
-        public virtual ObjectResult<Les_Factures_En_retard_Result> Les_Factures_En_retard(Nullable<int> param_ref_ctr, Nullable<int> param_RefAch)
-        {
-            var param_ref_ctrParameter = param_ref_ctr.HasValue ?
-                new ObjectParameter("param_ref_ctr", param_ref_ctr) :
-                new ObjectParameter("param_ref_ctr", typeof(int));
-    
-            var param_RefAchParameter = param_RefAch.HasValue ?
-                new ObjectParameter("param_RefAch", param_RefAch) :
-                new ObjectParameter("param_RefAch", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Les_Factures_En_retard_Result>("Les_Factures_En_retard", param_ref_ctrParameter, param_RefAchParameter);
-        }
-    
-        public virtual ObjectResult<Les_Factures_En_retard_Par_Adh_Result> Les_Factures_En_retard_Par_Adh(Nullable<int> param_ref_ctr)
-        {
-            var param_ref_ctrParameter = param_ref_ctr.HasValue ?
-                new ObjectParameter("param_ref_ctr", param_ref_ctr) :
-                new ObjectParameter("param_ref_ctr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Les_Factures_En_retard_Par_Adh_Result>("Les_Factures_En_retard_Par_Adh", param_ref_ctrParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_New_Result> Extrait_Compte_New(Nullable<int> refCtr)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_New_Result>("Extrait_Compte_New", refCtrParameter);
-        }
-    
-        public virtual ObjectResult<usp_SituationAdh_ACH_ALL_Result> usp_SituationAdh_ACH_ALL(Nullable<int> param_RefCtr)
-        {
-            var param_RefCtrParameter = param_RefCtr.HasValue ?
-                new ObjectParameter("param_RefCtr", param_RefCtr) :
-                new ObjectParameter("param_RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_SituationAdh_ACH_ALL_Result>("usp_SituationAdh_ACH_ALL", param_RefCtrParameter);
-        }
-    
-        public virtual ObjectResult<procedure_Annulation_Encaissement_Result> procedure_Annulation_Encaissement()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<procedure_Annulation_Encaissement_Result>("procedure_Annulation_Encaissement");
-        }
-    
-        public virtual ObjectResult<ProcedureBordereauCh_Result> ProcedureBordereauCh(Nullable<int> id_bord, string bq_rib)
-        {
-            var id_bordParameter = id_bord.HasValue ?
-                new ObjectParameter("id_bord", id_bord) :
-                new ObjectParameter("id_bord", typeof(int));
-    
-            var bq_ribParameter = bq_rib != null ?
-                new ObjectParameter("bq_rib", bq_rib) :
-                new ObjectParameter("bq_rib", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProcedureBordereauCh_Result>("ProcedureBordereauCh", id_bordParameter, bq_ribParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_Periode_Result> Extrait_Compte_Periode(Nullable<int> refCtr, Nullable<System.DateTime> date_debut, Nullable<System.DateTime> date_fin)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            var date_debutParameter = date_debut.HasValue ?
-                new ObjectParameter("Date_debut", date_debut) :
-                new ObjectParameter("Date_debut", typeof(System.DateTime));
-    
-            var date_finParameter = date_fin.HasValue ?
-                new ObjectParameter("Date_fin", date_fin) :
-                new ObjectParameter("Date_fin", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Periode_Result>("Extrait_Compte_Periode", refCtrParameter, date_debutParameter, date_finParameter);
-        }
-    
-        public virtual ObjectResult<usp_SituationAdh_ACH_ALL_Code_MFG_Result> usp_SituationAdh_ACH_ALL_Code_MFG(Nullable<int> param_RefCtr)
-        {
-            var param_RefCtrParameter = param_RefCtr.HasValue ?
-                new ObjectParameter("param_RefCtr", param_RefCtr) :
-                new ObjectParameter("param_RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_SituationAdh_ACH_ALL_Code_MFG_Result>("usp_SituationAdh_ACH_ALL_Code_MFG", param_RefCtrParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_Periode2_Result> Extrait_Compte_Periode2(Nullable<int> refCtr)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Periode2_Result>("Extrait_Compte_Periode2", refCtrParameter);
-        }
-    
-        public virtual ObjectResult<ProcedureBordereauCh1_Result> ProcedureBordereauCh1(string id_bord)
-        {
-            var id_bordParameter = id_bord != null ?
-                new ObjectParameter("id_bord", id_bord) :
-                new ObjectParameter("id_bord", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProcedureBordereauCh1_Result>("ProcedureBordereauCh1", id_bordParameter);
-        }
-    
-        public virtual ObjectResult<Liste_Des_Bordereaux_CH_Result> Liste_Des_Bordereaux_CH()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Liste_Des_Bordereaux_CH_Result>("Liste_Des_Bordereaux_CH");
-        }
-    
-        public virtual ObjectResult<Nullable<decimal>> Disponible_Sans_FDG_Libérer(Nullable<int> ref_ctr)
-        {
-            var ref_ctrParameter = ref_ctr.HasValue ?
-                new ObjectParameter("ref_ctr", ref_ctr) :
-                new ObjectParameter("ref_ctr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Disponible_Sans_FDG_Libérer", ref_ctrParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<decimal>> FDG_Libérer_From_T_Finacement(Nullable<int> ref_ctr)
-        {
-            var ref_ctrParameter = ref_ctr.HasValue ?
-                new ObjectParameter("ref_ctr", ref_ctr) :
-                new ObjectParameter("ref_ctr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("FDG_Libérer_From_T_Finacement", ref_ctrParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<decimal>> Financemnt_Sans_FDG_Libérer(Nullable<int> ref_ctr)
-        {
-            var ref_ctrParameter = ref_ctr.HasValue ?
-                new ObjectParameter("ref_ctr", ref_ctr) :
-                new ObjectParameter("ref_ctr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Financemnt_Sans_FDG_Libérer", ref_ctrParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<decimal>> Sum_FDG_Libérer(Nullable<int> ref_ctr)
-        {
-            var ref_ctrParameter = ref_ctr.HasValue ?
-                new ObjectParameter("ref_ctr", ref_ctr) :
-                new ObjectParameter("ref_ctr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("Sum_FDG_Libérer", ref_ctrParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<decimal>> usp_Encours_Fact_CTR(Nullable<int> ref_ctr)
-        {
-            var ref_ctrParameter = ref_ctr.HasValue ?
-                new ObjectParameter("Ref_ctr", ref_ctr) :
-                new ObjectParameter("Ref_ctr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("usp_Encours_Fact_CTR", ref_ctrParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_COMMFACT_Rapport_Result> Extrait_Compte_COMMFACT_Rapport(Nullable<int> refCtr)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_COMMFACT_Rapport_Result>("Extrait_Compte_COMMFACT_Rapport", refCtrParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_Detaille_Achat_Rapport_Result> Extrait_Compte_Detaille_Achat_Rapport(Nullable<int> refCtr)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Detaille_Achat_Rapport_Result>("Extrait_Compte_Detaille_Achat_Rapport", refCtrParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_Frais_Rapport_Result> Extrait_Compte_Frais_Rapport(Nullable<int> refCtr)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_Frais_Rapport_Result>("Extrait_Compte_Frais_Rapport", refCtrParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_FRAISP_Rapport_Result> Extrait_Compte_FRAISP_Rapport(Nullable<int> refCtr)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_FRAISP_Rapport_Result>("Extrait_Compte_FRAISP_Rapport", refCtrParameter);
-        }
-    
-        public virtual ObjectResult<Extrait_Compte_New_Rapport_Result> Extrait_Compte_New_Rapport(Nullable<int> refCtr)
-        {
-            var refCtrParameter = refCtr.HasValue ?
-                new ObjectParameter("RefCtr", refCtr) :
-                new ObjectParameter("RefCtr", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Extrait_Compte_New_Rapport_Result>("Extrait_Compte_New_Rapport", refCtrParameter);
-        }
-    
-        public virtual ObjectResult<les_Interets_Par_Month_V2_Result> les_Interets_Par_Month_V2(Nullable<int> ref_adh)
-        {
-            var ref_adhParameter = ref_adh.HasValue ?
-                new ObjectParameter("ref_adh", ref_adh) :
-                new ObjectParameter("ref_adh", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_Par_Month_V2_Result>("les_Interets_Par_Month_V2", ref_adhParameter);
-        }
-    
-        public virtual ObjectResult<les_Interets_Par_Year_V2_Result> les_Interets_Par_Year_V2(Nullable<int> ref_adh)
-        {
-            var ref_adhParameter = ref_adh.HasValue ?
-                new ObjectParameter("ref_adh", ref_adh) :
-                new ObjectParameter("ref_adh", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_Par_Year_V2_Result>("les_Interets_Par_Year_V2", ref_adhParameter);
-        }
-    
-        public virtual ObjectResult<les_Interets_R_Par_Month_V2_Result> les_Interets_R_Par_Month_V2(Nullable<int> ref_adh)
-        {
-            var ref_adhParameter = ref_adh.HasValue ?
-                new ObjectParameter("ref_adh", ref_adh) :
-                new ObjectParameter("ref_adh", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_R_Par_Month_V2_Result>("les_Interets_R_Par_Month_V2", ref_adhParameter);
-        }
-    
-        public virtual ObjectResult<les_Interets_R_Par_Year_V2_Result> les_Interets_R_Par_Year_V2(Nullable<int> ref_adh)
-        {
-            var ref_adhParameter = ref_adh.HasValue ?
-                new ObjectParameter("ref_adh", ref_adh) :
-                new ObjectParameter("ref_adh", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<les_Interets_R_Par_Year_V2_Result>("les_Interets_R_Par_Year_V2", ref_adhParameter);
-        }
-    
-        public virtual ObjectResult<Bordereau_par_jour_Result> Bordereau_par_jour()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Bordereau_par_jour_Result>("Bordereau_par_jour");
-        }
-    
-        public virtual ObjectResult<Financmement_ParID2_Result> Financmement_ParID2(Nullable<int> param_Port_Ref_CTR)
-        {
-            var param_Port_Ref_CTRParameter = param_Port_Ref_CTR.HasValue ?
-                new ObjectParameter("param_Port_Ref_CTR", param_Port_Ref_CTR) :
-                new ObjectParameter("param_Port_Ref_CTR", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Financmement_ParID2_Result>("Financmement_ParID2", param_Port_Ref_CTRParameter);
-        }
-    
-        public virtual ObjectResult<Entet_Bordereau_par_jour_Result> Entet_Bordereau_par_jour()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Entet_Bordereau_par_jour_Result>("Entet_Bordereau_par_jour");
-        }
-    
-        public virtual ObjectResult<Bordereau_SendToMFG_Result> Bordereau_SendToMFG()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Bordereau_SendToMFG_Result>("Bordereau_SendToMFG");
-        }
-    
-        public virtual ObjectResult<Annulation_Reconsiliation_Liste_Result> Annulation_Reconsiliation_Liste(Nullable<int> ref_Ctr, string ref_Enc)
-        {
-            var ref_CtrParameter = ref_Ctr.HasValue ?
-                new ObjectParameter("Ref_Ctr", ref_Ctr) :
-                new ObjectParameter("Ref_Ctr", typeof(int));
-    
-            var ref_EncParameter = ref_Enc != null ?
-                new ObjectParameter("Ref_Enc", ref_Enc) :
-                new ObjectParameter("Ref_Enc", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Annulation_Reconsiliation_Liste_Result>("Annulation_Reconsiliation_Liste", ref_CtrParameter, ref_EncParameter);
-        }
-    
         public virtual ObjectResult<usp_Etat_Financements_By_Id_Result> usp_Etat_Financements_By_Id(Nullable<int> id_financement)
         {
             var id_financementParameter = id_financement.HasValue ?
@@ -2572,19 +2647,6 @@ namespace xfactor.Models
                 new ObjectParameter("id_financement", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_Etat_Financements_By_Id_Result>("usp_Etat_Financements_By_Id", id_financementParameter);
-        }
-    
-        public virtual ObjectResult<T_DOC_GED_VISUALISATION_Result> T_DOC_GED_VISUALISATION(Nullable<int> ref_ctr, string libelle_ged)
-        {
-            var ref_ctrParameter = ref_ctr.HasValue ?
-                new ObjectParameter("ref_ctr", ref_ctr) :
-                new ObjectParameter("ref_ctr", typeof(int));
-    
-            var libelle_gedParameter = libelle_ged != null ?
-                new ObjectParameter("libelle_ged", libelle_ged) :
-                new ObjectParameter("libelle_ged", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<T_DOC_GED_VISUALISATION_Result>("T_DOC_GED_VISUALISATION", ref_ctrParameter, libelle_gedParameter);
         }
     }
 }

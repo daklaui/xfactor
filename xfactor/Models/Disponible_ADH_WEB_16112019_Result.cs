@@ -13,7 +13,7 @@ namespace xfactor.Models
     
     public partial class Disponible_ADH_WEB_16112019_Result
     {
-        public int CTR { get; set; }
+        public string CTR { get; set; }
         public string ADH { get; set; }
         public Nullable<decimal> Encours { get; set; }
         public Nullable<decimal> Disponible { get; set; }

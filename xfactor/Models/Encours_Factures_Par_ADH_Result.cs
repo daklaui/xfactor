@@ -13,26 +13,26 @@ namespace xfactor.Models
     
     public partial class Encours_Factures_Par_ADH_Result
     {
-        public string NOM_IND { get; set; }
-        public Nullable<System.DateTime> DAT_DET_BORD { get; set; }
+        public string nom_ind { get; set; }
+        public Nullable<System.DateTime> dat_det_bord { get; set; }
         public string ENC { get; set; }
-        public string REF_DOCUMENT_DET_BORD { get; set; }
-        public string NUM_BORD { get; set; }
-        public string ID_DET_BORD { get; set; }
-        public int REF_CTR_DET_BORD { get; set; }
-        public Nullable<int> REF_ADH_BORD { get; set; }
-        public string TYP_DET_BORD { get; set; }
-        public string NUM_CREANCE_ASS_BORD { get; set; }
-        public string TYP_ASS_DET_BORD { get; set; }
+        public string ref_document_det_bord { get; set; }
+        public string num_bord { get; set; }
+        public string id_det_bord { get; set; }
+        public int ref_ctr_det_bord { get; set; }
+        public Nullable<int> ref_adh_bord { get; set; }
+        public string typ_det_bord { get; set; }
+        public string num_creance_ass_bord { get; set; }
+        public string typ_ass_det_bord { get; set; }
         public Nullable<System.DateTime> Expr2 { get; set; }
-        public Nullable<decimal> MONT_TTC_DET_BORD { get; set; }
+        public Nullable<decimal> mont_ttc_det_bord { get; set; }
         public string DEVISE_DET_BORD { get; set; }
-        public Nullable<short> ECH_DET_BORD { get; set; }
+        public Nullable<short> ech_det_bord { get; set; }
         public decimal RETENU_DET_BORD { get; set; }
-        public Nullable<decimal> MONT_OUV_DET_BORD { get; set; }
-        public Nullable<short> DELAI_PAIE_DET_BORD { get; set; }
-        public string MODE_REG_DET_BORD { get; set; }
-        public Nullable<int> REF_IND_DET_BORD { get; set; }
+        public Nullable<decimal> mont_ouv_det_bord { get; set; }
+        public Nullable<short> delai_paie_det_bord { get; set; }
+        public string mode_reg_det_bord { get; set; }
+        public Nullable<int> ref_ind_det_bord { get; set; }
         public string nom_adh { get; set; }
         public Nullable<System.DateTime> Date_d_écheance { get; set; }
     }

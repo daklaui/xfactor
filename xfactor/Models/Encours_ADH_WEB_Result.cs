@@ -19,7 +19,7 @@ namespace xfactor.Models
         public string REF_DOCUMENT_DET_BORD { get; set; }
         public string NUM_BORD { get; set; }
         public string ID_DET_BORD { get; set; }
-        public int REF_CTR_DET_BORD { get; set; }
+        public string REF_CTR_DET_BORD { get; set; }
         public Nullable<int> REF_ADH_BORD { get; set; }
         public string TYP_DET_BORD { get; set; }
         public string NUM_CREANCE_ASS_BORD { get; set; }

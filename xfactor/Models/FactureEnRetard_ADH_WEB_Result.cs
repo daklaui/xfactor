@@ -23,6 +23,6 @@ namespace xfactor.Models
         public string REF_DOCUMENT_DET_BORD { get; set; }
         public Nullable<System.DateTime> echeance { get; set; }
         public Nullable<int> Retard { get; set; }
-        public int REF_CTR_DET_BORD { get; set; }
+        public string REF_CTR_DET_BORD { get; set; }
     }
 }

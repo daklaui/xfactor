@@ -62,7 +62,6 @@
         <EntityTypeShape EntityType="Xfactor_prod_webModel.TR_TVA" Width="1.5" PointX="4.75" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Xfactor_prod_webModel.TS_GRP_USER" Width="1.5" PointX="7.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Xfactor_prod_webModel.TS_USER" Width="1.5" PointX="10" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Xfactor_prod_webModel.TS_USERS_WEB" Width="1.5" PointX="23.75" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Xfactor_prod_webModel.T_BCT_RCM00" Width="1.5" PointX="23.75" PointY="14.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Xfactor_prod_webModel.T_BORD_MFG" Width="1.5" PointX="15.75" PointY="23.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Xfactor_prod_webModel.T_Bordereau_MFG" Width="1.5" PointX="23.75" PointY="19.875" IsExpanded="true" />
@@ -83,6 +82,7 @@
         <AssociationConnector Association="Xfactor_prod_webModel.FK_CIR_ROLE" ManuallyRouted="false" />
         <AssociationConnector Association="Xfactor_prod_webModel.FK_TJ_DOCUMENT_DET_BORD_TJ_DOCUMENT_DET_BORD" ManuallyRouted="false" />
         <AssociationConnector Association="Xfactor_prod_webModel.FK__TS_USER__ID_GRP___5C6CB6D7" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Xfactor_prod_webModel.TS_USERS_WEB" Width="1.5" PointX="24.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

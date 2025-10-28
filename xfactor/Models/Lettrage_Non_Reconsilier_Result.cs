@@ -18,11 +18,11 @@ namespace xfactor.Models
         public int id_enc { get; set; }
         public int ref_ctr_enc { get; set; }
         public Nullable<System.DateTime> dat_val_enc { get; set; }
+        public Nullable<bool> PREAVIS { get; set; }
         public Nullable<int> Nombre_Lettrage { get; set; }
         public string Acheteur { get; set; }
         public string Adhérent { get; set; }
         public Nullable<decimal> Somme_Lettrage { get; set; }
         public Nullable<int> IMPAYE { get; set; }
-        public Nullable<bool> PREAVIS { get; set; }
     }
 }

@@ -29,5 +29,12 @@ namespace xfactor.Models
         public Nullable<decimal> Disponible_ETAT_DISPO { get; set; }
         public Nullable<System.DateTime> Date_ETAT_DISPO { get; set; }
         public Nullable<decimal> Total_Encours_Facture_ETAT_DISPO { get; set; }
+        public Nullable<decimal> Total_IR_ETAT_DIPOS { get; set; }
+        public Nullable<decimal> Total_Instru_Paiments_Imp_ETAT_DIPOS { get; set; }
+        public Nullable<decimal> Total_Retard_Paiement_Algo_ETAT_DISPO { get; set; }
+        public Nullable<decimal> Total_Litiges_ouvert_ETAT_DISPO { get; set; }
+        public Nullable<decimal> Total_Disponible_2_ETAT_DISPO { get; set; }
+        public Nullable<decimal> Total_Fonds_Reserve_ETAT_DISPO { get; set; }
+        public Nullable<decimal> Total_Financement_du_mois_ETAT_DISPO { get; set; }
     }
 }

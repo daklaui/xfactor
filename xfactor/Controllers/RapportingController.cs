@@ -1736,7 +1736,7 @@ var ListAdh = (from q in db.T_INDIVIDU
         public ActionResult Encours_FacturesRappdate(int id,DateTime id2,DateTime id3)
         {
 
-            try { ViewBag.EtatRap = db.Encours_Factures_Par_ADH(id).Where(p=>p.DAT_DET_BORD>=id2.Date && p.DAT_DET_BORD<=id3.Date).ToList(); } catch (Exception) { }
+            try { ViewBag.EtatRap = db.Encours_Factures_Par_ADH(id).Where(p=>p.dat_det_bord>=id2.Date && p.dat_det_bord <= id3.Date).ToList(); } catch (Exception) { }
             ViewBag.refadh = id;
             TempData["debut"] = id2.Date;
             TempData["fin"] = id3.Date;
@@ -1801,7 +1801,7 @@ var ListAdh = (from q in db.T_INDIVIDU
             {
                 return View("ImpayeContrat");
             }
-            var cm = db.Encours_Factures_Par_ADH(id2).Where(p => p.DAT_DET_BORD >= id3.Date && p.DAT_DET_BORD <= id4.Date).ToList();
+            var cm = db.Encours_Factures_Par_ADH(id2).Where(p => p.dat_det_bord >= id3.Date && p.dat_det_bord <= id4.Date).ToList();
             ReportDataSource rd = new ReportDataSource("Encours_Factures_Adherent", cm);
             lr.DataSources.Add(rd);
             string reportType = id;

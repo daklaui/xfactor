@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Xfactor_prod_webModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Xfactor_prod_webModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="T_ADRESSE">
           <Key>
             <PropertyRef Name="ID_ADR" />
@@ -1831,6 +1831,9 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Parameter Name="param_Port_Ref_CTR" Type="int" Mode="In" />
         </Function>
         <Function Name="usp_Etat_Financements" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_Etat_Financements_By_Id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_financement" Type="int" Mode="In" />
+        </Function>
         <Function Name="usp_Facture_En_Retard_PAR_CTR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="param_ref_ctr" Type="int" Mode="In" />
         </Function>
@@ -2261,8 +2264,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <End Role="TJ_DOCUMENT_DET_BORD1" EntitySet="TJ_DOCUMENT_DET_BORD" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Xfactor_prod_webModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -3125,19 +3127,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Name="ONE_SIGNAL_PLAYER_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TS_GRP_USER" Relationship="Self.FK__TS_USER__ID_GRP___5C6CB6D7" FromRole="TS_USER" ToRole="TS_GRP_USER" />
         </EntityType>
-        <EntityType Name="TS_USERS_WEB">
-          <Key>
-            <PropertyRef Name="ID_USER_WEB" />
-          </Key>
-          <Property Name="ID_USER_WEB" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="REF_IND_WEB" Type="Int32" Nullable="false" />
-          <Property Name="LOGIN_WEB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PASSWORD_WEB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LOGO_WEB" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ACTIF_USER_WEB" Type="Boolean" Nullable="false" />
-          <Property Name="DATE_FIN_COMPTE" Type="DateTime" Precision="0" />
-          <Property Name="ONE_SIGNAL_PLAYER_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="T_BCT_RCM00">
           <Key>
             <PropertyRef Name="ID_RCM00" />
@@ -3501,7 +3490,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <EntitySet Name="TR_TVA" EntityType="Self.TR_TVA" />
           <EntitySet Name="TS_GRP_USER" EntityType="Self.TS_GRP_USER" />
           <EntitySet Name="TS_USER" EntityType="Self.TS_USER" />
-          <EntitySet Name="TS_USERS_WEB" EntityType="Self.TS_USERS_WEB" />
           <EntitySet Name="T_BCT_RCM00" EntityType="Self.T_BCT_RCM00" />
           <EntitySet Name="T_BORD_MFG" EntityType="Self.T_BORD_MFG" />
           <EntitySet Name="T_Bordereau_MFG" EntityType="Self.T_Bordereau_MFG" />
@@ -3547,219 +3535,219 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <End Role="TS_USER" EntitySet="TS_USER" />
           </AssociationSet>
           <FunctionImport Name="f_usp_recherche_doc_ctr" ReturnType="Collection(Xfactor_prod_webModel.f_usp_recherche_doc_ctr_Result)">
-            <Parameter Name="param_REF_CTR_RECH" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR_RECH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AcheteursDeAdh" ReturnType="Collection(Xfactor_prod_webModel.AcheteursDeAdh_Result)">
-            <Parameter Name="RefCtrBord" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrBord" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Adh_Info06082019" ReturnType="Collection(Xfactor_prod_webModel.Adh_Info06082019_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="All_Ecran_Financements" ReturnType="Collection(Xfactor_prod_webModel.All_Ecran_Financements_Result)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Annulation_Reconsiliation_Liste" ReturnType="Collection(Xfactor_prod_webModel.Annulation_Reconsiliation_Liste_Result)">
             <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
             <Parameter Name="Ref_Enc" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AnnulerLettrageParRefEnc" ReturnType="Collection(Xfactor_prod_webModel.AnnulerLettrageParRefEnc_Result)">
-            <Parameter Name="id_enc" Mode="In" Type="Int32" />
+          <Parameter Name="id_enc" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Anuuler_rec_t_det_bord">
-            <Parameter Name="id_enc" Mode="In" Type="Int32" />
+          <Parameter Name="id_enc" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Bordereau_par_jour" ReturnType="Collection(Xfactor_prod_webModel.Bordereau_par_jour_Result)" />
           <FunctionImport Name="Bordereau_SendToMFG" ReturnType="Collection(Xfactor_prod_webModel.Bordereau_SendToMFG_Result)" />
           <FunctionImport Name="BordereauAvecRefCtr" ReturnType="Collection(Xfactor_prod_webModel.BordereauAvecRefCtr_Result)">
-            <Parameter Name="RefCtrBord" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrBord" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CalculeProcedurUpdate" ReturnType="Collection(Xfactor_prod_webModel.CalculeProcedurUpdate_Result)" />
           <FunctionImport Name="CommFactoringConsultContrat" ReturnType="Collection(Xfactor_prod_webModel.CommFactoringConsultContrat_Result)">
-            <Parameter Name="refCtrComFact" Mode="In" Type="Int32" />
+          <Parameter Name="refCtrComFact" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CommparBord" ReturnType="Collection(Xfactor_prod_webModel.CommparBord_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="CTR_ADH" ReturnType="Collection(Xfactor_prod_webModel.CTR_ADH_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DeleteCtr">
-            <Parameter Name="param_REF_CTR_RECH" Mode="In" Type="String" />
+          <Parameter Name="param_REF_CTR_RECH" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DemandesDeLimitesParRefCtr" ReturnType="Collection(Xfactor_prod_webModel.DemandesDeLimitesParRefCtr_Result)" />
           <FunctionImport Name="Detail_ACH_Fiche_ADH06082019" ReturnType="Collection(Xfactor_prod_webModel.Detail_ACH_Fiche_ADH06082019_Result)">
-            <Parameter Name="refCTRE" Mode="In" Type="Int32" />
+          <Parameter Name="refCTRE" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Detail_CREDIT" ReturnType="Collection(Xfactor_prod_webModel.Detail_CREDIT_Result)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Detail_ctr_06082019" ReturnType="Collection(Xfactor_prod_webModel.Detail_ctr_06082019_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Detail_DEBIT" ReturnType="Collection(Xfactor_prod_webModel.Detail_DEBIT_Result)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Detail_Facture" ReturnType="Collection(Xfactor_prod_webModel.Detail_Facture_Result)">
-            <Parameter Name="refctr" Mode="In" Type="Int32" />
+          <Parameter Name="refctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Detail_Facture_An" ReturnType="Collection(Xfactor_prod_webModel.Detail_Facture_An_Result)">
             <Parameter Name="refctr" Mode="In" Type="Int32" />
             <Parameter Name="annFacture" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Detail_Prorogation20082019" ReturnType="Collection(Xfactor_prod_webModel.Detail_Prorogation20082019_Result)">
-            <Parameter Name="refadh" Mode="In" Type="Int32" />
+          <Parameter Name="refadh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Detail_RS" ReturnType="Collection(Xfactor_prod_webModel.Detail_RS_Result)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="DetaillesAcheteurs" ReturnType="Collection(Xfactor_prod_webModel.DetaillesAcheteurs_Result)">
-            <Parameter Name="RefCtrBord" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrBord" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Disponible_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Disponible_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Disponible_ADH_WEB_16112019" ReturnType="Collection(Xfactor_prod_webModel.Disponible_ADH_WEB_16112019_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Disponible_CTR" ReturnType="Collection(Decimal)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Disponible_FDG" ReturnType="Collection(Decimal)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Disponible_SANS_FDG" ReturnType="Collection(Decimal)">
-            <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Disponible_Sans_FDG_Libérer" ReturnType="Collection(Decimal)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="E_Detail_Impaye" ReturnType="Collection(Xfactor_prod_webModel.E_Detail_Impaye_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="E_Detail_Impaye21082019" ReturnType="Collection(Xfactor_prod_webModel.E_Detail_Impaye21082019_Result)">
-            <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="E_Detail_Retard_Enc_Alog" ReturnType="Collection(Xfactor_prod_webModel.E_Detail_Retard_Enc_Alog_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Ecaissement_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Ecaissement_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Ecaissement_ADH_WEB2" ReturnType="Collection(Xfactor_prod_webModel.Ecaissement_ADH_WEB2_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Encour_facpa" ReturnType="Collection(Xfactor_prod_webModel.Encour_facpa_Result)">
             <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
             <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Encour_facpar_refctr" ReturnType="Collection(Xfactor_prod_webModel.Encour_facpar_refctr_Result)">
-            <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Encour_fact" ReturnType="Collection(Xfactor_prod_webModel.Encour_fact_Result)">
-            <Parameter Name="DateFin" Mode="In" Type="DateTime" />
+          <Parameter Name="DateFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="Encours_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Encours_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Encours_Factures_Par_ADH" ReturnType="Collection(Xfactor_prod_webModel.Encours_Factures_Par_ADH_Result)">
-            <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Encours_Factures_Par_ADH_ACH" ReturnType="Collection(Xfactor_prod_webModel.Encours_Factures_Par_ADH_ACH_Result)">
             <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
             <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Encours_Factures_Par_Date_Fin" ReturnType="Collection(Xfactor_prod_webModel.Encours_Factures_Par_Date_Fin_Result)">
-            <Parameter Name="DateFin" Mode="In" Type="DateTime" />
+          <Parameter Name="DateFin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="Engagement_N06082019" ReturnType="Collection(Xfactor_prod_webModel.Engagement_N06082019_Result)">
-            <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Engagement_N1_06082019" ReturnType="Collection(Xfactor_prod_webModel.Engagement_N1_06082019_Result)">
-            <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Engagement_N3_06082019" ReturnType="Collection(Xfactor_prod_webModel.Engagement_N3_06082019_Result)">
-            <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Entet_Bordereau_par_jour" ReturnType="Collection(Xfactor_prod_webModel.Entet_Bordereau_par_jour_Result)" />
           <FunctionImport Name="Etat_Comm_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Etat_Comm_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Etat_Comm_ADH_WEBV2" ReturnType="Collection(Xfactor_prod_webModel.Etat_Comm_ADH_WEBV2_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Etat_Contrat" ReturnType="Collection(Xfactor_prod_webModel.Etat_Contrat_Result)" />
           <FunctionImport Name="Etat_Contrat_05082019" ReturnType="Collection(Xfactor_prod_webModel.Etat_Contrat_05082019_Result)">
-            <Parameter Name="DateEtat" Mode="In" Type="DateTime" />
+          <Parameter Name="DateEtat" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="Etat_Des_Factures" ReturnType="Collection(Xfactor_prod_webModel.Etat_Des_Factures_Result)" />
           <FunctionImport Name="Etat_Disponible_ADH" ReturnType="Collection(Xfactor_prod_webModel.Etat_Disponible_ADH_Result)" />
           <FunctionImport Name="Etat_Impaye_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Etat_Impaye_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Etat_Interet_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Etat_Interet_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Etat_Limite_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Etat_Limite_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ETAT_MOUVEMENT" ReturnType="Collection(Xfactor_prod_webModel.ETAT_MOUVEMENT_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Etatdesencaissements" ReturnType="Collection(Xfactor_prod_webModel.Etatdesencaissements_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EtatdesencaissementsAllACH" ReturnType="Collection(Xfactor_prod_webModel.EtatdesencaissementsAllACH_Result)">
             <Parameter Name="RefACH" Mode="In" Type="Int32" />
             <Parameter Name="RefADH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ETATFACTURES" ReturnType="Collection(Xfactor_prod_webModel.ETATFACTURES_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ETATFACTURESALLACH" ReturnType="Collection(Xfactor_prod_webModel.ETATFACTURESALLACH_Result)">
             <Parameter Name="ADH" Mode="In" Type="Int32" />
             <Parameter Name="Ref_ACH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait__Compte_ADH" ReturnType="Collection(Xfactor_prod_webModel.Extrait__Compte_ADH_Result)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_ADH" ReturnType="Collection(Xfactor_prod_webModel.Extrait_ADH_Result)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_compte_Adhérent" ReturnType="Collection(Xfactor_prod_webModel.Extrait_compte_Adhérent_Result)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_COMMFACT" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_COMMFACT_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_COMMFACT_Rapport" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_COMMFACT_Rapport_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_Detaille_Achat" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_Detaille_Achat_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_Detaille_Achat_Rapport" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_Detaille_Achat_Rapport_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_Frais" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_Frais_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_Frais_Rapport" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_Frais_Rapport_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_FRAISP" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_FRAISP_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_FRAISP_Rapport" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_FRAISP_Rapport_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_New" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_New_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_New_Rapport" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_New_Rapport_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_Periode" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_Periode_Result)">
             <Parameter Name="RefCtr" Mode="In" Type="Int32" />
@@ -3767,44 +3755,44 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="Date_fin" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="Extrait_Compte_Periode2" ReturnType="Collection(Xfactor_prod_webModel.Extrait_Compte_Periode2_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FactureEnRetard_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.FactureEnRetard_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="FactureParRefCtr" ReturnType="Collection(Xfactor_prod_webModel.FactureParRefCtr_Result)">
-            <Parameter Name="refind" Mode="In" Type="Int32" />
+          <Parameter Name="refind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FactureParRefCtrAch" ReturnType="Collection(Xfactor_prod_webModel.FactureParRefCtrAch_Result)">
-            <Parameter Name="refind" Mode="In" Type="Int32" />
+          <Parameter Name="refind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FacturesEchu" ReturnType="Collection(Xfactor_prod_webModel.FacturesEchu_Result)" />
           <FunctionImport Name="FacturesNonEchu" ReturnType="Collection(Xfactor_prod_webModel.FacturesNonEchu_Result)" />
           <FunctionImport Name="FDG_Libérer_From_T_Finacement" ReturnType="Collection(Decimal)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FIN_MOIS_CTR" ReturnType="Collection(Decimal)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="financement_N06082019" ReturnType="Collection(Xfactor_prod_webModel.financement_N06082019_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Financemnt_Sans_FDG_Libérer" ReturnType="Collection(Decimal)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Financmement_ParID" ReturnType="Collection(Xfactor_prod_webModel.Financmement_ParID_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="FraisDiverConsultContrat" ReturnType="Collection(Xfactor_prod_webModel.FraisDiverConsultContrat_Result)" />
           <FunctionImport Name="FraisPaiConsultContrat" ReturnType="Collection(Xfactor_prod_webModel.FraisPaiConsultContrat_Result)">
-            <Parameter Name="refCtrFraisPai" Mode="In" Type="Int32" />
+          <Parameter Name="refCtrFraisPai" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GETENC02122019" ReturnType="Collection(Xfactor_prod_webModel.GETENC02122019_Result)" />
           <FunctionImport Name="INFO_ADH20082019" ReturnType="Collection(Xfactor_prod_webModel.INFO_ADH20082019_Result)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Info_ctr_06082019" ReturnType="Collection(Xfactor_prod_webModel.Info_ctr_06082019_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="InsertQuery">
             <Parameter Name="numDoc" Mode="In" Type="Int16" />
@@ -3821,37 +3809,37 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Les_Factures_En_retard_Par_Adh" ReturnType="Collection(Xfactor_prod_webModel.Les_Factures_En_retard_Par_Adh_Result)">
-            <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="les_Interets_Par_Month" ReturnType="Collection(Xfactor_prod_webModel.les_Interets_Par_Month_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="les_Interets_Par_Month_V2" ReturnType="Collection(Xfactor_prod_webModel.les_Interets_Par_Month_V2_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="les_Interets_Par_Year" ReturnType="Collection(Xfactor_prod_webModel.les_Interets_Par_Year_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="les_Interets_Par_Year_V2" ReturnType="Collection(Xfactor_prod_webModel.les_Interets_Par_Year_V2_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="les_Interets_R_Par_Month_V2" ReturnType="Collection(Xfactor_prod_webModel.les_Interets_R_Par_Month_V2_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="les_Interets_R_Par_Year_V2" ReturnType="Collection(Xfactor_prod_webModel.les_Interets_R_Par_Year_V2_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Lettrage_Manuel" ReturnType="Collection(Xfactor_prod_webModel.Lettrage_Manuel_Result)">
-            <Parameter Name="Ref_Acheteur" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Acheteur" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Lettrage_Non_Reconsilier" ReturnType="Collection(Xfactor_prod_webModel.Lettrage_Non_Reconsilier_Result)" />
           <FunctionImport Name="LETTRE_RESTE_ENC" ReturnType="Collection(Xfactor_prod_webModel.LETTRE_RESTE_ENC_Result)">
-            <Parameter Name="id_enc" Mode="In" Type="Int32" />
+          <Parameter Name="id_enc" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Liste_Des_Bordereaux_CH" ReturnType="Collection(Xfactor_prod_webModel.Liste_Des_Bordereaux_CH_Result)" />
           <FunctionImport Name="ListeDesContrats" ReturnType="Collection(Xfactor_prod_webModel.ListeDesContrats_Result)" />
           <FunctionImport Name="LISTEDESFINANCEMENTS" ReturnType="Collection(Xfactor_prod_webModel.LISTEDESFINANCEMENTS_Result)">
-            <Parameter Name="ref_ind" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ListeDesImpayes" ReturnType="Collection(Xfactor_prod_webModel.ListeDesImpayes_Result)" />
           <FunctionImport Name="ListeFactureValider" ReturnType="Collection(Xfactor_prod_webModel.ListeFactureValider_Result)" />
@@ -3872,7 +3860,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ListFraisDiverContrat" ReturnType="Collection(Xfactor_prod_webModel.ListFraisDiverContrat_Result)">
-            <Parameter Name="refCtrComFact" Mode="In" Type="Int32" />
+          <Parameter Name="refCtrComFact" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MaJMTFacture">
             <Parameter Name="Mtouvert" Mode="In" Type="Decimal" />
@@ -3881,70 +3869,70 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           </FunctionImport>
           <FunctionImport Name="MAxContrat" ReturnType="Collection(Int32)" />
           <FunctionImport Name="NumBordNonVal" ReturnType="Collection(Xfactor_prod_webModel.NumBordNonVal_Result)">
-            <Parameter Name="NumBordNonVal" Mode="In" Type="Int16" />
+          <Parameter Name="NumBordNonVal" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="Partie_Enc1_ADH_WEB" ReturnType="Collection(Xfactor_prod_webModel.Partie_Enc1_ADH_WEB_Result)">
-            <Parameter Name="LoginCtr" Mode="In" Type="String" />
+          <Parameter Name="LoginCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Piece_Identite" ReturnType="Collection(String)" />
           <FunctionImport Name="procedure_Annulation_Encaissement" ReturnType="Collection(Xfactor_prod_webModel.procedure_Annulation_Encaissement_Result)" />
           <FunctionImport Name="ProcedureBordereauCh" ReturnType="Collection(Xfactor_prod_webModel.ProcedureBordereauCh_Result)">
-            <Parameter Name="id_bord" Mode="In" Type="String" />
+          <Parameter Name="id_bord" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="rapport_details_assurance" ReturnType="Collection(Xfactor_prod_webModel.rapport_details_assurance_Result)" />
           <FunctionImport Name="Rapport_mensuel_tous_les_adhérents" ReturnType="Collection(Xfactor_prod_webModel.Rapport_mensuel_tous_les_adhérents_Result)" />
           <FunctionImport Name="RapportEncaissementsNonEchus" ReturnType="Collection(Xfactor_prod_webModel.RapportEncaissementsNonEchus_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="RechDemLimParCTR" ReturnType="Collection(Xfactor_prod_webModel.RechDemLimParCTR_Result)" />
           <FunctionImport Name="Recherche_ACH_Par_CTR" ReturnType="Collection(Xfactor_prod_webModel.Recherche_ACH_Par_CTR_Result)">
-            <Parameter Name="RefCTR" Mode="In" Type="Int32" />
+          <Parameter Name="RefCTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Recherche_CTR_ADH" ReturnType="Collection(Xfactor_prod_webModel.Recherche_CTR_ADH_Result)" />
           <FunctionImport Name="Recherche_CTR_ADH_ACH" ReturnType="Collection(Xfactor_prod_webModel.Recherche_CTR_ADH_ACH_Result)" />
           <FunctionImport Name="Recherche_CTR_ADH_ACH_Lettrage" ReturnType="Collection(Xfactor_prod_webModel.Recherche_CTR_ADH_ACH_Lettrage_Result)" />
           <FunctionImport Name="Recherche_CTR_ADH_ACH_Par_CTR" ReturnType="Collection(Xfactor_prod_webModel.Recherche_CTR_ADH_ACH_Par_CTR_Result)">
-            <Parameter Name="RefCTR" Mode="In" Type="Int32" />
+          <Parameter Name="RefCTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Recherche_CTR_ADH_ACH_Par_CTR_IND" ReturnType="Collection(Xfactor_prod_webModel.Recherche_CTR_ADH_ACH_Par_CTR_IND_Result)">
-            <Parameter Name="Refind" Mode="In" Type="Int32" />
+          <Parameter Name="Refind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Recherche_CTR_ADH_ACH_Par_CTR2019" ReturnType="Collection(Xfactor_prod_webModel.Recherche_CTR_ADH_ACH_Par_CTR2019_Result)">
-            <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="rechercheLorsDeSaisieLim" ReturnType="Collection(Xfactor_prod_webModel.rechercheLorsDeSaisieLim_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="String" />
+          <Parameter Name="RefCtr" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Recouvrement_All_Factures" ReturnType="Collection(Xfactor_prod_webModel.Recouvrement_All_Factures_Result)" />
           <FunctionImport Name="RETENUALASOURCE" ReturnType="Collection(Xfactor_prod_webModel.RETENUALASOURCE_Result)">
-            <Parameter Name="ref_adh" Mode="In" Type="Int32" />
+          <Parameter Name="ref_adh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectFactureParContrat" ReturnType="Collection(Xfactor_prod_webModel.SelectFactureParContrat_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectFondsDeGarantieConsultContrat" ReturnType="Collection(Xfactor_prod_webModel.SelectFondsDeGarantieConsultContrat_Result)">
-            <Parameter Name="RefCtrFDG" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrFDG" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectListeFactureEnLitige" ReturnType="Collection(Xfactor_prod_webModel.SelectListeFactureEnLitige_Result)">
-            <Parameter Name="RefAdh" Mode="In" Type="Int32" />
+          <Parameter Name="RefAdh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectListeFactureParAdherent" ReturnType="Collection(Xfactor_prod_webModel.SelectListeFactureParAdherent_Result)">
-            <Parameter Name="RefAdh" Mode="In" Type="Int32" />
+          <Parameter Name="RefAdh" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectQuery">
-            <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectQuery1" ReturnType="Collection(Xfactor_prod_webModel.SelectQuery1_Result)">
-            <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectQuery2" ReturnType="Collection(Xfactor_prod_webModel.SelectQuery2_Result)">
-            <Parameter Name="RefAdhRech" Mode="In" Type="Int32" />
+          <Parameter Name="RefAdhRech" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectQuery3" ReturnType="Collection(Xfactor_prod_webModel.SelectQuery3_Result)">
-            <Parameter Name="RefAchRech" Mode="In" Type="Int32" />
+          <Parameter Name="RefAchRech" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectQuery4">
-            <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectQueryDetBord" ReturnType="Collection(Xfactor_prod_webModel.SelectQueryDetBord_Result)">
             <Parameter Name="RefCtrDetBord" Mode="In" Type="Int32" />
@@ -3953,7 +3941,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <FunctionImport Name="SelectQueryNewContrat" ReturnType="Collection(Int32)" />
           <FunctionImport Name="SelectQueryNewCoontrat" ReturnType="Collection(Int32)" />
           <FunctionImport Name="SelectRefEncaissementParCtr" ReturnType="Collection(Xfactor_prod_webModel.SelectRefEncaissementParCtr_Result)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SelectRefEncaissementParCtrETAch" ReturnType="Collection(Xfactor_prod_webModel.SelectRefEncaissementParCtrETAch_Result)">
             <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
@@ -3965,34 +3953,34 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="Recipients" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SituationAch" ReturnType="Collection(Xfactor_prod_webModel.SituationAch_Result)">
-            <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
+          <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SituationAch14112019" ReturnType="Collection(Xfactor_prod_webModel.SituationAch14112019_Result)">
-            <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
+          <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SituationAdh" ReturnType="Collection(Xfactor_prod_webModel.SituationAdh_Result)">
-            <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SituationAdh14112019" ReturnType="Collection(Xfactor_prod_webModel.SituationAdh14112019_Result)">
-            <Parameter Name="param_Refctr" Mode="In" Type="Int32" />
+          <Parameter Name="param_Refctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Sum_FDG_Libérer" ReturnType="Collection(Decimal)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SumMntFactDepAlgo" ReturnType="Collection(Decimal)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SumMntImpaye" ReturnType="Collection(Decimal)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SumMntLitige" ReturnType="Collection(Decimal)">
-            <Parameter Name="Refdoss" Mode="In" Type="Int32" />
+          <Parameter Name="Refdoss" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="t_CONTACT2_06082019" ReturnType="Collection(Xfactor_prod_webModel.t_CONTACT2_06082019_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="t_CONTACT3_06082019" ReturnType="Collection(Xfactor_prod_webModel.t_CONTACT3_06082019_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="T_DOC_GED_SCAN" ReturnType="Collection(Xfactor_prod_webModel.T_DOC_GED_SCAN_Result)" />
           <FunctionImport Name="T_DOC_GED_VALID" ReturnType="Collection(Xfactor_prod_webModel.T_DOC_GED_VALID_Result)" />
@@ -4001,7 +3989,7 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="libelle_ged" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="T_ENC_MATERIALISER_FillByRefAdh" ReturnType="Collection(Xfactor_prod_webModel.T_ENC_MATERIALISER_FillByRefAdh_Result)">
-            <Parameter Name="refADH" Mode="In" Type="String" />
+          <Parameter Name="refADH" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="T_ENC_MATERIALISER_REFCTR_REFACH" ReturnType="Collection(Xfactor_prod_webModel.T_ENC_MATERIALISER_REFCTR_REFACH_Result)">
             <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
@@ -4009,13 +3997,13 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           </FunctionImport>
           <FunctionImport Name="T_ENCAISSEMENT_MATERIALISER_Non_Rec" ReturnType="Collection(Xfactor_prod_webModel.T_ENCAISSEMENT_MATERIALISER_Non_Rec_Result)" />
           <FunctionImport Name="T_Encaissement_materialiser_par_ref_ctr2" ReturnType="Collection(Xfactor_prod_webModel.T_Encaissement_materialiser_par_ref_ctr2_Result)">
-            <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="TEST" ReturnType="Collection(Xfactor_prod_webModel.TEST_Result)">
-            <Parameter Name="RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="TR_LIST_ACHTEURS_PAR_CTR" ReturnType="Collection(Xfactor_prod_webModel.TR_LIST_ACHTEURS_PAR_CTR_Result)">
-            <Parameter Name="RefCTR" Mode="In" Type="Int32" />
+          <Parameter Name="RefCTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="TR_LIST_VAL_TYPE_CONTRAT" ReturnType="Collection(String)" />
           <FunctionImport Name="Trop_Percu" ReturnType="Collection(Xfactor_prod_webModel.Trop_Percu_Result)" />
@@ -4065,97 +4053,97 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="Ref_Ach" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Commission_ADH" ReturnType="Collection(Xfactor_prod_webModel.ups_Commission_ADH_Result)">
-            <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Achat" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Achat_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Commission" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Commission_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Compte" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Compte_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Credit_Debit" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Credit_Debit_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Encaissement" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Encaissement_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Financement" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Financement_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Interet" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Interet_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Mnt_Dispo_Debut" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Mnt_Dispo_Debut_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Extrait_Mnt_Dispo_Fin" ReturnType="Collection(Xfactor_prod_webModel.ups_Extrait_Mnt_Dispo_Fin_Result)">
-            <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_FACTUR_ADH" ReturnType="Collection(Xfactor_prod_webModel.ups_FACTUR_ADH_Result)">
-            <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_FACTURE_COMM_ADH" ReturnType="Collection(Xfactor_prod_webModel.ups_FACTURE_COMM_ADH_Result)">
-            <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_FACTURE_Impayee_ADH" ReturnType="Collection(Xfactor_prod_webModel.ups_FACTURE_Impayee_ADH_Result)">
-            <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_FACTURE_IR_ADH" ReturnType="Collection(Xfactor_prod_webModel.ups_FACTURE_IR_ADH_Result)">
-            <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_FACTURE_Prorogation_ADH" ReturnType="Collection(Xfactor_prod_webModel.ups_FACTURE_Prorogation_ADH_Result)">
-            <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ups_Interet_ADH" ReturnType="Collection(Xfactor_prod_webModel.ups_Interet_ADH_Result)">
-            <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_Ind" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Avoir" ReturnType="Collection(Xfactor_prod_webModel.usp_Avoir_Result)">
-            <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Bordereau_Contrat" ReturnType="Collection(Xfactor_prod_webModel.usp_Bordereau_Contrat_Result)">
-            <Parameter Name="Param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="Param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_BORDEREAUX_CONTRAT" ReturnType="Collection(Xfactor_prod_webModel.usp_BORDEREAUX_CONTRAT_Result)">
-            <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_cir_par_id_cir" ReturnType="Collection(Xfactor_prod_webModel.usp_cir_par_id_cir_Result)">
-            <Parameter Name="id_cir" Mode="In" Type="Int32" />
+          <Parameter Name="id_cir" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_COMM_FACTORING" ReturnType="Collection(Xfactor_prod_webModel.usp_COMM_FACTORING_Result)">
-            <Parameter Name="Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Contrats" ReturnType="Collection(Xfactor_prod_webModel.usp_Contrats_Result)" />
           <FunctionImport Name="usp_CTR_ADH" ReturnType="Collection(Xfactor_prod_webModel.usp_CTR_ADH_Result)">
-            <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_DEM_LIM_REF_CTR" ReturnType="Collection(Xfactor_prod_webModel.usp_DEM_LIM_REF_CTR_Result)">
-            <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Dem_Lim_REFCTR" ReturnType="Collection(Xfactor_prod_webModel.usp_Dem_Lim_REFCTR_Result)">
-            <Parameter Name="param_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Dem_Limite_CTR" ReturnType="Collection(Xfactor_prod_webModel.usp_Dem_Limite_CTR_Result)">
-            <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrRech" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_dispo_ctr" ReturnType="Collection(Xfactor_prod_webModel.usp_dispo_ctr_Result)" />
           <FunctionImport Name="usp_DISPONIBLE" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Usp_Documents_List_Val" ReturnType="Collection(String)" />
           <FunctionImport Name="usp_DocumentsPhyParRefCtr" ReturnType="Collection(Xfactor_prod_webModel.usp_DocumentsPhyParRefCtr_Result)">
-            <Parameter Name="RefCtrDocPhy" Mode="In" Type="Int32" />
+          <Parameter Name="RefCtrDocPhy" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Encaissement_CTR" ReturnType="Collection(Xfactor_prod_webModel.usp_Encaissement_CTR_Result)">
-            <Parameter Name="param_ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Encours_Fact_ALL" ReturnType="Collection(Xfactor_prod_webModel.usp_Encours_Fact_ALL_Result)">
-            <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Encours_Fact_CTR" ReturnType="Collection(Decimal)">
-            <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="Ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Encours_Fact_Ouv_Adh_Ach" ReturnType="Collection(Decimal)">
             <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
@@ -4170,77 +4158,77 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Encours_Fact_Ouvert" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Encours_Fact_Ouvert_Echus" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Encours_Fact_Ouvert_NonEchus" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Etat_Depass_Lim_ACH" ReturnType="Collection(Xfactor_prod_webModel.usp_Etat_Depass_Lim_ACH_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Etat_Depass_Lim_ALL" ReturnType="Collection(Xfactor_prod_webModel.usp_Etat_Depass_Lim_ALL_Result)" />
           <FunctionImport Name="usp_Etat_Depass_Lim_pour_ACH" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Etat_Financements" ReturnType="Collection(Xfactor_prod_webModel.usp_Etat_Financements_Result)" />
           <FunctionImport Name="usp_Facture_En_Retard_PAR_CTR" ReturnType="Collection(Xfactor_prod_webModel.usp_Facture_En_Retard_PAR_CTR_Result)">
-            <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
+          <Parameter Name="param_ref_ctr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_factures_echues" ReturnType="Collection(Xfactor_prod_webModel.usp_factures_echues_Result)" />
           <FunctionImport Name="usp_FDG" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_FDG_LIBERE_PAR_ACH" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_FDG_PAR_ACH" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_IND" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_FDG_RefCTR" ReturnType="Collection(Xfactor_prod_webModel.usp_FDG_RefCTR_Result)">
-            <Parameter Name="param_refCtr" Mode="In" Type="Int32" />
+          <Parameter Name="param_refCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_financement_CTR" ReturnType="Collection(Xfactor_prod_webModel.usp_financement_CTR_Result)">
-            <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_FRAIS_DIVERS" ReturnType="Collection(Xfactor_prod_webModel.usp_FRAIS_DIVERS_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_FRAIS_PAIEMENT_C" ReturnType="Collection(Xfactor_prod_webModel.usp_FRAIS_PAIEMENT_C_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_FRAIS_PAIEMENT_T" ReturnType="Collection(Xfactor_prod_webModel.usp_FRAIS_PAIEMENT_T_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_FRAIS_PAIEMENT_V" ReturnType="Collection(Xfactor_prod_webModel.usp_FRAIS_PAIEMENT_V_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_instruments_non_reçus" ReturnType="Collection(Xfactor_prod_webModel.usp_instruments_non_reçus_Result)" />
           <FunctionImport Name="usp_Limit_Tot_Finance" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Liste_factures_en_litige" ReturnType="Collection(Xfactor_prod_webModel.usp_Liste_factures_en_litige_Result)">
-            <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_ListeFactures" ReturnType="Collection(Xfactor_prod_webModel.usp_ListeFactures_Result)" />
           <FunctionImport Name="usp_ListeFacturesSauv" ReturnType="Collection(Xfactor_prod_webModel.usp_ListeFacturesSauv_Result)" />
           <FunctionImport Name="usp_Litige_sur_contrat" ReturnType="Collection(Xfactor_prod_webModel.usp_Litige_sur_contrat_Result)">
-            <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_LITIGES_SUR_CTR" ReturnType="Collection(Xfactor_prod_webModel.usp_LITIGES_SUR_CTR_Result)">
-            <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Max_CTR" ReturnType="Collection(Int32)" />
           <FunctionImport Name="usp_MdpLoginUser" ReturnType="Collection(Xfactor_prod_webModel.usp_MdpLoginUser_Result)">
-            <Parameter Name="param_NomUser" Mode="In" Type="String" />
+          <Parameter Name="param_NomUser" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_MVT_CREDIT" ReturnType="Collection(Xfactor_prod_webModel.usp_MVT_CREDIT_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_MVT_DEBIT" ReturnType="Collection(Xfactor_prod_webModel.usp_MVT_DEBIT_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Nbr_sum_DetBordParCtrNumBord" ReturnType="Collection(Xfactor_prod_webModel.usp_Nbr_sum_DetBordParCtrNumBord_Result)">
             <Parameter Name="NumBord" Mode="In" Type="Int32" />
@@ -4252,40 +4240,40 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="RefACH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_DET_BORD_PAR_ACH" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_DET_BORD_PAR_ACH_Result)">
-            <Parameter Name="RefACH" Mode="In" Type="Int32" />
+          <Parameter Name="RefACH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_DET_BORD_PAR_ADH" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_DET_BORD_PAR_ADH_Result)">
-            <Parameter Name="RefADH" Mode="In" Type="Int32" />
+          <Parameter Name="RefADH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_ENCAISSEMENTS" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_ENCAISSEMENTS_Result)">
             <Parameter Name="RefADH" Mode="In" Type="Int32" />
             <Parameter Name="RefACH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_ENCAISSEMENTS_PAR_ACH" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_ENCAISSEMENTS_PAR_ACH_Result)">
-            <Parameter Name="RefACH" Mode="In" Type="Int32" />
+          <Parameter Name="RefACH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_ENCAISSEMENTS_PAR_ADH" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_ENCAISSEMENTS_PAR_ADH_Result)">
-            <Parameter Name="RefADH" Mode="In" Type="Int32" />
+          <Parameter Name="RefADH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_Factures" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_Factures_Result)">
             <Parameter Name="RefADH" Mode="In" Type="Int32" />
             <Parameter Name="RefACH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_Factures_PAR_ACH" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_Factures_PAR_ACH_Result)">
-            <Parameter Name="RefACH" Mode="In" Type="Int32" />
+          <Parameter Name="RefACH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Portefeuille_Factures_PAR_ADH" ReturnType="Collection(Xfactor_prod_webModel.usp_Portefeuille_Factures_PAR_ADH_Result)">
-            <Parameter Name="RefADH" Mode="In" Type="Int32" />
+          <Parameter Name="RefADH" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_rapport_details_assurance" ReturnType="Collection(Xfactor_prod_webModel.usp_rapport_details_assurance_Result)" />
           <FunctionImport Name="usp_Rapport_Factures_En_Litige" ReturnType="Collection(Xfactor_prod_webModel.usp_Rapport_Factures_En_Litige_Result)" />
           <FunctionImport Name="usp_Rapport_Factures_En_Litige_Version2__" ReturnType="Collection(Xfactor_prod_webModel.usp_Rapport_Factures_En_Litige_Version2___Result)" />
           <FunctionImport Name="usp_Rapport_Factures_En_Litige_VersionII" ReturnType="Collection(Xfactor_prod_webModel.usp_Rapport_Factures_En_Litige_VersionII_Result)" />
           <FunctionImport Name="usp_Recherche_CTR_Ref" ReturnType="Collection(Xfactor_prod_webModel.usp_Recherche_CTR_Ref_Result)">
-            <Parameter Name="Param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="Param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Rechrche_CTR_REF" ReturnType="Collection(Xfactor_prod_webModel.usp_Rechrche_CTR_REF_Result)">
-            <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_REF_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_RefDocumentDetBordByOthers" ReturnType="Collection(String)">
             <Parameter Name="param_ID_DETBORD" Mode="In" Type="String" />
@@ -4293,10 +4281,10 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="param_NumBord" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_SituationAdh_ACH_ALL" ReturnType="Collection(Xfactor_prod_webModel.usp_SituationAdh_ACH_ALL_Result)">
-            <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_SituationAdh_ACH_ALL_Code_MFG" ReturnType="Collection(Xfactor_prod_webModel.usp_SituationAdh_ACH_ALL_Code_MFG_Result)">
-            <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_SituationAdhAch" ReturnType="Collection(Xfactor_prod_webModel.usp_SituationAdhAch_Result)">
             <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
@@ -4307,17 +4295,17 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_SOM_FINANCEMENTS" ReturnType="Collection(Xfactor_prod_webModel.usp_SOM_FINANCEMENTS_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_SOMME_CREDIT" ReturnType="Collection(Xfactor_prod_webModel.usp_SOMME_CREDIT_Result)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_SOMME_DEBIT" ReturnType="Collection(Decimal)">
-            <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
+          <Parameter Name="param_Port_Ref_CTR" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="USP_Statut_Contrat_list_val" ReturnType="Collection(String)" />
           <FunctionImport Name="usp_T_int_Fin_Ctr" ReturnType="Collection(Xfactor_prod_webModel.usp_T_int_Fin_Ctr_Result)">
-            <Parameter Name="Param_RefCtr" Mode="In" Type="Int32" />
+          <Parameter Name="Param_RefCtr" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="usp_Tot_CRE_ADH_ACH" ReturnType="Collection(Decimal)">
             <Parameter Name="param_RefCtr" Mode="In" Type="Int32" />
@@ -4336,6 +4324,10 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
             <Parameter Name="param_RefAch" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ValiderFincancement" ReturnType="Collection(Xfactor_prod_webModel.ValiderFincancement_Result)" />
+          <EntitySet Name="TS_USERS_WEB" EntityType="Xfactor_prod_webModel.TS_USERS_WEB" />
+          <FunctionImport Name="usp_Etat_Financements_By_Id" ReturnType="Collection(Xfactor_prod_webModel.usp_Etat_Financements_By_Id_Result)">
+            <Parameter Name="id_financement" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="f_usp_recherche_doc_ctr_Result">
           <Property Type="String" Name="ID_DET_BORD" Nullable="false" MaxLength="30" />
@@ -6953,6 +6945,28 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
           <Property Type="String" Name="ETAT_FIN" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="ID_DISPO_FIN" Nullable="true" />
         </ComplexType>
+        <EntityType Name="TS_USERS_WEB">
+          <Key>
+            <PropertyRef Name="ID_USER_WEB" />
+          </Key>
+          <Property Name="ID_USER_WEB" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="REF_IND_WEB" Type="Int32" Nullable="false" />
+          <Property Name="LOGIN_WEB" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORD_WEB" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LOGO_WEB" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ACTIF_USER_WEB" Type="Boolean" Nullable="false" />
+          <Property Name="DATE_FIN_COMPTE" Type="DateTime" Precision="0" />
+          <Property Name="ONE_SIGNAL_PLAYER_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="usp_Etat_Financements_By_Id_Result">
+          <Property Type="Int32" Name="ID_FIN" Nullable="false" />
+          <Property Type="Int32" Name="REF_CTR_FIN" Nullable="true" />
+          <Property Type="String" Name="PRE_IND" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="MONT_FIN" Nullable="true" Precision="15" Scale="3" />
+          <Property Type="DateTime" Name="DAT_FIN" Nullable="true" />
+          <Property Type="String" Name="INSTR_FIN" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TYPE_ENC" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7838,20 +7852,6 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
                 <ScalarProperty Name="TEL_FIXE_USER" ColumnName="TEL_FIXE_USER" />
                 <ScalarProperty Name="MOBILE_USER" ColumnName="MOBILE_USER" />
                 <ScalarProperty Name="PHOTO_USER" ColumnName="PHOTO_USER" />
-                <ScalarProperty Name="ONE_SIGNAL_PLAYER_ID" ColumnName="ONE_SIGNAL_PLAYER_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TS_USERS_WEB">
-            <EntityTypeMapping TypeName="Xfactor_prod_webModel.TS_USERS_WEB">
-              <MappingFragment StoreEntitySet="TS_USERS_WEB">
-                <ScalarProperty Name="ID_USER_WEB" ColumnName="ID_USER_WEB" />
-                <ScalarProperty Name="REF_IND_WEB" ColumnName="REF_IND_WEB" />
-                <ScalarProperty Name="LOGIN_WEB" ColumnName="LOGIN_WEB" />
-                <ScalarProperty Name="PASSWORD_WEB" ColumnName="PASSWORD_WEB" />
-                <ScalarProperty Name="LOGO_WEB" ColumnName="LOGO_WEB" />
-                <ScalarProperty Name="ACTIF_USER_WEB" ColumnName="ACTIF_USER_WEB" />
-                <ScalarProperty Name="DATE_FIN_COMPTE" ColumnName="DATE_FIN_COMPTE" />
                 <ScalarProperty Name="ONE_SIGNAL_PLAYER_ID" ColumnName="ONE_SIGNAL_PLAYER_ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -11624,6 +11624,33 @@ warning 6002: The table/view 'Xfactor_prod_web.dbo.TJ_ADH_WEB' does not have a p
                 <ScalarProperty Name="DAT_INSTR_FIN" ColumnName="DAT_INSTR_FIN" />
                 <ScalarProperty Name="ETAT_FIN" ColumnName="ETAT_FIN" />
                 <ScalarProperty Name="ID_DISPO_FIN" ColumnName="ID_DISPO_FIN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="TS_USERS_WEB">
+            <EntityTypeMapping TypeName="Xfactor_prod_webModel.TS_USERS_WEB">
+              <MappingFragment StoreEntitySet="TS_USERS_WEB">
+                <ScalarProperty Name="ONE_SIGNAL_PLAYER_ID" ColumnName="ONE_SIGNAL_PLAYER_ID" />
+                <ScalarProperty Name="DATE_FIN_COMPTE" ColumnName="DATE_FIN_COMPTE" />
+                <ScalarProperty Name="ACTIF_USER_WEB" ColumnName="ACTIF_USER_WEB" />
+                <ScalarProperty Name="LOGO_WEB" ColumnName="LOGO_WEB" />
+                <ScalarProperty Name="PASSWORD_WEB" ColumnName="PASSWORD_WEB" />
+                <ScalarProperty Name="LOGIN_WEB" ColumnName="LOGIN_WEB" />
+                <ScalarProperty Name="REF_IND_WEB" ColumnName="REF_IND_WEB" />
+                <ScalarProperty Name="ID_USER_WEB" ColumnName="ID_USER_WEB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_Etat_Financements_By_Id" FunctionName="Xfactor_prod_webModel.Store.usp_Etat_Financements_By_Id">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Xfactor_prod_webModel.usp_Etat_Financements_By_Id_Result">
+                <ScalarProperty Name="ID_FIN" ColumnName="ID_FIN" />
+                <ScalarProperty Name="REF_CTR_FIN" ColumnName="REF_CTR_FIN" />
+                <ScalarProperty Name="PRE_IND" ColumnName="PRE_IND" />
+                <ScalarProperty Name="MONT_FIN" ColumnName="MONT_FIN" />
+                <ScalarProperty Name="DAT_FIN" ColumnName="DAT_FIN" />
+                <ScalarProperty Name="INSTR_FIN" ColumnName="INSTR_FIN" />
+                <ScalarProperty Name="TYPE_ENC" ColumnName="TYPE_ENC" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

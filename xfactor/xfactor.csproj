@@ -3439,7 +3439,9 @@
     <Compile Include="Models\usp_Etat_Depass_Lim_ALL_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\usp_Etat_Financements_By_Id_Result.cs" />
+    <Compile Include="Models\usp_Etat_Financements_By_Id_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\usp_Etat_Financements_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -27,7 +27,7 @@ namespace xfactor.Models
         public Nullable<bool> VALIDE_ENC { get; set; }
         public string REF_ENC { get; set; }
         public string RIB_ENC { get; set; }
-        public Nullable<int> BORD_ENC { get; set; }
+        public string BORD_ENC { get; set; }
         public string Factor { get; set; }
         public Nullable<decimal> MONT_TOT { get; set; }
         public Nullable<int> NBR_DOC { get; set; }

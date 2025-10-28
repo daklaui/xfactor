@@ -16,6 +16,7 @@ namespace xfactor.Models
         public int ID_IMP { get; set; }
         public int ID_ENC_IMP { get; set; }
         public Nullable<int> ID_DET_BORD_IMP { get; set; }
+        public Nullable<bool> IS_RESOLU { get; set; }
         public string Encaissement { get; set; }
         public string Type { get; set; }
         public string Adherent { get; set; }
@@ -25,6 +26,5 @@ namespace xfactor.Models
         public Nullable<System.DateTime> DATE_IMP { get; set; }
         public Nullable<System.DateTime> DATE_SAISI_IMP { get; set; }
         public Nullable<decimal> MONT_IMP { get; set; }
-        public Nullable<bool> IS_RESOLU { get; set; }
     }
 }

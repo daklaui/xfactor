@@ -15,6 +15,7 @@ namespace xfactor.Models
     {
         public Nullable<int> REF_ACH_LIM { get; set; }
         public string NOM_IND { get; set; }
+        public string REF_CTR_DEM_LIM { get; set; }
         public decimal MTouvert { get; set; }
         public decimal MTLimACC { get; set; }
         public Nullable<decimal> limite_autorisée { get; set; }
